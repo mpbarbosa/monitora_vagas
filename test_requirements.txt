@@ -1,0 +1,17 @@
+# Requirements for Trade Union Hotel Search Platform UI Testing
+# Installation: pip install -r test_requirements.txt
+
+# Selenium WebDriver for browser automation
+selenium>=4.15.0
+
+# Additional testing utilities
+pytest>=7.4.0
+pytest-html>=4.1.0
+
+# Web server utilities (built-in modules used: http.server, socketserver)
+# Network utilities (built-in modules used: socket, threading)
+# File system utilities (built-in modules used: pathlib, os, sys)
+
+# Optional: For enhanced testing capabilities
+webdriver-manager>=4.0.0  # Automatic driver management
+requests>=2.31.0          # For API testing if needed

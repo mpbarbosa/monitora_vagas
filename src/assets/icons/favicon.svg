@@ -1,0 +1,34 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="url(#faviconGradient)"/>
+  
+  <!-- Hotel and Union icon -->
+  <g fill="white">
+    <!-- Building -->
+    <rect x="8" y="16" width="16" height="10" rx="1"/>
+    <!-- Roof -->
+    <polygon points="6,16 16,8 26,16" fill="white"/>
+    <!-- Windows -->
+    <rect x="10" y="18" width="1.5" height="2" fill="#667eea" opacity="0.8"/>
+    <rect x="12.5" y="18" width="1.5" height="2" fill="#667eea" opacity="0.8"/>
+    <rect x="15" y="18" width="1.5" height="2" fill="#667eea" opacity="0.8"/>
+    <rect x="17.5" y="18" width="1.5" height="2" fill="#667eea" opacity="0.8"/>
+    <rect x="20" y="18" width="1.5" height="2" fill="#667eea" opacity="0.8"/>
+    
+    <!-- Door -->
+    <rect x="14" y="21" width="3" height="5" rx="0.5" fill="#667eea" opacity="0.8"/>
+    
+    <!-- Union symbol overlay -->
+    <circle cx="22" cy="12" r="3" fill="white" opacity="0.95"/>
+    <path d="M20.5 12 C20.5 11.2, 21 10.5, 22 10.5 C23 10.5, 23.5 11.2, 23.5 12 C23.5 12.8, 23 13.5, 22 13.5 C21 13.5, 20.5 12.8, 20.5 12" fill="#667eea"/>
+    <circle cx="21" cy="12" r="0.6" fill="white"/>
+    <circle cx="23" cy="12" r="0.6" fill="white"/>
+  </g>
+</svg>

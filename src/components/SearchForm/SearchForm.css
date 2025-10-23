@@ -1,0 +1,220 @@
+/* Modern Job Search Style Form */
+.search-form {
+    background: var(--color-job-card);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-10);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border-light);
+    margin-bottom: var(--spacing-8);
+    position: relative;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--spacing-6);
+    right: var(--spacing-6);
+    height: 4px;
+    background: var(--color-primary-gradient);
+    border-radius: var(--border-radius-base) var(--border-radius-base) 0 0;
+}
+
+.search-form-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+}
+
+.search-form h2 {
+    color: var(--color-text);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.search-form-subtitle {
+    color: var(--color-text-light);
+    font-size: var(--font-size-base);
+    margin: 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: var(--spacing-4);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    background-color: var(--color-white);
+    transition: all var(--transition-base);
+    font-family: var(--font-family-base);
+}
+
+.form-group select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group select:hover {
+    border-color: var(--color-gray-300);
+}
+
+/* Radio Button Styling */
+.radio-group {
+    display: flex;
+    gap: var(--spacing-6);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-2);
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    background: var(--color-gray-50);
+    border: 2px solid var(--color-border);
+}
+
+.radio-option:hover {
+    background: var(--color-gray-100);
+    transform: translateY(-1px);
+}
+
+.radio-option input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+}
+
+.radio-option label {
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: var(--font-size-base);
+}
+
+.radio-option:has(input:checked) {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+.radio-option:has(input:checked) label {
+    color: white;
+}
+
+/* Modern Search Button */
+.search-button {
+    background: var(--color-primary-gradient);
+    color: white;
+    border: none;
+    padding: var(--spacing-5) var(--spacing-10);
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-3);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.search-button:hover::before {
+    left: 100%;
+}
+
+.search-button:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.search-button:active {
+    transform: translateY(-1px);
+}
+
+.search-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.search-icon {
+    font-size: var(--font-size-xl);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .search-form {
+        padding: var(--spacing-6);
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+    }
+    
+    .radio-option {
+        justify-content: center;
+    }
+    
+    .search-button {
+        padding: var(--spacing-4) var(--spacing-8);
+        font-size: var(--font-size-base);
+    }
+}

@@ -1,6 +1,6 @@
 # Documentation
 
-This folder contains all project documentation for the AFPESP Hotel Vacancy Monitoring System.
+This folder contains all project documentation for the Trade Union Hotel Search Platform.
 
 ## Files
 
@@ -15,16 +15,21 @@ Comprehensive strategy document for converting the Selenium-based monitoring scr
 ### [web_development_history.md](./web_development_history.md)
 Development history and technical evolution of the project, documenting the progression from basic automation to sophisticated monitoring system.
 
+### [modern_theme_implementation.md](./modern_theme_implementation.md)
+Documentation of the modern job search theme implementation and transformation to trade union hotel search platform.
+
 ## Project Overview
 
-The AFPESP Hotel Vacancy Monitoring System is designed to automatically check and report hotel room availability across multiple weekends for the AFPESP (Associação dos Funcionários Públicos do Estado de São Paulo) booking system.
+The Trade Union Hotel Search Platform is designed to help sindicate members find and book hotel accommodations through union partnerships and special rates across Brazil.
 
 ### Current Implementation
-- **Technology**: Node.js with Selenium WebDriver
-- **Functionality**: Multi-weekend monitoring (9 weekends)
-- **Features**: Hotel-specific result organization, pattern recognition, HTML cleanup
+- **Technology**: Modern web application with vanilla JavaScript
+- **Functionality**: Trade union hotel search and booking platform
+- **Features**: Regional search filters, union member benefits, modern UI with job search theme
 
-### Planned Evolution
-- **Target**: Modern web application with serverless architecture
-- **Technologies**: Vue.js, Tailwind CSS, Vercel/Netlify
-- **Benefits**: Better accessibility, real-time updates, improved user experience
+### Key Features
+- **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
+- **Union Benefits**: Exclusive discounts and special rates for sindicate members
+- **Modern Design**: Job search platform-inspired interface with gradient backgrounds
+- **Responsive**: Works perfectly on desktop, tablet, and mobile devices
+- **Portuguese Localization**: Fully adapted for Brazilian union market

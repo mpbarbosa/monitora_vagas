@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Busca de Vagas em Hotéis Sindicais - Encontre as melhores ofertas em hotéis conveniados com sindicatos e federações">
+    <meta name="keywords" content="sindicato, hotel, vagas, férias, descanso, turismo sindical, hospedagem, convenio">
+    <meta name="author" content="Busca Hotéis Sindicais">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hoteis-sindicais.com/">
+    <meta property="og:title" content="Busca de Vagas em Hotéis Sindicais">
+    <meta property="og:description" content="Encontre as melhores ofertas em hotéis conveniados com sindicatos e federações"
+    <meta property="og:image" content="/assets/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://hoteis-sindicais.com/">
+    <meta property="twitter:title" content="Busca de Vagas em Hotéis Sindicais">
+    <meta property="twitter:description" content="Encontre as melhores ofertas em hotéis conveniados com sindicatos e federações">
+    <meta property="twitter:image" content="/assets/images/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="./styles/global/reset.css">
+    <link rel="stylesheet" href="./styles/global/variables.css">
+    <link rel="stylesheet" href="./styles/global/base.css">
+    <link rel="stylesheet" href="./styles/components/search-form.css">
+    <link rel="stylesheet" href="./styles/components/progress-bar.css">
+    <link rel="stylesheet" href="./styles/pages/home.css">
+    <link rel="stylesheet" href="./styles/main.css">
+
+    <title>Busca de Vagas em Hotéis Sindicais - Encontre as Melhores Ofertas</title>
+
+    <!-- Application Configuration -->
+    <script>
+        // Global application configuration
+        window.SINDICATOS_CONFIG = {
+            version: '2.0.0',
+            environment: 'production',
+            apiBaseUrl: '/api',
+            features: {
+                searchHistory: true,
+                emailNotifications: false,
+                darkMode: true,
+                analytics: false
+            }
+        };
+    </script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Hotéis Sindicais</h2>
+            <p>Carregando aplicação...</p>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app" class="app-root">
+        <!-- Fallback content for when JavaScript is disabled -->
+        <noscript>
+            <div class="noscript-message">
+                <h1>JavaScript Necessário</h1>
+                <p>Esta aplicação requer JavaScript para funcionar corretamente.</p>
+                <p>Por favor, habilite o JavaScript em seu navegador e recarregue a página.</p>
+            </div>
+        </noscript>
+
+        <!-- Initial Loading State -->
+        <div class="app-loading" id="app-loading">
+            <header class="app-header-static">
+                <nav class="container">
+                    <div class="nav-brand">
+                        <img src="./assets/icons/logo.svg" alt="Hotéis Sindicais" class="logo-icon">
+                        <h1>Hotéis Sindicais</h1>
+                    </div>
+                    <div class="nav-info">
+                        <span class="version-badge">v2.0.0</span>
+                    </div>
+                </nav>
+            </header>
+
+            <main class="main-loading">
+                <div class="container">
+                    <section class="hero-loading">
+                        <div class="hero-content">
+                            <h1>Monitor de Vagas AFPESP</h1>
+                            <p class="hero-subtitle">
+                                Encontre disponibilidade em tempo real nos hotéis do Guarujá e Campos do Jordão
+                            </p>
+                            <div class="loading-indicator">
+                                <div class="pulse-animation"></div>
+                                <span>Inicializando aplicação...</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="features-preview">
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">🏨</div>
+                                <h3>Hotéis Disponíveis</h3>
+                                <p>Guarujá e Campos do Jordão</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">📅</div>
+                                <h3>Busca Automática</h3>
+                                <p>Finais de semana consecutivos</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">⚡</div>
+                                <h3>Tempo Real</h3>
+                                <p>Resultados instantâneos</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">📱</div>
+                                <h3>Responsivo</h3>
+                                <p>Funciona em qualquer dispositivo</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <footer class="footer-loading">
+                <div class="container">
+                    <p>&copy; 2024 AFPESP Hotel Vacancy Monitor</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Error Boundary -->
+    <div id="error-boundary" class="error-boundary hidden">
+        <div class="error-content">
+            <h1>Ops! Algo deu errado</h1>
+            <p>Ocorreu um erro inesperado. Por favor, recarregue a página.</p>
+            <button onclick="window.location.reload()" class="reload-button">
+                Recarregar Página
+            </button>
+            <details class="error-details">
+                <summary>Detalhes do erro</summary>
+                <pre id="error-message"></pre>
+            </details>
+        </div>
+    </div>
+
+    <!-- Development Tools (only shown in development) -->
+    <script>
+        if (window.AFPESP_CONFIG.environment === 'development') {
+            document.addEventListener('DOMContentLoaded', () => {
+                const devTools = document.createElement('div');
+                devTools.innerHTML = `
+                    <div class="dev-tools">
+                        <button onclick="console.log('App State:', window.afpespApp)">Log App State</button>
+                        <button onclick="localStorage.clear(); location.reload()">Clear Storage</button>
+                    </div>
+                `;
+                devTools.className = 'dev-tools-container';
+                document.body.appendChild(devTools);
+            });
+        }
+    </script>
+
+    <!-- Core Application Scripts -->
+    <script type="module" src="./main.js"></script>
+
+    <!-- Performance and Analytics -->
+    <script>
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            // Hide loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 300);
+            }
+
+            // Log performance metrics in development
+            if (window.AFPESP_CONFIG.environment === 'development') {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log('Page Load Performance:', {
+                        loadTime: perfData.loadEventEnd - perfData.loadEventStart,
+                        domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                        totalTime: perfData.loadEventEnd - perfData.fetchStart
+                    });
+                }, 1000);
+            }
+        });
+
+        // Error handling
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            
+            const errorBoundary = document.getElementById('error-boundary');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (errorBoundary && errorMessage) {
+                errorMessage.textContent = event.error.stack || event.error.message;
+                errorBoundary.classList.remove('hidden');
+            }
+        });
+
+        // Unhandled promise rejection
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+            
+            const errorBoundary = document.getElementById('error-boundary');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (errorBoundary && errorMessage) {
+                errorMessage.textContent = event.reason.stack || event.reason.message || 'Unknown error';
+                errorBoundary.classList.remove('hidden');
+            }
+        });
+    </script>
+
+    <!-- Service Worker Registration (for future PWA features) -->
+    <script>
+        if ('serviceWorker' in navigator && window.AFPESP_CONFIG.environment === 'production') {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <style>
+        /* Critical CSS for initial page load */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .app-loading {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header-static {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .app-header-static nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .version-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+        }
+
+        .main-loading {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .hero-loading {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .pulse-animation {
+            width: 12px;
+            height: 12px;
+            background: #007bff;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        .footer-loading {
+            background: #f8f9fa;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .error-boundary {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .error-boundary.hidden {
+            display: none;
+        }
+
+        .error-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+
+
+        .error-details {
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        .noscript-message {
+            text-align: center;
+            padding: 2rem;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            margin: 2rem;
+        }
+
+        .dev-tools-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .dev-tools {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dev-tools button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</body>
+</html>

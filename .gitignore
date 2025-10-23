@@ -1,4 +1,4 @@
-# AFPESP Hotel Vacancy Monitor - Web App .gitignore
+# Trade Union Hotel Search Platform - Web App .gitignore
 # Generated for HTML/CSS/JavaScript web application
 
 # =============================================================================
@@ -284,7 +284,7 @@ downloads/
 .puppeteerrc.cjs
 
 # =============================================================================
-# Project Specific (AFPESP Monitor)
+# Project Specific (Trade Union Hotels)
 # =============================================================================
 
 # Search result exports (if generated locally)

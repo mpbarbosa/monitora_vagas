@@ -1,0 +1,178 @@
+/* Modern Progress Bar Component */
+.progress-container {
+    background: var(--color-job-card);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-8);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border-light);
+    margin-bottom: var(--spacing-6);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.progress-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--spacing-6);
+    right: var(--spacing-6);
+    height: 3px;
+    background: var(--color-primary-gradient);
+    border-radius: var(--border-radius-base) var(--border-radius-base) 0 0;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+    flex-wrap: wrap;
+    gap: var(--spacing-3);
+}
+
+.progress-header h3 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.progress-text {
+    color: var(--color-text-light);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    background: var(--color-gray-100);
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--border-radius-lg);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--color-gray-200);
+    border-radius: var(--border-radius-base);
+    overflow: hidden;
+    margin-bottom: var(--spacing-6);
+    position: relative;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--color-primary-gradient);
+    border-radius: var(--border-radius-base);
+    transition: width var(--transition-slow);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progress-shine 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes progress-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-status {
+    text-align: center;
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-4) var(--spacing-6);
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+}
+
+.progress-status.ready {
+    background: var(--color-gray-100);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+}
+
+.progress-status.searching {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    animation: pulse 2s infinite;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.progress-status.completed {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.progress-status.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.status-icon {
+    font-size: var(--font-size-base);
+}
+
+.status-icon.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(1.02);
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .progress-container {
+        padding: var(--spacing-6);
+    }
+    
+    .progress-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2);
+    }
+    
+    .progress-text {
+        font-size: var(--font-size-xs);
+    }
+}

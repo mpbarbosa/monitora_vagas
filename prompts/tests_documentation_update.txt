@@ -1,0 +1,4 @@
+Update the related documentation.
+Keep the consistency among the documentation files.
+Update the functional and unit tests.
+Push the last modified files to the repository.

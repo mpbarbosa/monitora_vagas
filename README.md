@@ -1,6 +1,6 @@
-# Monitora Vagas
+# Busca de Vagas em Hotéis Sindicais
 
-A Selenium automation script to monitor job vacancies on the AFPESP website.
+A modern web application to search and monitor hotel vacancies from trade union partnerships and sindicate conventions.
 
 ## Prerequisites
 
@@ -29,35 +29,54 @@ Or directly with Node.js:
 node selenium-script.js
 ```
 
-## What the script does
+## What the application does
 
-1. Opens a Chrome browser window
-2. Navigates to the AFPESP vagas page: https://associadoh.afpesp.org.br/Servicos/Reservas/Vagas-disponiveis.aspx
-3. Waits for the page to load
-4. Displays the page title
-5. Waits for 3 seconds (so you can see the page)
-6. Closes the browser
+1. **Modern Web Interface**: Provides a sleek, responsive web interface for searching hotel vacancies
+2. **Trade Union Integration**: Connects multiple sindicate and federation hotel partnerships
+3. **Smart Search**: Filters hotels by region, stay type, and available periods
+4. **Real-time Updates**: Monitors availability and provides instant notifications
+5. **Mobile Responsive**: Works perfectly on desktop, tablet, and smartphone devices
+6. **Union Benefits**: Highlights exclusive discounts and special rates for union members
 
-## Customization
+## Features
 
-You can modify the script to:
-- Use a different browser (Firefox, Edge, etc.)
-- Add more interactions with the page
+- **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
+- **Flexible Booking**: Choose between weekend stays or full-week vacations
+- **Union Discounts**: Access exclusive rates negotiated by trade unions
+- **Modern UI**: Job search platform-inspired design with gradient backgrounds
+- **Portuguese Interface**: Fully localized for Brazilian users
 - Extract specific data from the page
 - Run in headless mode
-- Add error handling and retries
+## Development
 
-## Browser Options
+To start the development server:
 
-To run in headless mode, modify the script to include Chrome options:
+```bash
+# Simple HTTP server for testing
+python -m http.server 8080
+# or
+python3 -m http.server 8080
 
-```javascript
-const chrome = require('selenium-webdriver/chrome');
-const options = new chrome.Options();
-options.addArguments('--headless');
-const driver = await new Builder()
-    .forBrowser('chrome')
-    .setChromeOptions(options)
-    .build();
+# Then open http://localhost:8080/src in your browser
 ```
-Página web para monitorar vagas nos hotéis AFPESP usando Selenium
+
+## Testing
+
+Run the comprehensive UI test suite:
+
+```bash
+# Install test dependencies
+pip install -r test_requirements.txt
+
+# Run UI tests
+python simple_ui_test.py
+```
+
+## Project Structure
+
+- `src/` - Main application source code
+- `src/pages/` - Page components (Home, etc.)
+- `src/components/` - Reusable UI components
+- `src/styles/` - CSS styling with modern design system
+- `src/assets/` - Images, icons, and static resources
+- `docs/` - Project documentation

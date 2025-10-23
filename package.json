@@ -1,13 +1,13 @@
 {
-  "name": "monitora-vagas",
-  "version": "1.0.0",
-  "description": "Selenium script to monitor job vacancies",
-  "main": "selenium-script.js",
+  "name": "hoteis-sindicais",
+  "version": "2.0.0",
+  "description": "Modern web application for trade union hotel search platform",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node selenium-script.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "python3 -m http.server 8080 --directory src",
+    "test": "python3 simple_ui_test.py"
   },
-  "keywords": ["selenium", "automation", "job-monitoring"],
+  "keywords": ["trade-union", "hotels", "sindicate", "web-app", "modern-ui"],
   "author": "",
   "license": "ISC",
   "dependencies": {
