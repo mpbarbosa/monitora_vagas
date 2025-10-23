@@ -1,0 +1,16 @@
+{
+  "name": "monitora-vagas",
+  "version": "1.0.0",
+  "description": "Selenium script to monitor job vacancies",
+  "main": "selenium-script.js",
+  "scripts": {
+    "start": "node selenium-script.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["selenium", "automation", "job-monitoring"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "selenium-webdriver": "^4.15.0"
+  }
+}
