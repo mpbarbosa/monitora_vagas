@@ -1,10 +1,52 @@
-# Dependencies
-node_modules/
+# AFPESP Hotel Vacancy Monitor - Web App .gitignore
+# Generated for HTML/CSS/JavaScript web application
 
-# npm debug logs
+# =============================================================================
+# Dependencies and Package Managers
+# =============================================================================
+
+# Node.js dependencies
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# Package manager lock files (choose based on your preference)
+# Uncomment the ones you DON'T want to track:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# =============================================================================
+# Build Output and Distribution
+# =============================================================================
+
+# Build directories
+dist/
+build/
+out/
+public/build/
+
+# Vite build output
+.vite/
+vite.config.js.timestamp-*
+
+# Webpack build output
+webpack-stats.json
+
+# Parcel cache
+.parcel-cache/
+
+# Next.js build output
+.next/
+
+# Nuxt.js build output
+.nuxt/
+
+# =============================================================================
+# Environment and Configuration
+# =============================================================================
 
 # Environment variables
 .env
@@ -12,22 +54,273 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
 
-# IDE files
+# Configuration files with sensitive data
+config/local.json
+config/production.json
+secrets.json
+
+# =============================================================================
+# Development Tools and Caches
+# =============================================================================
+
+# Editor directories and files
 .vscode/
-.idea/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 *.swp
 *.swo
+*~
 
-# OS generated files
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# =============================================================================
+# Logs and Debugging
+# =============================================================================
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output/
+
+# =============================================================================
+# Testing
+# =============================================================================
+
+# Jest
+coverage/
+.nyc_output/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# =============================================================================
+# Temporary Files and Caches
+# =============================================================================
+
+# Temporary folders
+tmp/
+temp/
+
+# Cache directories
+.cache/
+.npm/
+.eslintcache
+.stylelintcache
+
+# Sass cache
+.sass-cache/
+
+# =============================================================================
+# Operating System Files
+# =============================================================================
+
+# macOS
 .DS_Store
 .DS_Store?
+.AppleDouble
+.LSOverride
+Icon?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# =============================================================================
+# Web App Specific
+# =============================================================================
+
+# Compiled CSS (if using preprocessors)
+*.css.map
+*.scss.map
+*.sass.map
+*.less.map
+
+# Minified files (if not needed in repo)
+*.min.js
+*.min.css
+
+# Source maps (optional - comment out if you want to track them)
+*.map
+
+# Static assets that are generated
+static/generated/
+assets/generated/
+
+# =============================================================================
+# Serverless and Cloud Functions
+# =============================================================================
+
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/
+
+# AWS
+.aws/
+
+# Serverless Framework
+.serverless/
+
+# =============================================================================
+# Database and Storage
+# =============================================================================
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Local storage files
+*.localstorage
+
+# =============================================================================
+# Security and Secrets
+# =============================================================================
+
+# API keys and secrets
+.secrets
+*.pem
+*.key
+*.crt
+
+# Auth tokens
+.auth
+
+# =============================================================================
+# Performance and Monitoring
+# =============================================================================
+
+# Bundle analyzer reports
+bundle-report.html
+stats.json
+
+# Lighthouse reports
+lighthouse/
+
+# =============================================================================
+# Documentation Generation
+# =============================================================================
+
+# Generated documentation
+docs/generated/
+.jsdoc/
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# Local development files
+local.*
+*.local
+
+# =============================================================================
+# Selenium/Puppeteer Specific (Legacy Support)
+# =============================================================================
 
 # Selenium specific
 selenium-debug.log
 geckodriver.log
+screenshots/
+downloads/
+
+# Puppeteer
+.puppeteerrc.cjs
+
+# =============================================================================
+# Project Specific (AFPESP Monitor)
+# =============================================================================
+
+# Search result exports (if generated locally)
+exports/
+reports/
+results/
+
+# Test data
+test-data/
+mock-data/
+
+# Development utilities
+dev-tools/
+scripts/local/
+
+# =============================================================================
+# Keep These Files (Negative Patterns)
+# =============================================================================
+
+# Important: Keep these files in the repository
+!.gitkeep
+!.htaccess
+!.nojekyll
+
+# Keep essential config files
+!webpack.config.js
+!vite.config.js
+!tailwind.config.js
+!postcss.config.js
+!babel.config.js
+
+# Keep GitHub workflows
+!.github/
+
+# Keep documentation
+!README.md
+!CHANGELOG.md
+!LICENSE
+!*.md
