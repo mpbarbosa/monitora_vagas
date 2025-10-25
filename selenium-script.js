@@ -92,7 +92,7 @@ function displayWeekendSummary(searchResults) {
     console.log(`\n💡 RECOMMENDATIONS:`);
     if (availableWeekends.length > 0) {
         console.log(`  🎯 Book immediately for available weekends!`);
-        console.log(`  📞 Contact AFPESP directly for reservations`);
+        console.log(`  📞 Contact trade union directly for reservations`);
     } else {
         console.log(`  🔄 Check back regularly as availability changes frequently`);
         console.log(`  📅 Consider mid-week stays for better availability`);
@@ -1408,7 +1408,7 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
             const divs = await driver.findElements(By.tagName('div'));
             console.log(`Found ${divs.length} div element(s)`);
             
-            // Check for specific AFPESP elements by common class names or IDs
+            // Check for specific union website elements by common class names or IDs
             console.log('\n--- Specific Element Search ---');
             
             // Look for elements with common vacancy-related terms

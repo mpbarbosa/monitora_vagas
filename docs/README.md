@@ -18,6 +18,14 @@ Development history and technical evolution of the project, documenting the prog
 ### [modern_theme_implementation.md](./modern_theme_implementation.md)
 Documentation of the modern job search theme implementation and transformation to trade union hotel search platform.
 
+## Root Documentation Files
+
+### [../ROADMAP.md](../ROADMAP.md)
+Complete development roadmap including project history, completed milestones, and future development phases with quarterly timelines.
+
+### [../TRANSFORMATION_SUMMARY.md](../TRANSFORMATION_SUMMARY.md)
+Comprehensive summary of the transformation from AFPESP-specific to trade union platform, including technical achievements and impact.
+
 ## Project Overview
 
 The Trade Union Hotel Search Platform is designed to help sindicate members find and book hotel accommodations through union partnerships and special rates across Brazil.

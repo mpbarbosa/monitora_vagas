@@ -1,4 +1,5 @@
-Update the related documentation.
-Keep the consistency among the documentation files.
-Update the functional and unit tests.
-Push the last modified files to the repository.
+1) Update the related documentation.
+2) Keep the consistency among the documentation files.
+3) If needed (code modification), Update the functional and unit tests
+4) Run all tests
+5) Push the last modified files to the repository.

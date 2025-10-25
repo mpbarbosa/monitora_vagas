@@ -1,6 +1,6 @@
-# Folder Structure Guide for AFPESP Hotel Vacancy Monitor
+# Folder Structure Guide for Trade Union Hotel Search Platform
 
-> A comprehensive guide for organizing the AFPESP Hotel Vacancy Monitoring project using modern web development practices
+> A comprehensive guide for organizing the Trade Union Hotel Search Platform using modern web development practices
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@
 
 ## Introduction
 
-This guide provides best practices for organizing the AFPESP Hotel Vacancy Monitoring project as it evolves from a Selenium-based automation script to a modern web application. The current implementation uses Node.js with Selenium WebDriver for automated hotel vacancy checking, and this guide will help structure the upcoming web app conversion.
+This guide provides best practices for organizing the Trade Union Hotel Search Platform as it evolves from a Selenium-based automation script to a modern web application. The current implementation uses Node.js with Selenium WebDriver for automated hotel search functionality, and this guide will help structure the upcoming web app conversion.
 
 ### When to Use This Structure
 
@@ -32,7 +32,7 @@ This guide provides best practices for organizing the AFPESP Hotel Vacancy Monit
 
 ## Current Project Structure
 
-The AFPESP Hotel Vacancy Monitor currently follows a Node.js automation architecture:
+The Trade Union Hotel Search Platform currently follows a Node.js automation architecture:
 
 ```
 monitora_vagas/
@@ -283,7 +283,7 @@ components/
 - Use `index.js` for clean imports: `import { Button } from '@/components/Button'`
 - Keep components small and focused (Single Responsibility Principle)
 
-**Examples for AFPESP Monitor:**
+**Examples for Trade Union Platform:**
 - `SearchForm` - Hotel and date selection form
 - `ResultsTable` - Vacancy results display
 - `WeekendCard` - Individual weekend availability card
@@ -299,12 +299,12 @@ components/
 - Pages are route endpoints
 - Pages handle data fetching and state management
 
-**Examples for AFPESP Monitor:**
+**Examples for Trade Union Platform:**
 - `Home` - Main landing page with search form
 - `Search` - Hotel search configuration page
 - `Results` - Vacancy results and summary page
 - `History` - Previous search history
-- `About` - About AFPESP and project information
+- `About` - About Trade Union services and project information
 
 #### `/src/services`
 

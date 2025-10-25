@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Selenium Web UI Test for AFPESP Hotel Vacancy Monitor
-Tests the home page functionality and basic UI interactions
+Selenium Web UI Test for Trade Union Hotel Search Platform
+Complete test suite to validate all UI components and functionality
+Includes search forms, progress bars, results display, and error handling
 """
 
 import os
@@ -21,8 +22,8 @@ import threading
 import socket
 from pathlib import Path
 
-class AFPESPWebUITest(unittest.TestCase):
-    """Test suite for AFPESP Hotel Vacancy Monitor web UI"""
+class TradeUnionWebUITest(unittest.TestCase):
+    """Test suite for Trade Union Hotel Search Platform web UI"""
     
     @classmethod
     def setUpClass(cls):
@@ -146,11 +147,11 @@ class AFPESPWebUITest(unittest.TestCase):
         self.driver.get(f"{self.base_url}/index.html")
         
         # Wait for the page title to load
-        self.wait.until(EC.title_contains("AFPESP"))
+        self.wait.until(EC.title_contains("Hotéis Sindicais"))
         
         # Verify page title
         title = self.driver.title
-        self.assertIn("AFPESP Hotel Vacancy Monitor", title)
+        self.assertIn("Busca de Vagas em Hotéis Sindicais", title)
         print(f"✓ Page title verified: {title}")
         
         # Take screenshot of loaded page
@@ -195,9 +196,9 @@ class AFPESPWebUITest(unittest.TestCase):
             self.assertTrue(nav_brand.is_displayed())
             print("✓ Navigation brand found")
             
-            # Check for AFPESP Monitor title
+            # Check for Trade Union Platform title
             brand_text = nav_brand.text
-            self.assertIn("AFPESP Monitor", brand_text)
+            self.assertIn("Hotéis Sindicais", brand_text)
             print(f"✓ Brand text verified: {brand_text}")
         except NoSuchElementException:
             print("! Navigation brand not found")
@@ -226,7 +227,7 @@ class AFPESPWebUITest(unittest.TestCase):
             # Check hero title
             hero_title = hero_section.find_element(By.TAG_NAME, "h1")
             title_text = hero_title.text
-            self.assertIn("Monitor de Vagas AFPESP", title_text)
+            self.assertIn("Busca de Hotéis Sindicais", title_text)
             print(f"✓ Hero title verified: {title_text}")
             
             # Check hero subtitle
@@ -354,11 +355,11 @@ class AFPESPWebUITest(unittest.TestCase):
 def run_tests():
     """Run the test suite"""
     print("="*60)
-    print("AFPESP Hotel Vacancy Monitor - Web UI Test Suite")
+    print("Trade Union Hotel Search Platform - Web UI Test Suite")
     print("="*60)
     
     # Create test suite
-    suite = unittest.TestLoader().loadTestsFromTestCase(AFPESPWebUITest)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TradeUnionWebUITest)
     
     # Run tests with verbose output
     runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)

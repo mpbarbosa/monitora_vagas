@@ -8,3 +8,4 @@
    4.3) src/
    4.4) tests/
 5) Web page theme and style planning.
+6) Prompts for code generation.
