@@ -132,14 +132,11 @@ class TradeUnionWebUITest(unittest.TestCase):
     
     def take_screenshot(self, name):
         """Take a screenshot for debugging"""
-        try:
-            screenshot_dir = Path("test_screenshots")
-            screenshot_dir.mkdir(exist_ok=True)
-            screenshot_path = screenshot_dir / f"{name}_{int(time.time())}.png"
-            self.driver.save_screenshot(str(screenshot_path))
-            print(f"Screenshot saved: {screenshot_path}")
-        except Exception as e:
-            print(f"Failed to take screenshot: {e}")
+        screenshot_dir = Path("test_screenshots")
+        screenshot_dir.mkdir(exist_ok=True)
+        screenshot_path = screenshot_dir / f"{name}_{int(time.time())}.png"
+        self.driver.save_screenshot(str(screenshot_path))
+        print(f"Screenshot saved: {screenshot_path}")
     
     def test_01_home_page_loads(self):
         """Test that the home page loads successfully"""
@@ -162,19 +159,16 @@ class TradeUnionWebUITest(unittest.TestCase):
         self.driver.get(f"{self.base_url}/index.html")
         
         # Wait for loading screen to disappear
-        try:
-            loading_screen = self.wait.until(
-                EC.presence_of_element_located((By.ID, "loading-screen"))
-            )
-            print("✓ Loading screen found")
-            
-            # Wait for loading screen to fade out
-            self.wait.until(
-                EC.invisibility_of_element_located((By.ID, "loading-screen"))
-            )
-            print("✓ Loading screen disappeared")
-        except TimeoutException:
-            print("! Loading screen not found or didn't disappear")
+        loading_screen = self.wait.until(
+            EC.presence_of_element_located((By.ID, "loading-screen"))
+        )
+        print("✓ Loading screen found")
+        
+        # Wait for loading screen to fade out
+        self.wait.until(
+            EC.invisibility_of_element_located((By.ID, "loading-screen"))
+        )
+        print("✓ Loading screen disappeared")
         
         # Wait for main app container
         app_container = self.wait.until(
@@ -191,26 +185,20 @@ class TradeUnionWebUITest(unittest.TestCase):
         time.sleep(3)
         
         # Check for navigation brand
-        try:
-            nav_brand = self.driver.find_element(By.CLASS_NAME, "nav-brand")
-            self.assertTrue(nav_brand.is_displayed())
-            print("✓ Navigation brand found")
-            
-            # Check for Trade Union Platform title
-            brand_text = nav_brand.text
-            self.assertIn("Hotéis Sindicais", brand_text)
-            print(f"✓ Brand text verified: {brand_text}")
-        except NoSuchElementException:
-            print("! Navigation brand not found")
+        nav_brand = self.driver.find_element(By.CLASS_NAME, "nav-brand")
+        self.assertTrue(nav_brand.is_displayed())
+        print("✓ Navigation brand found")
+        
+        # Check for Trade Union Platform title
+        brand_text = nav_brand.text
+        self.assertIn("Hotéis Sindicais", brand_text)
+        print(f"✓ Brand text verified: {brand_text}")
         
         # Check for version badge
-        try:
-            version_badge = self.driver.find_element(By.CLASS_NAME, "version-badge")
-            self.assertTrue(version_badge.is_displayed())
-            version_text = version_badge.text
-            print(f"✓ Version badge found: {version_text}")
-        except NoSuchElementException:
-            print("! Version badge not found")
+        version_badge = self.driver.find_element(By.CLASS_NAME, "version-badge")
+        self.assertTrue(version_badge.is_displayed())
+        version_text = version_badge.text
+        print(f"✓ Version badge found: {version_text}")
     
     def test_04_hero_section_content(self):
         """Test that the hero section displays correct content"""
@@ -219,26 +207,22 @@ class TradeUnionWebUITest(unittest.TestCase):
         # Wait for hero section
         time.sleep(3)
         
-        try:
-            hero_section = self.driver.find_element(By.CLASS_NAME, "hero-loading")
-            self.assertTrue(hero_section.is_displayed())
-            print("✓ Hero section found")
-            
-            # Check hero title
-            hero_title = hero_section.find_element(By.TAG_NAME, "h1")
-            title_text = hero_title.text
-            self.assertIn("Busca de Hotéis Sindicais", title_text)
-            print(f"✓ Hero title verified: {title_text}")
-            
-            # Check hero subtitle
-            hero_subtitle = hero_section.find_element(By.CLASS_NAME, "hero-subtitle")
-            subtitle_text = hero_subtitle.text
-            self.assertIn("Guarujá", subtitle_text)
-            self.assertIn("Campos do Jordão", subtitle_text)
-            print(f"✓ Hero subtitle verified: {subtitle_text}")
-            
-        except NoSuchElementException as e:
-            print(f"! Hero section elements not found: {e}")
+        hero_section = self.driver.find_element(By.CLASS_NAME, "hero-loading")
+        self.assertTrue(hero_section.is_displayed())
+        print("✓ Hero section found")
+        
+        # Check hero title
+        hero_title = hero_section.find_element(By.TAG_NAME, "h1")
+        title_text = hero_title.text
+        self.assertIn("Busca de Hotéis Sindicais", title_text)
+        print(f"✓ Hero title verified: {title_text}")
+        
+        # Check hero subtitle
+        hero_subtitle = hero_section.find_element(By.CLASS_NAME, "hero-subtitle")
+        subtitle_text = hero_subtitle.text
+        self.assertIn("Guarujá", subtitle_text)
+        self.assertIn("Campos do Jordão", subtitle_text)
+        print(f"✓ Hero subtitle verified: {subtitle_text}")
     
     def test_05_feature_cards(self):
         """Test that feature cards are displayed"""

@@ -2,51 +2,52 @@
 // This file handles environment-specific settings
 
 /**
- * Environment variables with defaults
+ * Browser-compatible environment variables with defaults
+ * Note: In browsers we don't have access to process.env, so we use defaults
  */
 const ENV_VARS = {
     // Application environment
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    NODE_ENV: 'development',
     
     // Application port
-    PORT: process.env.PORT || 3000,
+    PORT: 3000,
     
     // API endpoints
-    API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000/api',
+    API_BASE_URL: 'http://localhost:3000/api',
     
     // AFPESP website configuration
-    AFPESP_BASE_URL: process.env.AFPESP_BASE_URL || 'https://www.afpesp.org.br',
-    AFPESP_SEARCH_ENDPOINT: process.env.AFPESP_SEARCH_ENDPOINT || '/turismo/disponibilidade',
+    AFPESP_BASE_URL: 'https://www.afpesp.org.br',
+    AFPESP_SEARCH_ENDPOINT: '/turismo/disponibilidade',
     
     // Search configuration
-    DEFAULT_WEEKENDS: parseInt(process.env.DEFAULT_WEEKENDS) || 8,
-    MAX_WEEKENDS: parseInt(process.env.MAX_WEEKENDS) || 12,
+    DEFAULT_WEEKENDS: 8,
+    MAX_WEEKENDS: 12,
     
     // Rate limiting
-    RATE_LIMIT_WINDOW: parseInt(process.env.RATE_LIMIT_WINDOW) || 900000, // 15 minutes
-    RATE_LIMIT_MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 10,
+    RATE_LIMIT_WINDOW: 900000, // 15 minutes
+    RATE_LIMIT_MAX_REQUESTS: 10,
     
     // Caching
-    CACHE_TTL: parseInt(process.env.CACHE_TTL) || 300000, // 5 minutes
+    CACHE_TTL: 300000, // 5 minutes
     
     // Logging
-    LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+    LOG_LEVEL: 'info',
     
     // Security
-    CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    CORS_ORIGIN: 'http://localhost:5173',
     
     // Database (if needed for future features)
-    DATABASE_URL: process.env.DATABASE_URL || '',
+    DATABASE_URL: '',
     
     // Email service (for notifications)
-    EMAIL_SERVICE_API_KEY: process.env.EMAIL_SERVICE_API_KEY || '',
-    EMAIL_FROM: process.env.EMAIL_FROM || 'noreply@afpesp-monitor.com',
+    EMAIL_SERVICE_API_KEY: '',
+    EMAIL_FROM: 'noreply@sindicatos-monitor.com',
     
     // Analytics
-    ANALYTICS_ID: process.env.ANALYTICS_ID || '',
+    ANALYTICS_ID: '',
     
     // Error tracking
-    SENTRY_DSN: process.env.SENTRY_DSN || ''
+    SENTRY_DSN: ''
 };
 
 /**

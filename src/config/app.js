@@ -135,7 +135,8 @@ export const PROD_CONFIG = {
  * @returns {Object} Environment-specific configuration
  */
 export function getConfig() {
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    // In browser environment, default to development config
+    const isDevelopment = true; // Browser default
     return isDevelopment ? DEV_CONFIG : PROD_CONFIG;
 }
 

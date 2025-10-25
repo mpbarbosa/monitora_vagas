@@ -1,5 +1,3 @@
-import './SearchForm.css';
-
 export function SearchForm() {
     return `
         <div class="search-form">

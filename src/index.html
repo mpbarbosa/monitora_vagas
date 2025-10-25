@@ -163,12 +163,12 @@
 
     <!-- Development Tools (only shown in development) -->
     <script>
-        if (window.AFPESP_CONFIG.environment === 'development') {
+        if (window.SINDICATOS_CONFIG.environment === 'development') {
             document.addEventListener('DOMContentLoaded', () => {
                 const devTools = document.createElement('div');
                 devTools.innerHTML = `
                     <div class="dev-tools">
-                        <button onclick="console.log('App State:', window.afpespApp)">Log App State</button>
+                        <button onclick="console.log('App State:', window.sindicatosApp)">Log App State</button>
                         <button onclick="localStorage.clear(); location.reload()">Clear Storage</button>
                     </div>
                 `;
@@ -195,7 +195,7 @@
             }
 
             // Log performance metrics in development
-            if (window.AFPESP_CONFIG.environment === 'development') {
+            if (window.SINDICATOS_CONFIG.environment === 'development') {
                 setTimeout(() => {
                     const perfData = performance.getEntriesByType('navigation')[0];
                     console.log('Page Load Performance:', {
@@ -207,36 +207,34 @@
             }
         });
 
-        // Error handling
+        // Error handling - Let exceptions flow through for debugging
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
-            
-            const errorBoundary = document.getElementById('error-boundary');
-            const errorMessage = document.getElementById('error-message');
-            
-            if (errorBoundary && errorMessage) {
-                errorMessage.textContent = event.error.stack || event.error.message;
-                errorBoundary.classList.remove('hidden');
-            }
+            // Comment out error boundary to let exceptions flow through
+            // const errorBoundary = document.getElementById('error-boundary');
+            // const errorMessage = document.getElementById('error-message');
+            // if (errorBoundary && errorMessage) {
+            //     errorMessage.textContent = event.error.stack || event.error.message;
+            //     errorBoundary.classList.remove('hidden');
+            // }
         });
 
-        // Unhandled promise rejection
+        // Unhandled promise rejection - Let them flow through for debugging
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Unhandled promise rejection:', event.reason);
-            
-            const errorBoundary = document.getElementById('error-boundary');
-            const errorMessage = document.getElementById('error-message');
-            
-            if (errorBoundary && errorMessage) {
-                errorMessage.textContent = event.reason.stack || event.reason.message || 'Unknown error';
-                errorBoundary.classList.remove('hidden');
-            }
+            // Comment out error boundary to let exceptions flow through
+            // const errorBoundary = document.getElementById('error-boundary');
+            // const errorMessage = document.getElementById('error-message');
+            // if (errorBoundary && errorMessage) {
+            //     errorMessage.textContent = event.reason.stack || event.reason.message || 'Unknown error';
+            //     errorBoundary.classList.remove('hidden');
+            // }
         });
     </script>
 
     <!-- Service Worker Registration (for future PWA features) -->
     <script>
-        if ('serviceWorker' in navigator && window.AFPESP_CONFIG.environment === 'production') {
+        if ('serviceWorker' in navigator && window.SINDICATOS_CONFIG.environment === 'production') {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('../sw.js')
                     .then((registration) => {

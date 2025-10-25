@@ -1,15 +1,29 @@
 // Central export point for all configuration modules
 // Provides easy access to all configuration settings
 
-// Import all configuration modules
+// Import app functions for local use
+import { getConfig } from './app.js';
+
+// Import environment functions for local use
+import { 
+    getEnvironment, 
+    validateEnvironment, 
+    getCurrentEnvironmentConfig 
+} from './environment.js';
+
+// Re-export app functions
 export { APP_CONFIG, DEV_CONFIG, PROD_CONFIG, getConfig, FEATURE_FLAGS, ROUTES } from './app.js';
+
+// Re-export environment functions
 export { 
     getEnvironment, 
     validateEnvironment, 
     ENVIRONMENT_CONFIGS, 
     getCurrentEnvironmentConfig 
 } from './environment.js';
-export {
+
+// Import constants for use in the CONFIG object
+import {
     HOTELS,
     SEARCH_TYPES,
     ROOM_TYPES,
@@ -22,6 +36,21 @@ export {
     UI_CONSTANTS,
     REGEX_PATTERNS
 } from './constants.js';
+
+// Re-export the constants
+export {
+    HOTELS,
+    SEARCH_TYPES,
+    ROOM_TYPES,
+    SEARCH_STATUS,
+    DATE_CONSTANTS,
+    API_ENDPOINTS,
+    HTTP_STATUS,
+    ERROR_MESSAGES,
+    SUCCESS_MESSAGES,
+    UI_CONSTANTS,
+    REGEX_PATTERNS
+};
 
 /**
  * Combined configuration object for easy access

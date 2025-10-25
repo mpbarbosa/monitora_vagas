@@ -1,5 +1,3 @@
-import './ProgressBar.css';
-
 export function ProgressBar({ current = 0, total = 9, status = 'ready' }) {
     const percentage = total > 0 ? (current / total) * 100 : 0;
     

@@ -1,6 +1,5 @@
 import { SearchForm } from '../../components/SearchForm/index.js';
 import { ProgressBar } from '../../components/ProgressBar/index.js';
-import './Home.css';
 
 export function Home() {
     return `
