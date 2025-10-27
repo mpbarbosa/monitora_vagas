@@ -99,6 +99,6 @@ python simple_ui_test.py
 
 ## Documentation
 
-- [`ROADMAP.md`](./ROADMAP.md) - Complete development roadmap and project history
+- [`docs/ROADMAP.md`](./docs/ROADMAP.md) - Complete development roadmap and project history
 - [`TRANSFORMATION_SUMMARY.md`](./TRANSFORMATION_SUMMARY.md) - Summary of platform transformation
 - [`docs/`](./docs/) - Detailed technical documentation

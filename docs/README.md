@@ -20,7 +20,7 @@ Documentation of the modern job search theme implementation and transformation t
 
 ## Root Documentation Files
 
-### [../ROADMAP.md](../ROADMAP.md)
+### [ROADMAP.md](./ROADMAP.md)
 Complete development roadmap including project history, completed milestones, and future development phases with quarterly timelines.
 
 ### [../TRANSFORMATION_SUMMARY.md](../TRANSFORMATION_SUMMARY.md)
