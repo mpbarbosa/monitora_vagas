@@ -138,6 +138,14 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [x] **Quick Reference Creation**: Condensed quick-reference card for daily development
 - [x] **Troubleshooting Section**: Common pitfalls and solutions for development tools
 
+#### **Python Command Standardization** ✅ *October 27, 2025*
+- [x] **Documentation-Wide Consistency**: Updated all .md files to use `python3` commands exclusively
+- [x] **Testing Command Patterns**: Standardized `python3 -m unittest` execution throughout guides
+- [x] **Package Management Standards**: Enforced `python3 -m pip install` pattern across documentation
+- [x] **GitHub Copilot Compatibility**: Prevents AI assistant from executing ambiguous `python` commands
+- [x] **Cross-Platform Reliability**: Eliminates Python 2.x/3.x version conflicts in documentation
+- [x] **Best Practice Enforcement**: All documentation promotes modern Python development standards
+
 #### **Documentation Consistency**
 - [x] **Complete Documentation Update**: All files consistent with new branding
 - [x] **Modern Theme Documentation**: Comprehensive implementation guide
