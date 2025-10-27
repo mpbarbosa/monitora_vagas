@@ -30,6 +30,12 @@ Comprehensive analysis of our current Trade Union Hotel Search Platform interfac
 ### [NO_SCROLL_IMPLEMENTATION_SUMMARY.md](./NO_SCROLL_IMPLEMENTATION_SUMMARY.md)
 Complete implementation summary of all no-scroll principle improvements applied to the Trade Union Hotel Search Platform. Documents the creation of QuickSearch component, progressive disclosure modal, above-the-fold optimization, mobile-first CSS, and analytics tracking with expected 25-40% engagement improvements.
 
+### [DEVELOPMENT_TOOLS_GUIDE.md](./DEVELOPMENT_TOOLS_GUIDE.md)
+Comprehensive command line tools and usage standards guide to ensure consistent development practices. Includes Python3 usage standards, Git workflow documentation, text processing tools, testing frameworks, and troubleshooting sections. Addresses common issues like GitHub Copilot using `python` instead of `python3`.
+
+### [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
+Condensed quick-reference card for common development commands and tools. Provides instant lookup for Python, Git, search/replace operations, web development, testing, and file operations with clear examples of correct vs incorrect usage patterns.
+
 ## Root Documentation Files
 
 ### [ROADMAP.md](./ROADMAP.md)

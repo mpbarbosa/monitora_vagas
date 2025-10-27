@@ -116,11 +116,20 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [x] **Selenium Validation**: Automated testing confirms element functionality and user interaction
 - [x] **Targeted CSS Solution**: Minimal, surgical fix maintaining strict scope constraint
 
+#### **Development Tools Documentation** ✅ *October 27, 2025*
+- [x] **Command Line Standards**: Comprehensive development tools and command line usage guide
+- [x] **Python3 Usage Standards**: Explicit python3 command usage to avoid version ambiguity
+- [x] **Git Workflow Documentation**: Complete git command reference and best practices
+- [x] **Testing Tools Guide**: Selenium, pytest, and test execution standards
+- [x] **Quick Reference Creation**: Condensed quick-reference card for daily development
+- [x] **Troubleshooting Section**: Common pitfalls and solutions for development tools
+
 #### **Documentation Consistency**
 - [x] **Complete Documentation Update**: All files consistent with new branding
 - [x] **Modern Theme Documentation**: Comprehensive implementation guide
 - [x] **Transformation Summary**: Complete project evolution documentation
 - [x] **Error Resolution Documentation**: Detailed debugging and fix documentation
+- [x] **Development Tools Integration**: Command line guidance integrated into documentation structure
 - [x] **Repository Management**: All changes committed and deployed
 
 ---
