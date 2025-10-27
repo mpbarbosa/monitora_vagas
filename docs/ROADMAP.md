@@ -53,7 +53,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 #### **Content Transformation**
 - [x] **Hero Content**: "Busca de Vagas em Hotéis Sindicais"
 - [x] **Feature Updates**: Union member benefits and solidarity tourism
-- [x] **Statistics Refresh**: 50+ hotels, 30% discounts, 1000+ members
+- [x] **Statistics Refresh**: 50+ hotels, premium rates, 1000+ members
 - [x] **Portuguese Localization**: Complete Brazilian market adaptation
 
 #### **Search Functionality Enhancement**
@@ -103,7 +103,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 #### **No-Scroll Design Implementation**
 - [x] **Above-the-Fold Optimization**: Redesigned hero section with 100vh height containing all essential elements
 - [x] **QuickSearch Component**: Created simplified 2-field interface with mobile-first design
-- [x] **Trust Indicators**: Moved key stats above-fold (50+ Hotels, 30% Discount, 100% Free, 1000+ Served)
+- [x] **Trust Indicators**: Moved key stats above-fold (50+ Hotels, Premium Rates, 100% Free, 1000+ Served)
 - [x] **Progressive Disclosure**: Advanced search options in modal overlay with accessibility features
 - [x] **Mobile-First CSS**: Comprehensive responsive design from 320px to 1200px+ with touch optimization
 - [x] **Analytics Integration**: Above-fold interaction tracking with scroll behavior monitoring
@@ -126,7 +126,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [ ] **Hotel Data API**: Create RESTful API for hotel information
 - [ ] **Search Endpoints**: Implement advanced search functionality
 - [ ] **Union Partnership API**: Connect with trade union systems
-- [ ] **Rate Management**: Dynamic pricing and discount systems
+- [ ] **Rate Management**: Dynamic pricing and special rate systems
 
 #### **Database Design**
 - [ ] **Hotel Database**: Comprehensive hotel information storage

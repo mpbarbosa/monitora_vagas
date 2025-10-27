@@ -8,9 +8,9 @@ export function Home() {
             <!-- Above-the-Fold Hero with Integrated Quick Search -->
             <section class="hero-section">
                 <div class="hero-content">
-                    <h1>Hotéis Sindicais com Desconto Exclusivo</h1>
+                    <h1>Hotéis Sindicais Premium</h1>
                     <p class="hero-description">
-                        Encontre as melhores ofertas em hotéis conveniados. Descontos de até 30% para sindicalistas.
+                        Encontre as melhores ofertas em hotéis conveniados. Tarifas especiais para sindicalistas.
                     </p>
                 </div>
                 
@@ -45,8 +45,8 @@ export function Home() {
                         
                         <div class="info-card">
                             <div class="card-icon">⚡</div>
-                            <h3>Descontos Exclusivos</h3>
-                            <p>Aproveite tarifas especiais e descontos exclusivos para sindicalistas, com condições de pagamento facilitadas.</p>
+                            <h3>Tarifas Especiais</h3>
+                            <p>Aproveite tarifas preferenciais e ofertas exclusivas para sindicalistas, com condições de pagamento facilitadas.</p>
                         </div>
                         
                         <div class="info-card">
@@ -67,8 +67,8 @@ export function Home() {
                             <span class="stat-label">Hotéis Conveniados</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">30%</span>
-                            <span class="stat-label">Desconto Médio</span>
+                            <span class="stat-number">5★</span>
+                            <span class="stat-label">Avaliação Média</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-number">1000+</span>
@@ -86,7 +86,7 @@ export function Home() {
             <section class="cta-section">
                 <div class="cta-container">
                     <h2>Pronto para suas férias sindicais?</h2>
-                    <p>Comece agora mesmo a buscar as melhores ofertas em hotéis conveniados e garanta sua próxima viagem com desconto!</p>
+                    <p>Comece agora mesmo a buscar as melhores ofertas em hotéis conveniados e garanta sua próxima viagem com tranquilidade!</p>
                     <a href="#hero-section" class="cta-button">
                         <span>Buscar Ofertas</span>
                         <span>→</span>

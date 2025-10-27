@@ -360,7 +360,7 @@ class TradeUnionWebUITest(unittest.TestCase):
             
             # Verify specific trust indicators
             trust_texts = [item.text for item in trust_indicators]
-            expected_indicators = ["50+ Hotéis", "30% Desconto", "100% Gratuito", "1000+ Atendidos"]
+            expected_indicators = ["50+ Hotéis", "Tarifas Especiais", "100% Gratuito", "1000+ Atendidos"]
             for indicator in expected_indicators:
                 found = any(indicator in text for text in trust_texts)
                 if found:

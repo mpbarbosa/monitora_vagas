@@ -52,7 +52,7 @@ The Trade Union Hotel Search Platform is designed to help sindicate members find
 ### Key Features
 - **Enhanced Date Selection**: Mutually exclusive options between month-based and specific date range selection for flexible booking
 - **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
-- **Union Benefits**: Exclusive discounts and special rates for sindicate members
+- **Union Benefits**: Special rates and exclusive offers for sindicate members
 - **Modern Design**: Job search platform-inspired interface with gradient backgrounds
 - **PWA Capabilities**: Service worker with offline functionality and comprehensive caching
 - **Error-Free Architecture**: Systematic debugging with 90% JavaScript error reduction

@@ -4,7 +4,7 @@ export function QuickSearch() {
             <div class="quick-search-content">
                 <div class="quick-search-header">
                     <h2>Encontre Hotéis Sindicais</h2>
-                    <p class="quick-search-subtitle">Busque ofertas exclusivas com descontos de até 30%</p>
+                    <p class="quick-search-subtitle">Busque ofertas exclusivas com tarifas preferenciais</p>
                 </div>
                 
                 <!-- Trust Indicators Above Fold -->
@@ -15,7 +15,7 @@ export function QuickSearch() {
                     </div>
                     <div class="trust-item">
                         <span class="trust-icon">💰</span>
-                        <span class="trust-text">30% Desconto</span>
+                        <span class="trust-text">Tarifas Especiais</span>
                     </div>
                     <div class="trust-item">
                         <span class="trust-icon">✨</span>

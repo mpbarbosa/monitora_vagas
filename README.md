@@ -37,18 +37,18 @@ node selenium-script.js
 4. **Enhanced Date Options**: Choose between quick month-based searches or precise start/end date selection
 5. **Real-time Updates**: Monitors availability and provides instant notifications
 6. **Mobile Responsive**: Works perfectly on desktop, tablet, and smartphone devices
-7. **Union Benefits**: Highlights exclusive discounts and special rates for union members
+7. **Union Benefits**: Highlights special rates and premium offers for union members
 
 ## Features
 
 - **No-Scroll Design**: Above-the-fold optimization with simplified quick search interface
 - **Enhanced Date Selection**: Choose between month-based or specific date range search options with mutually exclusive functionality
 - **Progressive Disclosure**: Advanced search options accessible through modal overlay
-- **Trust Indicators**: Key statistics prominently displayed (50+ Hotels, 30% Discount, 100% Free)
+- **Trust Indicators**: Key statistics prominently displayed (50+ Hotels, Premium Rates, 100% Free)
 - **Mobile-First Design**: Touch-optimized interface with responsive breakpoints from 320px to 1200px+
 - **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
 - **Flexible Booking**: Choose between weekend stays or full-week vacations
-- **Union Discounts**: Access exclusive rates negotiated by trade unions
+- **Union Benefits**: Access special rates negotiated by trade unions
 - **Modern UI**: Job search platform-inspired design with gradient backgrounds
 - **Portuguese Interface**: Fully localized for Brazilian users
 - **Analytics Integration**: Comprehensive interaction tracking and performance monitoring

@@ -31,14 +31,14 @@ This document summarizes the complete transformation of the project from an AFPE
   - Month-based: "Mês Atual", "Próximo Mês", "Próximos 2 Meses"
   - Date range: Specific start and end date selection
 - **Flexible Booking**: Weekend vs Full Week stays
-- **Union Benefits**: Highlighting exclusive discounts and member rates
+- **Union Benefits**: Highlighting special rates and member benefits
 
 ### **4. Content & Localization**
 - **Portuguese Interface**: Fully localized for Brazilian market
 - **Union-Focused Content**: 
   - Hero: "Encontre as melhores ofertas em hotéis conveniados"
   - Features: Union member advantages and solidarity tourism
-  - Statistics: 50+ hotels, 30% average discount, 1000+ members served
+  - Statistics: 50+ hotels, premium rates available, 1000+ members served
 - **SEO Optimization**: Updated meta tags and social media cards
 
 ### **5. Technical Infrastructure & Error Resolution**
