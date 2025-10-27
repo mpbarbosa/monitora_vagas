@@ -1,0 +1,1 @@
+ Generate a comprehensive documentation about the <principle/concept>. Save it in the proper folder.

@@ -1,0 +1,366 @@
+/* Advanced Search Modal - Progressive Disclosure */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-4);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--color-white);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px) scale(0.95);
+    transition: all var(--transition-base);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6) var(--spacing-6) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.modal-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    color: var(--color-text-light);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: var(--color-gray-100);
+    color: var(--color-text);
+}
+
+.advanced-search-form {
+    padding: var(--spacing-6);
+}
+
+.advanced-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: var(--spacing-4);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    background-color: var(--color-white);
+    transition: all var(--transition-base);
+    font-family: var(--font-family-base);
+}
+
+.form-group select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group select:hover {
+    border-color: var(--color-gray-300);
+}
+
+/* Radio Button Styling - Reused from SearchForm */
+.radio-group {
+    display: flex;
+    gap: var(--spacing-6);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-2);
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    background: var(--color-gray-50);
+    border: 2px solid var(--color-border);
+}
+
+.radio-option:hover {
+    background: var(--color-gray-100);
+    transform: translateY(-1px);
+}
+
+.radio-option input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+}
+
+.radio-option label {
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: var(--font-size-base);
+}
+
+.radio-option:has(input:checked) {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+.radio-option:has(input:checked) label {
+    color: white;
+}
+
+/* Date Selection - Reused from SearchForm */
+.date-selection-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.date-method-selection {
+    display: flex;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-3);
+}
+
+.date-option-container {
+    transition: all var(--transition-base);
+}
+
+.date-range-inputs {
+    display: flex;
+    gap: var(--spacing-4);
+    align-items: end;
+}
+
+.date-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.date-input-group label {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.date-input-group input[type="date"] {
+    width: 100%;
+    padding: var(--spacing-4);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    background-color: var(--color-white);
+    transition: all var(--transition-base);
+    font-family: var(--font-family-base);
+}
+
+.date-input-group input[type="date"]:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.date-input-group input[type="date"]:hover {
+    border-color: var(--color-gray-300);
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    gap: var(--spacing-4);
+    justify-content: flex-end;
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.cancel-button {
+    background: none;
+    border: 2px solid var(--color-border);
+    color: var(--color-text);
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.cancel-button:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+}
+
+.advanced-search-button {
+    background: var(--color-primary-gradient);
+    color: white;
+    border: none;
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    box-shadow: var(--shadow-card);
+}
+
+.advanced-search-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.search-icon {
+    font-size: var(--font-size-lg);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: var(--spacing-4);
+        max-height: 95vh;
+    }
+    
+    .advanced-form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: var(--spacing-3);
+    }
+    
+    .cancel-button,
+    .advanced-search-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+    }
+    
+    .radio-option {
+        justify-content: center;
+    }
+    
+    .date-method-selection {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .date-range-inputs {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-overlay {
+        padding: var(--spacing-2);
+    }
+    
+    .modal-header {
+        padding: var(--spacing-4);
+    }
+    
+    .advanced-search-form {
+        padding: var(--spacing-4);
+    }
+    
+    .modal-header h3 {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Animation for showing/hiding date containers */
+.date-option-container[style*="display: none"] {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.date-option-container[style*="display: block"] {
+    opacity: 1;
+    max-height: 200px;
+}

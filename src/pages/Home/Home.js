@@ -1,31 +1,25 @@
-import { SearchForm } from '../../components/SearchForm/index.js';
+import { QuickSearch } from '../../components/QuickSearch/index.js';
+import { AdvancedSearchModal } from '../../components/AdvancedSearchModal/index.js';
 import { ProgressBar } from '../../components/ProgressBar/index.js';
 
 export function Home() {
     return `
         <div class="home-page">
-            <!-- Hero Section with Modern Gradient -->
+            <!-- Above-the-Fold Hero with Integrated Quick Search -->
             <section class="hero-section">
                 <div class="hero-content">
-                    <h1>Busca de Vagas em Hotéis Sindicais</h1>
+                    <h1>Hotéis Sindicais com Desconto Exclusivo</h1>
                     <p class="hero-description">
-                        Monitore automaticamente as disponibilidades nos hotéis de sindicatos. 
-                        Plataforma extensível para incluir outros sindicatos e federações no futuro.
+                        Encontre as melhores ofertas em hotéis conveniados. Descontos de até 30% para sindicalistas.
                     </p>
                 </div>
-            </section>
-            
-            <!-- Search Section -->
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-header">
-                        <h2>Busque Vagas Disponíveis</h2>
-                        <p class="search-subtitle">Configure sua busca personalizada e monitore as disponibilidades automaticamente</p>
-                    </div>
-                    ${SearchForm()}
-                    <div id="progress-bar-container" style="display: none;">
-                        ${ProgressBar({ current: 0, total: 9, status: 'ready' })}
-                    </div>
+                
+                <!-- Quick Search Integrated Above-the-Fold -->
+                ${QuickSearch()}
+                
+                <!-- Progress Bar Container -->
+                <div id="progress-bar-container" style="display: none;">
+                    ${ProgressBar({ current: 0, total: 9, status: 'ready' })}
                 </div>
             </section>
             
@@ -93,12 +87,15 @@ export function Home() {
                 <div class="cta-container">
                     <h2>Pronto para suas férias sindicais?</h2>
                     <p>Comece agora mesmo a buscar as melhores ofertas em hotéis conveniados e garanta sua próxima viagem com desconto!</p>
-                    <a href="#search" class="cta-button">
-                        <span>Iniciar Busca</span>
+                    <a href="#hero-section" class="cta-button">
+                        <span>Buscar Ofertas</span>
                         <span>→</span>
                     </a>
                 </div>
             </section>
+            
+            <!-- Advanced Search Modal (Progressive Disclosure) -->
+            ${AdvancedSearchModal()}
         </div>
     `;
 }

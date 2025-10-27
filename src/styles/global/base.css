@@ -58,6 +58,7 @@ a:hover {
     border-radius: var(--border-radius-base);
     cursor: pointer;
     transition: all var(--transition-fast);
+    -webkit-user-select: none;
     user-select: none;
     white-space: nowrap;
 }

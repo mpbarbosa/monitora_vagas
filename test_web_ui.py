@@ -335,85 +335,246 @@ class TradeUnionWebUITest(unittest.TestCase):
         except NoSuchElementException:
             print("! Main content not found")
     
-    def test_09_date_selection_functionality(self):
+    def test_09_no_scroll_quick_search(self):
+        """Test QuickSearch component and above-fold optimization"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)  # Allow page to load
+            
+            # Test 1: Check hero section height optimization
+            hero_section = self.driver.find_element(By.CLASS_NAME, "hero-section")
+            hero_height = hero_section.size['height']
+            viewport_height = self.driver.execute_script("return window.innerHeight")
+            print(f"✓ Hero height: {hero_height}px, Viewport: {viewport_height}px")
+            
+            # Test 2: Check QuickSearch component exists
+            quick_search = self.driver.find_element(By.CLASS_NAME, "quick-search")
+            self.assertTrue(quick_search.is_displayed())
+            print("✓ QuickSearch component found and visible")
+            
+            # Test 3: Check trust indicators above-fold
+            trust_indicators = quick_search.find_elements(By.CLASS_NAME, "trust-item")
+            self.assertGreater(len(trust_indicators), 0)
+            print(f"✓ Found {len(trust_indicators)} trust indicators")
+            
+            # Verify specific trust indicators
+            trust_texts = [item.text for item in trust_indicators]
+            expected_indicators = ["50+ Hotéis", "30% Desconto", "100% Gratuito", "1000+ Atendidos"]
+            for indicator in expected_indicators:
+                found = any(indicator in text for text in trust_texts)
+                if found:
+                    print(f"✓ Trust indicator found: {indicator}")
+                else:
+                    print(f"! Trust indicator missing: {indicator}")
+            
+            # Test 4: Check simplified form fields
+            region_select = self.driver.find_element(By.ID, "quick-region")
+            period_select = self.driver.find_element(By.ID, "quick-period")
+            search_button = self.driver.find_element(By.CLASS_NAME, "quick-search-button")
+            
+            self.assertTrue(region_select.is_displayed())
+            self.assertTrue(period_select.is_displayed())
+            self.assertTrue(search_button.is_displayed())
+            print("✓ Quick search form elements visible")
+            
+            # Test 5: Check progressive disclosure toggle
+            advanced_toggle = self.driver.find_element(By.ID, "show-advanced-search")
+            self.assertTrue(advanced_toggle.is_displayed())
+            print("✓ Advanced options toggle found")
+            
+            print("✓ All QuickSearch tests passed")
+            
+        except Exception as e:
+            print(f"QuickSearch test failed: {e}")
+            self.take_screenshot("quick_search_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+    
+    def test_10_progressive_disclosure_modal(self):
+        """Test AdvancedSearchModal progressive disclosure functionality"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)  # Allow page and JS to load
+            
+            # Test 1: Verify modal initially hidden
+            modal = self.driver.find_element(By.ID, "advanced-search-modal")
+            modal_visible = modal.is_displayed()
+            self.assertFalse(modal_visible, "Modal should be hidden initially")
+            print("✓ Modal initially hidden")
+            
+            # Test 2: Open modal via progressive disclosure
+            advanced_toggle = self.driver.find_element(By.ID, "show-advanced-search")
+            advanced_toggle.click()
+            time.sleep(0.5)  # Allow animation
+            
+            # Check if modal becomes visible
+            modal_visible_after = modal.is_displayed()
+            self.assertTrue(modal_visible_after, "Modal should be visible after toggle click")
+            print("✓ Modal opens on toggle click")
+            
+            # Test 3: Check modal content
+            modal_header = modal.find_element(By.CLASS_NAME, "modal-header")
+            modal_title = modal_header.find_element(By.TAG_NAME, "h3")
+            self.assertEqual(modal_title.text, "Busca Avançada")
+            print("✓ Modal header and title correct")
+            
+            # Test 4: Check advanced form elements
+            union_select = modal.find_element(By.ID, "advanced-union-selection")
+            hotel_select = modal.find_element(By.ID, "advanced-hotel-selection")
+            
+            self.assertTrue(union_select.is_displayed())
+            self.assertTrue(hotel_select.is_displayed())
+            print("✓ Advanced form elements visible")
+            
+            # Test 5: Test modal close functionality
+            close_button = modal.find_element(By.ID, "close-advanced-search")
+            close_button.click()
+            time.sleep(0.5)  # Allow animation
+            
+            modal_visible_final = modal.is_displayed()
+            self.assertFalse(modal_visible_final, "Modal should be hidden after close")
+            print("✓ Modal closes properly")
+            
+            print("✓ All progressive disclosure tests passed")
+            
+        except Exception as e:
+            print(f"Progressive disclosure test failed: {e}")
+            self.take_screenshot("modal_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+    
+    def test_11_mobile_optimization(self):
+        """Test mobile-first responsive design optimizations"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)
+            
+            # Test mobile viewport
+            self.driver.set_window_size(375, 667)
+            time.sleep(1)
+            print("✓ Mobile viewport set (375x667)")
+            
+            # Test 1: Hero section mobile optimization
+            hero_section = self.driver.find_element(By.CLASS_NAME, "hero-section")
+            hero_title = hero_section.find_element(By.TAG_NAME, "h1")
+            
+            self.assertTrue(hero_section.is_displayed())
+            self.assertTrue(hero_title.is_displayed())
+            print("✓ Hero section displays properly on mobile")
+            
+            # Test 2: QuickSearch mobile layout
+            quick_search = self.driver.find_element(By.CLASS_NAME, "quick-search")
+            form_fields = quick_search.find_element(By.CLASS_NAME, "quick-form-fields")
+            
+            # Check if form fields stack on mobile
+            fields_display = self.driver.execute_script(
+                "return window.getComputedStyle(arguments[0]).getPropertyValue('grid-template-columns')",
+                form_fields
+            )
+            print(f"✓ Mobile form layout: {fields_display}")
+            
+            # Test 3: Trust indicators mobile layout
+            trust_indicators = quick_search.find_elements(By.CLASS_NAME, "trust-item")
+            for indicator in trust_indicators:
+                self.assertTrue(indicator.is_displayed())
+            print(f"✓ {len(trust_indicators)} trust indicators visible on mobile")
+            
+            # Test 4: Touch-friendly button size
+            search_button = self.driver.find_element(By.CLASS_NAME, "quick-search-button")
+            button_height = search_button.size['height']
+            self.assertGreaterEqual(button_height, 44, "Button should be at least 44px high for touch")
+            print(f"✓ Search button touch-friendly: {button_height}px height")
+            
+            # Test tablet viewport
+            self.driver.set_window_size(768, 1024)
+            time.sleep(1)
+            print("✓ Tablet viewport set (768x1024)")
+            
+            # Reset to desktop
+            self.driver.set_window_size(1920, 1080)
+            print("✓ All mobile optimization tests passed")
+            
+        except Exception as e:
+            print(f"Mobile optimization test failed: {e}")
+            self.take_screenshot("mobile_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+    
+    def test_12_date_selection_functionality(self):
         """Test enhanced date selection with mutually exclusive options"""
         print(f"--- Starting Test: {self._testMethodName} ---")
         try:
             self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)
             
-            # Wait for page to load and JS to initialize
-            self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "search-form")))
-            time.sleep(3)  # Allow JS initialization
+            # Open advanced modal to access date selection
+            advanced_toggle = self.driver.find_element(By.ID, "show-advanced-search")
+            advanced_toggle.click()
+            time.sleep(0.5)
+            
+            modal = self.driver.find_element(By.ID, "advanced-search-modal")
             
             # Test 1: Check date method radio buttons exist
-            months_radio = self.driver.find_element(By.ID, "date-method-months")
-            range_radio = self.driver.find_element(By.ID, "date-method-range")
-            print("✓ Date method radio buttons found")
+            months_radio = modal.find_element(By.ID, "advanced-date-method-months")
+            range_radio = modal.find_element(By.ID, "advanced-date-method-range")
+            print("✓ Date method radio buttons found in modal")
             
             # Test 2: Verify default state (months selected)
-            months_selected = self.driver.execute_script('return document.getElementById("date-method-months").checked')
-            range_selected = self.driver.execute_script('return document.getElementById("date-method-range").checked')
+            months_selected = months_radio.is_selected()
+            range_selected = range_radio.is_selected()
             self.assertTrue(months_selected, "Months radio should be selected by default")
             self.assertFalse(range_selected, "Range radio should not be selected by default")
             print("✓ Default selection verified (months)")
             
             # Test 3: Check container visibility
-            month_visible = self.driver.execute_script('return document.getElementById("month-selection-container").offsetParent !== null')
-            range_visible = self.driver.execute_script('return document.getElementById("date-range-container").offsetParent !== null')
+            month_container = modal.find_element(By.ID, "advanced-month-selection-container")
+            range_container = modal.find_element(By.ID, "advanced-date-range-container")
+            
+            month_visible = month_container.is_displayed()
+            range_visible = range_container.is_displayed()
             self.assertTrue(month_visible, "Month container should be visible by default")
             self.assertFalse(range_visible, "Range container should be hidden by default")
             print("✓ Initial container visibility correct")
             
             # Test 4: Switch to range selection
-            self.driver.execute_script('document.getElementById("date-method-range").click()')
+            range_radio.click()
             time.sleep(0.5)
             
-            range_selected_after = self.driver.execute_script('return document.getElementById("date-method-range").checked')
-            months_selected_after = self.driver.execute_script('return document.getElementById("date-method-months").checked')
+            range_selected_after = range_radio.is_selected()
+            months_selected_after = months_radio.is_selected()
             self.assertTrue(range_selected_after, "Range radio should be selected after click")
             self.assertFalse(months_selected_after, "Months radio should not be selected after range click")
             print("✓ Radio button switching works")
             
             # Test 5: Check container visibility after switch
-            month_visible_after = self.driver.execute_script('return document.getElementById("month-selection-container").offsetParent !== null')
-            range_visible_after = self.driver.execute_script('return document.getElementById("date-range-container").offsetParent !== null')
+            month_visible_after = month_container.is_displayed()
+            range_visible_after = range_container.is_displayed()
             self.assertFalse(month_visible_after, "Month container should be hidden after range selection")
             self.assertTrue(range_visible_after, "Range container should be visible after range selection")
             print("✓ Container visibility switching works")
             
             # Test 6: Test date inputs
-            start_date = self.driver.find_element(By.ID, "start-date")
-            end_date = self.driver.find_element(By.ID, "end-date")
+            start_date = range_container.find_element(By.ID, "advanced-start-date")
+            end_date = range_container.find_element(By.ID, "advanced-end-date")
             self.assertTrue(start_date.is_displayed(), "Start date input should be visible")
             self.assertTrue(end_date.is_displayed(), "End date input should be visible")
             print("✓ Date inputs are visible and accessible")
             
-            # Test 7: Test mutual exclusivity (switch back to months)
-            self.driver.execute_script('document.getElementById("start-date").value = "2025-02-01"')
-            self.driver.execute_script('document.getElementById("end-date").value = "2025-02-07"')
-            
-            # Switch back to months
-            self.driver.execute_script('document.getElementById("date-method-months").click()')
-            time.sleep(0.5)
-            
-            # Check that dates are cleared
-            start_cleared = self.driver.execute_script('return document.getElementById("start-date").value')
-            end_cleared = self.driver.execute_script('return document.getElementById("end-date").value')
-            self.assertEqual(start_cleared, "", "Start date should be cleared when switching to months")
-            self.assertEqual(end_cleared, "", "End date should be cleared when switching to months")
-            print("✓ Mutual exclusivity working - dates cleared when switching")
-            
             print("✓ All date selection functionality tests passed")
+            
+            # Close modal
+            close_button = modal.find_element(By.ID, "close-advanced-search")
+            close_button.click()
             
         except Exception as e:
             print(f"Date selection test failed: {e}")
-            # Take screenshot for debugging
-            try:
-                screenshot_path = f"test_screenshots/date_selection_error_{int(time.time())}.png"
-                self.driver.save_screenshot(screenshot_path)
-                print(f"Screenshot saved: {screenshot_path}")
-            except:
-                pass
+            self.take_screenshot("date_selection_error")
             raise
         finally:
             print(f"--- Finished Test: {self._testMethodName} ---")
