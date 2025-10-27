@@ -27,25 +27,21 @@ export function QuickSearch() {
                     </div>
                 </div>
                 
-                <!-- Simplified 2-Field Search -->
+                <!-- Date-Based Search Form -->
                 <form id="quick-hotel-search-form" class="quick-search-form">
                     <div class="quick-form-fields">
                         <div class="quick-field-group">
-                            <select id="quick-region" name="region" class="quick-select">
-                                <option value="todas">🏨 Todas as Regiões</option>
-                                <option value="litoral">🏖️ Litoral</option>
-                                <option value="serra">🏔️ Serra</option>
-                                <option value="interior">🌾 Interior</option>
-                                <option value="capital">🏙️ Capital</option>
+                            <select id="quick-union" name="union" class="quick-select">
+                                <option value="afpesp" selected>🏛️ AFPESP - Associação dos Funcionários Públicos do Estado de São Paulo</option>
                             </select>
                         </div>
                         
                         <div class="quick-field-group">
-                            <select id="quick-period" name="period" class="quick-select">
-                                <option value="current">📅 Mês Atual</option>
-                                <option value="next">📅 Próximo Mês</option>
-                                <option value="both" selected>📅 Próximos 2 Meses</option>
-                            </select>
+                            <input type="date" id="quick-start-date" name="startDate" class="quick-select">
+                        </div>
+                        
+                        <div class="quick-field-group">
+                            <input type="date" id="quick-end-date" name="endDate" class="quick-select">
                         </div>
                     </div>
                     

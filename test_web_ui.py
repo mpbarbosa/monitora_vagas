@@ -368,13 +368,15 @@ class TradeUnionWebUITest(unittest.TestCase):
                 else:
                     print(f"! Trust indicator missing: {indicator}")
             
-            # Test 4: Check simplified form fields
-            region_select = self.driver.find_element(By.ID, "quick-region")
-            period_select = self.driver.find_element(By.ID, "quick-period")
+            # Test 4: Check date-based form fields
+            union_select = self.driver.find_element(By.ID, "quick-union")
+            start_date = self.driver.find_element(By.ID, "quick-start-date")
+            end_date = self.driver.find_element(By.ID, "quick-end-date")
             search_button = self.driver.find_element(By.CLASS_NAME, "quick-search-button")
             
-            self.assertTrue(region_select.is_displayed())
-            self.assertTrue(period_select.is_displayed())
+            self.assertTrue(union_select.is_displayed())
+            self.assertTrue(start_date.is_displayed())
+            self.assertTrue(end_date.is_displayed())
             self.assertTrue(search_button.is_displayed())
             print("✓ Quick search form elements visible")
             

@@ -53,7 +53,7 @@ This document summarizes the complete transformation of the project from an AFPE
 
 ### **6. No-Scroll Design Implementation**
 - **Above-the-Fold Optimization**: 100vh hero section with integrated search functionality
-- **QuickSearch Component**: Simplified 2-field interface with mobile-first design
+- **QuickSearch Component**: Date-based search form with trade union dropdown, start date, and end date fields
 - **Progressive Disclosure**: Advanced search options in accessible modal overlay
 - **Trust Indicators**: Key statistics prominently displayed above-fold
 - **Mobile-First CSS**: Comprehensive responsive design with touch optimization

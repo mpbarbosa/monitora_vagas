@@ -42,7 +42,7 @@ node selenium-script.js
 ## Features
 
 - **No-Scroll Design**: Above-the-fold optimization with simplified quick search interface
-- **Enhanced Date Selection**: Choose between month-based or specific date range search options with mutually exclusive functionality
+- **Date-Based Search**: Direct start and end date selection with trade union dropdown for precise booking control
 - **Progressive Disclosure**: Advanced search options accessible through modal overlay
 - **Trust Indicators**: Key statistics prominently displayed (50+ Hotels, Premium Rates, 100% Free)
 - **Mobile-First Design**: Touch-optimized interface with responsive breakpoints from 320px to 1200px+

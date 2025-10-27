@@ -102,7 +102,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 
 #### **No-Scroll Design Implementation**
 - [x] **Above-the-Fold Optimization**: Redesigned hero section with 100vh height containing all essential elements
-- [x] **QuickSearch Component**: Created simplified 2-field interface with mobile-first design
+- [x] **QuickSearch Component**: Enhanced date-based search form with trade union dropdown, start date, and end date fields
 - [x] **Trust Indicators**: Moved key stats above-fold (50+ Hotels, Premium Rates, 100% Free, 1000+ Served)
 - [x] **Progressive Disclosure**: Advanced search options in modal overlay with accessibility features
 - [x] **Mobile-First CSS**: Comprehensive responsive design from 320px to 1200px+ with touch optimization
