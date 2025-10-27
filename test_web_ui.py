@@ -413,6 +413,71 @@ class TradeUnionWebUITest(unittest.TestCase):
         finally:
             print(f"--- Finished Test: {self._testMethodName} ---")
     
+    def test_09_quicksearch_form_blocking_fix(self):
+        """Test QuickSearch form elements are not blocked (z-index and pointer-events fixes)"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)  # Allow page and JS to load
+            
+            # Test 1: Verify all form elements have high z-index and are interactive
+            form_elements = [
+                ("quick-union", "select dropdown"),
+                ("quick-start-date", "start date input"),
+                ("quick-end-date", "end date input")
+            ]
+            
+            for element_id, description in form_elements:
+                element = self.driver.find_element(By.ID, element_id)
+                self.assertTrue(element.is_displayed(), f"{description} should be visible")
+                self.assertTrue(element.is_enabled(), f"{description} should be enabled")
+                
+                # Test that element is clickable and not blocked
+                try:
+                    element.click()
+                    print(f"✓ {description} is clickable (not blocked)")
+                except Exception as e:
+                    self.fail(f"{description} should be clickable after z-index fix: {e}")
+            
+            # Test 2: Verify submit button is interactive
+            submit_button = self.driver.find_element(By.CLASS_NAME, "quick-search-button")
+            self.assertTrue(submit_button.is_displayed(), "Submit button should be visible")
+            self.assertTrue(submit_button.is_enabled(), "Submit button should be enabled")
+            
+            # Test click without submitting (preventDefault in actual form)
+            try:
+                submit_button.click()
+                print("✓ Submit button is clickable (highest z-index priority)")
+            except Exception as e:
+                self.fail(f"Submit button should be clickable: {e}")
+            
+            # Test 3: Check CSS z-index hierarchy is applied
+            form_container = self.driver.find_element(By.CLASS_NAME, "quick-search-form")
+            form_z_index = self.driver.execute_script("return window.getComputedStyle(arguments[0]).zIndex;", form_container)
+            
+            # Z-index should be very high (10001) to be above overlay elements
+            if form_z_index != "auto":
+                z_index_value = int(form_z_index)
+                self.assertGreaterEqual(z_index_value, 10000, "Form should have high z-index to prevent blocking")
+                print(f"✓ Form container has high z-index: {z_index_value}")
+            else:
+                print("- Form z-index is auto (may inherit from parent)")
+            
+            # Test 4: Verify pointer-events are enabled
+            select_element = self.driver.find_element(By.ID, "quick-union")
+            pointer_events = self.driver.execute_script("return window.getComputedStyle(arguments[0]).pointerEvents;", select_element)
+            self.assertNotEqual(pointer_events, "none", "Form elements should have pointer-events enabled")
+            print(f"✓ Form elements have pointer-events: {pointer_events}")
+            
+            print("✓ All form blocking fix tests passed")
+            
+        except Exception as e:
+            print(f"Form blocking fix test failed: {e}")
+            self.take_screenshot("form_blocking_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+    
     def test_10_progressive_disclosure_modal(self):
         """Test AdvancedSearchModal progressive disclosure functionality"""
         print(f"--- Starting Test: {self._testMethodName} ---")

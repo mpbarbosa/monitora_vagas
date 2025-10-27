@@ -65,7 +65,8 @@
 /* Quick Search Form - Mobile-First */
 .quick-search-form {
     position: relative;
-    z-index: 4;
+    z-index: 10001;
+    pointer-events: auto;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-4);
@@ -92,6 +93,10 @@
     border-radius: var(--border-radius-md);
     font-size: var(--font-size-sm);
     background-color: var(--color-white);
+    color: var(--color-text);
+    position: relative;
+    z-index: 10002;
+    pointer-events: auto;
     transition: all var(--transition-base);
     font-family: var(--font-family-base);
     font-weight: var(--font-weight-medium);
@@ -108,6 +113,37 @@
     border-color: var(--color-gray-300);
 }
 
+/* Ensure option elements have proper contrast */
+.quick-select option {
+    color: var(--color-text);
+    background-color: var(--color-white);
+    padding: var(--spacing-2);
+}
+
+/* Ensure placeholder text is visible for date inputs */
+.quick-select::-webkit-input-placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+.quick-select::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .quick-select {
+        border-width: 2px;
+        border-color: var(--color-text);
+    }
+    
+    .quick-select:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary);
+    }
+}
+
 /* Quick Search Button - High Contrast CTA */
 .quick-search-button {
     background-color: var(--primary-color);
@@ -122,7 +158,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
     position: relative !important;
-    z-index: 999 !important;
+    z-index: 10003 !important;
 }
 
 .quick-search-button::before {
