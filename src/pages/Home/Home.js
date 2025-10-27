@@ -23,7 +23,9 @@ export function Home() {
                         <p class="search-subtitle">Configure sua busca personalizada e monitore as disponibilidades automaticamente</p>
                     </div>
                     ${SearchForm()}
-                    ${ProgressBar()}
+                    <div id="progress-bar-container" style="display: none;">
+                        ${ProgressBar({ current: 0, total: 9, status: 'ready' })}
+                    </div>
                 </div>
             </section>
             

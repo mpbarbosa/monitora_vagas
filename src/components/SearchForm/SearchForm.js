@@ -27,12 +27,43 @@ export function SearchForm() {
                     </div>
                     
                     <div class="form-group">
-                        <label for="month-selection">Período de Busca</label>
-                        <select id="month-selection" name="monthSelection">
-                            <option value="current">📅 Mês Atual</option>
-                            <option value="next">📅 Próximo Mês</option>
-                            <option value="both" selected>📅 Próximos 2 Meses</option>
-                        </select>
+                        <label>Período de Busca</label>
+                        <div class="date-selection-container">
+                            <!-- Date Method Selection -->
+                            <div class="date-method-selection">
+                                <div class="radio-option">
+                                    <input type="radio" id="date-method-months" name="dateMethod" value="months" checked>
+                                    <label for="date-method-months">📅 Por Mês</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="date-method-range" name="dateMethod" value="range">
+                                    <label for="date-method-range">🗓️ Período Específico</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Month Selection (Default) -->
+                            <div id="month-selection-container" class="date-option-container">
+                                <select id="month-selection" name="monthSelection">
+                                    <option value="current">📅 Mês Atual</option>
+                                    <option value="next">📅 Próximo Mês</option>
+                                    <option value="both" selected>📅 Próximos 2 Meses</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Date Range Selection -->
+                            <div id="date-range-container" class="date-option-container" style="display: none;">
+                                <div class="date-range-inputs">
+                                    <div class="date-input-group">
+                                        <label for="start-date">Data de Entrada</label>
+                                        <input type="date" id="start-date" name="startDate">
+                                    </div>
+                                    <div class="date-input-group">
+                                        <label for="end-date">Data de Saída</label>
+                                        <input type="date" id="end-date" name="endDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

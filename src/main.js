@@ -7,6 +7,7 @@ import { getNextWeekends } from './utils/dates.js';
 
 // Import components
 import { SearchForm } from './components/SearchForm/index.js';
+import { SearchFormHandler } from './components/SearchForm/SearchFormHandler.js';
 import { ProgressBar } from './components/ProgressBar/index.js';
 import { Home } from './pages/Home/index.js';
 
@@ -189,6 +190,11 @@ class App {
      */
     renderHomeView(container) {
         container.innerHTML = Home();
+        
+        // Initialize search form handler for date selection
+        setTimeout(() => {
+            new SearchFormHandler();
+        }, 100);
     }
     
     /**
@@ -220,9 +226,14 @@ class App {
         const formContainer = container.querySelector('#search-form-container');
         formContainer.innerHTML = SearchForm();
         
+        // Initialize search form handler for date selection
+        setTimeout(() => {
+            new SearchFormHandler();
+        }, 100);
+        
         // Initialize progress bar (hidden initially)
         const progressContainer = container.querySelector('#search-progress-container');
-        progressContainer.innerHTML = ProgressBar();
+        progressContainer.innerHTML = ProgressBar({ current: 0, total: 9, status: 'ready' });
     }
     
     /**
