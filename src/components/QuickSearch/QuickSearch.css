@@ -74,8 +74,8 @@
 }
 
 .quick-form-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-3);
     width: 100%;
     max-width: 480px;
@@ -84,6 +84,17 @@
 .quick-field-group {
     display: flex;
     flex-direction: column;
+}
+
+/* Trade union dropdown - full width on its own row */
+.quick-union-row {
+    width: 100%;
+}
+
+/* Date inputs - side by side on same row */
+.quick-dates-row {
+    flex-direction: row;
+    gap: var(--spacing-3);
 }
 
 .quick-select {
@@ -239,9 +250,14 @@
     }
     
     .quick-form-fields {
-        grid-template-columns: 1fr;
         gap: var(--spacing-3);
         max-width: 100%;
+    }
+    
+    /* On smaller screens, stack date inputs vertically */
+    .quick-dates-row {
+        flex-direction: column;
+        gap: var(--spacing-3);
     }
     
     .quick-select {

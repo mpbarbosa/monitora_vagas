@@ -744,6 +744,99 @@ class TradeUnionWebUITest(unittest.TestCase):
         finally:
             print(f"--- Finished Test: {self._testMethodName} ---")
 
+    def test_14_quicksearch_layout_restructuring(self):
+        """Test QuickSearch form layout restructuring with semantic HTML grouping"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)
+            
+            # Test 1: Verify semantic HTML grouping containers exist
+            union_row = self.driver.find_element(By.CLASS_NAME, "quick-union-row")
+            dates_row = self.driver.find_element(By.CLASS_NAME, "quick-dates-row")
+            
+            self.assertTrue(union_row.is_displayed(), "Trade union row container should be visible")
+            self.assertTrue(dates_row.is_displayed(), "Dates row container should be visible")
+            print("✓ Semantic HTML grouping containers found")
+            
+            # Test 2: Verify trade union dropdown is isolated on its own row
+            union_select = union_row.find_element(By.ID, "quick-union")
+            union_rect = union_select.rect
+            union_top = union_rect['y']
+            union_width = union_rect['width']
+            
+            # Check if union element takes full width of its container
+            container_rect = union_row.rect
+            container_width = container_rect['width']
+            
+            width_ratio = union_width / container_width
+            self.assertGreater(width_ratio, 0.9, f"Trade union dropdown should take most of container width: {width_ratio:.2f}")
+            print(f"✓ Trade union dropdown isolated on own row (width ratio: {width_ratio:.2f})")
+            
+            # Test 3: Verify date inputs are aligned on same row
+            start_date = dates_row.find_element(By.ID, "quick-start-date")
+            end_date = dates_row.find_element(By.ID, "quick-end-date")
+            
+            start_rect = start_date.rect
+            end_rect = end_date.rect
+            
+            start_top = start_rect['y']
+            end_top = end_rect['y']
+            
+            # Allow 5px tolerance for alignment
+            alignment_diff = abs(start_top - end_top)
+            self.assertLess(alignment_diff, 5, f"Date inputs should be aligned on same row (difference: {alignment_diff}px)")
+            print(f"✓ Date inputs aligned on same row (alignment difference: {alignment_diff:.1f}px)")
+            
+            # Test 4: Verify date inputs have similar widths (indicating flexbox layout)
+            start_width = start_rect['width']
+            end_width = end_rect['width']
+            
+            width_diff_ratio = abs(start_width - end_width) / max(start_width, end_width)
+            self.assertLess(width_diff_ratio, 0.1, f"Date inputs should have similar widths: {start_width:.1f} vs {end_width:.1f}")
+            print(f"✓ Date inputs have equal widths (start: {start_width:.1f}px, end: {end_width:.1f}px)")
+            
+            # Test 5: Verify proper vertical spacing between rows
+            union_bottom = union_rect['y'] + union_rect['height']
+            dates_top = start_rect['y']
+            
+            row_spacing = dates_top - union_bottom
+            self.assertGreater(row_spacing, 5, f"Should have adequate spacing between rows: {row_spacing:.1f}px")
+            print(f"✓ Proper vertical spacing between rows ({row_spacing:.1f}px)")
+            
+            # Test 6: Verify layout adapts correctly on different screen sizes
+            print("Testing responsive layout on mobile size...")
+            self.driver.set_window_size(375, 667)  # iPhone size
+            time.sleep(1)
+            
+            # Re-check layout on mobile - dates may stack vertically (which is good UX)
+            start_rect_mobile = start_date.rect
+            end_rect_mobile = end_date.rect
+            
+            mobile_alignment_diff = abs(start_rect_mobile['y'] - end_rect_mobile['y'])
+            
+            # On mobile, elements may stack (vertical layout) or stay aligned (horizontal)
+            if mobile_alignment_diff < 5:
+                print(f"✓ Layout maintains horizontal alignment on mobile ({mobile_alignment_diff:.1f}px difference)")
+            else:
+                print(f"✓ Layout correctly stacks vertically on mobile for better UX ({mobile_alignment_diff:.1f}px spacing)")
+                # Verify elements are still accessible and visible
+                self.assertTrue(start_date.is_displayed(), "Start date should be visible on mobile")
+                self.assertTrue(end_date.is_displayed(), "End date should be visible on mobile")
+            
+            # Restore desktop size
+            self.driver.set_window_size(1200, 800)
+            time.sleep(1)
+            
+            print("✓ All QuickSearch layout restructuring tests passed")
+            
+        except Exception as e:
+            print(f"QuickSearch layout restructuring test failed: {e}")
+            self.take_screenshot("layout_restructuring_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+
 def run_tests():
     """Run the test suite"""
     print("="*60)

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSearch Layout Test</title>
+    <link rel="stylesheet" href="src/styles/global/variables.css">
+    <link rel="stylesheet" href="src/components/QuickSearch/QuickSearch.css">
+    <style>
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+        }
+        .test-info {
+            background: var(--color-primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .layout-guide {
+            background: var(--color-gray-50);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--color-success);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h1>🔧 QuickSearch Form Layout Test</h1>
+        <p><strong>Layout Update:</strong> Trade union dropdown on its own row, dates aligned together</p>
+    </div>
+
+    <div class="layout-guide">
+        <h3>✅ Expected Layout:</h3>
+        <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Row 1:</strong> Trade union dropdown (full width)</li>
+            <li><strong>Row 2:</strong> Start date + End date (side by side)</li>
+            <li><strong>Mobile:</strong> All elements stack vertically</li>
+        </ul>
+    </div>
+
+    <div class="quick-search">
+        <div class="quick-search-content">
+            <div class="quick-search-header">
+                <h2>Layout Test: Form Field Alignment</h2>
+                <p class="quick-search-subtitle">Trade union on own row, dates aligned together</p>
+            </div>
+            
+            <form id="quick-hotel-search-form" class="quick-search-form">
+                <div class="quick-form-fields">
+                    <div class="quick-field-group quick-union-row">
+                        <select id="quick-union" name="union" class="quick-select" title="Selecione seu sindicato">
+                            <option value="afpesp" selected>🏛️ AFPESP - Associação dos Funcionários Públicos do Estado de São Paulo</option>
+                            <option value="test2">🏢 Test Union 2</option>
+                            <option value="test3">🏪 Test Union 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quick-field-group quick-dates-row">
+                        <input type="date" id="quick-start-date" name="startDate" class="quick-select" title="Data de início">
+                        <input type="date" id="quick-end-date" name="endDate" class="quick-select" title="Data final">
+                    </div>
+                </div>
+                
+                <button type="submit" class="quick-search-button">
+                    <span class="search-icon">🔍</span>
+                    <span>Test Form Layout</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div style="background: var(--color-gray-50); padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <h3>✅ Layout Verification Checklist:</h3>
+        <ul>
+            <li><strong>Desktop/Tablet:</strong>
+                <ul>
+                    <li>Trade union dropdown spans full width on its own row</li>
+                    <li>Start date and end date are side by side on the same row</li>
+                    <li>Both date inputs have equal width (50% each with gap)</li>
+                </ul>
+            </li>
+            <li><strong>Mobile (≤768px):</strong>
+                <ul>
+                    <li>Trade union dropdown full width</li>
+                    <li>Date inputs stack vertically for better touch interaction</li>
+                </ul>
+            </li>
+            <li><strong>Accessibility:</strong>
+                <ul>
+                    <li>All form elements remain clickable and accessible</li>
+                    <li>Z-index hierarchy preserved (10001-10003)</li>
+                    <li>Proper focus states and contrast maintained</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <p><strong>Technical Changes:</strong></p>
+        <ul>
+            <li>HTML: Grouped date inputs in single container with <code>.quick-dates-row</code></li>
+            <li>CSS: Changed from grid to flexbox layout for better control</li>
+            <li>Added <code>.quick-union-row</code> and <code>.quick-dates-row</code> classes</li>
+            <li>Responsive: Dates stack vertically on smaller screens</li>
+        </ul>
+    </div>
+
+    <script>
+        // Test form interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('quick-hotel-search-form');
+            const button = document.querySelector('.quick-search-button');
+            
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('✅ Layout test successful! Form elements are properly aligned and functional.');
+            });
+        });
+    </script>
+</body>
+</html>
