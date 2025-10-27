@@ -9,8 +9,8 @@ export function Home() {
                 <div class="hero-content">
                     <h1>Busca de Vagas em Hotéis Sindicais</h1>
                     <p class="hero-description">
-                        Encontre as melhores ofertas em hotéis conveniados com sindicatos e federações. 
-                        Aproveite descontos exclusivos e monitore automaticamente as disponibilidades para suas férias e descanso.
+                        Monitore automaticamente as disponibilidades nos hotéis da AFPESP em Guarujá e Campos do Jordão. 
+                        Plataforma extensível para incluir outros sindicatos e federações no futuro.
                     </p>
                 </div>
             </section>

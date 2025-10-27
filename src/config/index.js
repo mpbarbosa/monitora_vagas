@@ -24,6 +24,7 @@ export {
 
 // Import constants for use in the CONFIG object
 import {
+    UNIONS,
     HOTELS,
     SEARCH_TYPES,
     ROOM_TYPES,
@@ -39,6 +40,7 @@ import {
 
 // Re-export the constants
 export {
+    UNIONS,
     HOTELS,
     SEARCH_TYPES,
     ROOM_TYPES,
@@ -73,6 +75,7 @@ export const CONFIG = {
     },
     
     // Constants
+    unions: UNIONS,
     hotels: HOTELS,
     searchTypes: SEARCH_TYPES,
     roomTypes: ROOM_TYPES,

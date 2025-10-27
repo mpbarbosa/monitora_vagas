@@ -1,5 +1,21 @@
-// Constants used throughout the AFPESP Hotel Vacancy Monitor application
+// Constants used throughout the Trade Union Hotel Search Platform
 // Centralized location for all application constants
+
+/**
+ * Trade Union configuration constants
+ */
+export const UNIONS = {
+    AFPESP: {
+        id: 'afpesp',
+        name: 'AFPESP',
+        fullName: 'Associação dos Funcionários Públicos do Estado de São Paulo',
+        description: 'Associação dos servidores públicos estaduais de São Paulo',
+        website: 'https://www.afpesp.org.br',
+        searchEndpoint: '/turismo/disponibilidade',
+        icon: '🏛️',
+        active: true
+    }
+};
 
 /**
  * Hotel configuration constants

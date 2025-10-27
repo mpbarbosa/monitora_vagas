@@ -9,6 +9,13 @@ export function SearchForm() {
             <form id="hotel-search-form">
                 <div class="form-grid">
                     <div class="form-group">
+                        <label for="union-selection">Sindicato / Federação</label>
+                        <select id="union-selection" name="unionSelection">
+                            <option value="afpesp" selected>🏛️ AFPESP - Associação dos Funcionários Públicos do Estado de São Paulo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="hotel-selection">Região de Interesse</label>
                         <select id="hotel-selection" name="hotelSelection">
                             <option value="todas">🏨 Todas as Regiões</option>
