@@ -66,9 +66,7 @@ node selenium-script.js
 To start the development server:
 
 ```bash
-# Simple HTTP server for testing
-python -m http.server 8080
-# or
+# Simple HTTP server for testing (use python3 explicitly)
 python3 -m http.server 8080
 
 # Then open http://localhost:8080/src in your browser
@@ -80,13 +78,13 @@ Run the comprehensive UI test suite:
 
 ```bash
 # Install test dependencies
-pip install -r test_requirements.txt
+python3 -m pip install -r test_requirements.txt
 
 # Run comprehensive UI tests (recommended)
-python test_web_ui.py
+python3 test_web_ui.py
 
-# Run simple UI tests
-python simple_ui_test.py
+# Run simple UI tests  
+python3 simple_ui_test.py
 ```
 
 ### Test Results

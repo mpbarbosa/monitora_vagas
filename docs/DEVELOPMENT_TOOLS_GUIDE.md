@@ -20,9 +20,10 @@ python3 -m venv venv_name
 #### ❌ **Avoid These**
 ```bash
 # Don't use generic python command
-python script.py          # May use Python 2.x
-python -m http.server      # Version ambiguity
-pip install package       # Use python3 -m pip instead
+python script.py                    # May use Python 2.x
+python -m http.server               # Version ambiguity  
+python -m unittest                  # Version ambiguity
+pip install package                 # Use python3 -m pip instead
 ```
 
 #### **Python Package Management**

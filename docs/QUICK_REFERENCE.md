@@ -37,9 +37,17 @@ kill -9 $(lsof -ti:8080)                      # Kill process on port
 
 ## 🧪 **Testing**
 ```bash
-python3 test_web_ui.py              # Run specific test
-python3 -m pytest -v               # Verbose test output
-python3 -m pytest -k "test_name"   # Run specific test pattern
+# Running test files directly
+python3 test_web_ui.py                                      # Run entire test suite
+
+# Using unittest module (recommended)
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_14_quicksearch_layout_restructuring -v
+python3 -m unittest test_web_ui.TradeUnionWebUITest -v     # Run all tests in class
+python3 -m unittest test_web_ui -v                         # Run all tests in module
+
+# Using pytest (alternative)
+python3 -m pytest -v                                       # Verbose test output
+python3 -m pytest -k "test_name"                          # Run specific test pattern
 ```
 
 ## 📁 **File Operations**
@@ -51,7 +59,9 @@ tar -xzf archive.tar.gz            # Extract archive
 ```
 
 ## ⚠️ **Common Mistakes to Avoid**
-- ❌ `python` → ✅ `python3`
+- ❌ `python` → ✅ `python3` (Always use python3 explicitly)
+- ❌ `python -m unittest` → ✅ `python3 -m unittest`
 - ❌ `pip install` → ✅ `python3 -m pip install`
 - ❌ Generic ports → ✅ Check port availability first
 - ❌ Missing file permissions → ✅ Use `chmod +x`
+- ❌ Command shortcuts → ✅ Use full explicit commands for clarity
