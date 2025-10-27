@@ -48,6 +48,8 @@ node selenium-script.js
 - **Mobile-First Design**: Touch-optimized interface with responsive breakpoints from 320px to 1200px+
 - **Dual Form Architecture**: Seamless compatibility between QuickSearch and main SearchForm components
 - **Enhanced SearchFormHandler**: Intelligent form detection and conditional initialization prevents JavaScript errors
+- **UI Element Accessibility**: All form elements fully clickable with CSS z-index layering fixes
+- **Quick-Union Element**: Trade union dropdown with resolved click interception issues
 - **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
 - **Flexible Booking**: Choose between weekend stays or full-week vacations
 - **Union Benefits**: Access special rates negotiated by trade unions

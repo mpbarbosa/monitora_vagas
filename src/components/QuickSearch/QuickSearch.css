@@ -1,6 +1,7 @@
 /* QuickSearch Component - No-Scroll Optimized Above-the-Fold */
 .quick-search {
     position: relative;
+    z-index: 3;
     background: var(--color-white);
     padding: var(--spacing-8) var(--spacing-6) var(--spacing-10);
     border-bottom: 1px solid var(--color-border-light);
@@ -63,6 +64,8 @@
 
 /* Quick Search Form - Mobile-First */
 .quick-search-form {
+    position: relative;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-4);
@@ -107,25 +110,19 @@
 
 /* Quick Search Button - High Contrast CTA */
 .quick-search-button {
-    background: var(--color-primary-gradient);
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: var(--spacing-4) var(--spacing-8);
-    border-radius: var(--border-radius-lg);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all var(--transition-base);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-2);
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
-    min-width: 200px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    position: relative !important;
+    z-index: 999 !important;
 }
 
 .quick-search-button::before {

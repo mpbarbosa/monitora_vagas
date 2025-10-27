@@ -378,6 +378,25 @@ class TradeUnionWebUITest(unittest.TestCase):
             self.assertTrue(start_date.is_displayed())
             self.assertTrue(end_date.is_displayed())
             self.assertTrue(search_button.is_displayed())
+            
+            # Test 5: Verify element clickability (z-index fix validation)
+            try:
+                union_select.click()
+                print("✓ quick-union select is clickable (z-index fix working)")
+            except Exception as e:
+                print(f"✗ quick-union select click failed: {e}")
+                self.fail(f"quick-union element should be clickable after z-index fix: {e}")
+            
+            # Test advanced options toggle if present
+            try:
+                advanced_toggle = self.driver.find_element(By.ID, "show-advanced-search")
+                if advanced_toggle.is_displayed():
+                    advanced_toggle.click()
+                    print("✓ Advanced search toggle clickable")
+            except NoSuchElementException:
+                print("- Advanced search toggle not found (may be in modal)")
+            except Exception as e:
+                print(f"- Advanced search toggle click issue: {e}")
             print("✓ Quick search form elements visible")
             
             # Test 5: Check progressive disclosure toggle
