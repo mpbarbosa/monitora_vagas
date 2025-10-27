@@ -581,6 +581,85 @@ class TradeUnionWebUITest(unittest.TestCase):
         finally:
             print(f"--- Finished Test: {self._testMethodName} ---")
 
+    def test_13_searchformhandler_dual_form_compatibility(self):
+        """Test SearchFormHandler compatibility with both QuickSearch and SearchForm"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            # Test 1: Load home page with QuickSearch (should not error)
+            self.driver.get(f"{self.base_url}/index.html")
+            time.sleep(3)
+            
+            # Check for JavaScript errors specific to SearchFormHandler
+            logs = self.driver.get_log('browser')
+            error_logs = [log for log in logs if log['level'] == 'SEVERE' and 'Date method selection elements not found' in log['message']]
+            
+            self.assertEqual(len(error_logs), 0, f"SearchFormHandler should not throw 'Date method selection elements not found' error: {error_logs}")
+            print("✓ No SearchFormHandler errors on QuickSearch page")
+            
+            # Test 2: Verify QuickSearch date inputs work
+            quick_start_date = self.driver.find_element(By.ID, "quick-start-date")
+            quick_end_date = self.driver.find_element(By.ID, "quick-end-date")
+            
+            self.assertTrue(quick_start_date.is_displayed(), "QuickSearch start date should be visible")
+            self.assertTrue(quick_end_date.is_displayed(), "QuickSearch end date should be visible")
+            print("✓ QuickSearch date inputs are accessible")
+            
+            # Test 3: Verify date validation works on QuickSearch
+            today = time.strftime('%Y-%m-%d')
+            quick_start_date.send_keys(today)
+            
+            # Verify minimum date is set
+            min_date = quick_start_date.get_attribute('min')
+            self.assertEqual(min_date, today, "QuickSearch start date minimum should be today")
+            print("✓ QuickSearch date validation applied")
+            
+            # Test 4: Open advanced modal to test SearchForm compatibility
+            advanced_toggle = self.driver.find_element(By.ID, "show-advanced-search")
+            advanced_toggle.click()
+            time.sleep(1)
+            
+            # Check for additional JavaScript errors after modal open
+            logs_after_modal = self.driver.get_log('browser')
+            new_error_logs = [log for log in logs_after_modal if log['level'] == 'SEVERE' and log not in logs]
+            searchform_errors = [log for log in new_error_logs if 'Date method selection elements not found' in log['message']]
+            
+            self.assertEqual(len(searchform_errors), 0, f"SearchFormHandler should not error when advanced modal opens: {searchform_errors}")
+            print("✓ No SearchFormHandler errors when advanced modal opened")
+            
+            # Test 5: Verify SearchForm date method elements exist in modal
+            modal = self.driver.find_element(By.ID, "advanced-search-modal")
+            months_radio = modal.find_element(By.ID, "advanced-date-method-months")
+            range_radio = modal.find_element(By.ID, "advanced-date-method-range")
+            
+            self.assertTrue(months_radio.is_displayed(), "Advanced form date method months should be available")
+            self.assertTrue(range_radio.is_displayed(), "Advanced form date method range should be available")
+            print("✓ SearchForm date method elements accessible in modal")
+            
+            # Test 6: Test dual form element ID handling
+            # QuickSearch should have quick-* IDs, advanced should have regular IDs
+            range_radio.click()
+            time.sleep(0.5)
+            
+            advanced_start_date = modal.find_element(By.ID, "advanced-start-date")
+            advanced_end_date = modal.find_element(By.ID, "advanced-end-date")
+            
+            self.assertTrue(advanced_start_date.is_displayed(), "Advanced start date should be visible")
+            self.assertTrue(advanced_end_date.is_displayed(), "Advanced end date should be visible")
+            print("✓ Both QuickSearch and SearchForm date inputs coexist properly")
+            
+            print("✓ All SearchFormHandler dual-form compatibility tests passed")
+            
+            # Close modal
+            close_button = modal.find_element(By.ID, "close-advanced-search")
+            close_button.click()
+            
+        except Exception as e:
+            print(f"SearchFormHandler dual-form compatibility test failed: {e}")
+            self.take_screenshot("searchformhandler_compatibility_error")
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
+
 def run_tests():
     """Run the test suite"""
     print("="*60)

@@ -5,21 +5,35 @@
 
 export class SearchFormHandler {
     constructor() {
+        this.detectFormType();
         this.initializeDateMethodSelection();
         this.initializeDateValidation();
+    }
+
+    /**
+     * Detect which form type is present on the page
+     */
+    detectFormType() {
+        this.hasMainSearchForm = document.getElementById('hotel-search-form') !== null;
+        this.hasQuickSearchForm = document.getElementById('quick-hotel-search-form') !== null;
     }
 
     /**
      * Initialize date method selection radio buttons
      */
     initializeDateMethodSelection() {
+        // Only initialize for main search form, QuickSearch doesn't have date method selection
+        if (!this.hasMainSearchForm) {
+            return;
+        }
+
         const monthsRadio = document.getElementById('date-method-months');
         const rangeRadio = document.getElementById('date-method-range');
         const monthContainer = document.getElementById('month-selection-container');
         const rangeContainer = document.getElementById('date-range-container');
 
         if (!monthsRadio || !rangeRadio || !monthContainer || !rangeContainer) {
-            console.warn('Date method selection elements not found');
+            console.warn('Date method selection elements not found for main search form');
             return;
         }
 
@@ -47,8 +61,25 @@ export class SearchFormHandler {
      * Initialize date validation for range inputs
      */
     initializeDateValidation() {
-        const startDateInput = document.getElementById('start-date');
-        const endDateInput = document.getElementById('end-date');
+        // Handle main search form date inputs
+        if (this.hasMainSearchForm) {
+            this.initializeDateInputs('start-date', 'end-date');
+        }
+
+        // Handle quick search form date inputs
+        if (this.hasQuickSearchForm) {
+            this.initializeDateInputs('quick-start-date', 'quick-end-date');
+        }
+    }
+
+    /**
+     * Initialize date inputs with validation
+     * @param {string} startDateId - ID of start date input
+     * @param {string} endDateId - ID of end date input
+     */
+    initializeDateInputs(startDateId, endDateId) {
+        const startDateInput = document.getElementById(startDateId);
+        const endDateInput = document.getElementById(endDateId);
 
         if (!startDateInput || !endDateInput) {
             return;
