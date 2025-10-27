@@ -116,6 +116,8 @@ python simple_ui_test.py
 
 - [`docs/ROADMAP.md`](./docs/ROADMAP.md) - Complete development roadmap and project history
 - [`TRANSFORMATION_SUMMARY.md`](./TRANSFORMATION_SUMMARY.md) - Summary of platform transformation
+- [`docs/DEVELOPMENT_TOOLS_GUIDE.md`](./docs/DEVELOPMENT_TOOLS_GUIDE.md) - Comprehensive command line tools and usage guide
+- [`docs/QUICK_REFERENCE.md`](./docs/QUICK_REFERENCE.md) - Quick reference for common development commands
 - [`docs/NO_SCROLL_IMPLEMENTATION_SUMMARY.md`](./docs/NO_SCROLL_IMPLEMENTATION_SUMMARY.md) - No-scroll design implementation details
 - [`docs/NO_SCROLL_PRINCIPLE_GUIDE.md`](./docs/NO_SCROLL_PRINCIPLE_GUIDE.md) - Complete no-scroll design guide
 - [`docs/NO_SCROLL_ANALYSIS_RECOMMENDATIONS.md`](./docs/NO_SCROLL_ANALYSIS_RECOMMENDATIONS.md) - Interface analysis and recommendations
