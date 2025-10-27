@@ -33,13 +33,15 @@ node selenium-script.js
 
 1. **Modern Web Interface**: Provides a sleek, responsive web interface for searching hotel vacancies
 2. **Trade Union Integration**: Connects multiple sindicate and federation hotel partnerships
-3. **Smart Search**: Filters hotels by region, stay type, and available periods
-4. **Real-time Updates**: Monitors availability and provides instant notifications
-5. **Mobile Responsive**: Works perfectly on desktop, tablet, and smartphone devices
-6. **Union Benefits**: Highlights exclusive discounts and special rates for union members
+3. **Smart Search**: Filters hotels by region, stay type, and flexible date selection (month-based or specific date ranges)
+4. **Enhanced Date Options**: Choose between quick month-based searches or precise start/end date selection
+5. **Real-time Updates**: Monitors availability and provides instant notifications
+6. **Mobile Responsive**: Works perfectly on desktop, tablet, and smartphone devices
+7. **Union Benefits**: Highlights exclusive discounts and special rates for union members
 
 ## Features
 
+- **Enhanced Date Selection**: Choose between month-based or specific date range search options with mutually exclusive functionality
 - **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
 - **Flexible Booking**: Choose between weekend stays or full-week vacations
 - **Union Discounts**: Access exclusive rates negotiated by trade unions

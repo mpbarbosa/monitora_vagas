@@ -335,6 +335,89 @@ class TradeUnionWebUITest(unittest.TestCase):
             print("✓ Main content is visible")
         except NoSuchElementException:
             print("! Main content not found")
+    
+    def test_09_date_selection_functionality(self):
+        """Test enhanced date selection with mutually exclusive options"""
+        print(f"--- Starting Test: {self._testMethodName} ---")
+        try:
+            self.driver.get(f"{self.base_url}/index.html")
+            
+            # Wait for page to load and JS to initialize
+            self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "search-form")))
+            time.sleep(3)  # Allow JS initialization
+            
+            # Test 1: Check date method radio buttons exist
+            months_radio = self.driver.find_element(By.ID, "date-method-months")
+            range_radio = self.driver.find_element(By.ID, "date-method-range")
+            print("✓ Date method radio buttons found")
+            
+            # Test 2: Verify default state (months selected)
+            months_selected = self.driver.execute_script('return document.getElementById("date-method-months").checked')
+            range_selected = self.driver.execute_script('return document.getElementById("date-method-range").checked')
+            self.assertTrue(months_selected, "Months radio should be selected by default")
+            self.assertFalse(range_selected, "Range radio should not be selected by default")
+            print("✓ Default selection verified (months)")
+            
+            # Test 3: Check container visibility
+            month_visible = self.driver.execute_script('return document.getElementById("month-selection-container").offsetParent !== null')
+            range_visible = self.driver.execute_script('return document.getElementById("date-range-container").offsetParent !== null')
+            self.assertTrue(month_visible, "Month container should be visible by default")
+            self.assertFalse(range_visible, "Range container should be hidden by default")
+            print("✓ Initial container visibility correct")
+            
+            # Test 4: Switch to range selection
+            self.driver.execute_script('document.getElementById("date-method-range").click()')
+            time.sleep(0.5)
+            
+            range_selected_after = self.driver.execute_script('return document.getElementById("date-method-range").checked')
+            months_selected_after = self.driver.execute_script('return document.getElementById("date-method-months").checked')
+            self.assertTrue(range_selected_after, "Range radio should be selected after click")
+            self.assertFalse(months_selected_after, "Months radio should not be selected after range click")
+            print("✓ Radio button switching works")
+            
+            # Test 5: Check container visibility after switch
+            month_visible_after = self.driver.execute_script('return document.getElementById("month-selection-container").offsetParent !== null')
+            range_visible_after = self.driver.execute_script('return document.getElementById("date-range-container").offsetParent !== null')
+            self.assertFalse(month_visible_after, "Month container should be hidden after range selection")
+            self.assertTrue(range_visible_after, "Range container should be visible after range selection")
+            print("✓ Container visibility switching works")
+            
+            # Test 6: Test date inputs
+            start_date = self.driver.find_element(By.ID, "start-date")
+            end_date = self.driver.find_element(By.ID, "end-date")
+            self.assertTrue(start_date.is_displayed(), "Start date input should be visible")
+            self.assertTrue(end_date.is_displayed(), "End date input should be visible")
+            print("✓ Date inputs are visible and accessible")
+            
+            # Test 7: Test mutual exclusivity (switch back to months)
+            self.driver.execute_script('document.getElementById("start-date").value = "2025-02-01"')
+            self.driver.execute_script('document.getElementById("end-date").value = "2025-02-07"')
+            
+            # Switch back to months
+            self.driver.execute_script('document.getElementById("date-method-months").click()')
+            time.sleep(0.5)
+            
+            # Check that dates are cleared
+            start_cleared = self.driver.execute_script('return document.getElementById("start-date").value')
+            end_cleared = self.driver.execute_script('return document.getElementById("end-date").value')
+            self.assertEqual(start_cleared, "", "Start date should be cleared when switching to months")
+            self.assertEqual(end_cleared, "", "End date should be cleared when switching to months")
+            print("✓ Mutual exclusivity working - dates cleared when switching")
+            
+            print("✓ All date selection functionality tests passed")
+            
+        except Exception as e:
+            print(f"Date selection test failed: {e}")
+            # Take screenshot for debugging
+            try:
+                screenshot_path = f"test_screenshots/date_selection_error_{int(time.time())}.png"
+                self.driver.save_screenshot(screenshot_path)
+                print(f"Screenshot saved: {screenshot_path}")
+            except:
+                pass
+            raise
+        finally:
+            print(f"--- Finished Test: {self._testMethodName} ---")
 
 def run_tests():
     """Run the test suite"""

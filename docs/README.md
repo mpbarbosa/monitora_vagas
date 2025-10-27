@@ -33,11 +33,12 @@ The Trade Union Hotel Search Platform is designed to help sindicate members find
 ### Current Implementation
 - **Technology**: Modern web application with vanilla JavaScript ES6+ modules
 - **Architecture**: Browser-compatible configuration, PWA service worker, component-based CSS
-- **Functionality**: Trade union hotel search and booking platform
+- **Functionality**: Trade union hotel search and booking platform with enhanced date selection
 - **Quality**: 90% JavaScript error reduction (77→7 errors), systematic debugging methodology
-- **Features**: Regional search filters, union member benefits, modern UI with job search theme
+- **Features**: Regional search filters, flexible date selection options, union member benefits, modern UI with job search theme
 
 ### Key Features
+- **Enhanced Date Selection**: Mutually exclusive options between month-based and specific date range selection for flexible booking
 - **Regional Search**: Filter hotels by coastal, mountain, interior, and capital regions
 - **Union Benefits**: Exclusive discounts and special rates for sindicate members
 - **Modern Design**: Job search platform-inspired interface with gradient backgrounds

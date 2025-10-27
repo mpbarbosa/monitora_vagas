@@ -90,6 +90,16 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [x] **Configuration Updates**: Eliminated process.env dependencies
 - [x] **Service Worker**: Implemented comprehensive PWA functionality
 
+### **Phase 6: Enhanced User Experience** ✅ *October 27, 2025*
+
+#### **Date Selection Enhancement**
+- [x] **Mutually Exclusive Options**: Radio button selection between month-based and date range searches
+- [x] **Month-Based Selection**: Existing dropdown with "Mês Atual", "Próximo Mês", "Próximos 2 Meses"
+- [x] **Date Range Selection**: New start/end date inputs for specific period selection
+- [x] **SearchFormHandler**: JavaScript component managing date selection logic and validation
+- [x] **Responsive Design**: Enhanced CSS styling for all devices with smooth transitions
+- [x] **User Experience**: Intuitive interface with automatic container switching and date clearing
+
 #### **Documentation Consistency**
 - [x] **Complete Documentation Update**: All files consistent with new branding
 - [x] **Modern Theme Documentation**: Comprehensive implementation guide
@@ -101,7 +111,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 
 ## 🚀 **Future Development Roadmap**
 
-### **Phase 6: Backend Integration** 🔄 *Q4 2025*
+### **Phase 7: Backend Integration** 🔄 *Q4 2025*
 
 #### **API Development**
 - [ ] **Hotel Data API**: Create RESTful API for hotel information
@@ -121,10 +131,11 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [ ] **Role Management**: Different access levels for members/admins
 - [ ] **Security Framework**: JWT tokens and secure session management
 
-### **Phase 7: Enhanced User Experience** 📅 *Q1 2026*
+### **Phase 8: Advanced User Features** 📅 *Q1 2026*
 
 #### **Advanced Search Features**
-- [ ] **Date Range Picker**: Interactive calendar for flexible booking
+- [x] **Enhanced Date Selection**: Mutually exclusive month-based or date range selection ✅
+- [ ] **Interactive Calendar**: Advanced calendar widget for date range picking
 - [ ] **Price Filters**: Budget-based hotel filtering
 - [ ] **Amenity Filters**: Pool, Wi-Fi, breakfast, etc.
 - [ ] **Location Maps**: Interactive maps with hotel locations
@@ -142,7 +153,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [ ] **Mobile Payment**: Integrated payment processing
 - [ ] **QR Code Check-in**: Streamlined hotel check-in process
 
-### **Phase 8: Booking & Payment System** 📅 *Q2 2026*
+### **Phase 9: Booking & Payment System** 📅 *Q2 2026*
 
 #### **Reservation Management**
 - [ ] **Real-time Availability**: Live hotel room availability
@@ -162,7 +173,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [ ] **Travel Insurance**: Optional travel protection
 - [ ] **Transportation Partners**: Flight and bus booking integration
 
-### **Phase 9: Analytics & Optimization** 📅 *Q3 2026*
+### **Phase 10: Analytics & Optimization** 📅 *Q3 2026*
 
 #### **Business Intelligence**
 - [ ] **Usage Analytics**: User behavior and booking patterns
@@ -182,7 +193,7 @@ The Trade Union Hotel Search Platform (Busca de Vagas em Hotéis Sindicais) is a
 - [ ] **Conversion Optimization**: Improve booking completion rates
 - [ ] **Content Testing**: Optimize messaging and offers
 
-### **Phase 10: Expansion & Scaling** 📅 *Q4 2026*
+### **Phase 11: Expansion & Scaling** 📅 *Q4 2026*
 
 #### **Geographic Expansion**
 - [ ] **National Coverage**: Hotels in all Brazilian states
@@ -280,6 +291,6 @@ This roadmap is a living document that evolves with the project. For questions, 
 
 ---
 
-*Last Updated: October 25, 2025*  
+*Last Updated: October 27, 2025*  
 *Next Review: December 2025*  
-*Version: 2.1.0 - Error Resolution & PWA Enhancement*
+*Version: 2.2.0 - Enhanced Date Selection & User Experience*
