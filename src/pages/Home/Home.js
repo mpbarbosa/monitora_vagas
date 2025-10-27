@@ -9,7 +9,7 @@ export function Home() {
                 <div class="hero-content">
                     <h1>Busca de Vagas em Hotéis Sindicais</h1>
                     <p class="hero-description">
-                        Monitore automaticamente as disponibilidades nos hotéis da AFPESP em Guarujá e Campos do Jordão. 
+                        Monitore automaticamente as disponibilidades nos hotéis de sindicatos. 
                         Plataforma extensível para incluir outros sindicatos e federações no futuro.
                     </p>
                 </div>

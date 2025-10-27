@@ -220,8 +220,7 @@ class TradeUnionWebUITest(unittest.TestCase):
         # Check hero subtitle
         hero_subtitle = hero_section.find_element(By.CLASS_NAME, "hero-subtitle")
         subtitle_text = hero_subtitle.text
-        self.assertIn("Guarujá", subtitle_text)
-        self.assertIn("Campos do Jordão", subtitle_text)
+        self.assertIn("sindicatos", subtitle_text)
         print(f"✓ Hero subtitle verified: {subtitle_text}")
     
     def test_05_feature_cards(self):
