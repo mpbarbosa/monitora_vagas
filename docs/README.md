@@ -18,6 +18,9 @@ Development history and technical evolution of the project, documenting the prog
 ### [modern_theme_implementation.md](./modern_theme_implementation.md)
 Documentation of the modern job search theme implementation and transformation to trade union hotel search platform.
 
+### [GIT_BEST_PRACTICES_GUIDE.md](./GIT_BEST_PRACTICES_GUIDE.md)
+Comprehensive guide for Git operations specific to the Trade Union Hotel Search Platform, including best practices for file management, component reorganization, and web application development workflows.
+
 ## Root Documentation Files
 
 ### [ROADMAP.md](./ROADMAP.md)
