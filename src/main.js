@@ -195,6 +195,14 @@ class App {
         setTimeout(() => {
             new SearchFormHandler();
         }, 100);
+        
+        // Initialize QuickSearch component
+        setTimeout(() => {
+            // Import and initialize QuickSearch
+            import('./components/QuickSearch/QuickSearch.js').then(({ initializeQuickSearch }) => {
+                initializeQuickSearch();
+            });
+        }, 150);
     }
     
     /**

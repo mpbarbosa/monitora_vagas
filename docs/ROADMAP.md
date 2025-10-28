@@ -322,4 +322,4 @@ This roadmap is a living document that evolves with the project. For questions, 
 
 *Last Updated: October 27, 2025*  
 *Next Review: December 2025*  
-*Version: 2.3.0 - No-Scroll Design Implementation & User Experience Optimization*
+*Version: 2.4.0 - Multi-Strategy Search Enhancement & CORS-Aware Implementation*

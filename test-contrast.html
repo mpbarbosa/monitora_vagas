@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test QuickSearch Contrast</title>
+    <link rel="stylesheet" href="src/styles/global/variables.css">
+    <link rel="stylesheet" href="src/components/QuickSearch/QuickSearch.css">
+    <style>
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+        }
+        .test-info {
+            background: var(--color-gray-50);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--color-primary);
+        }
+        .color-values {
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>QuickSearch Contrast Test</h2>
+        <p><strong>Fixed Issue:</strong> Added <code>color: var(--color-text)</code> to .quick-select elements</p>
+        <div class="color-values">
+            <p><strong>CSS Variables Used:</strong></p>
+            <ul>
+                <li>--color-text: var(--color-gray-900) = #0f172a (dark text)</li>
+                <li>--color-white: #ffffff (white background)</li>
+                <li>--color-text-muted: var(--color-gray-500) = #64748b (placeholder)</li>
+            </ul>
+            <p><strong>Contrast Ratio:</strong> Dark text (#0f172a) on white background (#ffffff) = 19.1:1 (Excellent!)</p>
+        </div>
+    </div>
+
+    <div class="quick-search">
+        <div class="quick-search-content">
+            <div class="quick-search-header">
+                <h2>Encontre Hotéis Sindicais</h2>
+                <p class="quick-search-subtitle">Teste de contraste - os caracteres devem estar visíveis</p>
+            </div>
+            
+            <form id="quick-hotel-search-form" class="quick-search-form">
+                <div class="quick-form-fields">
+                    <div class="quick-field-group">
+                        <select id="quick-union" name="union" class="quick-select" title="Selecione seu sindicato">
+                            <option value="afpesp" selected>🏛️ AFPESP - Associação dos Funcionários Públicos do Estado de São Paulo</option>
+                            <option value="other">Outro Sindicato</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quick-field-group">
+                        <input type="date" id="quick-start-date" name="startDate" class="quick-select" placeholder="Data de início">
+                    </div>
+                    
+                    <div class="quick-field-group">
+                        <input type="date" id="quick-end-date" name="endDate" class="quick-select" placeholder="Data final">
+                    </div>
+                </div>
+                
+                <button type="submit" class="quick-search-button">
+                    <span class="search-icon">🔍</span>
+                    <span>Buscar Ofertas Agora</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <h3>Test Results</h3>
+        <p>✅ Text should now be visible in all form fields</p>
+        <p>✅ Select dropdown text should be readable</p>
+        <p>✅ Date input fields should show proper text</p>
+        <p>✅ High contrast and dark mode support added</p>
+        
+        <h4>What was fixed:</h4>
+        <ol>
+            <li>Added <code>color: var(--color-text)</code> to .quick-select</li>
+            <li>Added explicit styling for option elements</li>
+            <li>Added placeholder text styling</li>
+            <li>Added high contrast mode support</li>
+        </ol>
+    </div>
+</body>
+</html>

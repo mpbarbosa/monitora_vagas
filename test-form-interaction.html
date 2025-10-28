@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSearch Form Interaction Test</title>
+    <link rel="stylesheet" href="src/styles/global/variables.css">
+    <link rel="stylesheet" href="src/components/QuickSearch/QuickSearch.css">
+    <style>
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+        }
+        .test-header {
+            background: var(--color-primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .test-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: var(--color-success);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 99999;
+        }
+        /* Simulate potential blocking elements */
+        .overlay-test {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: rgba(255, 0, 0, 0.1);
+            z-index: 1000;
+            pointer-events: none;
+            border-bottom: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-status">Form Elements: z-index 10001-10003</div>
+    
+    <div class="overlay-test"></div>
+    
+    <div class="test-header">
+        <h1>🔧 QuickSearch Form Interaction Test</h1>
+        <p><strong>Fixed:</strong> Increased z-index values to prevent blocking</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li>Form container: z-index 10001</li>
+            <li>Form fields: z-index 10002</li>
+            <li>Submit button: z-index 10003</li>
+            <li>Added pointer-events: auto</li>
+        </ul>
+    </div>
+
+    <div class="quick-search">
+        <div class="quick-search-content">
+            <div class="quick-search-header">
+                <h2>Test Form Interaction</h2>
+                <p class="quick-search-subtitle">All form elements should be clickable and interactive</p>
+            </div>
+            
+            <form id="quick-hotel-search-form" class="quick-search-form">
+                <div class="quick-form-fields">
+                    <div class="quick-field-group">
+                        <select id="quick-union" name="union" class="quick-select" title="Selecione seu sindicato">
+                            <option value="afpesp" selected>🏛️ AFPESP - Test Option 1</option>
+                            <option value="test2">🏢 Test Option 2</option>
+                            <option value="test3">🏪 Test Option 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quick-field-group">
+                        <input type="date" id="quick-start-date" name="startDate" class="quick-select" title="Data de início">
+                    </div>
+                    
+                    <div class="quick-field-group">
+                        <input type="date" id="quick-end-date" name="endDate" class="quick-select" title="Data final">
+                    </div>
+                </div>
+                
+                <button type="submit" class="quick-search-button">
+                    <span class="search-icon">🔍</span>
+                    <span>Test Form Submission</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div style="background: var(--color-gray-50); padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <h3>✅ Test Checklist:</h3>
+        <ul>
+            <li>Click on the select dropdown - should open options</li>
+            <li>Click on date inputs - should open date picker</li>
+            <li>Click submit button - should be fully clickable</li>
+            <li>All elements should be above any overlay elements</li>
+            <li>Text should be visible and readable</li>
+        </ul>
+        
+        <p><strong>Z-Index Hierarchy:</strong></p>
+        <ul>
+            <li>Test overlay (red): 1000</li>
+            <li>Form container: 10001 ✅</li>
+            <li>Form fields: 10002 ✅</li>
+            <li>Submit button: 10003 ✅</li>
+        </ul>
+    </div>
+
+    <script>
+        // Add interaction feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('quick-hotel-search-form');
+            const select = document.getElementById('quick-union');
+            const startDate = document.getElementById('quick-start-date');
+            const endDate = document.getElementById('quick-end-date');
+            const button = document.querySelector('.quick-search-button');
+            
+            // Test interactions
+            select.addEventListener('click', () => console.log('✅ Select clicked!'));
+            select.addEventListener('change', () => console.log('✅ Select changed!'));
+            startDate.addEventListener('click', () => console.log('✅ Start date clicked!'));
+            endDate.addEventListener('click', () => console.log('✅ End date clicked!'));
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('✅ Button clicked!');
+                alert('✅ Form elements are working! Button is clickable.');
+            });
+        });
+    </script>
+</body>
+</html>
