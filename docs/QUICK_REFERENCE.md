@@ -37,17 +37,23 @@ kill -9 $(lsof -ti:8080)                      # Kill process on port
 
 ## 🧪 **Testing**
 ```bash
-# Running test files directly
-python3 test_web_ui.py                                      # Run entire test suite
+# Complete test suite (16+ tests)
+python3 test_web_ui.py                                      # Run all tests with screenshots
 
-# Using unittest module (recommended)
-python3 -m unittest test_web_ui.TradeUnionWebUITest.test_14_quicksearch_layout_restructuring -v
-python3 -m unittest test_web_ui.TradeUnionWebUITest -v     # Run all tests in class
-python3 -m unittest test_web_ui -v                         # Run all tests in module
+# Specific test categories
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_01_home_page_loads -v                    # Page loading
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_09_no_scroll_quick_search -v             # QuickSearch
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_16_button_visibility_and_contrast -v     # Button fixes
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_15_quicksearch_hotel_vacancy_integration -v # AFPESP integration
 
-# Using pytest (alternative)
-python3 -m pytest -v                                       # Verbose test output
-python3 -m pytest -k "test_name"                          # Run specific test pattern
+# Test debugging
+ls -la test_screenshots/                                    # View test screenshots
+python3 -c "import test_web_ui; print('Test module loaded')" # Verify test imports
+
+# Alternative test runners
+python3 -m pytest test_web_ui.py -v                        # Pytest runner
+python3 -m pytest -k "button_visibility" -v               # Pattern matching
+python3 -m pytest --tb=short test_web_ui.py               # Short traceback
 ```
 
 ## 📁 **File Operations**

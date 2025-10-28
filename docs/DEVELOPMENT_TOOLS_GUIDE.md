@@ -470,8 +470,145 @@ git add resolved_files
 git commit -m "Resolve merge conflicts"
 ```
 
+## 🧪 **Testing Framework**
+
+### **Comprehensive Web UI Testing**
+
+#### **Full Test Suite Execution**
+```bash
+# Run complete test suite with all 16+ tests
+python3 test_web_ui.py
+
+# Run with verbose output
+python3 test_web_ui.py -v
+
+# Run specific test class
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_16_button_visibility_and_contrast
+```
+
+#### **Test Categories**
+
+**🏠 Core Functionality Tests**
+```bash
+# Basic page loading and initialization
+test_01_home_page_loads               # Page loads successfully
+test_02_application_initializes       # JavaScript app initializes
+test_03_navigation_elements           # Navigation components present
+```
+
+**🎨 UI & Design Tests**
+```bash
+# Visual and layout testing
+test_04_hero_section_content          # Hero section displays correctly
+test_05_feature_cards                 # Feature cards are visible  
+test_06_responsive_design             # Mobile/tablet/desktop layouts
+test_11_mobile_optimization           # Touch-friendly mobile interface
+```
+
+**🔍 Search Functionality Tests**
+```bash
+# QuickSearch component testing
+test_09_no_scroll_quick_search        # Above-fold optimization
+test_09_quicksearch_form_blocking_fix # Form elements not blocked
+test_12_date_selection_functionality  # Date input validation
+test_15_quicksearch_hotel_vacancy_integration # AFPESP integration
+test_16_button_visibility_and_contrast # Button visibility fixes
+```
+
+**⚙️ Technical Integration Tests**
+```bash
+# Architecture and compatibility
+test_07_javascript_errors            # No JS errors in console
+test_08_page_performance             # Page load performance
+test_10_progressive_disclosure_modal # Advanced search modal
+test_13_searchformhandler_dual_form_compatibility # Form compatibility
+test_14_quicksearch_layout_restructuring # Semantic HTML structure
+```
+
+#### **Test Output Analysis**
+
+**✅ Success Indicators**
+- All form elements clickable and accessible
+- Button colors: Primary `rgb(99, 102, 241)`, Text `rgb(255, 255, 255)`
+- Page load times under 2 seconds
+- No severe JavaScript errors in console
+- Mobile viewport properly optimized
+
+**⚠️ Common Test Issues**
+```bash
+# Button click interception (layout issues)
+ElementClickInterceptedException: Element not clickable
+
+# Date validation edge cases
+AssertionError: '2025-10-28' != '2025-10-27'
+
+# CSS background transparency
+AssertionError: 'rgba(0, 0, 0, 0)' should have background color
+```
+
+#### **Testing Environment Setup**
+
+**Prerequisites**
+```bash
+# Install testing dependencies
+python3 -m pip install selenium webdriver-manager
+
+# Verify Chrome/Chromium installation
+google-chrome --version
+chromium-browser --version
+```
+
+**Test Server Setup**
+```bash
+# Start development server (automatic in tests)
+python3 -m http.server 8080 --directory src &
+
+# Manual server start for debugging
+cd src && python3 -m http.server 8080
+```
+
+#### **Screenshot Documentation**
+```bash
+# Screenshots automatically saved to:
+test_screenshots/
+├── button_visibility_error_[timestamp].png
+├── desktop_view_[timestamp].png
+├── mobile_view_[timestamp].png
+├── tablet_view_[timestamp].png
+└── [test_name]_error_[timestamp].png
+```
+
+#### **Advanced Testing Commands**
+
+**Debugging Failed Tests**
+```bash
+# Run single test with maximum output
+python3 -m unittest test_web_ui.TradeUnionWebUITest.test_16_button_visibility_and_contrast -v
+
+# Check test screenshots for visual debugging
+ls -la test_screenshots/
+
+# Analyze browser console logs
+# (automatic in test suite - check test output)
+```
+
+**Custom Test Development**
+```bash
+# Create new test file
+touch test_new_feature.py
+
+# Test template structure
+class NewFeatureTest(unittest.TestCase):
+    def setUp(self):
+        # Setup WebDriver and server
+    def test_new_functionality(self):
+        # Test implementation
+    def tearDown(self):
+        # Cleanup
+```
+
 ---
 
 *Last Updated: October 27, 2025*  
-*Version: 1.0.0*  
+*Version: 1.1.0 - Enhanced Testing Framework*  
 *Project: Trade Union Hotel Search Platform Development Guide*
