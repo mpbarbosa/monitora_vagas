@@ -1,5 +1,11 @@
 # GitHub Copilot Prompt Scoping Guide
 
+> **📋 Document Distribution: Submodule Copy (Monitora Vagas)**  
+> This is an **identical copy** of the canonical guide for developer convenience.  
+> **Canonical Version**: See [/docs/COPILOT_PROMPT_SCOPING_GUIDE.md](../../../docs/COPILOT_PROMPT_SCOPING_GUIDE.md) in the main repository.  
+> **Main Repository**: [mpbarbosa_site](https://github.com/mpbarbosa/mpbarbosa_site)  
+> **Last Synchronized**: 2025-11-09
+
 ## Overview
 
 This guide provides best practices for creating well-defined, scoped prompts when working with GitHub Copilot to ensure the AI assistant implements only what you intend, without overstepping the specified boundaries.
