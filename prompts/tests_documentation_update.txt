@@ -1,6 +1,0 @@
-1) Based on the last modifications, update the related documentation.
-2) Based on the last modifications, Keep the consistency among the documentation files.
-3) If needed (code modification), update the functional and unit tests
-4) If needed (code modification and new code), generate comprehensive new functional and unit tests
-5) Run all tests if needed
-6) Push the last modified files to the repository.

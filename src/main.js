@@ -76,19 +76,6 @@ class App {
         // Set up basic application structure
         appRoot.innerHTML = `
             <div class="app-container">
-                <header class="app-header">
-                    <nav class="app-nav">
-                        <div class="nav-brand">
-                            <h1>Hotéis Sindicais</h1>
-                        </div>
-                        <div class="nav-links">
-                            <button class="nav-link" data-view="home">Início</button>
-                            <button class="nav-link" data-view="search">Buscar</button>
-                            <button class="nav-link" data-view="history">Histórico</button>
-                        </div>
-                    </nav>
-                </header>
-                
                 <main class="app-main" id="main-content">
                     <!-- Dynamic content will be rendered here -->
                 </main>
@@ -104,14 +91,6 @@ class App {
      * Set up global event listeners
      */
     setupEventListeners() {
-        // Navigation event listeners
-        document.addEventListener('click', (event) => {
-            if (event.target.matches('.nav-link')) {
-                const view = event.target.dataset.view;
-                this.navigateTo(view);
-            }
-        });
-        
         // Global search event listeners
         document.addEventListener('search:start', (event) => {
             this.handleSearchStart(event.detail);
@@ -128,39 +107,6 @@ class App {
         document.addEventListener('search:error', (event) => {
             this.handleSearchError(event.detail);
         });
-        
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', (event) => {
-            const view = event.state?.view || 'home';
-            this.navigateTo(view, false);
-        });
-    }
-    
-    /**
-     * Navigate to a different view
-     * @param {string} view - The view to navigate to
-     * @param {boolean} pushState - Whether to push state to history
-     */
-    navigateTo(view, pushState = true) {
-        if (this.currentView === view) return;
-        
-        this.currentView = view;
-        
-        // Update URL and history
-        if (pushState) {
-            history.pushState({ view }, '', `#${view}`);
-        }
-        
-        // Update navigation active state
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-            if (link.dataset.view === view) {
-                link.classList.add('active');
-            }
-        });
-        
-        // Render the new view
-        this.renderCurrentView();
     }
     
     /**
@@ -170,96 +116,10 @@ class App {
         const mainContent = document.getElementById('main-content');
         if (!mainContent) return;
         
-        switch (this.currentView) {
-            case 'home':
-                this.renderHomeView(mainContent);
-                break;
-            case 'search':
-                this.renderSearchView(mainContent);
-                break;
-            case 'history':
-                this.renderHistoryView(mainContent);
-                break;
-            default:
-                this.renderHomeView(mainContent);
-        }
-    }
-    
-    /**
-     * Render the home view
-     */
-    renderHomeView(container) {
-        container.innerHTML = Home();
-        
-        // Initialize search form handler for date selection
-        setTimeout(() => {
-            new SearchFormHandler();
-        }, 100);
-        
-        // Initialize QuickSearch component
-        setTimeout(() => {
-            // Import and initialize QuickSearch
-            import('./components/QuickSearch/QuickSearch.js').then(({ initializeQuickSearch }) => {
-                initializeQuickSearch();
-            });
-        }, 150);
-    }
-    
-    /**
-     * Render the search view
-     */
-    renderSearchView(container) {
-        container.innerHTML = `
-            <div class="search-page">
-                <div class="search-header">
-                    <h2>Buscar Disponibilidade</h2>
-                    <p>Configure sua busca por ofertas em hotéis sindicais</p>
-                </div>
-                
-                <div class="search-form-container" id="search-form-container">
-                    <!-- Search form will be rendered here -->
-                </div>
-                
-                <div class="search-progress-container" id="search-progress-container" style="display: none;">
-                    <!-- Progress bar will be rendered here -->
-                </div>
-                
-                <div class="search-results-container" id="search-results-container" style="display: none;">
-                    <!-- Search results will be rendered here -->
-                </div>
-            </div>
-        `;
-        
-        // Render search form
-        const formContainer = container.querySelector('#search-form-container');
-        formContainer.innerHTML = SearchForm();
-        
-        // Initialize search form handler for date selection
-        setTimeout(() => {
-            new SearchFormHandler();
-        }, 100);
-        
-        // Initialize progress bar (hidden initially)
-        const progressContainer = container.querySelector('#search-progress-container');
-        progressContainer.innerHTML = ProgressBar({ current: 0, total: 9, status: 'ready' });
-    }
-    
-    /**
-     * Render the history view
-     */
-    renderHistoryView(container) {
-        container.innerHTML = `
-            <div class="history-page">
-                <div class="history-header">
-                    <h2>Histórico de Buscas</h2>
-                    <p>Visualize suas buscas anteriores</p>
-                </div>
-                
-                <div class="history-content">
-                    <p class="coming-soon">Em desenvolvimento...</p>
-                </div>
-            </div>
-        `;
+        // Always render home view since we removed navigation
+        mainContent.innerHTML = '';
+        const homePage = new Home();
+        mainContent.appendChild(homePage.render());
     }
     
     /**
