@@ -34,25 +34,25 @@
                 <div class="card-body">
                     <form class="form" method="POST" action="#">
                         <div class="input-group input--large">
-                            <label class="label">going to</label>
+                            <label class="label">Hotéis</label>
                             <input class="input--style-1" type="text" placeholder="Destination, hotel name" name="going">
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-In</label>
-                            <input class="input--style-1" type="text" name="checkin" placeholder="mm/dd/yyyy" id="input-start">
+                            <input class="input--style-1" type="text" name="checkin" placeholder="dd/mm/aaaa" id="input-checkin">
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-Out</label>
-                            <input class="input--style-1" type="text" name="checkout" placeholder="mm/dd/yyyy" id="input-end">
+                            <input class="input--style-1" type="text" name="checkout" placeholder="dd/mm/aaaa" id="input-checkout">
                         </div>
                         <div class="input-group input--medium">
-                            <label class="label">guests</label>
+                            <label class="label">hóspedes</label>
                             <div class="input-group-icon js-number-input">
                                 <div class="icon-con">
                                     <span class="plus">+</span>
                                     <span class="minus">-</span>
                                 </div>
-                                <input class="input--style-1 quantity" type="text" name="guests" value="2 Guests">
+                                <input class="input--style-1 quantity" type="text" name="guests" value="2 Hóspedes">
                             </div>
                         </div>
                         <button class="btn-submit" type="submit">search</button>
@@ -74,6 +74,7 @@
 
     <!-- Main JS-->
     <script src="js/global.js"></script>
+    <script src="js/guestCounter.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>

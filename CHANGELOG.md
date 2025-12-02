@@ -2,6 +2,37 @@
 
 All notable changes to the Trade Union Hotel Search Platform are documented in this file.
 
+## [2024-12-02] - Portuguese Localization & Guest Counter Enhancement
+
+### Added
+- **Guest Counter Functionality**: Created `src/js/guestCounter.js` to handle increment/decrement of guest count
+- **Interactive Plus/Minus Buttons**: Functional +/- controls for guest selection with minimum value of 1
+
+### Changed
+- **Portuguese Localization**: Translated interface elements from English to Portuguese
+  - "going to" → "Hotéis"
+  - "guests" → "hóspedes"
+  - "2 Guests" → "2 Hóspedes"
+  - Date format placeholder: "mm/dd/yyyy" → "dd/mm/aaaa"
+- **Form Field IDs**: Renamed for semantic clarity
+  - `id="input-start"` → `id="input-checkin"`
+  - `id="input-end"` → `id="input-checkout"`
+
+### Files Modified
+- `src/index.html` - Form field translations, ID updates, date format changes
+- `src/index.html` - Added script reference to `guestCounter.js`
+
+### Files Created
+- `src/js/guestCounter.js` - Guest counter increment/decrement handler (41 lines)
+
+### Technical Details
+- **Script Size**: guestCounter.js is 41 lines with IIFE pattern
+- **Event Handling**: Click listeners on .plus and .minus spans with preventDefault
+- **Validation**: Minimum guest count enforced at 1
+- **Localization**: Dynamic text updates maintain "Hóspedes" suffix
+
+---
+
 ## [2024-12-01] - Colorlib Template Integration & Navigation Removal
 
 ### Added

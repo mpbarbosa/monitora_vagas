@@ -55,6 +55,8 @@ The Trade Union Hotel Search Platform is designed to help sindicate members find
 - **Functionality**: Trade union hotel search with enhanced date selection and regional filters
 - **Quality**: 100% unit test pass rate (19/19), 73% overall test success (29/40)
 - **Features**: QuickSearch component, progressive disclosure modal, mobile-first responsive design
+- **Localization**: Full Portuguese interface with Brazilian date format (dd/mm/aaaa)
+- **Interactive Controls**: Guest counter with increment/decrement functionality
 
 ### Key Features
 - **Enhanced Date Selection**: Mutually exclusive options between month-based and specific date range selection for flexible booking
