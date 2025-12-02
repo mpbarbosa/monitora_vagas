@@ -11,7 +11,7 @@ This application is a **full-stack web application** with backend API integratio
 - **UI/UX**: Card-based design with blue gradient theme and responsive layout
 - **Automation**: Real-time AFPESP hotel vacancy searches via backend API
 - **PWA Support**: Service Worker for offline capability and installable app experience
-- **API Client**: Centralized service with timeout, retry, and caching capabilities
+- **API Integration**: Direct fetch API calls with timeout and error handling
 
 ## Prerequisites
 
@@ -113,15 +113,16 @@ bash run_ui_tests.sh
 1. **Modern UI**: Colorlib-based search template with blue gradient theme
 2. **Card-Based Design**: Simplified 90-line HTML structure with professional aesthetics
 3. **QuickSearch Component**: Fast hotel search with dynamic hotel dropdown (API-loaded) and date selection
-4. **Real-Time Vacancy Search**: Integration with busca_vagas backend API
+4. **Real-Time Vacancy Search**: Direct backend API integration
    - Specific date range searches (30-60 seconds)
-   - Weekend searches for up to 12 weekends (5-10 minutes)
-5. **API Client Service**: Centralized API integration with:
-   - Automatic environment detection (dev/production)
-   - Timeout handling (30s-10min depending on endpoint)
-   - Retry logic with exponential backoff
-   - Response validation and error handling
-   - Caching for hotel list (5 minutes)
+   - Weekend searches for up to 8 weekends (5-10 minutes)
+   - Native fetch API with timeout handling
+5. **Direct API Integration**: QuickSearch component features:
+   - ISO 8601 date formatting (YYYY-MM-DD)
+   - 60-second timeout for regular searches
+   - 10-minute timeout for weekend searches
+   - HTTP status and response validation
+   - AbortController for timeout management
 6. **Regional Filters**: Search by coastal, mountain, interior, and capital regions
 7. **Flexible Date Selection**: Month-based or specific date range options
 8. **Responsive Design**: Mobile-first approach working on all devices (320px to 1200px+)
@@ -132,17 +133,19 @@ bash run_ui_tests.sh
 
 ### API Integration
 
-The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) (v1.2.1) for real-time vacancy data:
+The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) for real-time vacancy data:
 
-- **GET /api/health** - Health check
-- **GET /api/vagas/hoteis** - Static hotel list (cached)
-- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP (includes "Todas" option with `type` field)
+**QuickSearch Component (Direct Integration):**
 - **GET /api/vagas/search** - Search vacancies for specific dates
 - **GET /api/vagas/search/weekends** - Search multiple weekends
+- **GET /api/vagas/hoteis** - Get hotel list
 
-**New in v1.2.1:** The `/api/vagas/hoteis/scrape` endpoint now includes the "Todas" (All) option with a `type` field to distinguish between "All" and "Hotel" entries.
+**Index.html (via apiClient):**
+- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP
 
-See [API_CLIENT_USAGE_REVIEW.md](./API_CLIENT_USAGE_REVIEW.md) for detailed integration documentation.
+The QuickSearch component uses direct fetch API calls for transparency and better timeout control. The apiClient service is used for hotel scraping in index.html.
+
+See [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md) for implementation details.
 
 ### Planned Features
 

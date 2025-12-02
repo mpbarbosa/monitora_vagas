@@ -57,7 +57,7 @@
                                 <input class="input--style-1 quantity" type="text" name="guests" value="2 Hóspedes">
                             </div>
                         </div>
-                        <button class="btn-submit" type="submit">search</button>
+                        <button class="btn-submit" type="submit">busca vagas</button>
                     </form>
                 </div>
             </div>
@@ -96,6 +96,96 @@
                 console.error('Error loading hotels:', error);
                 document.getElementById('hotel-select').innerHTML = '<option value="">Error loading hotels</option>';
             });
+
+        // Handle form submission
+        const form = document.querySelector('.form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            // Get form values
+            const hotelSelect = document.getElementById('hotel-select');
+            const checkinInput = document.getElementById('input-checkin');
+            const checkoutInput = document.getElementById('input-checkout');
+            
+            const hotel = hotelSelect.value;
+            const checkinBR = checkinInput.value; // dd/mm/yyyy
+            const checkoutBR = checkoutInput.value; // dd/mm/yyyy
+            
+            // Validate inputs
+            if (!hotel) {
+                alert('Por favor, selecione um hotel');
+                return;
+            }
+            
+            if (!checkinBR || !checkoutBR) {
+                alert('Por favor, selecione as datas de check-in e check-out');
+                return;
+            }
+            
+            // Convert Brazilian date format (dd/mm/yyyy) to ISO 8601 (yyyy-mm-dd)
+            const formatDateToISO = (dateStr) => {
+                const parts = dateStr.split('/');
+                if (parts.length !== 3) return null;
+                const [day, month, year] = parts;
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            };
+            
+            const checkin = formatDateToISO(checkinBR);
+            const checkout = formatDateToISO(checkoutBR);
+            
+            if (!checkin || !checkout) {
+                alert('Formato de data inválido. Use dd/mm/aaaa');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = document.querySelector('.btn-submit');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Buscando...';
+            submitButton.disabled = true;
+            
+            try {
+                console.log(`🔍 Searching vacancies for hotel: ${hotel}, checkin: ${checkin}, checkout: ${checkout}`);
+                
+                // Call the API
+                const response = await fetch(
+                    `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'API returned error');
+                }
+                
+                console.log('✅ Search completed successfully:', result);
+                
+                // Display results (you can customize this)
+                if (result.data.availability.hasVacancies) {
+                    alert(`✅ Vagas encontradas!\n\n${result.data.availability.availableHotels} hotel(s) com vagas disponíveis.\n\nVerifique o console para mais detalhes.`);
+                } else {
+                    alert('😔 Nenhuma vaga encontrada para o período selecionado.');
+                }
+                
+            } catch (error) {
+                console.error('❌ Search failed:', error);
+                alert(`Erro na busca: ${error.message}`);
+            } finally {
+                // Restore button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
     </script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

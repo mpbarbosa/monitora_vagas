@@ -1,11 +1,35 @@
-import { apiClient } from '../../services/apiClient.js';
-
 // Hotel Vacancy Query and Extraction Utilities
 class HotelVacancyService {
     constructor() {
-        this.apiClient = apiClient;
+        this.apiBaseUrl = 'https://www.mpbarbosa.com/api';
+        this.timeout = 60000; // 60 seconds for search operations
         this.isSearching = false;
-        console.log('✅ HotelVacancyService initialized with API client');
+        console.log('✅ HotelVacancyService initialized with real API integration');
+    }
+
+    // Get hotels list
+    async getHotels() {
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/vagas/hoteis`, {
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'API returned error');
+            }
+            
+            return result.data;
+            
+        } catch (error) {
+            console.error('Failed to fetch hotels:', error);
+            throw error;
+        }
     }
 
     // Calculate next Friday-Sunday weekend for default date values
@@ -26,22 +50,48 @@ class HotelVacancyService {
         return { friday: nextFriday, sunday: nextSunday };
     }
 
-    // Search all weekends using backend API
+    // Search weekend vacancies
     async searchWeekendVacancies(count = 8) {
         console.log('\n🏨 COMPREHENSIVE WEEKEND HOTEL SEARCH');
         console.log(`🤖 Using backend API to search ${count} weekends`);
         
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 600000); // 10 minutes
+        
         try {
-            const results = await this.apiClient.searchWeekendVacancies(count);
+            const response = await fetch(
+                `${this.apiBaseUrl}/vagas/search/weekends?count=${count}`,
+                {
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+            
+            clearTimeout(timeout);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'API returned error');
+            }
             
             // Transform API response
-            const searchResults = this.transformWeekendAPIResponse(results);
+            const searchResults = this.transformWeekendAPIResponse(result.data);
             
             // Display comprehensive summary
             this.displayWeekendSummary(searchResults);
             return searchResults;
             
         } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new Error('Weekend search timeout - please try again');
+            }
             console.error('❌ Weekend search failed:', error.message);
             throw error;
         }
@@ -120,7 +170,7 @@ class HotelVacancyService {
 
     // Format date to ISO 8601 (YYYY-MM-DD) for API calls
     formatDateISO(date) {
-        return this.apiClient.formatDateISO(date);
+        return date.toISOString().split('T')[0];
     }
 
     // Query AFPESP for hotel vacancies using backend API
@@ -135,14 +185,43 @@ class HotelVacancyService {
         try {
             console.log(`🔍 Querying API for ${this.formatDateBR(startDate)} to ${this.formatDateBR(endDate)}`);
 
-            // Use the real API client
-            const results = await this.apiClient.searchVacancies(startDate, endDate);
+            const checkin = this.formatDateISO(startDate);
+            const checkout = this.formatDateISO(endDate);
+            
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), this.timeout);
+            
+            const response = await fetch(
+                `${this.apiBaseUrl}/vagas/search?checkin=${checkin}&checkout=${checkout}`,
+                {
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+            
+            clearTimeout(timeout);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'API returned error');
+            }
+            
             console.log('✅ Real API search completed successfully');
             
             // Transform API response to component format
-            return this.transformAPIResponse(results, startDate, endDate);
+            return this.transformAPIResponse(result.data, startDate, endDate);
             
         } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new Error('Search timeout - please try again');
+            }
             console.error('❌ Vacancy query failed:', error.message);
             throw error;
         } finally {
