@@ -1,7 +1,8 @@
 # API Integration Implementation Summary
 
-**Date:** 2025-12-02  
+**Date:** 2024-12-02  
 **Status:** ✅ COMPLETED (Updated with Direct API Integration)  
+**Last Update:** Response data structure aligned with API v1.2.1  
 **Based on:** [busca_vagas API Documentation v1.2.0](https://github.com/mpbarbosa/busca_vagas/blob/main/docs/API_CLIENT_DOCUMENTATION.md)
 
 ---
@@ -122,9 +123,28 @@ async queryVacancies(startDate, endDate) {
 
 ### 2. `src/index.html`
 **Changes:**
-- ✅ Uses apiClient for hotel scraping (unchanged)
+- ✅ Updated search result handling to match API v1.2.1 response structure
+- ✅ Changed from `result.data.availability.hasVacancies` to `result.data.result.hasAvailability`
+- ✅ Updated alert message to use `result.data.result.summary`
+- ✅ Added vacancy count display with safe navigation (`vacancies?.length || 0`)
+- ✅ Uses apiClient for hotel scraping
 
-**Current (No change needed):**
+**Before:**
+```javascript
+if (result.data.availability.hasVacancies) {
+    alert(`✅ Vagas encontradas!\n\n${result.data.availability.availableHotels} hotel(s) com vagas disponíveis.\n\nVerifique o console para mais detalhes.`);
+}
+```
+
+**After:**
+```javascript
+if (result.data.result.hasAvailability) {
+    const vacancyCount = result.data.result.vacancies?.length || 0;
+    alert(`✅ Vagas encontradas!\n\n${result.data.result.summary}\n\nTotal de vagas: ${vacancyCount}\n\nVerifique o console para mais detalhes.`);
+}
+```
+
+**Current Import:**
 ```javascript
 import { apiClient } from './services/apiClient.js';
 apiClient.scrapeHotels()

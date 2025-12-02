@@ -2,6 +2,15 @@
 
 All notable changes to the Trade Union Hotel Search Platform are documented in this file.
 
+## [2024-12-02] - Response Data Structure Update
+
+### Changed
+- **index.html**:
+  - Updated search result handling to match new API response format
+  - Changed from `result.data.availability.hasVacancies` to `result.data.result.hasAvailability`
+  - Updated alert message to use `result.data.result.summary` and display vacancy count
+  - Added safe navigation operator for vacancy count (`vacancies?.length || 0`)
+
 ## [2024-12-02] - API Test Page Update for v1.2.1
 
 ### Changed

@@ -171,8 +171,9 @@
                 console.log('✅ Search completed successfully:', result);
                 
                 // Display results (you can customize this)
-                if (result.data.availability.hasVacancies) {
-                    alert(`✅ Vagas encontradas!\n\n${result.data.availability.availableHotels} hotel(s) com vagas disponíveis.\n\nVerifique o console para mais detalhes.`);
+                if (result.data.result.hasAvailability) {
+                    const vacancyCount = result.data.result.vacancies?.length || 0;
+                    alert(`✅ Vagas encontradas!\n\n${result.data.result.summary}\n\nTotal de vagas: ${vacancyCount}\n\nVerifique o console para mais detalhes.`);
                 } else {
                     alert('😔 Nenhuma vaga encontrada para o período selecionado.');
                 }
