@@ -1,6 +1,6 @@
 /**
  * API Client Service for Busca Vagas API
- * Based on official API documentation v1.2.0
+ * Based on official API documentation v1.2.1
  * @see https://github.com/mpbarbosa/busca_vagas/blob/main/docs/API_CLIENT_DOCUMENTATION.md
  */
 
@@ -150,7 +150,9 @@ export class BuscaVagasAPIClient {
 
     /**
      * Scrape hotel list from AFPESP website
-     * @returns {Promise<Array>} List of scraped hotels
+     * As of v1.2.1, this endpoint returns all dropdown options including "Todas"
+     * Each item has a 'type' field: "All" for "Todas", "Hotel" for actual hotels
+     * @returns {Promise<Array>} List of scraped hotels with type field
      */
     async scrapeHotels() {
         const url = `${this.apiBaseUrl}/vagas/hoteis/scrape`;
@@ -160,7 +162,7 @@ export class BuscaVagasAPIClient {
             () => this.fetchWithTimeout(url, {}, this.timeout.search)
         );
         
-        console.log(`✅ Scraped ${result.data.length} hotels from AFPESP`);
+        console.log(`✅ Scraped ${result.data.length} options from AFPESP (includes "Todas")`);
         return result.data;
     }
 

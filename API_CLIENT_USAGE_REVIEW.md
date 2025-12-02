@@ -7,7 +7,7 @@
 
 ## 🔍 Executive Summary
 
-This review analyzes the current API client usage in the `monitora_vagas` project against the official `busca_vagas` API documentation (v1.2.0).
+This review analyzes the current API client usage in the `monitora_vagas` project against the official `busca_vagas` API documentation (v1.2.1).
 
 ### Key Findings:
 - ✅ **Correct Production URL** usage in index.html

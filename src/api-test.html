@@ -83,7 +83,7 @@
 <body>
     <div class="container">
         <h1>🧪 API Client Test Suite</h1>
-        <p class="info">Testing integration with busca_vagas API (v1.2.0)</p>
+        <p class="info">Testing integration with busca_vagas API (v1.2.1)</p>
 
         <div class="test-section">
             <h2>1️⃣ Health Check</h2>
@@ -101,7 +101,7 @@
 
         <div class="test-section">
             <h2>3️⃣ Scrape Hotels</h2>
-            <p>Scrape current hotel list from AFPESP website</p>
+            <p>Scrape current hotel list from AFPESP website (includes "Todas" option with type field)</p>
             <button onclick="testScrapeHotels()">Test Hotel Scraping</button>
             <div id="scrape-result" class="result"></div>
         </div>
@@ -201,9 +201,11 @@
                 const duration = Date.now() - start;
                 
                 window.testResults.hotels = true;
+                const allOptions = hotels.filter(h => h.type === 'All').length;
+                const hotelOptions = hotels.filter(h => h.type === 'Hotel').length;
                 resultDiv.innerHTML = `
                     <div class="success">✅ Success (${duration}ms)</div>
-                    <p>Found ${hotels.length} hotels</p>
+                    <p>Found ${hotels.length} total options (${allOptions} "All" option + ${hotelOptions} hotels)</p>
                     <pre>${JSON.stringify(hotels.slice(0, 3), null, 2)}${hotels.length > 3 ? '\n... and ' + (hotels.length - 3) + ' more' : ''}</pre>
                 `;
             } catch (error) {
@@ -231,9 +233,12 @@
                 const duration = Date.now() - start;
                 
                 window.testResults.scrape = true;
+                const allOptions = hotels.filter(h => h.type === 'All').length;
+                const hotelOptions = hotels.filter(h => h.type === 'Hotel').length;
                 resultDiv.innerHTML = `
                     <div class="success">✅ Success (${duration}ms)</div>
-                    <p>Scraped ${hotels.length} hotels</p>
+                    <p>Scraped ${hotels.length} total options (${allOptions} "All" option + ${hotelOptions} hotels)</p>
+                    <p><strong>New in v1.2.1:</strong> Includes "Todas" option with type="All"</p>
                     <pre>${JSON.stringify(hotels.slice(0, 3), null, 2)}${hotels.length > 3 ? '\n... and ' + (hotels.length - 3) + ' more' : ''}</pre>
                 `;
             } catch (error) {

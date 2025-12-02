@@ -132,13 +132,15 @@ bash run_ui_tests.sh
 
 ### API Integration
 
-The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) for real-time vacancy data:
+The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) (v1.2.1) for real-time vacancy data:
 
 - **GET /api/health** - Health check
 - **GET /api/vagas/hoteis** - Static hotel list (cached)
-- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP
+- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP (includes "Todas" option with `type` field)
 - **GET /api/vagas/search** - Search vacancies for specific dates
 - **GET /api/vagas/search/weekends** - Search multiple weekends
+
+**New in v1.2.1:** The `/api/vagas/hoteis/scrape` endpoint now includes the "Todas" (All) option with a `type` field to distinguish between "All" and "Hotel" entries.
 
 See [API_CLIENT_USAGE_REVIEW.md](./API_CLIENT_USAGE_REVIEW.md) for detailed integration documentation.
 

@@ -2,6 +2,16 @@
 
 All notable changes to the Trade Union Hotel Search Platform are documented in this file.
 
+## [2024-12-02] - API Test Page Update for v1.2.1
+
+### Changed
+- **API Test Suite** (`src/api-test.html`):
+  - Updated to support busca_vagas API v1.2.1
+  - Added handling for new `type` field in hotel responses ("All" vs "Hotel")
+  - Updated hotel list and scrape result displays to show breakdown by type
+  - Added "New in v1.2.1" indicator for "Todas" option inclusion
+  - Enhanced result formatting to distinguish between "All" options and actual hotels
+
 ## [2024-12-02] - API Integration Implementation
 
 ### Added
