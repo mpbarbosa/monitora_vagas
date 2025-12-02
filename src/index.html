@@ -35,7 +35,9 @@
                     <form class="form" method="POST" action="#">
                         <div class="input-group input--large">
                             <label class="label">Hotéis</label>
-                            <input class="input--style-1" type="text" placeholder="Destination, hotel name" name="going">
+                            <select class="input--style-1" name="going" id="hotel-select">
+                                <option value="">Loading hotels...</option>
+                            </select>
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-In</label>
@@ -75,6 +77,24 @@
     <!-- Main JS-->
     <script src="js/global.js"></script>
     <script src="js/guestCounter.js"></script>
+    <script>
+        fetch('https://www.mpbarbosa.com/api/vagas/hoteis/scrape')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('hotel-select');
+                select.innerHTML = '<option value="">Select a hotel</option>';
+                data.forEach(hotel => {
+                    const option = document.createElement('option');
+                    option.value = hotel.name || hotel.id || hotel;
+                    option.textContent = hotel.name || hotel;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading hotels:', error);
+                document.getElementById('hotel-select').innerHTML = '<option value="">Error loading hotels</option>';
+            });
+    </script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>

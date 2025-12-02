@@ -57,6 +57,7 @@ The Trade Union Hotel Search Platform is designed to help sindicate members find
 - **Features**: QuickSearch component, progressive disclosure modal, mobile-first responsive design
 - **Localization**: Full Portuguese interface with Brazilian date format (dd/mm/aaaa)
 - **Interactive Controls**: Guest counter with increment/decrement functionality
+- **Dynamic Hotel Loading**: Hotel dropdown populated via API endpoint (https://www.mpbarbosa.com/api/vagas/hoteis/scrape)
 
 ### Key Features
 - **Enhanced Date Selection**: Mutually exclusive options between month-based and specific date range selection for flexible booking

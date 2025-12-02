@@ -87,7 +87,7 @@ bash run_ui_tests.sh
 
 1. **Modern UI**: Colorlib-based search template with blue gradient theme
 2. **Card-Based Design**: Simplified 90-line HTML structure with professional aesthetics
-3. **QuickSearch Component**: Fast hotel search with trade union dropdown and date selection
+3. **QuickSearch Component**: Fast hotel search with dynamic hotel dropdown (API-loaded) and date selection
 4. **Regional Filters**: Search by coastal, mountain, interior, and capital regions
 5. **Flexible Date Selection**: Month-based or specific date range options
 6. **Responsive Design**: Mobile-first approach working on all devices (320px to 1200px+)
@@ -134,7 +134,7 @@ bash run_ui_tests.sh
 - **Card-Based Layout**: Clean 90-line HTML structure (reduced from 692 lines)
 - **Blue Gradient Theme**: Modern aesthetic with #4481eb to #04befe gradient
 - **Component Architecture**: Modular JavaScript with ES6+ modules
-- **QuickSearch Form**: Simplified hotel search with semantic HTML grouping
+- **QuickSearch Form**: Simplified hotel search with dynamic API-loaded hotel dropdown
 - **Progressive Disclosure**: Advanced search modal for additional filters
 - **Form Validation**: Client-side validation before submission
 - **Real-time Feedback**: Loading states and error messages
