@@ -6,14 +6,18 @@
  * Note: In browsers we don't have access to process.env, so we use defaults
  */
 const ENV_VARS = {
-    // Application environment
-    NODE_ENV: 'development',
+    // Application environment - detect based on hostname
+    NODE_ENV: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? 'development' 
+        : 'production',
     
     // Application port
     PORT: 3000,
     
-    // API endpoints
-    API_BASE_URL: 'http://localhost:3000/api',
+    // API endpoints - dynamically set based on environment
+    API_BASE_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000/api'
+        : 'https://www.mpbarbosa.com/api',
     
     // AFPESP website configuration
     AFPESP_BASE_URL: 'https://www.afpesp.org.br',

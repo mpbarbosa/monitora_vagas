@@ -77,16 +77,18 @@
     <!-- Main JS-->
     <script src="js/global.js"></script>
     <script src="js/guestCounter.js"></script>
-    <script>
-        fetch('https://www.mpbarbosa.com/api/vagas/hoteis/scrape')
-            .then(response => response.json())
-            .then(data => {
+    <script type="module">
+        import { apiClient } from './services/apiClient.js';
+        
+        // Load hotels using API client
+        apiClient.scrapeHotels()
+            .then(hotels => {
                 const select = document.getElementById('hotel-select');
                 select.innerHTML = '<option value="">Select a hotel</option>';
-                data.forEach(hotel => {
+                hotels.forEach(hotel => {
                     const option = document.createElement('option');
-                    option.value = hotel.name || hotel.id || hotel;
-                    option.textContent = hotel.name || hotel;
+                    option.value = hotel.hotelId;
+                    option.textContent = hotel.name;
                     select.appendChild(option);
                 });
             })

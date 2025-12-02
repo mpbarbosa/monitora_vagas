@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Client Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .info {
+            color: #3498db;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .loading {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 API Client Test Suite</h1>
+        <p class="info">Testing integration with busca_vagas API (v1.2.0)</p>
+
+        <div class="test-section">
+            <h2>1️⃣ Health Check</h2>
+            <p>Verify API is reachable and running</p>
+            <button onclick="testHealth()">Test Health Endpoint</button>
+            <div id="health-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>2️⃣ Hotel List (Static)</h2>
+            <p>Get static hotel list from database</p>
+            <button onclick="testHotelList()">Test Hotel List</button>
+            <div id="hotels-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>3️⃣ Scrape Hotels</h2>
+            <p>Scrape current hotel list from AFPESP website</p>
+            <button onclick="testScrapeHotels()">Test Hotel Scraping</button>
+            <div id="scrape-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>4️⃣ Search Vacancies</h2>
+            <p>Search for vacancies between specific dates (Puppeteer-based)</p>
+            <label>Check-in: <input type="date" id="checkin-date"></label>
+            <label>Check-out: <input type="date" id="checkout-date"></label>
+            <button onclick="testSearchVacancies()">Search Vacancies</button>
+            <div id="search-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>5️⃣ Weekend Search</h2>
+            <p>Search next 8 weekends (may take several minutes)</p>
+            <label>Number of weekends: 
+                <select id="weekend-count">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8" selected>8</option>
+                    <option value="12">12</option>
+                </select>
+            </label>
+            <button onclick="testWeekendSearch()">Search Weekends</button>
+            <div id="weekend-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Test Results Summary</h2>
+            <div id="summary"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { apiClient } from './services/apiClient.js';
+        
+        // Make apiClient globally available for onclick handlers
+        window.apiClient = apiClient;
+        window.testResults = {
+            health: null,
+            hotels: null,
+            scrape: null,
+            search: null,
+            weekend: null
+        };
+
+        // Initialize dates
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        const weekAfter = new Date(nextWeek);
+        weekAfter.setDate(nextWeek.getDate() + 2);
+        
+        document.getElementById('checkin-date').value = nextWeek.toISOString().split('T')[0];
+        document.getElementById('checkout-date').value = weekAfter.toISOString().split('T')[0];
+
+        window.testHealth = async function() {
+            const btn = event.target;
+            const resultDiv = document.getElementById('health-result');
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = '<span class="info">⏳ Testing health endpoint...</span>';
+            
+            try {
+                const start = Date.now();
+                const result = await apiClient.checkHealth();
+                const duration = Date.now() - start;
+                
+                window.testResults.health = true;
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Success (${duration}ms)</div>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                window.testResults.health = false;
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Failed</div>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                updateSummary();
+            }
+        };
+
+        window.testHotelList = async function() {
+            const btn = event.target;
+            const resultDiv = document.getElementById('hotels-result');
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = '<span class="info">⏳ Fetching hotel list...</span>';
+            
+            try {
+                const start = Date.now();
+                const hotels = await apiClient.getHotels();
+                const duration = Date.now() - start;
+                
+                window.testResults.hotels = true;
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Success (${duration}ms)</div>
+                    <p>Found ${hotels.length} hotels</p>
+                    <pre>${JSON.stringify(hotels.slice(0, 3), null, 2)}${hotels.length > 3 ? '\n... and ' + (hotels.length - 3) + ' more' : ''}</pre>
+                `;
+            } catch (error) {
+                window.testResults.hotels = false;
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Failed</div>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                updateSummary();
+            }
+        };
+
+        window.testScrapeHotels = async function() {
+            const btn = event.target;
+            const resultDiv = document.getElementById('scrape-result');
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = '<span class="info">⏳ Scraping hotels from AFPESP (may take 30-60 seconds)...</span>';
+            
+            try {
+                const start = Date.now();
+                const hotels = await apiClient.scrapeHotels();
+                const duration = Date.now() - start;
+                
+                window.testResults.scrape = true;
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Success (${duration}ms)</div>
+                    <p>Scraped ${hotels.length} hotels</p>
+                    <pre>${JSON.stringify(hotels.slice(0, 3), null, 2)}${hotels.length > 3 ? '\n... and ' + (hotels.length - 3) + ' more' : ''}</pre>
+                `;
+            } catch (error) {
+                window.testResults.scrape = false;
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Failed</div>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                updateSummary();
+            }
+        };
+
+        window.testSearchVacancies = async function() {
+            const btn = event.target;
+            const resultDiv = document.getElementById('search-result');
+            const checkin = document.getElementById('checkin-date').value;
+            const checkout = document.getElementById('checkout-date').value;
+            
+            if (!checkin || !checkout) {
+                alert('Please select check-in and check-out dates');
+                return;
+            }
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = `<span class="info">⏳ Searching vacancies for ${checkin} to ${checkout} (may take 30-60 seconds)...</span>`;
+            
+            try {
+                const start = Date.now();
+                const result = await apiClient.searchVacancies(checkin, checkout);
+                const duration = Date.now() - start;
+                
+                window.testResults.search = true;
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Success (${duration}ms)</div>
+                    <p><strong>Hotels searched:</strong> ${result.searchDetails?.totalHotelsSearched || 'N/A'}</p>
+                    <p><strong>Vacancies found:</strong> ${result.searchDetails?.totalVacanciesFound || 0}</p>
+                    <p><strong>Has availability:</strong> ${result.availability?.hasVacancies ? '✅ YES' : '❌ NO'}</p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                window.testResults.search = false;
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Failed</div>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                updateSummary();
+            }
+        };
+
+        window.testWeekendSearch = async function() {
+            const btn = event.target;
+            const resultDiv = document.getElementById('weekend-result');
+            const count = parseInt(document.getElementById('weekend-count').value);
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = `<span class="info">⏳ Searching ${count} weekends (may take up to 10 minutes)...<br>Please be patient, this is a comprehensive search.</span>`;
+            
+            try {
+                const start = Date.now();
+                const result = await apiClient.searchWeekendVacancies(count);
+                const duration = Date.now() - start;
+                
+                window.testResults.weekend = true;
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Success (${Math.round(duration/1000)}s)</div>
+                    <p><strong>Weekends searched:</strong> ${result.searchDetails?.totalWeekendsSearched || count}</p>
+                    <p><strong>Weekends with vacancies:</strong> ${result.availability?.weekendsWithVacancies || 0}</p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                window.testResults.weekend = false;
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Failed</div>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                updateSummary();
+            }
+        };
+
+        window.updateSummary = function() {
+            const results = window.testResults;
+            const total = Object.values(results).filter(r => r !== null).length;
+            const passed = Object.values(results).filter(r => r === true).length;
+            const failed = Object.values(results).filter(r => r === false).length;
+            
+            const summary = document.getElementById('summary');
+            summary.innerHTML = `
+                <p><strong>Tests Run:</strong> ${total}</p>
+                <p class="success"><strong>Passed:</strong> ${passed}</p>
+                <p class="error"><strong>Failed:</strong> ${failed}</p>
+            `;
+        };
+
+        console.log('✅ API Client Test Suite loaded');
+        console.log('📡 API Base URL:', apiClient.apiBaseUrl);
+    </script>
+</body>
+</html>

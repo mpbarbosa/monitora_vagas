@@ -2,6 +2,88 @@
 
 All notable changes to the Trade Union Hotel Search Platform are documented in this file.
 
+## [2024-12-02] - API Integration Implementation
+
+### Added
+- **API Client Service** (`src/services/apiClient.js`):
+  - Centralized API integration with busca_vagas backend
+  - Automatic environment detection (localhost vs production)
+  - Timeout handling (30s default, 60s search, 10min weekend)
+  - Retry logic with exponential backoff (3 attempts)
+  - Response validation (`success` field checking)
+  - Caching for hotel list (5 minutes TTL)
+  - ISO 8601 date formatting for API compatibility
+
+- **API Test Suite** (`src/api-test.html`):
+  - Interactive test page for all API endpoints
+  - Visual success/failure indicators
+  - Response time measurement
+  - Pretty-printed JSON responses
+  - Test results summary
+
+- **Comprehensive Documentation**:
+  - `API_CLIENT_USAGE_REVIEW.md` - Detailed review of integration issues
+  - `API_INTEGRATION_CHANGES.md` - Implementation summary
+  - `IMPLEMENTATION_GUIDE.md` - Quick start and troubleshooting
+
+### Changed
+- **QuickSearch Component** (`src/components/QuickSearch/QuickSearch.js`):
+  - Replaced client-side simulation with real API calls
+  - Fixed date formatting from DD/MM/YYYY to YYYY-MM-DD (API requirement)
+  - Removed 1000+ lines of legacy CORS workaround code
+  - Updated `queryVacancies()` to use `apiClient.searchVacancies()`
+  - Updated `searchWeekendVacancies()` to use `apiClient.searchWeekendVacancies()`
+  - Added `transformAPIResponse()` for API data transformation
+  - Removed popup search experimental feature
+
+- **Environment Configuration** (`src/config/environment.js`):
+  - Auto-detection based on hostname
+  - `localhost` → `http://localhost:3000/api`
+  - Production → `https://www.mpbarbosa.com/api`
+
+- **index.html**:
+  - Replaced hardcoded URL with API client import
+  - Converted to ES6 module script
+  - Uses `apiClient.scrapeHotels()` for hotel dropdown
+
+### Removed
+- All client-side simulation code
+- CORS workaround attempts (popup windows, iframes)
+- Legacy `performAfpespSearch()` function
+- `simulateVacancyQuery()` function
+- `tryPopupWindowAutomation()` function
+- Experimental popup search button
+
+### Technical Details
+- **API Endpoints Used**:
+  - `GET /api/health` - Health check (30s timeout)
+  - `GET /api/vagas/hoteis` - Static hotel list (cached, 30s timeout)
+  - `GET /api/vagas/hoteis/scrape` - Scrape hotels (60s timeout)
+  - `GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD` - Search vacancies (60s timeout)
+  - `GET /api/vagas/search/weekends?count=8` - Search weekends (10min timeout)
+
+- **Architecture Improvements**:
+  - Singleton API client pattern
+  - Environment-aware base URL selection
+  - Automatic retry for server errors (HTTP 5xx)
+  - Proper error propagation and user messaging
+  - Cache invalidation after 5 minutes
+
+### Migration Impact
+- ✅ Users now get real AFPESP vacancy data
+- ⏳ Searches take longer (30-60s) but provide accurate results
+- ⚠️ Backend API must be running for functionality
+- ✅ Cleaner codebase with reusable API client
+
+### Documentation Updates
+- Updated README.md with API integration details
+- Added prerequisites section for backend API
+- Updated installation steps
+- Added API testing instructions
+- Updated project structure diagram
+
+---
+
 ## [2024-12-02] - Portuguese Localization & Guest Counter Enhancement
 
 ### Added

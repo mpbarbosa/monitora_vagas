@@ -4,21 +4,26 @@ A modern web application to search and monitor hotel vacancies from trade union 
 
 ## Architecture
 
-This application is currently a **frontend web application** with plans for future backend integration:
+This application is a **full-stack web application** with backend API integration:
 
 - **Frontend**: Modern JavaScript (ES6+) with Colorlib template integration
+- **Backend**: Integration with busca_vagas API (Puppeteer-based scraping)
 - **UI/UX**: Card-based design with blue gradient theme and responsive layout
-- **Automation**: Selenium WebDriver integration for hotel vacancy searches (planned)
+- **Automation**: Real-time AFPESP hotel vacancy searches via backend API
 - **PWA Support**: Service Worker for offline capability and installable app experience
+- **API Client**: Centralized service with timeout, retry, and caching capabilities
 
 ## Prerequisites
 
 Before running this application, make sure you have:
 
 1. **Modern Web Browser** (Chrome, Firefox, Edge, or Safari)
-2. **Node.js** (v14 or higher) for package management (optional, for development)
-3. **Python 3** for running UI tests (optional)
-4. **Chrome browser** and **ChromeDriver** for Selenium tests (optional)
+2. **Backend API** - The busca_vagas API must be running
+   - Development: `http://localhost:3000/api`
+   - Production: `https://www.mpbarbosa.com/api`
+3. **Node.js** (v14 or higher) for package management (optional, for development)
+4. **Python 3** for running UI tests (optional)
+5. **Chrome browser** and **ChromeDriver** for Selenium tests (optional)
 
 ## Installation
 
@@ -29,7 +34,18 @@ git clone <repository-url>
 cd monitora_vagas
 ```
 
-2. Open the application:
+2. **Start the backend API** (required):
+
+```bash
+# Clone and start the busca_vagas backend
+git clone https://github.com/mpbarbosa/busca_vagas.git
+cd busca_vagas
+npm install
+npm start
+# API will run on http://localhost:3000
+```
+
+3. Open the application:
 
 Simply open `src/index.html` in your web browser, or use a local development server:
 
@@ -42,6 +58,8 @@ http-server src -p 8000
 ```
 
 Then navigate to `http://localhost:8000`
+
+**Note:** For full functionality, ensure the backend API is running before using the application.
 
 ## Usage
 
@@ -68,8 +86,15 @@ Then open `http://localhost:8000` in your browser.
 
 ### Testing the Application
 
-Run the automated UI test suite:
+**API Client Tests:**
+```bash
+# Open the API test suite
+cd src
+python3 -m http.server 8000
+# Navigate to http://localhost:8000/api-test.html
+```
 
+**UI Tests:**
 ```bash
 # Install test dependencies
 python3 -m pip install -r test_requirements.txt
@@ -88,44 +113,42 @@ bash run_ui_tests.sh
 1. **Modern UI**: Colorlib-based search template with blue gradient theme
 2. **Card-Based Design**: Simplified 90-line HTML structure with professional aesthetics
 3. **QuickSearch Component**: Fast hotel search with dynamic hotel dropdown (API-loaded) and date selection
-4. **Regional Filters**: Search by coastal, mountain, interior, and capital regions
-5. **Flexible Date Selection**: Month-based or specific date range options
-6. **Responsive Design**: Mobile-first approach working on all devices (320px to 1200px+)
-7. **PWA Capabilities**: Installable web app with offline support
-8. **Material Design Icons**: Professional iconography with Font Awesome integration
-9. **Modern Typography**: Roboto font family for clean, readable interface
-10. **No-Scroll Design**: Above-the-fold optimization with progressive disclosure
+4. **Real-Time Vacancy Search**: Integration with busca_vagas backend API
+   - Specific date range searches (30-60 seconds)
+   - Weekend searches for up to 12 weekends (5-10 minutes)
+5. **API Client Service**: Centralized API integration with:
+   - Automatic environment detection (dev/production)
+   - Timeout handling (30s-10min depending on endpoint)
+   - Retry logic with exponential backoff
+   - Response validation and error handling
+   - Caching for hotel list (5 minutes)
+6. **Regional Filters**: Search by coastal, mountain, interior, and capital regions
+7. **Flexible Date Selection**: Month-based or specific date range options
+8. **Responsive Design**: Mobile-first approach working on all devices (320px to 1200px+)
+9. **PWA Capabilities**: Installable web app with offline support
+10. **Material Design Icons**: Professional iconography with Font Awesome integration
+11. **Modern Typography**: Roboto font family for clean, readable interface
+12. **No-Scroll Design**: Above-the-fold optimization with progressive disclosure
+
+### API Integration
+
+The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) for real-time vacancy data:
+
+- **GET /api/health** - Health check
+- **GET /api/vagas/hoteis** - Static hotel list (cached)
+- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP
+- **GET /api/vagas/search** - Search vacancies for specific dates
+- **GET /api/vagas/search/weekends** - Search multiple weekends
+
+See [API_CLIENT_USAGE_REVIEW.md](./API_CLIENT_USAGE_REVIEW.md) for detailed integration documentation.
 
 ### Planned Features
 
-7. **Multi-Strategy Search**: Three sophisticated approaches (in development):
-   - **🔍 API Search**: Direct AFPESP API integration
-   - **🤖 Selenium Automation**: Headless browser automation
-   - **🪟 Assisted Search**: Guided user interaction
-8. **Trade Union Integration**: Connections to multiple sindicate partnerships
-9. **Union Benefits Portal**: Special rates and premium offers for members
-10. **Session Management**: User search history and preferences
-
-## Search Strategy Details (Planned)
-
-### 🔍 **API Search**
-
-- **Method**: Direct HTTP requests to AFPESP API
-- **Best For**: Fast results when CORS policies allow
-- **Status**: In development
-
-### 🤖 **Selenium Automation** 
-
-- **Method**: Headless browser automation with intelligent patterns
-- **Best For**: Reliable results regardless of API restrictions
-- **Features**: Weekend detection, Brazilian date formatting, screenshot capture
-- **Status**: Planned
-
-### 🪟 **Assisted Search**
-
-- **Method**: Guided workflow with step-by-step user interaction
-- **Best For**: Users preferring direct AFPESP website interaction
-- **Status**: Planned
+1. **Trade Union Integration**: Connections to multiple sindicate partnerships
+2. **Union Benefits Portal**: Special rates and premium offers for members
+3. **Session Management**: User search history and preferences
+4. **Advanced Filters**: More granular search criteria
+5. **Notification System**: Email/SMS alerts for vacancy availability
 
 ## Features
 
@@ -211,16 +234,20 @@ See [`docs/TEST_RESULTS_ANALYSIS.md`](./docs/TEST_RESULTS_ANALYSIS.md) for detai
 monitora_vagas/
 ├── src/                             # Frontend Application
 │   ├── index.html                   # Main HTML entry (Colorlib template)
+│   ├── api-test.html                # API client test suite
 │   ├── main.js                      # JavaScript application logic
 │   ├── App.js                       # Application component
 │   ├── sw.js                        # Service Worker for PWA
 │   ├── components/                  # UI Components
-│   │   ├── QuickSearch/             # Quick search component
+│   │   ├── QuickSearch/             # Quick search component (with API integration)
 │   │   ├── SearchForm/              # Advanced search form
 │   │   └── ResultsList/             # Results display
 │   ├── pages/                       # Page components
 │   ├── services/                    # API services
+│   │   └── apiClient.js             # Centralized API client with timeout/retry/caching
 │   ├── config/                      # Configuration files
+│   │   ├── environment.js           # Environment detection & API URLs
+│   │   └── app.js                   # App configuration
 │   ├── utils/                       # Utility functions
 │   ├── js/                          # JavaScript modules
 │   ├── styles/                      # CSS stylesheets
@@ -244,6 +271,10 @@ monitora_vagas/
 │   ├── GIT_BEST_PRACTICES_GUIDE.md  # Git workflow guide
 │   ├── NO_SCROLL_PRINCIPLE_GUIDE.md # UI/UX design principles
 │   └── QUICK_REFERENCE.md           # Quick command reference
+│
+├── API_CLIENT_USAGE_REVIEW.md       # API integration review
+├── API_INTEGRATION_CHANGES.md       # Implementation summary
+├── IMPLEMENTATION_GUIDE.md          # API integration guide
 │
 ├── prompts/                         # AI workflow prompts
 │   └── tests_documentation_update_enhanced.txt
