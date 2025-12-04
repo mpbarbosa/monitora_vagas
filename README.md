@@ -133,7 +133,7 @@ bash run_ui_tests.sh
 
 ### API Integration
 
-The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) for real-time vacancy data:
+The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) v1.2.1 for real-time vacancy data:
 
 **QuickSearch Component (Direct Integration):**
 - **GET /api/vagas/search** - Search vacancies for specific dates
@@ -142,6 +142,12 @@ The application integrates with the [busca_vagas API](https://github.com/mpbarbo
 
 **Index.html (via apiClient):**
 - **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP
+
+**API Response Handling (v1.2.1):**
+- Robust transformation layer for API responses
+- Support for nested result structures
+- Backward compatibility with legacy response formats
+- Proper handling of weekend search result arrays
 
 The QuickSearch component uses direct fetch API calls for transparency and better timeout control. The apiClient service is used for hotel scraping in index.html.
 

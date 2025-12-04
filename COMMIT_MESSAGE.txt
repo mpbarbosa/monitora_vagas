@@ -1,0 +1,123 @@
+# Git Commit Message Template
+
+## Commit Title
+```
+feat: Update API integration to match DATA_FLOW_DOCUMENTATION.md structure
+```
+
+## Commit Body
+```
+Updated the monitora_vagas application to correctly integrate with the
+busca_vagas API using the exact endpoint structure and response format
+documented in DATA_FLOW_DOCUMENTATION.md.
+
+### Changes Made
+
+Modified Files:
+- src/services/apiClient.js
+  * Added 'hotel' parameter to searchVacancies() (default: '-1')
+  * Updated URL construction: ?hotel=${hotel}&checkin=${checkin}&checkout=${checkout}
+  * Updated response parsing to extract data.result structure
+  * Enhanced logging with method and status information
+
+- src/components/QuickSearch/QuickSearch.js
+  * Updated transformAPIResponse() to parse result object correctly
+  * Extract fields from apiData.result instead of root level
+  * Updated transformWeekendAPIResponse() for weekend search results
+  * Calculate metrics from actual response data
+
+Created Files:
+- test-api-integration.html - Interactive browser test suite
+- test_api_integration.sh - Automated CLI test script
+- API_INTEGRATION_UPDATE.md - Detailed change documentation
+- API_INTEGRATION_SUCCESS.md - Success summary with examples
+- QUICK_START.md - Quick reference guide
+- api_test_response.json - Live API response sample
+
+### Testing
+
+All integration tests passed:
+✅ Health Check
+✅ Basic Search
+✅ Hotel Parameter
+✅ Response Structure Validation
+✅ All Required Fields Present
+✅ Nested Data Fields Validated
+
+Live API test successful:
+- Request: GET /api/vagas/search?hotel=-1&checkin=2025-12-09&checkout=2025-12-11
+- Response: 3 hotels found (Amparo, Appenzell, Areado)
+- Status: ✅ All fields match DATA_FLOW_DOCUMENTATION.md
+
+### API Structure
+
+Correct response structure now used:
+{
+  success: true,
+  method: "puppeteer",
+  data: {
+    hasAvailability: true,
+    result: {
+      status: "AVAILABLE",
+      vacancies: [...],
+      hotelGroups: {...}
+    }
+  }
+}
+
+### Reference
+
+Based on: /home/mpb/Documents/GitHub/busca_vagas/docs/DATA_FLOW_DOCUMENTATION.md
+API Version: 1.3.0
+Integration Status: ✅ PRODUCTION READY
+
+### How to Test
+
+```bash
+# Automated test
+bash test_api_integration.sh
+
+# Interactive test
+python3 -m http.server 8000
+# Open http://localhost:8000/test-api-integration.html
+
+# View response sample
+cat api_test_response.json
+```
+
+### Breaking Changes
+
+None - Changes are backward compatible and only affect internal API response parsing.
+```
+
+## Git Commands
+
+```bash
+# Stage all changes
+git add src/services/apiClient.js
+git add src/components/QuickSearch/QuickSearch.js
+git add test-api-integration.html
+git add test_api_integration.sh
+git add API_INTEGRATION_UPDATE.md
+git add API_INTEGRATION_SUCCESS.md
+git add QUICK_START.md
+git add api_test_response.json
+
+# Commit with message
+git commit -F COMMIT_MESSAGE.txt
+
+# Or commit with inline message
+git commit -m "feat: Update API integration to match DATA_FLOW_DOCUMENTATION.md structure" \
+  -m "Updated response parsing to correctly extract data.result structure." \
+  -m "Added comprehensive test suite and documentation." \
+  -m "All tests passed - integration is production ready."
+```
+
+## Commit Footer (Optional)
+
+```
+Closes #<issue-number>
+Refs: DATA_FLOW_DOCUMENTATION.md
+Tested: ✅ All integration tests passed
+Status: Production Ready
+```

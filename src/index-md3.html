@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistema de busca de vagas em hotéis sindicais AFPESP">
+    <meta name="author" content="AFPESP">
+    <meta name="keywords" content="hotéis sindicais, AFPESP, vagas, reservas">
+    <meta name="theme-color" content="#6750A4">
+
+    <!-- Title -->
+    <title>Monitora Vagas - Hotéis Sindicais AFPESP</title>
+
+    <!-- Material Design 3 Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols (MD3 Icons) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <!-- MD3 Theme & Components CSS -->
+    <link href="css/md3-theme.css" rel="stylesheet">
+    <link href="css/md3-components.css" rel="stylesheet">
+
+    <!-- Import Map for Material Web Components -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+    </script>
+
+    <!-- Material Web Components -->
+    <script type="module">
+        import '@material/web/button/filled-button.js';
+        import '@material/web/button/filled-tonal-button.js';
+        import '@material/web/button/outlined-button.js';
+        import '@material/web/textfield/filled-text-field.js';
+        import '@material/web/select/filled-select.js';
+        import '@material/web/select/select-option.js';
+        import '@material/web/icon/icon.js';
+    </script>
+</head>
+
+<body>
+    <!-- Main Page Container -->
+    <div class="md3-page-wrapper">
+        <div class="md3-container">
+            <!-- Main Card -->
+            <div class="md3-card">
+                <div class="md3-card-content">
+                    <!-- Search Form -->
+                    <form class="md3-form" id="search-form">
+                        <!-- Hotel Selection -->
+                        <div class="md3-form-row">
+                            <md-filled-select id="hotel-select" label="Hotel" required>
+                                <md-select-option value="">
+                                    <div slot="headline">Carregando hotéis...</div>
+                                </md-select-option>
+                            </md-filled-select>
+                        </div>
+
+                        <!-- Check-in and Check-out Dates -->
+                        <div class="md3-form-row md3-form-row-2col">
+                            <md-filled-text-field 
+                                id="input-checkin" 
+                                label="Check-in" 
+                                type="text"
+                                placeholder="dd/mm/aaaa"
+                                required
+                                supporting-text="Formato: dd/mm/aaaa">
+                                <md-icon slot="leading-icon">calendar_today</md-icon>
+                            </md-filled-text-field>
+
+                            <md-filled-text-field 
+                                id="input-checkout" 
+                                label="Check-out" 
+                                type="text"
+                                placeholder="dd/mm/aaaa"
+                                required
+                                supporting-text="Formato: dd/mm/aaaa">
+                                <md-icon slot="leading-icon">event</md-icon>
+                            </md-filled-text-field>
+                        </div>
+
+                        <!-- Guest Counter -->
+                        <div class="md3-form-row">
+                            <div class="md3-guest-counter">
+                                <span class="md3-guest-counter-label">Hóspedes</span>
+                                <div class="md3-guest-counter-controls">
+                                    <button type="button" class="md3-icon-button" id="guest-minus" aria-label="Diminuir número de hóspedes">
+                                        <md-icon>remove</md-icon>
+                                    </button>
+                                    <span class="md3-guest-counter-value" id="guest-count">2 Hóspedes</span>
+                                    <button type="button" class="md3-icon-button" id="guest-plus" aria-label="Aumentar número de hóspedes">
+                                        <md-icon>add</md-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <md-filled-button type="submit" id="search-button">
+                            <md-icon slot="icon">search</md-icon>
+                            Buscar Vagas
+                        </md-filled-button>
+                    </form>
+
+                    <!-- Results Container -->
+                    <div class="md3-results-container" id="results-container">
+                        <h2 class="md3-results-header">
+                            <md-icon>assessment</md-icon>
+                            Resultados da Busca
+                        </h2>
+                        
+                        <textarea 
+                            class="md3-results-textarea" 
+                            id="results-textarea" 
+                            readonly
+                            aria-label="Resultados da busca de vagas"
+                            aria-live="polite">
+                        </textarea>
+
+                        <div class="md3-results-actions">
+                            <md-filled-tonal-button id="copy-results-btn">
+                                <md-icon slot="icon">content_copy</md-icon>
+                                Copiar Resultados
+                            </md-filled-tonal-button>
+                            
+                            <md-outlined-button id="clear-results-btn">
+                                <md-icon slot="icon">delete</md-icon>
+                                Limpar Resultados
+                            </md-outlined-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snackbar for notifications -->
+    <div class="md3-snackbar" id="snackbar" role="status" aria-live="polite">
+        <span class="md3-snackbar-text" id="snackbar-text"></span>
+    </div>
+
+    <!-- Application JavaScript -->
+    <script type="module">
+        // ========================================
+        // GUEST COUNTER LOGIC
+        // ========================================
+        
+        let guestCount = 2;
+        const minGuests = 1;
+        const maxGuests = 10;
+        
+        const guestCountDisplay = document.getElementById('guest-count');
+        const guestMinusBtn = document.getElementById('guest-minus');
+        const guestPlusBtn = document.getElementById('guest-plus');
+        
+        function updateGuestCount() {
+            guestCountDisplay.textContent = `${guestCount} ${guestCount === 1 ? 'Hóspede' : 'Hóspedes'}`;
+            guestMinusBtn.disabled = guestCount <= minGuests;
+            guestPlusBtn.disabled = guestCount >= maxGuests;
+        }
+        
+        guestMinusBtn.addEventListener('click', () => {
+            if (guestCount > minGuests) {
+                guestCount--;
+                updateGuestCount();
+            }
+        });
+        
+        guestPlusBtn.addEventListener('click', () => {
+            if (guestCount < maxGuests) {
+                guestCount++;
+                updateGuestCount();
+            }
+        });
+        
+        updateGuestCount();
+        
+        // ========================================
+        // HOTEL LOADING
+        // ========================================
+        
+        const hotelSelect = document.getElementById('hotel-select');
+        
+        // Load hotels directly from production API
+        const apiBaseUrl = 'https://www.mpbarbosa.com/api';
+        
+        fetch(`${apiBaseUrl}/vagas/hoteis/scrape`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (!result.success) {
+                    throw new Error(result.error || 'API returned error');
+                }
+                const hotels = result.data;
+                hotelSelect.innerHTML = '<md-select-option value=""><div slot="headline">Selecione um hotel</div></md-select-option>';
+                hotels.forEach(hotel => {
+                    const option = document.createElement('md-select-option');
+                    option.setAttribute('value', hotel.hotelId);
+                    const headline = document.createElement('div');
+                    headline.setAttribute('slot', 'headline');
+                    headline.textContent = hotel.name;
+                    option.appendChild(headline);
+                    hotelSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading hotels:', error);
+                showSnackbar('Erro ao carregar hotéis');
+                hotelSelect.innerHTML = '<md-select-option value=""><div slot="headline">Erro ao carregar hotéis</div></md-select-option>';
+            });
+        
+        // ========================================
+        // FORM SUBMISSION
+        // ========================================
+        
+        const searchForm = document.getElementById('search-form');
+        const searchButton = document.getElementById('search-button');
+        const resultsContainer = document.getElementById('results-container');
+        const resultsTextarea = document.getElementById('results-textarea');
+        
+        searchForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            console.log('🚀 Starting vacancy search flow...');
+            
+            // Get form values
+            const hotel = hotelSelect.value || '-1';
+            const checkinBR = document.getElementById('input-checkin').value;
+            const checkoutBR = document.getElementById('input-checkout').value;
+            
+            console.log('📝 Input parameters:', { hotel, checkinBR, checkoutBR });
+            
+            // Validate inputs
+            if (!checkinBR || !checkoutBR) {
+                showSnackbar('Por favor, preencha as datas de check-in e check-out');
+                return;
+            }
+            
+            // Convert Brazilian date format (dd/mm/yyyy) to ISO 8601 (yyyy-mm-dd)
+            const formatDateToISO = (dateStr) => {
+                const parts = dateStr.split('/');
+                if (parts.length !== 3) return null;
+                const [day, month, year] = parts;
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            };
+            
+            const checkin = formatDateToISO(checkinBR);
+            const checkout = formatDateToISO(checkoutBR);
+            
+            if (!checkin || !checkout) {
+                showSnackbar('Formato de data inválido. Use dd/mm/aaaa');
+                return;
+            }
+            
+            console.log('✅ Dates converted to ISO format:', { checkin, checkout });
+            
+            // Show loading state
+            searchButton.disabled = true;
+            const originalButtonContent = searchButton.innerHTML;
+            searchButton.innerHTML = '<md-icon slot="icon">hourglass_empty</md-icon>Buscando...';
+            
+            // Hide previous results
+            resultsContainer.classList.remove('visible');
+            resultsTextarea.value = '';
+            
+            try {
+                // Call API
+                const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}`;
+                console.log('🌐 API Request URL:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                console.log('✅ API Response received:', result);
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'API returned error');
+                }
+                
+                // Display results
+                displayResults(result, checkinBR, checkoutBR, hotel);
+                showSnackbar('✅ Busca concluída com sucesso!');
+                
+            } catch (error) {
+                console.error('❌ Search failed:', error);
+                resultsTextarea.value = `❌ ERRO NA BUSCA\n\n${error.message}\n\nPor favor, tente novamente.`;
+                resultsContainer.classList.add('visible');
+                showSnackbar(`❌ Erro: ${error.message}`);
+            } finally {
+                // Restore button state
+                searchButton.disabled = false;
+                searchButton.innerHTML = originalButtonContent;
+            }
+        });
+        
+        // ========================================
+        // RESULTS DISPLAY
+        // ========================================
+        
+        function displayResults(apiResponse, checkinBR, checkoutBR, hotel) {
+            const { data } = apiResponse;
+            const { result } = data;
+            
+            let output = '';
+            
+            // Header
+            output += '═'.repeat(80) + '\n';
+            output += '         🏨 BUSCA DE VAGAS EM HOTÉIS SINDICAIS - AFPESP\n';
+            output += '═'.repeat(80) + '\n\n';
+            
+            // Search Parameters
+            output += '📋 PARÂMETROS DA BUSCA:\n';
+            output += '─'.repeat(80) + '\n';
+            output += `  Hotel:     ${hotel === '-1' ? 'Todos os Hotéis' : hotel}\n`;
+            output += `  Check-in:  ${checkinBR}\n`;
+            output += `  Check-out: ${checkoutBR}\n`;
+            output += `  Hóspedes:  ${guestCount}\n`;
+            output += `  Data/Hora: ${new Date().toLocaleString('pt-BR')}\n`;
+            output += '\n';
+            
+            // API Metadata
+            output += '🤖 INFORMAÇÕES DA API:\n';
+            output += '─'.repeat(80) + '\n';
+            output += `  Método:           ${apiResponse.method || 'N/A'}\n`;
+            output += `  Modo Headless:    ${apiResponse.headlessMode ? 'Sim' : 'Não'}\n`;
+            output += `  Economia:         ${apiResponse.resourceSavings || 'N/A'}\n`;
+            output += `  Filtro de Hotel:  ${apiResponse.hotelFilter || 'N/A'}\n`;
+            output += '\n';
+            
+            // Results Summary
+            output += '📊 RESUMO DOS RESULTADOS:\n';
+            output += '─'.repeat(80) + '\n';
+            output += `  Status:              ${result.status || 'N/A'}\n`;
+            output += `  Disponibilidade:     ${data.hasAvailability ? '✅ SIM' : '❌ NÃO'}\n`;
+            output += `  Data da Busca:       ${data.date || 'N/A'}\n`;
+            output += `  Total de Vagas:      ${result.vacancies?.length || 0}\n`;
+            output += `  Hotéis Encontrados:  ${Object.keys(result.hotelGroups || {}).length}\n`;
+            output += '\n';
+            
+            // Summary Message
+            output += '💬 MENSAGEM:\n';
+            output += '─'.repeat(80) + '\n';
+            output += `  ${result.summary || 'Sem informações'}\n`;
+            output += '\n';
+            
+            // Detailed Vacancies
+            if (data.hasAvailability && result.vacancies && result.vacancies.length > 0) {
+                output += '═'.repeat(80) + '\n';
+                output += '🏨 VAGAS DISPONÍVEIS POR HOTEL\n';
+                output += '═'.repeat(80) + '\n\n';
+                
+                const hotelGroups = result.hotelGroups || {};
+                
+                Object.keys(hotelGroups).forEach((hotelName, index) => {
+                    output += `\n📍 HOTEL ${index + 1}: ${hotelName}\n`;
+                    output += '─'.repeat(80) + '\n';
+                    
+                    const vacancies = hotelGroups[hotelName];
+                    vacancies.forEach((vacancy, vIndex) => {
+                        output += `   ${vIndex + 1}. ${vacancy}\n`;
+                    });
+                });
+                
+                output += '\n';
+                output += '═'.repeat(80) + '\n';
+                output += '📋 LISTA COMPLETA DE VAGAS\n';
+                output += '═'.repeat(80) + '\n\n';
+                
+                result.vacancies.forEach((vacancy, index) => {
+                    output += `${(index + 1).toString().padStart(3, ' ')}. ${vacancy}\n`;
+                });
+                
+            } else {
+                output += '═'.repeat(80) + '\n';
+                output += '😔 NENHUMA VAGA ENCONTRADA\n';
+                output += '═'.repeat(80) + '\n\n';
+                output += 'Não há quartos disponíveis para o período selecionado.\n\n';
+                output += '💡 SUGESTÕES:\n';
+                output += '  • Tente datas diferentes\n';
+                output += '  • Considere estadias no meio da semana\n';
+                output += '  • Verifique hotéis específicos individualmente\n';
+                output += '  • Entre em contato diretamente com o sindicato\n';
+            }
+            
+            // Footer
+            output += '\n';
+            output += '═'.repeat(80) + '\n';
+            output += '📞 PRÓXIMOS PASSOS:\n';
+            output += '─'.repeat(80) + '\n';
+            if (data.hasAvailability) {
+                output += '  1. 📲 Entre em contato com seu sindicato para realizar a reserva\n';
+                output += '  2. ⚡ Reserve imediatamente - vagas limitadas!\n';
+                output += '  3. 📋 Tenha seus documentos em mãos\n';
+                output += '  4. 💰 Confirme tarifas especiais para sindicalizados\n';
+            } else {
+                output += '  1. 🔄 Tente novamente com outras datas\n';
+                output += '  2. 📅 Considere períodos alternativos\n';
+                output += '  3. 📱 Entre em contato com o sindicato para verificar cancelamentos\n';
+            }
+            output += '\n';
+            output += '═'.repeat(80) + '\n';
+            output += '🌐 Powered by: https://www.mpbarbosa.com/api\n';
+            output += `📅 Gerado em: ${new Date().toLocaleString('pt-BR')}\n`;
+            output += '═'.repeat(80) + '\n';
+            
+            resultsTextarea.value = output;
+            resultsContainer.classList.add('visible');
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            console.log('✅ Results displayed successfully');
+        }
+        
+        // ========================================
+        // COPY & CLEAR BUTTONS
+        // ========================================
+        
+        const copyBtn = document.getElementById('copy-results-btn');
+        const clearBtn = document.getElementById('clear-results-btn');
+        
+        copyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(resultsTextarea.value);
+                showSnackbar('✅ Resultados copiados!');
+            } catch (err) {
+                resultsTextarea.select();
+                document.execCommand('copy');
+                showSnackbar('✅ Resultados copiados!');
+            }
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            resultsTextarea.value = '';
+            resultsContainer.classList.remove('visible');
+            showSnackbar('🗑️ Resultados limpos');
+        });
+        
+        // ========================================
+        // SNACKBAR NOTIFICATIONS
+        // ========================================
+        
+        function showSnackbar(message, duration = 3000) {
+            const snackbar = document.getElementById('snackbar');
+            const snackbarText = document.getElementById('snackbar-text');
+            
+            snackbarText.textContent = message;
+            snackbar.classList.add('visible');
+            
+            setTimeout(() => {
+                snackbar.classList.remove('visible');
+            }, duration);
+        }
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');
+    </script>
+</body>
+
+</html>

@@ -99,27 +99,31 @@ class HotelVacancyService {
 
     // Transform weekend API response to component format
     transformWeekendAPIResponse(apiData) {
-        const { weekendResults, availability, searchDetails } = apiData;
+        // According to DATA_FLOW_DOCUMENTATION, weekend search returns array of search results
+        // Each item has the same structure as regular search
+        const weekendResults = apiData.weekendResults || apiData;
         
-        if (!weekendResults || weekendResults.length === 0) {
+        if (!Array.isArray(weekendResults) || weekendResults.length === 0) {
             return [];
         }
         
-        return weekendResults.map((weekend, index) => ({
-            weekendNumber: index + 1,
-            dates: `${weekend.dates?.checkin || ''} to ${weekend.dates?.checkout || ''}`,
-            friday: new Date(weekend.dates?.checkin),
-            sunday: new Date(weekend.dates?.checkout),
-            result: {
-                hasAvailability: weekend.availability?.hasVacancies || false,
-                summary: weekend.availability?.hasVacancies 
-                    ? `${weekend.availability.availableHotels} hotel(s) disponível(is)`
-                    : 'Sem disponibilidade',
-                vacancies: weekend.vacancies || [],
-                hotelGroups: weekend.hotelGroups || {}
-            },
-            status: weekend.availability?.hasVacancies ? 'AVAILABLE' : 'NO AVAILABILITY'
-        }));
+        return weekendResults.map((weekendData, index) => {
+            const result = weekendData.result || weekendData;
+            
+            return {
+                weekendNumber: index + 1,
+                dates: weekendData.dates || `Weekend ${index + 1}`,
+                friday: weekendData.friday ? new Date(weekendData.friday) : null,
+                sunday: weekendData.sunday ? new Date(weekendData.sunday) : null,
+                result: {
+                    hasAvailability: result.hasAvailability || false,
+                    summary: result.summary || 'Sem disponibilidade',
+                    vacancies: result.vacancies || [],
+                    hotelGroups: result.hotelGroups || {}
+                },
+                status: result.status || (result.hasAvailability ? 'AVAILABLE' : 'NO AVAILABILITY')
+            };
+        });
     }
 
     // Display weekend search summary (selenium-script.js displayWeekendSummary equivalent)
@@ -231,23 +235,22 @@ class HotelVacancyService {
 
     // Transform API response to component format
     transformAPIResponse(apiData, startDate, endDate) {
-        const { availability, vacancies, searchDetails, hotelGroups } = apiData;
+        // According to DATA_FLOW_DOCUMENTATION.md, the response structure is:
+        // { success, date, hasAvailability, result: { hasAvailability, status, summary, vacancies, hotelGroups } }
+        const result = apiData.result || apiData;
         
         return {
-            hasAvailability: availability?.hasVacancies || false,
-            status: availability?.hasVacancies ? 'AVAILABLE' : 'NO AVAILABILITY',
-            summary: availability?.hasVacancies 
-                ? `Encontradas vagas em ${availability.availableHotels} hotel(s)`
-                : 'No período escolhido não há nenhum quarto disponível',
-            vacancies: vacancies || [],
-            hotelGroups: hotelGroups || {},
+            hasAvailability: result.hasAvailability || false,
+            status: result.status || (result.hasAvailability ? 'AVAILABLE' : 'NO AVAILABILITY'),
+            summary: result.summary || 'No período escolhido não há nenhum quarto disponível',
+            vacancies: result.vacancies || [],
+            hotelGroups: result.hotelGroups || {},
             queryDetails: {
                 startDate: this.formatDateBR(startDate),
                 endDate: this.formatDateBR(endDate),
                 searchType: 'real_api_search',
-                hotelsFound: availability?.availableHotels || 0,
-                totalHotelsSearched: searchDetails?.totalHotelsSearched || 0,
-                totalVacanciesFound: searchDetails?.totalVacanciesFound || 0
+                hotelsFound: Object.keys(result.hotelGroups || {}).length,
+                totalVacanciesFound: (result.vacancies || []).length
             }
         };
     }

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration Test - Busca Vagas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .test-form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        label {
+            display: block;
+            color: #4a5568;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        button:hover:not(:disabled) {
+            background: #5a67d8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .result h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .result pre {
+            background: #1a202c;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .status.loading {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+        
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .info-box p {
+            color: #2c5282;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .info-box strong {
+            color: #2a4365;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            margin-left: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 API Integration Test</h1>
+        <p class="subtitle">Test the Busca Vagas API integration based on DATA_FLOW_DOCUMENTATION.md</p>
+        
+        <div class="info-box">
+            <p><strong>📚 API Documentation:</strong> /home/mpb/Documents/GitHub/busca_vagas/docs/DATA_FLOW_DOCUMENTATION.md</p>
+            <p><strong>🔗 Endpoint:</strong> GET /api/vagas/search</p>
+            <p><strong>📋 Required Parameters:</strong> checkin (YYYY-MM-DD), checkout (YYYY-MM-DD)</p>
+            <p><strong>📋 Optional Parameters:</strong> hotel (default: '-1' for all hotels)</p>
+        </div>
+        
+        <!-- Test 1: Basic Search -->
+        <div class="test-section">
+            <h2>🔍 Test 1: Basic Vacancy Search</h2>
+            <form class="test-form" id="basicSearchForm">
+                <div class="form-row">
+                    <div>
+                        <label for="checkin">Check-in Date (YYYY-MM-DD)</label>
+                        <input type="date" id="checkin" required>
+                    </div>
+                    <div>
+                        <label for="checkout">Check-out Date (YYYY-MM-DD)</label>
+                        <input type="date" id="checkout" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="hotel">Hotel Filter</label>
+                    <select id="hotel">
+                        <option value="-1">All Hotels (Todas)</option>
+                    </select>
+                </div>
+                <button type="submit" id="basicSearchBtn">
+                    Run Basic Search
+                </button>
+            </form>
+            <div class="result" id="basicSearchResult" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 2: API Client Search -->
+        <div class="test-section">
+            <h2>🎯 Test 2: API Client Method</h2>
+            <form class="test-form" id="apiClientForm">
+                <div class="form-row">
+                    <div>
+                        <label for="apiCheckin">Check-in Date</label>
+                        <input type="date" id="apiCheckin" required>
+                    </div>
+                    <div>
+                        <label for="apiCheckout">Check-out Date</label>
+                        <input type="date" id="apiCheckout" required>
+                    </div>
+                </div>
+                <button type="submit" id="apiClientBtn">
+                    Test API Client
+                </button>
+            </form>
+            <div class="result" id="apiClientResult" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 3: Response Structure Validation -->
+        <div class="test-section">
+            <h2>✅ Test 3: Response Structure Validation</h2>
+            <p style="margin-bottom: 15px; color: #4a5568;">
+                Validates that the API response matches the expected structure from DATA_FLOW_DOCUMENTATION.md
+            </p>
+            <button id="validateBtn">
+                Validate Response Structure
+            </button>
+            <div class="result" id="validateResult" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { BuscaVagasAPIClient } from './src/services/apiClient.js';
+        
+        const apiClient = new BuscaVagasAPIClient();
+        
+        // Set default dates (today + 7 days to today + 9 days)
+        const today = new Date();
+        const checkinDate = new Date(today);
+        checkinDate.setDate(today.getDate() + 7);
+        const checkoutDate = new Date(checkinDate);
+        checkoutDate.setDate(checkinDate.getDate() + 2);
+        
+        document.getElementById('checkin').valueAsDate = checkinDate;
+        document.getElementById('checkout').valueAsDate = checkoutDate;
+        document.getElementById('apiCheckin').valueAsDate = checkinDate;
+        document.getElementById('apiCheckout').valueAsDate = checkoutDate;
+        
+        // Test 1: Basic Search
+        document.getElementById('basicSearchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('basicSearchBtn');
+            const result = document.getElementById('basicSearchResult');
+            
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const hotel = document.getElementById('hotel').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = 'Searching... <span class="loading-spinner">⏳</span>';
+            result.style.display = 'block';
+            result.innerHTML = '<h3>Loading... <span class="status loading">IN PROGRESS</span></h3>';
+            
+            try {
+                const url = `${apiClient.apiBaseUrl}/vagas/search?hotel=${hotel}&checkin=${checkin}&checkout=${checkout}`;
+                console.log('🔍 Testing URL:', url);
+                
+                const response = await fetch(url, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                result.innerHTML = `
+                    <h3>Response <span class="status success">SUCCESS</span></h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                
+                console.log('✅ Basic search completed:', data);
+                
+            } catch (error) {
+                result.innerHTML = `
+                    <h3>Response <span class="status error">ERROR</span></h3>
+                    <pre>${error.message}</pre>
+                `;
+                console.error('❌ Basic search failed:', error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Run Basic Search';
+            }
+        });
+        
+        // Test 2: API Client
+        document.getElementById('apiClientForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('apiClientBtn');
+            const result = document.getElementById('apiClientResult');
+            
+            const checkin = document.getElementById('apiCheckin').value;
+            const checkout = document.getElementById('apiCheckout').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = 'Testing... <span class="loading-spinner">⏳</span>';
+            result.style.display = 'block';
+            result.innerHTML = '<h3>Loading... <span class="status loading">IN PROGRESS</span></h3>';
+            
+            try {
+                console.log('🎯 Testing API Client method');
+                
+                const data = await apiClient.searchVacancies(checkin, checkout);
+                
+                result.innerHTML = `
+                    <h3>API Client Response <span class="status success">SUCCESS</span></h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                
+                console.log('✅ API Client test completed:', data);
+                
+            } catch (error) {
+                result.innerHTML = `
+                    <h3>API Client Response <span class="status error">ERROR</span></h3>
+                    <pre>${error.message}</pre>
+                `;
+                console.error('❌ API Client test failed:', error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Test API Client';
+            }
+        });
+        
+        // Test 3: Validate Structure
+        document.getElementById('validateBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('validateBtn');
+            const result = document.getElementById('validateResult');
+            
+            btn.disabled = true;
+            btn.innerHTML = 'Validating... <span class="loading-spinner">⏳</span>';
+            result.style.display = 'block';
+            
+            try {
+                const checkin = document.getElementById('checkin').value;
+                const checkout = document.getElementById('checkout').value;
+                
+                console.log('✅ Validating response structure');
+                
+                const response = await fetch(
+                    `${apiClient.apiBaseUrl}/vagas/search?hotel=-1&checkin=${checkin}&checkout=${checkout}`,
+                    { headers: { 'Accept': 'application/json' } }
+                );
+                
+                const data = await response.json();
+                
+                // Expected structure according to DATA_FLOW_DOCUMENTATION.md
+                const expectedStructure = {
+                    success: 'boolean',
+                    method: 'string',
+                    headlessMode: 'boolean',
+                    resourceSavings: 'string',
+                    hotelFilter: 'string',
+                    data: {
+                        success: 'boolean',
+                        date: 'string',
+                        hasAvailability: 'boolean',
+                        result: {
+                            hasAvailability: 'boolean',
+                            status: 'string',
+                            summary: 'string',
+                            vacancies: 'array',
+                            hotelGroups: 'object'
+                        }
+                    }
+                };
+                
+                const validation = validateStructure(data, expectedStructure);
+                
+                if (validation.valid) {
+                    result.innerHTML = `
+                        <h3>Validation <span class="status success">PASSED</span></h3>
+                        <p style="color: #22543d; margin: 10px 0;">✅ Response structure matches DATA_FLOW_DOCUMENTATION.md</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <h3>Validation <span class="status error">FAILED</span></h3>
+                        <p style="color: #742a2a; margin: 10px 0;">❌ Structure mismatch</p>
+                        <pre>${JSON.stringify(validation.errors, null, 2)}</pre>
+                    `;
+                }
+                
+            } catch (error) {
+                result.innerHTML = `
+                    <h3>Validation <span class="status error">ERROR</span></h3>
+                    <pre>${error.message}</pre>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Validate Response Structure';
+            }
+        });
+        
+        function validateStructure(data, expected, path = '') {
+            const errors = [];
+            
+            for (const key in expected) {
+                const fullPath = path ? `${path}.${key}` : key;
+                
+                if (!(key in data)) {
+                    errors.push(`Missing field: ${fullPath}`);
+                    continue;
+                }
+                
+                const expectedType = expected[key];
+                const actualValue = data[key];
+                
+                if (typeof expectedType === 'string') {
+                    const actualType = Array.isArray(actualValue) ? 'array' : typeof actualValue;
+                    
+                    if (actualType !== expectedType) {
+                        errors.push(`Type mismatch at ${fullPath}: expected ${expectedType}, got ${actualType}`);
+                    }
+                } else if (typeof expectedType === 'object' && !Array.isArray(expectedType)) {
+                    if (typeof actualValue !== 'object' || actualValue === null) {
+                        errors.push(`Expected object at ${fullPath}, got ${typeof actualValue}`);
+                    } else {
+                        const nestedValidation = validateStructure(actualValue, expectedType, fullPath);
+                        errors.push(...nestedValidation.errors);
+                    }
+                }
+            }
+            
+            return {
+                valid: errors.length === 0,
+                errors: errors
+            };
+        }
+    </script>
+</body>
+</html>

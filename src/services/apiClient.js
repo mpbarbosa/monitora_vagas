@@ -170,9 +170,10 @@ export class BuscaVagasAPIClient {
      * Search for vacancies between two dates (Puppeteer-based)
      * @param {Date|string} checkinDate - Check-in date
      * @param {Date|string} checkoutDate - Check-out date
+     * @param {string} hotel - Hotel filter (default: '-1' for all hotels)
      * @returns {Promise<object>} Vacancy search results
      */
-    async searchVacancies(checkinDate, checkoutDate) {
+    async searchVacancies(checkinDate, checkoutDate, hotel = '-1') {
         // Convert dates to ISO format if needed
         const checkin = checkinDate instanceof Date 
             ? this.formatDateISO(checkinDate) 
@@ -181,19 +182,21 @@ export class BuscaVagasAPIClient {
             ? this.formatDateISO(checkoutDate) 
             : checkoutDate;
         
-        const url = `${this.apiBaseUrl}/vagas/search?checkin=${checkin}&checkout=${checkout}`;
+        const url = `${this.apiBaseUrl}/vagas/search?hotel=${hotel}&checkin=${checkin}&checkout=${checkout}`;
         console.log(`🔍 Searching vacancies: ${url}`);
-        console.log(`📅 Check-in: ${checkin}, Check-out: ${checkout}`);
+        console.log(`📅 Check-in: ${checkin}, Check-out: ${checkout}, Hotel: ${hotel}`);
         
         const result = await this.fetchWithRetry(
             () => this.fetchWithTimeout(url, {}, this.timeout.search)
         );
         
+        // According to DATA_FLOW_DOCUMENTATION.md:
+        // Response: { success, method, headlessMode, resourceSavings, hotelFilter, data: { success, date, hasAvailability, result } }
         const { data } = result;
         console.log(`✅ Search completed:`);
-        console.log(`   - Hotels searched: ${data.searchDetails?.totalHotelsSearched || 'N/A'}`);
-        console.log(`   - Vacancies found: ${data.searchDetails?.totalVacanciesFound || 0}`);
-        console.log(`   - Has availability: ${data.availability?.hasVacancies ? 'YES' : 'NO'}`);
+        console.log(`   - Method: ${result.method || 'N/A'}`);
+        console.log(`   - Has availability: ${data.hasAvailability ? 'YES' : 'NO'}`);
+        console.log(`   - Status: ${data.result?.status || 'N/A'}`);
         
         return data;
     }

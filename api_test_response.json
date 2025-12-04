@@ -1,0 +1,35 @@
+{
+    "success": true,
+    "method": "puppeteer",
+    "headlessMode": true,
+    "resourceSavings": "40-60% compared to Selenium",
+    "hotelFilter": "-1",
+    "data": {
+        "success": true,
+        "date": "12/9/2025",
+        "hasAvailability": true,
+        "result": {
+            "hasAvailability": true,
+            "status": "AVAILABLE",
+            "summary": "Found vacancies in 3 hotel(s): Amparo, Appenzell, Areado",
+            "vacancies": [
+                "Amparo: COQUEIROS (at\u00e9 3 pessoas)09/12 - 11/12 (2 dias livres) - 1 Quarto(s)",
+                "Appenzell: JAZZ Luxo (at\u00e9 2 pessoas)09/12 - 11/12 (2 dias livres) - 1 Quarto(s)",
+                "Areado: FURNAS STANDARD (at\u00e9 2 pessoas)09/12 - 11/12 (2 dias livres) - 2 Quarto(s)",
+                "Areado: FURNAS (at\u00e9 3 pessoas)09/12 - 11/12 (2 dias livres) - 6 Quarto(s)"
+            ],
+            "hotelGroups": {
+                "Amparo": [
+                    "COQUEIROS (at\u00e9 3 pessoas)09/12 - 11/12 (2 dias livres) - 1 Quarto(s)"
+                ],
+                "Appenzell": [
+                    "JAZZ Luxo (at\u00e9 2 pessoas)09/12 - 11/12 (2 dias livres) - 1 Quarto(s)"
+                ],
+                "Areado": [
+                    "FURNAS STANDARD (at\u00e9 2 pessoas)09/12 - 11/12 (2 dias livres) - 2 Quarto(s)",
+                    "FURNAS (at\u00e9 3 pessoas)09/12 - 11/12 (2 dias livres) - 6 Quarto(s)"
+                ]
+            }
+        }
+    }
+}

@@ -50,7 +50,9 @@ The Trade Union Hotel Search Platform is designed to help sindicate members find
 
 ### Current Implementation
 - **Technology**: Modern web application with vanilla JavaScript ES6+ modules and Colorlib template
-- **Architecture**: Frontend-only with PWA support, Colorlib card-based design
+- **Architecture**: Full-stack with backend API integration, PWA support, Colorlib card-based design
+- **Backend Integration**: Direct API integration with busca_vagas service (v1.2.1) for real-time hotel vacancy searches
+- **API Response Handling**: Robust transformation layer supporting both regular and weekend search responses
 - **UI/UX**: Blue gradient theme (#4481eb to #04befe), 90-line streamlined HTML structure
 - **Functionality**: Trade union hotel search with enhanced date selection and regional filters
 - **Quality**: 100% unit test pass rate (19/19), 73% overall test success (29/40)

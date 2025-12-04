@@ -15,8 +15,10 @@ const ENV_VARS = {
     PORT: 3000,
     
     // API endpoints - dynamically set based on environment
+    // Development: Use mock API on localhost:3001
+    // Production: Use live API
     API_BASE_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3000/api'
+        ? 'http://localhost:3001/api'
         : 'https://www.mpbarbosa.com/api',
     
     // AFPESP website configuration
