@@ -324,3 +324,58 @@ scripts/local/
 !CHANGELOG.md
 !LICENSE
 !*.md
+# =============================================================================
+# Python Virtual Environments
+# =============================================================================
+
+# Virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+.env/
+virtualenv/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Python testing
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Python Jupyter Notebook
+.ipynb_checkpoints
+
+# Python environments
+.python-version
+.pyenv
