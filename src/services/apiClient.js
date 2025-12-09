@@ -9,9 +9,9 @@ import { getEnvironment } from '../config/environment.js';
 export class BuscaVagasAPIClient {
     constructor() {
         const env = getEnvironment();
-        this.apiBaseUrl = env.isProduction 
+        this.apiBaseUrl = env.API_BASE_URL || (env.isProduction 
             ? 'https://www.mpbarbosa.com/api'
-            : 'http://localhost:3000/api';
+            : 'http://localhost:3001/api');
         
         this.timeout = {
             default: 30000,      // 30 seconds

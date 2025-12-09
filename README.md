@@ -1,360 +1,374 @@
-# Busca de Vagas em Hotéis Sindicais
+# 🏨 Monitora Vagas
 
-A modern web application to search and monitor hotel vacancies from trade union partnerships and sindicate conventions. Built with vanilla JavaScript, modern HTML5/CSS3, and Colorlib template integration for a professional user experience.
+> Modern hotel vacancy monitoring web application with real-time API integration
 
-## Architecture
+**Version**: 1.3.1  
+**Last Updated**: 2025-12-09  
+**Status**: ✅ Production Ready
 
-This application is a **full-stack web application** with backend API integration:
+---
 
-- **Frontend**: Modern JavaScript (ES6+) with Colorlib template integration
-- **Backend**: Integration with busca_vagas API (Puppeteer-based scraping)
-- **UI/UX**: Card-based design with blue gradient theme and responsive layout
-- **Automation**: Real-time AFPESP hotel vacancy searches via backend API
-- **PWA Support**: Service Worker for offline capability and installable app experience
-- **API Integration**: Direct fetch API calls with timeout and error handling
+## 📋 Table of Contents
 
-## Prerequisites
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [Dependencies](#dependencies)
+- [Development](#development)
+- [License](#license)
 
-Before running this application, make sure you have:
+---
 
-1. **Modern Web Browser** (Chrome, Firefox, Edge, or Safari)
-2. **Backend API** - The busca_vagas API must be running
-   - Development: `http://localhost:3000/api`
-   - Production: `https://www.mpbarbosa.com/api`
-3. **Node.js** (v14 or higher) for package management (optional, for development)
-4. **Python 3** for running UI tests (optional)
-5. **Chrome browser** and **ChromeDriver** for Selenium tests (optional)
+## 🎯 Overview
 
-## Installation
+Monitora Vagas is a responsive web application that helps users search for hotel vacancies through integration with the Busca Vagas API. The application features a modern, mobile-first design with comprehensive form validation and real-time API communication.
 
-1. Clone the repository:
+### Key Highlights
 
-```bash
-git clone <repository-url>
-cd monitora_vagas
+✅ **Real-time Hotel Data** - Dynamic dropdown populated from live API  
+✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
+✅ **API Integration** - Full integration with Busca Vagas API v1.2.1  
+✅ **Comprehensive Testing** - 26 E2E tests with automatic API management  
+✅ **Production Ready** - Deployed and fully functional
+
+---
+
+## ✨ Features
+
+### User Features
+
+- **Hotel Selection** - 25 hotels across multiple locations
+- **Date Range Picker** - Intuitive check-in/check-out selection
+- **Guest Counter** - Dynamic guest number management
+- **Vacancy Search** - Real-time availability checking
+- **Results Display** - Clear, organized hotel cards
+- **Responsive UI** - Seamless mobile experience
+
+### Technical Features
+
+- **ES6 Modules** - Modern JavaScript architecture
+- **API Client** - Robust error handling and retry logic
+- **Environment Detection** - Automatic dev/prod configuration
+- **CORS Support** - Cross-origin resource sharing enabled
+- **Caching** - 5-minute cache for hotel data
+- **Error Handling** - Comprehensive error messages
+
+---
+
+## 📁 Project Structure
+
 ```
-
-2. **Start the backend API** (required):
-
-```bash
-# Clone and start the busca_vagas backend
-git clone https://github.com/mpbarbosa/busca_vagas.git
-cd busca_vagas
-npm install
-npm start
-# API will run on http://localhost:3000
-```
-
-3. Open the application:
-
-Simply open `src/index.html` in your web browser, or use a local development server:
-
-```bash
-# Using Python 3
-python3 -m http.server 8000
-
-# Or using Node.js http-server (requires: npm install -g http-server)
-http-server src -p 8000
-```
-
-Then navigate to `http://localhost:8000`
-
-**Note:** For full functionality, ensure the backend API is running before using the application.
-
-## Usage
-
-### Running the Application
-
-**Option 1: Direct File Access**
-Open `src/index.html` directly in your web browser.
-
-**Option 2: Local Development Server**
-
-Using Python 3:
-```bash
-cd src
-python3 -m http.server 8000
-```
-
-Using Node.js http-server:
-```bash
-npm install -g http-server
-http-server src -p 8000
-```
-
-Then open `http://localhost:8000` in your browser.
-
-### Testing the Application
-
-**API Client Tests:**
-```bash
-# Open the API test suite
-cd src
-python3 -m http.server 8000
-# Navigate to http://localhost:8000/api-test.html
-```
-
-**UI Tests:**
-```bash
-# Install test dependencies
-python3 -m pip install -r test_requirements.txt
-
-# Run UI tests
-python3 test_web_ui.py
-
-# Or use the test script
-bash run_ui_tests.sh
-```
-
-## What the application does
-
-### Current Features
-
-1. **Modern UI**: Colorlib-based search template with blue gradient theme
-2. **Card-Based Design**: Simplified 90-line HTML structure with professional aesthetics
-3. **QuickSearch Component**: Fast hotel search with dynamic hotel dropdown (API-loaded) and date selection
-4. **Real-Time Vacancy Search**: Direct backend API integration
-   - Specific date range searches (30-60 seconds)
-   - Weekend searches for up to 8 weekends (5-10 minutes)
-   - Native fetch API with timeout handling
-5. **Direct API Integration**: QuickSearch component features:
-   - ISO 8601 date formatting (YYYY-MM-DD)
-   - 60-second timeout for regular searches
-   - 10-minute timeout for weekend searches
-   - HTTP status and response validation
-   - AbortController for timeout management
-6. **Regional Filters**: Search by coastal, mountain, interior, and capital regions
-7. **Flexible Date Selection**: Month-based or specific date range options
-8. **Responsive Design**: Mobile-first approach working on all devices (320px to 1200px+)
-9. **PWA Capabilities**: Installable web app with offline support
-10. **Material Design Icons**: Professional iconography with Font Awesome integration
-11. **Modern Typography**: Roboto font family for clean, readable interface
-12. **No-Scroll Design**: Above-the-fold optimization with progressive disclosure
-
-### API Integration
-
-The application integrates with the [busca_vagas API](https://github.com/mpbarbosa/busca_vagas) v1.2.1 for real-time vacancy data:
-
-**QuickSearch Component (Direct Integration):**
-- **GET /api/vagas/search** - Search vacancies for specific dates
-- **GET /api/vagas/search/weekends** - Search multiple weekends
-- **GET /api/vagas/hoteis** - Get hotel list
-
-**Index.html (via apiClient):**
-- **GET /api/vagas/hoteis/scrape** - Scrape current hotels from AFPESP
-
-**API Response Handling (v1.2.1):**
-- Robust transformation layer for API responses
-- Support for nested result structures
-- Backward compatibility with legacy response formats
-- Proper handling of weekend search result arrays
-
-The QuickSearch component uses direct fetch API calls for transparency and better timeout control. The apiClient service is used for hotel scraping in index.html.
-
-See [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md) for implementation details.
-
-### Planned Features
-
-1. **Trade Union Integration**: Connections to multiple sindicate partnerships
-2. **Union Benefits Portal**: Special rates and premium offers for members
-3. **Session Management**: User search history and preferences
-4. **Advanced Filters**: More granular search criteria
-5. **Notification System**: Email/SMS alerts for vacancy availability
-
-## Features
-
-### Frontend (Modern JavaScript + Colorlib Template)
-
-- **Card-Based Layout**: Clean 90-line HTML structure (reduced from 692 lines)
-- **Blue Gradient Theme**: Modern aesthetic with #4481eb to #04befe gradient
-- **Component Architecture**: Modular JavaScript with ES6+ modules
-- **QuickSearch Form**: Simplified hotel search with dynamic API-loaded hotel dropdown
-- **Progressive Disclosure**: Advanced search modal for additional filters
-- **Form Validation**: Client-side validation before submission
-- **Real-time Feedback**: Loading states and error messages
-- **Mobile-First Design**: Responsive breakpoints from 320px to 1200px+
-- **Accessibility**: ARIA labels, keyboard navigation, screen reader support
-- **PWA Support**: Service worker with offline caching
-
-### UI/UX Enhancements
-
-- **No-Scroll Design**: Above-the-fold optimization for faster user action
-- **Vendor Libraries**: Material Design Icons, Font Awesome, Select2, DateRangePicker
-- **Typography**: Roboto font family with multiple weights
-- **Color Consistency**: CSS variables for maintainable theming
-- **High Contrast**: Ensures text visibility across all backgrounds
-- **Z-Index Strategy**: Proper layering for form element interactivity
-
-## Development
-
-### Local Development Server
-
-**Using Python 3:**
-```bash
-cd src
-python3 -m http.server 8000
-```
-
-**Using Node.js:**
-```bash
-npm install -g http-server
-http-server src -p 8000
-```
-
-Then open `http://localhost:8000` in your browser.
-
-### Code Structure
-
-The application uses vanilla JavaScript with ES6+ modules:
-- `main.js` - Main application logic
-- `components/` - UI components
-- `services/` - API integration (planned)
-- `utils/` - Helper functions
-
-## Testing
-
-### UI/Component Tests
-
-Run Python-based Selenium tests:
-
-```bash
-# Install test dependencies
-python3 -m pip install -r test_requirements.txt
-
-# Run full UI test suite
-python3 test_web_ui.py
-
-# Run unit component tests
-python3 test_unit_components.py
-
-# Or use the test script
-bash run_ui_tests.sh
-```
-
-### Test Coverage
-
-- **Unit Tests**: 19 tests covering components, CSS, logic, and architecture (100% pass rate)
-- **Functional Tests**: 21 tests covering page loading, forms, responsive design, and accessibility (48% pass rate)
-- **Total**: 40 tests with 73% overall success rate
-
-See [`docs/TEST_RESULTS_ANALYSIS.md`](./docs/TEST_RESULTS_ANALYSIS.md) for detailed test results.
-
-## Project Structure
-
-```plaintext
 monitora_vagas/
-├── src/                             # Frontend Application
-│   ├── index.html                   # Main HTML entry (Colorlib template)
-│   ├── api-test.html                # API client test suite
-│   ├── main.js                      # JavaScript application logic
-│   ├── App.js                       # Application component
-│   ├── sw.js                        # Service Worker for PWA
-│   ├── components/                  # UI Components
-│   │   ├── QuickSearch/             # Quick search component (with API integration)
-│   │   ├── SearchForm/              # Advanced search form
-│   │   └── ResultsList/             # Results display
-│   ├── pages/                       # Page components
-│   ├── services/                    # API services
-│   │   └── apiClient.js             # Centralized API client with timeout/retry/caching
-│   ├── config/                      # Configuration files
-│   │   ├── environment.js           # Environment detection & API URLs
-│   │   └── app.js                   # App configuration
-│   ├── utils/                       # Utility functions
-│   ├── js/                          # JavaScript modules
-│   ├── styles/                      # CSS stylesheets
-│   │   ├── global/                  # Global styles
-│   │   ├── components/              # Component styles
-│   │   └── pages/                   # Page styles
-│   ├── css/                         # Template CSS (Colorlib)
-│   │   └── main.css                 # Main template styles
-│   ├── vendor/                      # Third-party libraries
-│   │   ├── mdi-font/                # Material Design Icons
-│   │   ├── font-awesome-4.7/        # Font Awesome icons
-│   │   ├── select2/                 # Select2 dropdown library
-│   │   └── datepicker/              # Date range picker
-│   └── assets/                      # Static resources (images, fonts)
+├── docs/                      # Documentation
+│   ├── api/                   # API integration docs
+│   ├── architecture/          # Architecture decisions
+│   └── guides/                # Development guides
 │
-├── docs/                            # Project documentation
-│   ├── README.md                    # Documentation index
-│   ├── ROADMAP.md                   # Development roadmap
-│   ├── TEST_RESULTS_ANALYSIS.md     # Test results and analysis
-│   ├── DEVELOPMENT_TOOLS_GUIDE.md   # Development tools reference
-│   ├── GIT_BEST_PRACTICES_GUIDE.md  # Git workflow guide
-│   ├── NO_SCROLL_PRINCIPLE_GUIDE.md # UI/UX design principles
-│   └── QUICK_REFERENCE.md           # Quick command reference
+├── legacy/                    # Legacy code and prompts
+│   └── prompts/               # Workflow templates
 │
-├── API_CLIENT_USAGE_REVIEW.md       # API integration review
-├── API_INTEGRATION_CHANGES.md       # Implementation summary
-├── IMPLEMENTATION_GUIDE.md          # API integration guide
+├── public/                    # Web application
+│   ├── config/                # Environment configuration
+│   │   ├── environment.js     # Environment detection
+│   │   └── constants.js       # Application constants
+│   │
+│   ├── css/                   # Stylesheets
+│   │   └── main.css          # Main application styles
+│   │
+│   ├── js/                    # JavaScript modules
+│   │   ├── global.js         # Global utilities
+│   │   └── guestCounter.js   # Guest counter component
+│   │
+│   ├── services/              # API services
+│   │   └── apiClient.js      # Busca Vagas API client
+│   │
+│   ├── vendor/                # Third-party libraries
+│   │   ├── jquery/           # jQuery
+│   │   ├── bootstrap-wizard/ # Bootstrap Wizard
+│   │   ├── datepicker/       # Date picker
+│   │   ├── select2/          # Select2 dropdown
+│   │   ├── font-awesome-4.7/ # Font Awesome icons
+│   │   └── mdi-font/         # Material Design icons
+│   │
+│   ├── index.html            # Main application page
+│   ├── sw.js                 # Service worker
+│   └── favicon.ico           # Favicon
 │
-├── prompts/                         # AI workflow prompts
-│   └── tests_documentation_update_enhanced.txt
+├── src/                       # Source files
+│   └── js/                    # Additional JavaScript
+│       └── global.js         # Global JavaScript utilities
 │
-├── test_screenshots/                # Test execution screenshots
-├── selenium-script.js               # Legacy automation script
-├── test_web_ui.py                   # UI test suite (Python/Selenium)
-├── test_unit_components.py          # Component unit tests
-├── run_ui_tests.sh                  # Test execution script
-├── package.json                     # Node.js dependencies
-├── CHANGELOG.md                     # Version history
-├── TRANSFORMATION_SUMMARY.md        # Project transformation history
-└── README.md                        # This file
+├── tests/                     # Test suite
+│   ├── test-index-e2e.py     # E2E tests (26 tests)
+│   ├── run-index-tests.sh    # Test runner script
+│   └── README.md             # Test documentation
+│
+└── requirements.txt           # Python dependencies
 ```
 
-## API Endpoints (Planned)
+---
 
-The following API endpoints are planned for future backend integration:
+## 🚀 Quick Start
 
-### Search Endpoints
-- `POST /api/search/hotels` - Search hotels by criteria
-- `GET /api/search/regions` - Get available regions
-- `GET /api/search/unions` - Get trade union list
+### Prerequisites
 
-### Automation Endpoints
-- `POST /api/selenium/search` - Selenium-based search
-- `GET /api/selenium/status` - WebDriver status
+- **Python**: 3.8+ (for testing)
+- **Node.js**: 14+ (for local API server)
+- **Chrome**: Latest version
+- **Web Server**: Any HTTP server
 
-### User Endpoints
-- `POST /api/auth/login` - User authentication
-- `GET /api/user/history` - Search history
+### Installation
 
-## Environment Variables (For Future Backend)
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mpbarbosa/monitora_vagas.git
+   cd monitora_vagas
+   ```
 
-When backend is implemented, create a `.env` file:
+2. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```env
-# Server Configuration
-NODE_ENV=development
-PORT=3000
+3. **Start a web server**
+   ```bash
+   cd public
+   python3 -m http.server 8080
+   ```
 
-# Selenium
-SELENIUM_HEADLESS=true
-CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
+4. **Access the application**
+   ```
+   http://localhost:8080/index.html
+   ```
 
-# API Keys
-AFPESP_API_KEY=your_api_key_here
+### Using with Local API
+
+1. **Clone Busca Vagas API**
+   ```bash
+   git clone https://github.com/mpbarbosa/busca_vagas.git
+   cd busca_vagas
+   npm install
+   ```
+
+2. **Start API server**
+   ```bash
+   PORT=3001 node src/server.js
+   ```
+
+3. **Access with local API**
+   ```
+   http://localhost:8080/index.html
+   (Automatically detects local API on port 3001)
+   ```
+
+---
+
+## 🧪 Testing
+
+### Quick Test Run
+
+```bash
+cd tests
+./run-index-tests.sh
 ```
 
-## Documentation
+### Test Suite
 
-- [`CHANGELOG.md`](./CHANGELOG.md) - Version history and recent changes
-- [`TRANSFORMATION_SUMMARY.md`](./TRANSFORMATION_SUMMARY.md) - Project transformation journey
-- [`docs/ROADMAP.md`](./docs/ROADMAP.md) - Development roadmap and future plans
-- [`docs/TEST_RESULTS_ANALYSIS.md`](./docs/TEST_RESULTS_ANALYSIS.md) - Comprehensive test analysis
-- [`docs/DEVELOPMENT_TOOLS_GUIDE.md`](./docs/DEVELOPMENT_TOOLS_GUIDE.md) - Development tools and commands
-- [`docs/NO_SCROLL_PRINCIPLE_GUIDE.md`](./docs/NO_SCROLL_PRINCIPLE_GUIDE.md) - UI/UX design principles
-- [`docs/GIT_BEST_PRACTICES_GUIDE.md`](./docs/GIT_BEST_PRACTICES_GUIDE.md) - Git workflow guide
-- [`docs/QUICK_REFERENCE.md`](./docs/QUICK_REFERENCE.md) - Quick command reference
-- [`docs/`](./docs/) - Complete technical documentation
+**26 Comprehensive Tests** covering:
+- ✅ Page load and rendering
+- ✅ Form element interactions
+- ✅ API integration (26 hotel options)
+- ✅ Responsive design (mobile/tablet/desktop)
+- ✅ Accessibility features
+- ✅ JavaScript functionality
 
-## Contributing
+### Test Features
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Commit changes: `git commit -am 'Add new feature'`
-4. Push to branch: `git push origin feature/new-feature`
-5. Submit a pull request
+- **Automatic API Management** - Starts/stops local API server
+- **Production Fallback** - Uses production API if local unavailable
+- **Browser Logging** - Console output with grey styling
+- **Health Checks** - Validates API connectivity
+- **Screenshot Support** - Captures test failures
 
-## License
+For detailed testing documentation, see:
+📖 **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)**
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
+
+## 📚 Documentation
+
+### Guides
+
+- **[Quick Start Guide](docs/guides/QUICK_START.md)** - Get started quickly
+- **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)** - Complete testing documentation
+- **[Local Testing Guide](docs/guides/LOCAL_TESTING_GUIDE.md)** - Local development setup
+- **[Development Tools Guide](docs/guides/DEVELOPMENT_TOOLS_GUIDE.md)** - Development tools
+- **[Git Best Practices](docs/guides/GIT_BEST_PRACTICES_GUIDE.md)** - Git workflow
+
+### API Documentation
+
+- **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - API integration guide
+- **[API Client Usage](docs/api/API_CLIENT_USAGE_REVIEW.md)** - How to use API client
+- **[Integration Checklist](docs/api/INTEGRATION_CHECKLIST.md)** - Integration steps
+
+### Architecture
+
+- **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - Architecture overview
+- **[No-Scroll Principle](docs/guides/NO_SCROLL_PRINCIPLE_GUIDE.md)** - Design philosophy
+- **[Test Results Analysis](docs/architecture/TEST_RESULTS_ANALYSIS.md)** - Test insights
+
+---
+
+## 📦 Dependencies
+
+### Python (Testing)
+
+```
+selenium==4.39.0      # Browser automation
+colorama==0.4.6       # Terminal colors
+```
+
+### JavaScript (Runtime)
+
+- **jQuery** - DOM manipulation
+- **Bootstrap Wizard** - Multi-step forms
+- **Daterangepicker** - Date selection
+- **Moment.js** - Date formatting
+- **Select2** - Enhanced dropdowns
+- **Font Awesome** - Icons
+
+### Development
+
+- **Chrome/Chromium** - Browser testing
+- **ChromeDriver** - Selenium driver
+- **Python HTTP Server** - Local web server
+- **Node.js** - API server
+
+---
+
+## 💻 Development
+
+### Environment Configuration
+
+The application automatically detects the environment:
+
+**Development** (localhost)
+- Uses local API on port 3001
+- Enables verbose logging
+- Disables caching
+
+**Production** (deployed)
+- Uses production API
+- Minimal logging
+- Enables caching
+
+### Query Parameters
+
+Override environment detection:
+
+```
+# Force production API
+http://localhost:8080/index.html?useProductionAPI=true
+```
+
+### API Endpoints
+
+**Local Development**
+```
+http://localhost:3001/api/vagas/hoteis        # Get hotels
+http://localhost:3001/api/vagas/search        # Search vacancies
+http://localhost:3001/api/health               # Health check
+```
+
+**Production**
+```
+https://www.mpbarbosa.com/api/vagas/hoteis
+https://www.mpbarbosa.com/api/vagas/search
+https://www.mpbarbosa.com/api/health
+```
+
+---
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Set in `public/config/environment.js`:
+
+```javascript
+NODE_ENV: 'development' | 'production'
+API_BASE_URL: 'http://localhost:3001/api' | 'https://www.mpbarbosa.com/api'
+PORT: 3000
+CACHE_TTL: 300000  // 5 minutes
+```
+
+### API Client Configuration
+
+Set in `public/services/apiClient.js`:
+
+```javascript
+timeout: {
+  default: 30000,      // 30 seconds
+  search: 60000,       // 60 seconds
+  weekendSearch: 600000 // 10 minutes
+}
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Make your changes**
+4. **Run tests** (`cd tests && ./run-index-tests.sh`)
+5. **Commit changes** (`git commit -m 'feat: add amazing feature'`)
+6. **Push to branch** (`git push origin feature/amazing-feature`)
+7. **Open a Pull Request**
+
+### Commit Convention
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: new feature
+fix: bug fix
+docs: documentation changes
+test: test updates
+refactor: code refactoring
+style: formatting changes
+chore: maintenance tasks
+```
+
+---
+
+## 📜 License
+
+This project is part of the Monitora Vagas ecosystem.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Busca Vagas API** - Hotel vacancy data
+- **Colorlib** - Base template inspiration
+- **AFPESP** - Hotel network data source
+
+---
+
+## 📞 Support
+
+- **Documentation**: [docs/](docs/)
+- **Issues**: [GitHub Issues](https://github.com/mpbarbosa/monitora_vagas/issues)
+- **API**: [Busca Vagas API](https://github.com/mpbarbosa/busca_vagas)
+
+---
+
+**✅ Built with ❤️ by the Monitora Vagas Team**  
+**📅 Last Updated**: 2025-12-09  
+**🚀 Version**: 1.3.1

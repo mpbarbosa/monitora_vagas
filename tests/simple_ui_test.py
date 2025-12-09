@@ -86,14 +86,14 @@ def run_simple_test():
             return port
         
         port = find_free_port()
-        src_dir = Path(__file__).parent / "src"
+        public_dir = Path(__file__).parent.parent / "public"
         
         print(f"🌐 Starting local server on port {port}...")
-        print(f"📁 Serving from: {src_dir}")
+        print(f"📁 Serving from: {public_dir}")
         
         class Handler(http.server.SimpleHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
-                super().__init__(*args, directory=str(src_dir), **kwargs)
+                super().__init__(*args, directory=str(public_dir), **kwargs)
         
         httpd = socketserver.TCPServer(("", port), Handler)
         server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
@@ -164,8 +164,8 @@ def main():
     print(f"📂 Current directory: {current_dir}")
     
     # Check if we're in the right place
-    if not (current_dir / "src" / "index.html").exists():
-        print("❌ index.html not found in src/ directory")
+    if not (current_dir / "public" / "index.html").exists():
+        print("❌ index.html not found in public/ directory")
         print("💡 Make sure you're in the project root directory")
         return False
     

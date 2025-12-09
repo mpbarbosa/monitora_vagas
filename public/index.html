@@ -114,7 +114,7 @@
         import { apiClient } from './services/apiClient.js';
         
         // Load hotels using API client
-        apiClient.scrapeHotels()
+        apiClient.getHotels()
             .then(hotels => {
                 const select = document.getElementById('hotel-select');
                 select.innerHTML = '<option value="">Select a hotel</option>';

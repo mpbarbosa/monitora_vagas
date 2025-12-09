@@ -7,9 +7,12 @@
  */
 const ENV_VARS = {
     // Application environment - detect based on hostname
-    NODE_ENV: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-        ? 'development' 
-        : 'production',
+    // Override for testing: check URL parameter useProductionAPI
+    NODE_ENV: (new URLSearchParams(window.location.search).get('useProductionAPI') === 'true') 
+        ? 'production'
+        : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'development' 
+            : 'production'),
     
     // Application port
     PORT: 3000,
@@ -17,9 +20,11 @@ const ENV_VARS = {
     // API endpoints - dynamically set based on environment
     // Development: Use mock API on localhost:3001
     // Production: Use live API
-    API_BASE_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3001/api'
-        : 'https://www.mpbarbosa.com/api',
+    API_BASE_URL: (new URLSearchParams(window.location.search).get('useProductionAPI') === 'true')
+        ? 'https://www.mpbarbosa.com/api'
+        : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3001/api'
+            : 'https://www.mpbarbosa.com/api'),
     
     // AFPESP website configuration
     AFPESP_BASE_URL: 'https://www.afpesp.org.br',

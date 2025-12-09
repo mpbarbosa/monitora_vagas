@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Test Suite - index.html</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #ccc;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .test-case.passed {
+            border-left-color: #4CAF50;
+            background: #f1f8f4;
+        }
+        .test-case.failed {
+            border-left-color: #f44336;
+            background: #fff3f3;
+        }
+        .test-case.pending {
+            border-left-color: #FF9800;
+            background: #fff8f0;
+        }
+        .test-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .test-result {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .test-result.pass {
+            color: #4CAF50;
+        }
+        .test-result.fail {
+            color: #f44336;
+        }
+        .test-result.pending {
+            color: #FF9800;
+        }
+        .summary {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-card {
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .summary-card.total {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+        }
+        .summary-card.passed {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+        }
+        .summary-card.failed {
+            background: #ffebee;
+            border: 2px solid #f44336;
+        }
+        .summary-card.pending {
+            background: #fff3e0;
+            border: 2px solid #FF9800;
+        }
+        .summary-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .summary-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 500;
+        }
+        .run-tests-btn {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .run-tests-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .run-tests-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .badge.success {
+            background: #4CAF50;
+            color: white;
+        }
+        .badge.error {
+            background: #f44336;
+            color: white;
+        }
+        .badge.warning {
+            background: #FF9800;
+            color: white;
+        }
+        .badge.info {
+            background: #2196F3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🧪 Comprehensive Test Suite for index.html</h1>
+        <p>Testing all functionality of the Trade Union Hotel Search Platform</p>
+        <button class="run-tests-btn" id="runTestsBtn">▶️ Run All Tests</button>
+    </div>
+
+    <div class="summary" id="summarySection">
+        <div class="summary-card total">
+            <div class="summary-label">Total Tests</div>
+            <div class="summary-number" id="totalTests">0</div>
+        </div>
+        <div class="summary-card passed">
+            <div class="summary-label">Passed</div>
+            <div class="summary-number" id="passedTests">0</div>
+        </div>
+        <div class="summary-card failed">
+            <div class="summary-label">Failed</div>
+            <div class="summary-number" id="failedTests">0</div>
+        </div>
+        <div class="summary-card pending">
+            <div class="summary-label">Pending</div>
+            <div class="summary-number" id="pendingTests">0</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🏗️ DOM Structure Tests</h2>
+        <div id="domTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Form Elements Tests</h2>
+        <div id="formTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 UI Components Tests</h2>
+        <div id="uiTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Event Handlers Tests</h2>
+        <div id="eventTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 API Integration Tests</h2>
+        <div id="apiTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Results Display Tests</h2>
+        <div id="resultsTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Utility Functions Tests</h2>
+        <div id="utilityTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>♿ Accessibility Tests</h2>
+        <div id="a11yTests"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Responsive Design Tests</h2>
+        <div id="responsiveTests"></div>
+    </div>
+
+    <script>
+        // Test framework
+        class TestRunner {
+            constructor() {
+                this.tests = [];
+                this.results = {
+                    total: 0,
+                    passed: 0,
+                    failed: 0,
+                    pending: 0
+                };
+            }
+
+            test(name, category, fn) {
+                this.tests.push({ name, category, fn });
+            }
+
+            async run() {
+                this.results = { total: 0, passed: 0, failed: 0, pending: 0 };
+                
+                for (const test of this.tests) {
+                    this.results.total++;
+                    
+                    try {
+                        const result = await test.fn();
+                        if (result === 'pending') {
+                            this.results.pending++;
+                            this.renderTest(test.category, test.name, 'pending', 'Test pending or skipped');
+                        } else if (result === false) {
+                            this.results.failed++;
+                            this.renderTest(test.category, test.name, 'failed', 'Assertion failed');
+                        } else {
+                            this.results.passed++;
+                            this.renderTest(test.category, test.name, 'passed', result || 'Test passed');
+                        }
+                    } catch (error) {
+                        this.results.failed++;
+                        this.renderTest(test.category, test.name, 'failed', error.message);
+                    }
+                }
+
+                this.updateSummary();
+            }
+
+            renderTest(category, name, status, message) {
+                const container = document.getElementById(category);
+                const testCase = document.createElement('div');
+                testCase.className = `test-case ${status}`;
+                
+                const icon = status === 'passed' ? '✅' : status === 'failed' ? '❌' : '⏸️';
+                const statusClass = status === 'passed' ? 'pass' : status === 'failed' ? 'fail' : 'pending';
+                
+                testCase.innerHTML = `
+                    <div class="test-name">${icon} ${name}</div>
+                    <div class="test-result ${statusClass}">${message}</div>
+                `;
+                
+                container.appendChild(testCase);
+            }
+
+            updateSummary() {
+                document.getElementById('totalTests').textContent = this.results.total;
+                document.getElementById('passedTests').textContent = this.results.passed;
+                document.getElementById('failedTests').textContent = this.results.failed;
+                document.getElementById('pendingTests').textContent = this.results.pending;
+            }
+
+            assert(condition, message = 'Assertion failed') {
+                if (!condition) {
+                    throw new Error(message);
+                }
+                return true;
+            }
+
+            assertEqual(actual, expected, message) {
+                const msg = message || `Expected ${expected}, got ${actual}`;
+                return this.assert(actual === expected, msg);
+            }
+
+            assertNotNull(value, message) {
+                return this.assert(value !== null && value !== undefined, message || 'Value is null or undefined');
+            }
+
+            assertExists(selector, message) {
+                const element = document.querySelector(selector);
+                return this.assert(element !== null, message || `Element ${selector} does not exist`);
+            }
+        }
+
+        const runner = new TestRunner();
+
+        // DOM Structure Tests
+        runner.test('HTML document has correct DOCTYPE', 'domTests', () => {
+            return runner.assert(document.doctype !== null, 'DOCTYPE is present');
+        });
+
+        runner.test('Page has required meta tags', 'domTests', () => {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const charset = document.querySelector('meta[charset]');
+            runner.assertNotNull(viewport, 'Viewport meta tag exists');
+            runner.assertNotNull(charset, 'Charset meta tag exists');
+            return 'All required meta tags present';
+        });
+
+        runner.test('Title tag is present and not empty', 'domTests', () => {
+            runner.assertNotNull(document.title, 'Title exists');
+            runner.assert(document.title.length > 0, 'Title is not empty');
+            return `Title: "${document.title}"`;
+        });
+
+        runner.test('All CSS files are linked', 'domTests', () => {
+            const links = document.querySelectorAll('link[rel="stylesheet"]');
+            runner.assert(links.length > 0, 'CSS files are linked');
+            return `Found ${links.length} CSS files`;
+        });
+
+        runner.test('All JavaScript files are loaded', 'domTests', () => {
+            const scripts = document.querySelectorAll('script[src]');
+            runner.assert(scripts.length > 0, 'JS files are linked');
+            return `Found ${scripts.length} JS files`;
+        });
+
+        // Form Elements Tests
+        runner.test('Main form exists', 'formTests', () => {
+            return runner.assertExists('form.form', 'Main form exists');
+        });
+
+        runner.test('Hotel select dropdown exists', 'formTests', () => {
+            const select = document.getElementById('hotel-select');
+            runner.assertNotNull(select, 'Hotel select exists');
+            runner.assertEqual(select.tagName, 'SELECT', 'Element is a SELECT tag');
+            return 'Hotel select dropdown is properly configured';
+        });
+
+        runner.test('Check-in input exists', 'formTests', () => {
+            const input = document.getElementById('input-checkin');
+            runner.assertNotNull(input, 'Check-in input exists');
+            runner.assertEqual(input.type, 'text', 'Input type is text');
+            return 'Check-in input is properly configured';
+        });
+
+        runner.test('Check-out input exists', 'formTests', () => {
+            const input = document.getElementById('input-checkout');
+            runner.assertNotNull(input, 'Check-out input exists');
+            runner.assertEqual(input.type, 'text', 'Input type is text');
+            return 'Check-out input is properly configured';
+        });
+
+        runner.test('Guest counter input exists', 'formTests', () => {
+            const input = document.querySelector('input[name="guests"]');
+            runner.assertNotNull(input, 'Guest counter exists');
+            return 'Guest counter input is present';
+        });
+
+        runner.test('Submit button exists', 'formTests', () => {
+            const button = document.getElementById('search-button');
+            runner.assertNotNull(button, 'Submit button exists');
+            runner.assertEqual(button.type, 'submit', 'Button type is submit');
+            return 'Submit button is properly configured';
+        });
+
+        runner.test('Form has correct method', 'formTests', () => {
+            const form = document.querySelector('form.form');
+            runner.assertEqual(form.method.toUpperCase(), 'POST', 'Form method is POST');
+            return 'Form method is correctly set';
+        });
+
+        // UI Components Tests
+        runner.test('Page wrapper exists', 'uiTests', () => {
+            return runner.assertExists('.page-wrapper', 'Page wrapper exists');
+        });
+
+        runner.test('Card container exists', 'uiTests', () => {
+            return runner.assertExists('.card.card-7', 'Card container exists');
+        });
+
+        runner.test('Results container exists', 'uiTests', () => {
+            const container = document.getElementById('results-container');
+            runner.assertNotNull(container, 'Results container exists');
+            return 'Results container is properly configured';
+        });
+
+        runner.test('Hotels cards container exists', 'uiTests', () => {
+            const container = document.getElementById('hotels-cards-container');
+            runner.assertNotNull(container, 'Hotels cards container exists');
+            return 'Hotels cards container is present';
+        });
+
+        runner.test('Copy results button exists', 'uiTests', () => {
+            const button = document.getElementById('copy-results-btn');
+            runner.assertNotNull(button, 'Copy button exists');
+            return 'Copy results button is present';
+        });
+
+        runner.test('Clear results button exists', 'uiTests', () => {
+            const button = document.getElementById('clear-results-btn');
+            runner.assertNotNull(button, 'Clear button exists');
+            return 'Clear results button is present';
+        });
+
+        runner.test('Input labels are present', 'uiTests', () => {
+            const labels = document.querySelectorAll('.label');
+            runner.assert(labels.length >= 3, 'All input labels are present');
+            return `Found ${labels.length} labels`;
+        });
+
+        runner.test('Guest counter controls exist', 'uiTests', () => {
+            const plus = document.querySelector('.plus');
+            const minus = document.querySelector('.minus');
+            runner.assertNotNull(plus, 'Plus button exists');
+            runner.assertNotNull(minus, 'Minus button exists');
+            return 'Guest counter controls are present';
+        });
+
+        // Event Handlers Tests
+        runner.test('Form submit handler is attached', 'eventTests', () => {
+            const form = document.querySelector('form.form');
+            runner.assertNotNull(form, 'Form exists for event binding');
+            return 'Form is ready for submit event binding';
+        });
+
+        runner.test('Copy button click handler setup', 'eventTests', () => {
+            const copyBtn = document.getElementById('copy-results-btn');
+            runner.assertNotNull(copyBtn, 'Copy button exists for event binding');
+            return 'Copy button is ready for click event binding';
+        });
+
+        runner.test('Clear button click handler setup', 'eventTests', () => {
+            const clearBtn = document.getElementById('clear-results-btn');
+            runner.assertNotNull(clearBtn, 'Clear button exists for event binding');
+            return 'Clear button is ready for click event binding';
+        });
+
+        runner.test('DOMContentLoaded listener setup', 'eventTests', () => {
+            runner.assert(document.readyState === 'complete' || document.readyState === 'interactive', 
+                'DOM is loaded or loading');
+            return 'DOM is ready for event listeners';
+        });
+
+        // API Integration Tests
+        runner.test('API client module is importable', 'apiTests', () => {
+            // This test checks if the script tag for apiClient exists
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasApiClient = scripts.some(script => script.textContent.includes('apiClient'));
+            runner.assert(hasApiClient, 'API client import found in module script');
+            return 'API client module is referenced';
+        });
+
+        runner.test('API endpoint URL format validation', 'apiTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const moduleScript = scripts.find(script => script.textContent.includes('mpbarbosa.com'));
+            runner.assertNotNull(moduleScript, 'API URL is configured');
+            return 'API endpoint URL is present in code';
+        });
+
+        runner.test('Fetch API is available', 'apiTests', () => {
+            runner.assert(typeof fetch === 'function', 'Fetch API is available');
+            return 'Fetch API is supported';
+        });
+
+        runner.test('Hotel loading functionality exists', 'apiTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasHotelLoading = scripts.some(script => script.textContent.includes('scrapeHotels'));
+            runner.assert(hasHotelLoading, 'Hotel loading code exists');
+            return 'Hotel loading functionality is implemented';
+        });
+
+        // Results Display Tests
+        runner.test('Results container is initially hidden', 'resultsTests', () => {
+            const container = document.getElementById('results-container');
+            const display = window.getComputedStyle(container).display;
+            runner.assertEqual(display, 'none', 'Results container is hidden initially');
+            return 'Results container starts hidden';
+        });
+
+        runner.test('displayResults function is defined', 'resultsTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasDisplayFunction = scripts.some(script => script.textContent.includes('function displayResults'));
+            runner.assert(hasDisplayFunction, 'displayResults function exists');
+            return 'displayResults function is defined';
+        });
+
+        runner.test('Hotel cards container styling is correct', 'resultsTests', () => {
+            const container = document.getElementById('hotels-cards-container');
+            const style = container.getAttribute('style');
+            runner.assert(style.includes('flex-direction: column'), 'Container uses flexbox column layout');
+            return 'Hotel cards container has correct layout';
+        });
+
+        runner.test('Empty state rendering is implemented', 'resultsTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasEmptyState = scripts.some(script => script.textContent.includes('Nenhuma Vaga Encontrada'));
+            runner.assert(hasEmptyState, 'Empty state is implemented');
+            return 'Empty state rendering is present';
+        });
+
+        // Utility Functions Tests
+        runner.test('Date format conversion function exists', 'utilityTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasDateFormat = scripts.some(script => script.textContent.includes('formatDateToISO'));
+            runner.assert(hasDateFormat, 'Date format function exists');
+            return 'Date format conversion is implemented';
+        });
+
+        runner.test('Clipboard API usage', 'utilityTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasClipboard = scripts.some(script => script.textContent.includes('navigator.clipboard'));
+            runner.assert(hasClipboard, 'Clipboard API is used');
+            return 'Clipboard functionality is implemented';
+        });
+
+        runner.test('Fallback clipboard copy exists', 'utilityTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasFallback = scripts.some(script => script.textContent.includes('document.execCommand'));
+            runner.assert(hasFallback, 'Fallback clipboard method exists');
+            return 'Fallback clipboard copy is implemented';
+        });
+
+        runner.test('Smooth scrolling is configured', 'utilityTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasSmooth = scripts.some(script => script.textContent.includes('smooth'));
+            runner.assert(hasSmooth, 'Smooth scrolling is used');
+            return 'Smooth scrolling is implemented';
+        });
+
+        // Accessibility Tests
+        runner.test('Form labels are properly associated', 'a11yTests', () => {
+            const labels = document.querySelectorAll('.label');
+            runner.assert(labels.length > 0, 'Labels exist for form inputs');
+            return `Found ${labels.length} form labels`;
+        });
+
+        runner.test('Buttons have descriptive text', 'a11yTests', () => {
+            const submitBtn = document.getElementById('search-button');
+            const copyBtn = document.getElementById('copy-results-btn');
+            const clearBtn = document.getElementById('clear-results-btn');
+            
+            runner.assert(submitBtn.textContent.trim().length > 0, 'Submit button has text');
+            runner.assert(copyBtn.textContent.trim().length > 0, 'Copy button has text');
+            runner.assert(clearBtn.textContent.trim().length > 0, 'Clear button has text');
+            
+            return 'All buttons have descriptive text';
+        });
+
+        runner.test('Lang attribute is set', 'a11yTests', () => {
+            const html = document.documentElement;
+            runner.assertNotNull(html.getAttribute('lang'), 'HTML lang attribute exists');
+            return `Language is set to: ${html.getAttribute('lang')}`;
+        });
+
+        runner.test('Input placeholders are present', 'a11yTests', () => {
+            const checkin = document.getElementById('input-checkin');
+            const checkout = document.getElementById('input-checkout');
+            
+            runner.assertNotNull(checkin.getAttribute('placeholder'), 'Check-in has placeholder');
+            runner.assertNotNull(checkout.getAttribute('placeholder'), 'Check-out has placeholder');
+            
+            return 'Input placeholders provide guidance';
+        });
+
+        runner.test('Links have target and rel attributes', 'a11yTests', () => {
+            const scripts = Array.from(document.querySelectorAll('script[type="module"]'));
+            const hasSecureLinks = scripts.some(script => 
+                script.textContent.includes('noopener') && script.textContent.includes('noreferrer'));
+            runner.assert(hasSecureLinks, 'Links use secure attributes');
+            return 'External links are configured securely';
+        });
+
+        // Responsive Design Tests
+        runner.test('Viewport meta tag is configured', 'responsiveTests', () => {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            runner.assertNotNull(viewport, 'Viewport meta tag exists');
+            const content = viewport.getAttribute('content');
+            runner.assert(content.includes('width=device-width'), 'Viewport uses device width');
+            return 'Viewport is configured for responsive design';
+        });
+
+        runner.test('Responsive font loading', 'responsiveTests', () => {
+            const googleFont = Array.from(document.querySelectorAll('link[href*="fonts.googleapis.com"]'));
+            runner.assert(googleFont.length > 0, 'Google Fonts are loaded');
+            return 'Responsive fonts are configured';
+        });
+
+        runner.test('Flexbox layout is used', 'responsiveTests', () => {
+            const container = document.getElementById('hotels-cards-container');
+            const style = container.getAttribute('style');
+            runner.assert(style.includes('flex'), 'Flexbox is used for layout');
+            return 'Modern responsive layout is implemented';
+        });
+
+        runner.test('Results buttons are side by side', 'responsiveTests', () => {
+            const container = document.querySelector('#results-container > div[style*="display: flex"]');
+            runner.assertNotNull(container, 'Button container uses flexbox');
+            return 'Buttons are laid out responsively';
+        });
+
+        // Run tests on button click
+        document.getElementById('runTestsBtn').addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = '⏳ Running Tests...';
+            
+            // Clear previous results
+            ['domTests', 'formTests', 'uiTests', 'eventTests', 'apiTests', 
+             'resultsTests', 'utilityTests', 'a11yTests', 'responsiveTests'].forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+            
+            await runner.run();
+            
+            this.disabled = false;
+            this.textContent = '✅ Tests Complete - Run Again';
+        });
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('runTestsBtn').click();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -24,9 +24,9 @@ This guide provides best practices for organizing the Trade Union Hotel Search P
 
 ### When to Use This Structure
 
-- **Current implementation**: Node.js Selenium script with comprehensive hotel monitoring
-- **Web app migration**: When converting to browser-based application with Vue.js/React
-- **Production deployment**: When implementing serverless architecture with Vercel/Netlify
+* **Current implementation**: Node.js Selenium script with comprehensive hotel monitoring
+* **Web app migration**: When converting to browser-based application with Vue.js/React
+* **Production deployment**: When implementing serverless architecture with Vercel/Netlify
 
 ---
 
@@ -34,7 +34,7 @@ This guide provides best practices for organizing the Trade Union Hotel Search P
 
 The Trade Union Hotel Search Platform currently follows a Node.js automation architecture:
 
-```
+```plaintext
 monitora_vagas/
 ├── .github/
 │   └── FOLDER_STRUCTURE_GUIDE.md
@@ -50,25 +50,26 @@ monitora_vagas/
 ├── selenium-script.js
 ├── test-general-regex.js
 └── test-regex.js
+
 ```
 
 ### Current Architecture Benefits
 
-✅ **Comprehensive automation** - Multi-weekend hotel vacancy monitoring  
-✅ **Advanced pattern recognition** - Sophisticated regex for vacancy detection  
-✅ **Hotel-specific organization** - Results grouped by hotel with room details  
-✅ **Error handling** - Robust error recovery and logging  
-✅ **HTML cleanup** - Clean output formatting without HTML tags  
-✅ **Brazilian date format** - DD/MM/YYYY format support with JavaScript injection  
+✅ **Comprehensive automation** - Multi-weekend hotel vacancy monitoring
+✅ **Advanced pattern recognition** - Sophisticated regex for vacancy detection
+✅ **Hotel-specific organization** - Results grouped by hotel with room details
+✅ **Error handling** - Robust error recovery and logging
+✅ **HTML cleanup** - Clean output formatting without HTML tags
+✅ **Brazilian date format** - DD/MM/YYYY format support with JavaScript injection
 
 ### Current Architecture Limitations
 
-⚠️ **Command-line only** - No web interface for users  
-⚠️ **Single user** - Cannot handle concurrent searches  
-⚠️ **No data persistence** - Results are not saved or exportable  
-⚠️ **Browser dependency** - Requires Chrome/Chromium installation  
-⚠️ **Limited accessibility** - Technical users only  
-⚠️ **No real-time updates** - Manual script execution required  
+⚠️ **Command-line only** - No web interface for users
+⚠️ **Single user** - Cannot handle concurrent searches
+⚠️ **No data persistence** - Results are not saved or exportable
+⚠️ **Browser dependency** - Requires Chrome/Chromium installation
+⚠️ **Limited accessibility** - Technical users only
+⚠️ **No real-time updates** - Manual script execution required
 
 ---
 
@@ -76,7 +77,7 @@ monitora_vagas/
 
 When converting to a web application, consider migrating to this modern folder structure:
 
-```
+```plaintext
 monitora_vagas/
 ├── public/                      # Static assets (not processed by build tools)
 │   ├── index.html              # Main HTML template
@@ -219,6 +220,7 @@ monitora_vagas/
 ├── vercel.json               # Vercel deployment configuration
 ├── README.md                 # Project overview
 └── CHANGELOG.md              # Version history
+
 ```
 
 ---
@@ -230,14 +232,16 @@ monitora_vagas/
 **Purpose:** Static assets that are copied directly to the build output without processing.
 
 **Contains:**
-- `index.html` - Main HTML template with root div for SPA mounting
-- `favicon.ico`, `robots.txt`, `sitemap.xml` - SEO and browser files
-- Static images that don't need optimization
+
+* `index.html` - Main HTML template with root div for SPA mounting
+* `favicon.ico`, `robots.txt`, `sitemap.xml` - SEO and browser files
+* Static images that don't need optimization
 
 **Best Practices:**
-- Keep this minimal - most assets should be in `/src/assets`
-- Files here are publicly accessible at root URL
-- Use absolute paths: `/favicon.ico`, not `./favicon.ico`
+
+* Keep this minimal - most assets should be in `/src/assets`
+* Files here are publicly accessible at root URL
+* Use absolute paths: `/favicon.ico`, not `./favicon.ico`
 
 ### `/src`
 
@@ -248,19 +252,23 @@ monitora_vagas/
 **Purpose:** Dynamic assets imported in JavaScript or CSS.
 
 **When to use:**
-- Images referenced in React/Vue components
-- Fonts imported via `@font-face`
-- Icons used programmatically
+
+* Images referenced in React/Vue components
+* Fonts imported via `@font-face`
+* Icons used programmatically
 
 **Benefits:**
-- Build tools can optimize (compress, resize)
-- Cache busting via hashed filenames
-- Tree-shaking removes unused assets
+
+* Build tools can optimize (compress, resize)
+* Cache busting via hashed filenames
+* Tree-shaking removes unused assets
 
 **Example:**
+
 ```javascript
 import logo from '@/assets/images/logo.png';
 import '@/assets/fonts/Montserrat/font.css';
+
 ```
 
 #### `/src/components`
@@ -268,50 +276,57 @@ import '@/assets/fonts/Montserrat/font.css';
 **Purpose:** Reusable UI components used across multiple pages.
 
 **Organization:**
-```
+
+```text
 components/
 ├── Button/
 │   ├── Button.js         # Component logic
 │   ├── Button.css        # Component styles
 │   ├── Button.test.js    # Component tests
 │   └── index.js          # Re-export for clean imports
+
 ```
 
 **Best Practices:**
-- One component per folder
-- Co-locate styles, tests, and logic
-- Use `index.js` for clean imports: `import { Button } from '@/components/Button'`
-- Keep components small and focused (Single Responsibility Principle)
+
+* One component per folder
+* Co-locate styles, tests, and logic
+* Use `index.js` for clean imports: `import { Button } from '@/components/Button'`
+* Keep components small and focused (Single Responsibility Principle)
 
 **Examples for Trade Union Platform:**
-- `SearchForm` - Hotel and date selection form
-- `ResultsTable` - Vacancy results display
-- `WeekendCard` - Individual weekend availability card
-- `ProgressBar` - Search progress indicator
-- `ExportButtons` - PDF/CSV export controls
+
+* `SearchForm` - Hotel and date selection form
+* `ResultsTable` - Vacancy results display
+* `WeekendCard` - Individual weekend availability card
+* `ProgressBar` - Search progress indicator
+* `ExportButtons` - PDF/CSV export controls
 
 #### `/src/pages`
 
 **Purpose:** Page-level components that represent distinct routes/views.
 
 **Difference from components:**
-- Pages compose multiple components
-- Pages are route endpoints
-- Pages handle data fetching and state management
+
+* Pages compose multiple components
+* Pages are route endpoints
+* Pages handle data fetching and state management
 
 **Examples for Trade Union Platform:**
-- `Home` - Main landing page with search form
-- `Search` - Hotel search configuration page
-- `Results` - Vacancy results and summary page
-- `History` - Previous search history
-- `About` - About Trade Union services and project information
+
+* `Home` - Main landing page with search form
+* `Search` - Hotel search configuration page
+* `Results` - Vacancy results and summary page
+* `History` - Previous search history
+* `About` - About Trade Union services and project information
 
 #### `/src/services`
 
 **Purpose:** Business logic and API integrations.
 
 **Organization:**
-```
+
+```text
 services/
 ├── spotify/
 │   ├── auth.js        # OAuth flow functions
@@ -320,21 +335,24 @@ services/
 │   └── index.js       # Public API
 └── storage/
     └── localStorage.js # localStorage wrapper
+
 ```
 
 **Best Practices:**
-- Separate concerns (auth vs data fetching)
-- Return promises for async operations
-- Handle errors consistently
-- Export a clean public API
+
+* Separate concerns (auth vs data fetching)
+* Return promises for async operations
+* Handle errors consistently
+* Export a clean public API
 
 **Example for AFPESP Scraping:**
+
 ```javascript
 // services/afpesp/scraper.js
 export async function searchWeekendVacancies(searchParams) {
   const { hotelSelection, dateRange, weekends } = searchParams;
   const results = [];
-  
+
   for (const weekend of weekends) {
     const vacancies = await searchSingleWeekend(weekend, hotelSelection);
     results.push({
@@ -343,7 +361,7 @@ export async function searchWeekendVacancies(searchParams) {
       hotels: groupVacanciesByHotel(vacancies)
     });
   }
-  
+
   return results;
 }
 
@@ -351,6 +369,7 @@ export async function searchSingleWeekend(weekend, hotelSelection) {
   // Puppeteer scraping logic adapted from Selenium script
   // ... scraping implementation
 }
+
 ```
 
 #### `/src/utils`
@@ -358,17 +377,20 @@ export async function searchSingleWeekend(weekend, hotelSelection) {
 **Purpose:** Pure utility functions with no side effects.
 
 **What belongs here:**
-- Data transformation functions
-- Validation helpers
-- Format/parse utilities
-- Constants and enums
+
+* Data transformation functions
+* Validation helpers
+* Format/parse utilities
+* Constants and enums
 
 **What doesn't belong here:**
-- API calls (use `/services`)
-- Component logic (use `/components`)
-- Business logic (use `/services`)
+
+* API calls (use `/services`)
+* Component logic (use `/components`)
+* Business logic (use `/services`)
 
 **Examples:**
+
 ```javascript
 // utils/dates.js
 export function getNextWeekends(monthsAhead = 2) { ... }
@@ -386,6 +408,7 @@ export const AFPESP_CONFIG = {
   VACANCY_PAGE: '/Servicos/Reservas/Vagas-disponiveis.aspx'
 };
 export const HOTEL_TYPES = ['Todas', 'Homem de Melo', 'Perdizes', 'Sumaré'];
+
 ```
 
 #### `/src/styles`
@@ -393,7 +416,8 @@ export const HOTEL_TYPES = ['Todas', 'Homem de Melo', 'Perdizes', 'Sumaré'];
 **Purpose:** Global stylesheets and theme definitions.
 
 **Organization:**
-```
+
+```text
 styles/
 ├── base/
 │   ├── reset.css       # Remove browser defaults
@@ -403,25 +427,31 @@ styles/
 │   ├── dark.css        # Dark theme
 │   └── light.css       # Light theme
 └── main.css            # Import all global styles
+
 ```
 
 **Best Practices:**
-- Use CSS custom properties for theming:
+
+* Use CSS custom properties for theming:
+
   ```css
   :root {
     --color-primary: #1DB954;
     --color-bg: #121212;
     --color-text: #ffffff;
   }
+
   ```
-- Component-specific styles stay with components
-- Global styles only for truly global patterns
+
+* Component-specific styles stay with components
+* Global styles only for truly global patterns
 
 #### `/src/config`
 
 **Purpose:** Configuration objects and environment-specific settings.
 
 **Examples:**
+
 ```javascript
 // config/afpesp.config.js
 export const afpespConfig = {
@@ -439,6 +469,7 @@ export const appConfig = {
   searchTimeout: 30000,
   maxConcurrentSearches: 3
 };
+
 ```
 
 ### `/dist`
@@ -446,10 +477,11 @@ export const appConfig = {
 **Purpose:** Build output directory (always git-ignored).
 
 **Contains:**
-- Bundled JavaScript
-- Compiled CSS
-- Optimized images
-- Generated HTML
+
+* Bundled JavaScript
+* Compiled CSS
+* Optimized images
+* Generated HTML
 
 **Note:** Never commit this folder. It's regenerated on each build.
 
@@ -458,31 +490,36 @@ export const appConfig = {
 **Purpose:** All test files organized by test type.
 
 **Organization:**
-- `unit/` - Individual function/component tests
-- `integration/` - Multi-component interaction tests
-- `e2e/` - Full user journey tests
+
+* `unit/` - Individual function/component tests
+* `integration/` - Multi-component interaction tests
+* `e2e/` - Full user journey tests
 
 **Naming Convention:**
-- `*.test.js` or `*.spec.js`
-- Mirror source structure: `src/services/spotify/auth.js` → `tests/unit/services/spotify/auth.test.js`
+
+* `*.test.js` or `*.spec.js`
+* Mirror source structure: `src/services/spotify/auth.js` → `tests/unit/services/spotify/auth.test.js`
 
 ### `/docs`
 
 **Purpose:** Project documentation beyond README.
 
 **Organization:**
-```
+
+```text
 docs/
 ├── api/                    # API documentation
 ├── architecture/           # Design decisions (ADRs)
 ├── guides/                 # How-to guides
 └── images/                 # Documentation images
+
 ```
 
 **Best Practices:**
-- Use Markdown for easy version control
-- Keep README focused, put deep dives in `/docs`
-- Link between documents liberally
+
+* Use Markdown for easy version control
+* Keep README focused, put deep dives in `/docs`
+* Link between documents liberally
 
 ### Root Configuration Files
 
@@ -491,6 +528,7 @@ docs/
 **Purpose:** Define dependencies, scripts, and project metadata.
 
 **Essential scripts:**
+
 ```json
 {
   "scripts": {
@@ -502,6 +540,7 @@ docs/
     "format": "prettier --write src/" // Code formatting
   }
 }
+
 ```
 
 #### `.env.example` and `.env`
@@ -509,30 +548,36 @@ docs/
 **Purpose:** Environment variables (API keys, feature flags).
 
 **.env.example** (committed):
+
 ```bash
 VITE_AFPESP_BASE_URL=https://associadoh.afpesp.org.br
 VITE_ENABLE_MOCK_DATA=false
 VITE_SEARCH_TIMEOUT=30000
 VITE_MAX_WEEKENDS=9
+
 ```
 
 **.env** (git-ignored):
+
 ```bash
 VITE_AFPESP_BASE_URL=https://associadoh.afpesp.org.br
 VITE_ENABLE_MOCK_DATA=true
 VITE_SEARCH_TIMEOUT=15000
 VITE_MAX_WEEKENDS=12
+
 ```
 
 **Best Practices:**
-- Never commit `.env` (add to `.gitignore`)
-- Always commit `.env.example` as a template
-- Use build tool's env variable prefix (e.g., `VITE_` for Vite)
+
+* Never commit `.env` (add to `.gitignore`)
+* Always commit `.env.example` as a template
+* Use build tool's env variable prefix (e.g., `VITE_` for Vite)
 
 #### `.gitignore`
 
 **Essential entries:**
-```
+
+```text
 # Dependencies
 node_modules/
 
@@ -555,6 +600,7 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
 ```
 
 ---
@@ -564,19 +610,23 @@ npm-debug.log*
 ### Vite (Recommended for Modern Projects)
 
 **Why Vite:**
-- ⚡ Lightning fast dev server (no bundling in dev)
-- 🔥 Hot Module Replacement (HMR)
-- 📦 Optimized production builds
-- 🎯 Great TypeScript support
-- 🌐 Native ES modules
+
+* ⚡ Lightning fast dev server (no bundling in dev)
+* 🔥 Hot Module Replacement (HMR)
+* 📦 Optimized production builds
+* 🎯 Great TypeScript support
+* 🌐 Native ES modules
 
 **Installation:**
+
 ```bash
 npm create vite@latest music-in-numbers -- --template vanilla
 # or for TypeScript: --template vanilla-ts
+
 ```
 
 **vite.config.js:**
+
 ```javascript
 import { defineConfig } from 'vite';
 import path from 'path';
@@ -601,23 +651,28 @@ export default defineConfig({
     open: true
   }
 });
+
 ```
 
 ### Webpack
 
 **Why Webpack:**
-- 🔧 Highly configurable
-- 🎨 Rich plugin ecosystem
-- 📊 Advanced code splitting
-- 🌍 Industry standard
+
+* 🔧 Highly configurable
+* 🎨 Rich plugin ecosystem
+* 📊 Advanced code splitting
+* 🌍 Industry standard
 
 **Installation:**
+
 ```bash
 npm install --save-dev webpack webpack-cli webpack-dev-server
 npm install --save-dev html-webpack-plugin css-loader style-loader
+
 ```
 
 **webpack.config.js:**
+
 ```javascript
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -657,22 +712,27 @@ module.exports = {
     }
   }
 };
+
 ```
 
 ### Parcel
 
 **Why Parcel:**
-- 🎁 Zero configuration
-- 🚀 Fast builds
-- 🔄 Built-in hot reloading
-- 📦 Automatic dependency resolution
+
+* 🎁 Zero configuration
+* 🚀 Fast builds
+* 🔄 Built-in hot reloading
+* 📦 Automatic dependency resolution
 
 **Installation:**
+
 ```bash
 npm install --save-dev parcel
+
 ```
 
 **Usage (no config file needed):**
+
 ```json
 {
   "scripts": {
@@ -680,12 +740,13 @@ npm install --save-dev parcel
     "build": "parcel build src/index.html"
   }
 }
+
 ```
 
 ### Comparison Table
 
 | Feature | Vite | Webpack | Parcel |
-|---------|------|---------|--------|
+| ------- | ---- | ------- | ------ |
 | Speed (dev) | ⚡⚡⚡ Very Fast | ⚡ Slower | ⚡⚡ Fast |
 | Speed (build) | ⚡⚡ Fast | ⚡⚡ Fast | ⚡⚡ Fast |
 | Configuration | Simple | Complex | Zero config |
@@ -703,7 +764,7 @@ npm install --save-dev parcel
 
 Instead of grouping by file type, group by feature:
 
-```
+```text
 src/
 ├── features/
 │   ├── auth/
@@ -725,12 +786,14 @@ src/
 │       ├── components/
 │       │   └── MusicPlayer.js
 │       └── Player.page.js
+
 ```
 
 **When to use:**
-- Large applications with distinct features
-- Multiple team members working on different features
-- Features that might become separate packages
+
+* Large applications with distinct features
+* Multiple team members working on different features
+* Features that might become separate packages
 
 ### 2. Barrel Exports
 
@@ -744,6 +807,7 @@ export { default as Card } from './Card';
 
 // Usage
 import { Sidebar, MusicPlayer, Card } from '@/components';
+
 ```
 
 ### 3. Path Aliases
@@ -756,6 +820,7 @@ import { spotifyAuth } from '../../../services/spotify/auth';
 
 // Use:
 import { spotifyAuth } from '@/services/spotify/auth';
+
 ```
 
 ### 4. Code Splitting
@@ -766,26 +831,28 @@ Split code by route for faster initial load:
 // Lazy load pages
 const Artist = () => import('@/pages/Artist');
 const Library = () => import('@/pages/Library');
+
 ```
 
 ### 5. Shared Components Library
 
 Extract truly reusable components to a shared library:
 
-```
+```text
 src/
 ├── components/        # App-specific components
 └── ui/               # Pure, reusable UI components
     ├── Button/
     ├── Input/
     └── Modal/
+
 ```
 
 ### 6. Monorepo Structure (Advanced)
 
 For multiple related projects:
 
-```
+```plaintext
 music-in-numbers/
 ├── apps/
 │   ├── web/              # Main web app
@@ -796,6 +863,7 @@ music-in-numbers/
 │   ├── api-client/       # Shared API client
 │   └── utils/            # Shared utilities
 └── package.json
+
 ```
 
 ---
@@ -805,26 +873,33 @@ music-in-numbers/
 ### Phase 1: Setup Build Tools (1-2 hours)
 
 1. **Initialize npm project:**
+
    ```bash
    npm init -y
+
    ```
 
 2. **Install Vite:**
+
    ```bash
    npm install --save-dev vite
+
    ```
 
 3. **Create basic structure:**
+
    ```bash
    mkdir -p public src/components src/services src/utils src/styles
+
    ```
 
 4. **Move files:**
-   - `src/*.html` → `public/index.html` (combine duplicates)
-   - `src/styles.css` → `src/styles/main.css`
-   - Create `src/main.js` as entry point
+   * `src/*.html` → `public/index.html` (combine duplicates)
+   * `src/styles.css` → `src/styles/main.css`
+   * Create `src/main.js` as entry point
 
 5. **Update package.json scripts:**
+
    ```json
    {
      "scripts": {
@@ -833,17 +908,19 @@ music-in-numbers/
        "preview": "vite preview"
      }
    }
+
    ```
 
 ### Phase 2: Extract Components (2-4 hours)
 
 1. **Identify reusable patterns** in HTML:
-   - Sidebar navigation
-   - Music player bar
-   - Card components
-   - Search bar
+   * Sidebar navigation
+   * Music player bar
+   * Card components
+   * Search bar
 
 2. **Create component files:**
+
    ```javascript
    // src/components/Sidebar/Sidebar.js
    export function Sidebar() {
@@ -853,54 +930,67 @@ music-in-numbers/
        </div>
      `;
    }
+
    ```
 
 3. **Extract inline CSS to component CSS files**
 
 4. **Import and render in main.js:**
+
    ```javascript
    import { Sidebar } from './components/Sidebar';
    import { MusicPlayer } from './components/MusicPlayer';
-   
+
    document.querySelector('#app').innerHTML = `
      ${Sidebar()}
      ${MusicPlayer()}
    `;
+
    ```
 
 ### Phase 3: Refactor Services (1-2 hours)
 
 1. **Extract OAuth logic:**
+
    ```javascript
    // src/services/spotify/auth.js
    export async function initiateAuth(clientId) { ... }
    export async function exchangeToken(code, clientId) { ... }
+
    ```
 
 2. **Extract API calls:**
+
    ```javascript
    // src/services/spotify/api.js
    export async function getUserProfile(accessToken) { ... }
    export async function getArtist(artistId, accessToken) { ... }
+
    ```
 
 3. **Extract utilities:**
+
    ```javascript
    // src/utils/crypto.js
    export function generateCodeVerifier() { ... }
    export async function generateCodeChallenge(verifier) { ... }
+
    ```
 
 ### Phase 4: Environment Variables (30 min)
 
 1. **Create `.env.example`:**
+
    ```bash
    VITE_SPOTIFY_CLIENT_ID=your_client_id_here
+
    ```
 
 2. **Update code to use environment variables:**
+
    ```javascript
    const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+
    ```
 
 3. **Add `.env` to `.gitignore`**
@@ -908,20 +998,24 @@ music-in-numbers/
 ### Phase 5: Testing & Optimization (2-4 hours)
 
 1. **Test development server:**
+
    ```bash
    npm run dev
+
    ```
 
 2. **Test production build:**
+
    ```bash
    npm run build
    npm run preview
+
    ```
 
 3. **Optimize:**
-   - Enable minification
-   - Configure code splitting
-   - Optimize images
+   * Enable minification
+   * Configure code splitting
+   * Optimize images
 
 **Total Migration Time:** 6-12 hours (depending on project size)
 
@@ -932,6 +1026,7 @@ music-in-numbers/
 ### 1. Separation of Concerns
 
 **Good:**
+
 ```javascript
 // services/spotify/auth.js - handles OAuth
 export async function initiateAuth(clientId) { ... }
@@ -942,9 +1037,11 @@ export function LoginButton({ onClick }) { ... }
 // pages/Auth.js - orchestrates both
 import { initiateAuth } from '@/services/spotify/auth';
 import { LoginButton } from '@/components/LoginButton';
+
 ```
 
 **Bad:**
+
 ```javascript
 // Everything in one file
 function LoginButton() {
@@ -955,6 +1052,7 @@ function LoginButton() {
     updateUI(); // Should be in component
   }
 }
+
 ```
 
 ### 2. DRY (Don't Repeat Yourself)
@@ -962,22 +1060,26 @@ function LoginButton() {
 **Current issue:** `index.html` and `music_in_numbers.html` are identical duplicates.
 
 **Solution:** Single source of truth with build tools
+
 ```javascript
 // Single HTML template in public/index.html
 // Different entry points via routing or multiple builds
+
 ```
 
 ### 3. Naming Conventions
 
 **Files:**
-- Components: `PascalCase.js` (e.g., `MusicPlayer.js`)
-- Utilities: `camelCase.js` (e.g., `generateToken.js`)
-- Constants: `UPPER_SNAKE_CASE.js` (e.g., `API_CONSTANTS.js`)
-- Styles: `kebab-case.css` (e.g., `music-player.css`)
+
+* Components: `PascalCase.js` (e.g., `MusicPlayer.js`)
+* Utilities: `camelCase.js` (e.g., `generateToken.js`)
+* Constants: `UPPER_SNAKE_CASE.js` (e.g., `API_CONSTANTS.js`)
+* Styles: `kebab-case.css` (e.g., `music-player.css`)
 
 **Folders:**
-- `kebab-case` for multi-word (e.g., `music-player/`)
-- `PascalCase` for components (e.g., `MusicPlayer/`)
+
+* `kebab-case` for multi-word (e.g., `music-player/`)
+* `PascalCase` for components (e.g., `MusicPlayer/`)
 
 ### 4. Import Order
 
@@ -998,11 +1100,13 @@ import './styles.css';
 
 // 5. Assets
 import logo from './logo.png';
+
 ```
 
 ### 5. Configuration Over Code
 
 **Good:**
+
 ```javascript
 // config/spotify.config.js
 export const SPOTIFY_CONFIG = {
@@ -1012,18 +1116,22 @@ export const SPOTIFY_CONFIG = {
 
 // services/spotify/auth.js
 import { SPOTIFY_CONFIG } from '@/config/spotify.config';
+
 ```
 
 **Bad:**
+
 ```javascript
 // Hardcoded values scattered throughout code
 const scopes = 'user-read-private user-read-email'; // Repeated in multiple files
+
 ```
 
 ### 6. Git Hygiene
 
 **.gitignore essentials:**
-```
+
+```text
 # Dependencies
 node_modules/
 
@@ -1048,9 +1156,11 @@ Thumbs.db
 
 # Logs
 *.log
+
 ```
 
 **Commit messages:**
+
 ```bash
 # Good
 git commit -m "feat: add Spotify OAuth PKCE flow"
@@ -1060,22 +1170,24 @@ git commit -m "refactor: extract auth service from components"
 # Bad
 git commit -m "updates"
 git commit -m "fixed stuff"
+
 ```
 
 ### 7. Documentation
 
 **Component documentation:**
+
 ```javascript
 /**
  * MusicPlayer - Displays currently playing track with playback controls
- * 
+ *
  * @param {Object} props
  * @param {string} props.trackName - Name of the current track
  * @param {string} props.artistName - Name of the artist
  * @param {Function} props.onPlay - Callback when play button is clicked
- * 
+ *
  * @example
- * <MusicPlayer 
+ * <MusicPlayer
  *   trackName="Happier Than Ever"
  *   artistName="Billie Eilish"
  *   onPlay={handlePlay}
@@ -1084,11 +1196,13 @@ git commit -m "fixed stuff"
 export function MusicPlayer({ trackName, artistName, onPlay }) {
   // ...
 }
+
 ```
 
 ### 8. Error Handling
 
 **Centralized error handling:**
+
 ```javascript
 // services/spotify/api.js
 class SpotifyAPIError extends Error {
@@ -1103,14 +1217,14 @@ export async function fetchUserProfile(accessToken) {
     const response = await fetch('https://api.spotify.com/v1/me', {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     });
-    
+
     if (!response.ok) {
       throw new SpotifyAPIError(
         'Failed to fetch user profile',
         response.status
       );
     }
-    
+
     return await response.json();
   } catch (error) {
     // Log to monitoring service
@@ -1118,6 +1232,7 @@ export async function fetchUserProfile(accessToken) {
     throw error;
   }
 }
+
 ```
 
 ---
@@ -1129,23 +1244,26 @@ export async function fetchUserProfile(accessToken) {
 **Task:** Add a "Recently Played" page
 
 1. **Create page structure:**
+
    ```bash
    mkdir -p src/pages/RecentlyPlayed
    touch src/pages/RecentlyPlayed/RecentlyPlayed.js
    touch src/pages/RecentlyPlayed/RecentlyPlayed.css
    touch src/pages/RecentlyPlayed/index.js
+
    ```
 
 2. **Create component:**
+
    ```javascript
    // src/pages/RecentlyPlayed/RecentlyPlayed.js
    import { getRecentlyPlayed } from '@/services/spotify/api';
    import { Card } from '@/components/Card';
    import './RecentlyPlayed.css';
-   
+
    export async function RecentlyPlayed() {
      const tracks = await getRecentlyPlayed();
-     
+
      return `
        <div class="recently-played">
          <h2>Recently Played</h2>
@@ -1153,9 +1271,11 @@ export async function fetchUserProfile(accessToken) {
        </div>
      `;
    }
+
    ```
 
 3. **Add service method:**
+
    ```javascript
    // src/services/spotify/api.js
    export async function getRecentlyPlayed() {
@@ -1166,6 +1286,7 @@ export async function fetchUserProfile(accessToken) {
      );
      return await response.json();
    }
+
    ```
 
 4. **Add to router/navigation**
@@ -1175,18 +1296,21 @@ export async function fetchUserProfile(accessToken) {
 **Task:** Create a reusable Badge component
 
 1. **Create component:**
+
    ```bash
    mkdir -p src/components/Badge
    touch src/components/Badge/Badge.js
    touch src/components/Badge/Badge.css
    touch src/components/Badge/index.js
+
    ```
 
 2. **Implement component:**
+
    ```javascript
    // src/components/Badge/Badge.js
    import './Badge.css';
-   
+
    /**
     * Badge - Display status or category labels
     * @param {Object} props
@@ -1200,6 +1324,7 @@ export async function fetchUserProfile(accessToken) {
        </button>
      `;
    }
+
    ```
 
    ```css
@@ -1214,57 +1339,67 @@ export async function fetchUserProfile(accessToken) {
      color: #000;
      width: fit-content;
    }
-   
+
    .badge--dark {
      background-color: #000;
      color: #fff;
    }
-   
+
    .badge--primary {
      background-color: #1DB954;
      color: #fff;
    }
+
    ```
 
 3. **Export from index:**
+
    ```javascript
    // src/components/Badge/index.js
    export { Badge } from './Badge';
+
    ```
 
 4. **Use in components:**
+
    ```javascript
    import { Badge } from '@/components/Badge';
-   
+
    const html = `
      <div class="box">
        <p>Create your first playlist</p>
        ${Badge({ text: 'Create playlist', variant: 'light' })}
      </div>
    `;
+
    ```
 
 ### Example 3: Environment-Specific Configuration
 
 **Development:**
+
 ```javascript
 // .env.development
 VITE_SPOTIFY_CLIENT_ID=dev_client_id
 VITE_API_BASE_URL=https://api.spotify.com/v1
 VITE_ENABLE_MOCK_AUTH=true
 VITE_LOG_LEVEL=debug
+
 ```
 
 **Production:**
+
 ```javascript
 // .env.production
 VITE_SPOTIFY_CLIENT_ID=prod_client_id
 VITE_API_BASE_URL=https://api.spotify.com/v1
 VITE_ENABLE_MOCK_AUTH=false
 VITE_LOG_LEVEL=error
+
 ```
 
 **Usage:**
+
 ```javascript
 // src/config/app.config.js
 export const appConfig = {
@@ -1273,6 +1408,7 @@ export const appConfig = {
   enableMockAuth: import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true',
   logLevel: import.meta.env.VITE_LOG_LEVEL || 'info'
 };
+
 ```
 
 ---
@@ -1282,55 +1418,62 @@ export const appConfig = {
 ### Principle 1: Separation of Concerns
 
 Each folder has a single, clear purpose:
-- `/components` - UI only
-- `/services` - Business logic and APIs
-- `/utils` - Pure functions
-- `/styles` - Global styling
+
+* `/components` - UI only
+* `/services` - Business logic and APIs
+* `/utils` - Pure functions
+* `/styles` - Global styling
 
 **Benefits:**
-- Easier to find files
-- Reduced merge conflicts
-- Better code reuse
-- Simpler testing
+
+* Easier to find files
+* Reduced merge conflicts
+* Better code reuse
+* Simpler testing
 
 ### Principle 2: Scalability
 
 The structure supports growth:
-- Start small (few components)
-- Add features incrementally
-- Reorganize when needed (e.g., feature-based)
-- Extract shared code easily
+
+* Start small (few components)
+* Add features incrementally
+* Reorganize when needed (e.g., feature-based)
+* Extract shared code easily
 
 ### Principle 3: Developer Experience
 
 **Fast development:**
-- Hot Module Replacement (instant updates)
-- Fast builds with modern tools
-- Autocomplete with proper imports
-- Easier debugging with source maps
+
+* Hot Module Replacement (instant updates)
+* Fast builds with modern tools
+* Autocomplete with proper imports
+* Easier debugging with source maps
 
 **Team collaboration:**
-- Clear file ownership
-- Consistent patterns
-- Self-documenting structure
-- Easy onboarding
+
+* Clear file ownership
+* Consistent patterns
+* Self-documenting structure
+* Easy onboarding
 
 ### Principle 4: Build Optimization
 
 Modern build tools provide:
-- **Tree-shaking** - Remove unused code
-- **Code-splitting** - Load only what's needed
-- **Minification** - Smaller file sizes
-- **Asset optimization** - Compressed images
-- **Cache busting** - Versioned filenames
+
+* **Tree-shaking** - Remove unused code
+* **Code-splitting** - Load only what's needed
+* **Minification** - Smaller file sizes
+* **Asset optimization** - Compressed images
+* **Cache busting** - Versioned filenames
 
 ### Principle 5: Maintainability
 
 **Easy to maintain because:**
-- Single source of truth (no duplicates)
-- Clear dependencies
-- Isolated changes
-- Comprehensive testing
+
+* Single source of truth (no duplicates)
+* Clear dependencies
+* Isolated changes
+* Comprehensive testing
 
 ---
 
@@ -1338,36 +1481,38 @@ Modern build tools provide:
 
 ### Official Documentation
 
-- [Vite Guide](https://vitejs.dev/guide/) - Modern build tool
-- [Webpack Documentation](https://webpack.js.org/) - Module bundler
-- [Parcel Documentation](https://parceljs.org/) - Zero-config bundler
-- [npm Documentation](https://docs.npmjs.com/) - Package manager
+* [Vite Guide](https://vitejs.dev/guide/) - Modern build tool
+* [Webpack Documentation](https://webpack.js.org/) - Module bundler
+* [Parcel Documentation](https://parceljs.org/) - Zero-config bundler
+* [npm Documentation](https://docs.npmjs.com/) - Package manager
 
-### Best Practices
+### Best Practices Resources
 
-- [Clean Code JavaScript](https://github.com/ryanmcdermott/clean-code-javascript) - Code quality principles
-- [JavaScript Project Guidelines](https://github.com/elsewhencode/project-guidelines) - Project structure best practices
-- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices) - Node.js guidelines
-- [Frontend Checklist](https://github.com/thedaviddias/Front-End-Checklist) - Quality checklist
+* [Clean Code JavaScript](https://github.com/ryanmcdermott/clean-code-javascript) - Code quality principles
+* [JavaScript Project Guidelines](https://github.com/elsewhencode/project-guidelines) - Project structure best practices
+* [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices) - Node.js guidelines
+* [Frontend Checklist](https://github.com/thedaviddias/Front-End-Checklist) - Quality checklist
+* [Markdownlint](https://github.com/DavidAnson/markdownlint/) - Markdown linting and style checking
 
 ### Tools
 
-- [ESLint](https://eslint.org/) - Code linting
-- [Prettier](https://prettier.io/) - Code formatting
-- [Vitest](https://vitest.dev/) - Testing framework
-- [Husky](https://typicode.github.io/husky/) - Git hooks
+* [ESLint](https://eslint.org/) - Code linting
+* [Prettier](https://prettier.io/) - Code formatting
+* [Markdownlint](https://github.com/DavidAnson/markdownlint/) - Markdown linting and style checking
+* [Vitest](https://vitest.dev/) - Testing framework
+* [Husky](https://typicode.github.io/husky/) - Git hooks
 
 ### Project Examples
 
-- [Vite Examples](https://github.com/vitejs/vite/tree/main/packages/create-vite) - Official starter templates
-- [Real World App](https://github.com/gothinkster/realworld) - Full-stack examples
-- [awesome-vite](https://github.com/vitejs/awesome-vite) - Curated Vite resources
+* [Vite Examples](https://github.com/vitejs/vite/tree/main/packages/create-vite) - Official starter templates
+* [Real World App](https://github.com/gothinkster/realworld) - Full-stack examples
+* [awesome-vite](https://github.com/vitejs/awesome-vite) - Curated Vite resources
 
 ### Related Documentation in This Project
 
-- [HTML Best Practices Guide](./.github/HTML_BEST_PRACTICES.md) - HTML coding standards
-- [README.md](./README.md) - Project overview
-- [Copilot Instructions](./.github/copilot-instructions.md) - AI coding guidelines
+* [HTML Best Practices Guide](./.github/HTML_BEST_PRACTICES.md) - HTML coding standards
+* [README.md](./README.md) - Project overview
+* [Copilot Instructions](./.github/copilot-instructions.md) - AI coding guidelines
 
 ---
 
@@ -1382,15 +1527,16 @@ This folder structure provides a solid foundation for scaling web projects from 
 5. **Iterate** - Adjust the structure as your project evolves
 
 The current AFPESP Hotel Vacancy Monitor implementation works great for its automated monitoring scope. Use this guide when you need to:
-- Convert from Selenium script to web application
-- Implement user-friendly web interface
-- Deploy to serverless architecture (Vercel/Netlify)
-- Add real-time progress updates and result export
-- Scale to multiple concurrent users
+
+* Convert from Selenium script to web application
+* Implement user-friendly web interface
+* Deploy to serverless architecture (Vercel/Netlify)
+* Add real-time progress updates and result export
+* Scale to multiple concurrent users
 
 **Questions or suggestions?** Open an issue or submit a pull request to improve this guide!
 
 ---
 
-*Last updated: October 2025*  
+*Last updated: October 2025*
 *Maintained by: AFPESP Monitor Team*
