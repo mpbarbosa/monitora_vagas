@@ -1,6 +1,6 @@
-# Comprehensive Test Suite for index.html
+# Comprehensive Test Suite
 
-This directory contains a comprehensive test suite for the `public/index.html` file of the Trade Union Hotel Search Platform.
+This directory contains comprehensive test suites for the Trade Union Hotel Search Platform, including tests for HTML/JS, CSS components, and caching functionality.
 
 ## 📋 Test Files
 
@@ -35,11 +35,7 @@ This directory contains a comprehensive test suite for the `public/index.html` f
   ```
 - **Usage**:
   ```bash
-  # Start the server first
-  npm start
-  
-  # In another terminal, run the tests
-  python3 tests/test-index-e2e.py
+  ./run-index-tests.sh
   ```
 - **Test Coverage**:
   - Page load validation
@@ -77,6 +73,34 @@ This directory contains a comprehensive test suite for the `public/index.html` f
   - Empty state display
   - Input validation
   - Error handling
+
+### 4. CSS Test Suite
+**CSS Loading and Styling Tests**
+
+- **Files**: 
+  - `test-css-loading.py` - Automated CSS loading validation
+  - `test-css-automated.py` - Automated CSS property tests
+  - `test-background-color.py` - Background color validation
+  - `test-css-loading.html` - Browser-based CSS tests
+  - `test-css-validation.html` - CSS validation tests
+  - `test-css-visual.html` - Visual regression tests
+
+- **Usage**:
+  ```bash
+  ./run-css-tests.sh
+  ```
+
+- **Test Coverage**:
+  - CSS file loading verification
+  - Background color validation
+  - Style application checks
+  - Visual regression testing
+
+### 5. Helper Scripts
+- `run-index-tests.sh` - Runs E2E index tests with API management
+- `run-css-tests.sh` - Runs CSS test suite
+- `run_ui_tests.sh` - Runs UI tests
+- `start-local-testing.sh` - Sets up local testing environment
 
 ## 🧪 Test Categories
 
@@ -348,6 +372,32 @@ When contributing new features to index.html:
 2. Ensure all existing tests still pass
 3. Update this README if adding new test categories
 4. Maintain minimum 90% test coverage
+
+## 🎨 CSS Test Suite
+
+For comprehensive CSS testing documentation, see:
+- **[CSS Test Suite README](./CSS_TEST_SUITE_README.md)** - Full documentation
+- **[CSS Quick Reference](./CSS_TEST_QUICK_REFERENCE.md)** - Quick start guide
+
+### Quick Start for CSS Tests
+
+```bash
+# Run all CSS tests
+./tests/run-css-tests.sh
+
+# Run Python automated tests
+python3 tests/test-css-automated.py
+
+# Open visual tests in browser
+xdg-open tests/test-css-validation.html
+xdg-open tests/test-css-visual.html
+```
+
+### CSS Test Files
+- `run-css-tests.sh` - Master CSS test runner
+- `test-css-automated.py` - Automated CSS validation
+- `test-css-validation.html` - Browser-based variable testing
+- `test-css-visual.html` - Visual component showcase
 
 ---
 

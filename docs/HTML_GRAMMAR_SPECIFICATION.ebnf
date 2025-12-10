@@ -1,0 +1,364 @@
+# HTML Document Grammar Specification (EBNF)
+# Extended Backus-Naur Form for HTML Structure
+# Trade Union Hotel Search Platform
+# Version: 2.0.0
+# Date: December 10, 2024
+
+## Document Structure Grammar
+
+<document>           ::= <doctype> <html-element>
+
+<doctype>            ::= "<!DOCTYPE html>"
+
+<html-element>       ::= "<html" <lang-attr> ">" <head-element> <body-element> "</html>"
+
+<lang-attr>          ::= 'lang="' <language-code> '"'
+<language-code>      ::= <iso-639-1> ["-" <iso-3166-1>]
+<iso-639-1>          ::= <letter> <letter>
+<iso-3166-1>         ::= <uppercase> <uppercase>
+
+## Head Element Grammar
+
+<head-element>       ::= "<head>" <head-content> "</head>"
+
+<head-content>       ::= <meta-charset>
+                         <meta-viewport>
+                         <meta-description>
+                         [<meta-author>]
+                         [<meta-keywords>]
+                         [<meta-robots>]
+                         <title-element>
+                         <link-elements>
+
+<meta-charset>       ::= '<meta charset="UTF-8">'
+
+<meta-viewport>      ::= '<meta name="viewport" content="' <viewport-content> '">'
+<viewport-content>   ::= "width=device-width, initial-scale=1" ["," "shrink-to-fit=no"]
+
+<meta-description>   ::= '<meta name="description" content="' <description-text> '">'
+<description-text>   ::= <text-50-160>  /* 50-160 characters */
+
+<meta-author>        ::= '<meta name="author" content="' <text> '">'
+
+<meta-keywords>      ::= '<meta name="keywords" content="' <keyword-list> '">'
+<keyword-list>       ::= <text> {"," <text>}*
+
+<meta-robots>        ::= '<meta name="robots" content="' <robots-value> '">'
+<robots-value>       ::= ("index" | "noindex") "," ("follow" | "nofollow")
+
+<title-element>      ::= "<title>" <title-text> "</title>"
+<title-text>         ::= <text-10-60>  /* 10-60 characters */
+
+<link-elements>      ::= <link-element>+
+<link-element>       ::= '<link' <link-attrs> '>'
+<link-attrs>         ::= <href-attr> <rel-attr> [<media-attr>] [<type-attr>]
+
+<href-attr>          ::= 'href="' <url> '"'
+<rel-attr>           ::= 'rel="' <rel-value> '"'
+<rel-value>          ::= "stylesheet" | "icon" | "canonical" | "alternate" | "preload"
+<media-attr>         ::= 'media="' <media-value> '"'
+<media-value>        ::= "all" | "screen" | "print"
+<type-attr>          ::= 'type="' <mime-type> '"'
+
+## Body Element Grammar
+
+<body-element>       ::= "<body>" <page-wrapper> [<script-elements>] "</body>"
+
+<script-elements>    ::= <script-element>+
+<script-element>     ::= '<script' <script-attrs> '>' [<script-content>] '</script>'
+<script-attrs>       ::= <src-attr> [<async-attr>] [<defer-attr>] [<type-attr>]
+<src-attr>           ::= 'src="' <url> '"'
+<async-attr>         ::= "async"
+<defer-attr>         ::= "defer"
+
+## Component Grammar
+
+<page-wrapper>       ::= '<div class="' <page-wrapper-class> '">' 
+                         <wrapper>
+                         '</div>'
+
+<page-wrapper-class> ::= "page-wrapper" <ws> <bg-color-class> [<ws> <padding-classes>]
+<bg-color-class>     ::= "bg-color-" <digit>
+<padding-classes>    ::= <padding-class> {<ws> <padding-class>}*
+<padding-class>      ::= <padding-type> "-" <number>
+<padding-type>       ::= "p-t" | "p-b" | "p-l" | "p-r" | "p-x" | "p-y"
+
+<wrapper>            ::= '<div class="' <wrapper-class> '">'
+                         <card>
+                         '</div>'
+
+<wrapper-class>      ::= "wrapper" <ws> "wrapper--w" <width-value>
+<width-value>        ::= "780" | "900" | "1070"
+
+<card>               ::= '<div class="' <card-class> '">'
+                         <card-body>
+                         '</div>'
+
+<card-class>         ::= "card" <ws> "card-" <card-number>
+<card-number>        ::= "1" | "2" | "3" | "4" | "5" | "6" | "7"
+
+<card-body>          ::= '<div class="card-body">'
+                         <card-content>
+                         '</div>'
+
+<card-content>       ::= <form-element> | <text-content> | <mixed-content>
+
+## Form Grammar
+
+<form-element>       ::= '<form' <form-attrs> '>'
+                         <form-content>
+                         '</form>'
+
+<form-attrs>         ::= 'class="form"' <ws> <method-attr> <ws> <action-attr> [<ws> <novalidate-attr>]
+<method-attr>        ::= 'method="' <method-value> '"'
+<method-value>       ::= "GET" | "POST"
+<action-attr>        ::= 'action="' <url-or-hash> '"'
+<url-or-hash>        ::= <url> | "#"
+<novalidate-attr>    ::= "novalidate"
+
+<form-content>       ::= <input-group>+
+
+## Input Group Grammar
+
+<input-group>        ::= '<div class="' <input-group-class> '">'
+                         <label-element>
+                         <form-control>
+                         '</div>'
+
+<input-group-class>  ::= "input-group" <ws> "input--" <size-modifier>
+<size-modifier>      ::= "large" | "medium" | "small"
+
+<label-element>      ::= '<label' <label-attrs> '>' <label-text> '</label>'
+<label-attrs>        ::= 'class="label"' [<ws> <for-attr>]
+<for-attr>           ::= 'for="' <identifier> '"'
+<label-text>         ::= <text>
+
+<form-control>       ::= <input-element> | <select-element> | <textarea-element> | <button-element>
+
+## Input Element Grammar
+
+<input-element>      ::= '<input' <input-attrs> '>'
+<input-attrs>        ::= <input-class-attr> <ws> <input-type-attr> <ws> <name-attr>
+                         [<ws> <id-attr>] [<ws> <value-attr>]  [<ws> <placeholder-attr>]
+                         [<ws> <required-attr>] [<ws> <disabled-attr>] [<ws> <readonly-attr>]
+                         [<ws> <min-attr>] [<ws> <max-attr>] [<ws> <pattern-attr>]
+
+<input-class-attr>   ::= 'class="input--style-' <digit> '"'
+<input-type-attr>    ::= 'type="' <input-type> '"'
+<input-type>         ::= "text" | "email" | "password" | "number" | "date" | "tel" | "url" | "search"
+
+<name-attr>          ::= 'name="' <field-name> '"'
+<field-name>         ::= <letter> {<letter> | <digit> | "_" | "-"}*
+
+<id-attr>            ::= 'id="' <identifier> '"'
+<identifier>         ::= <letter> {<letter> | <digit> | "_" | "-"}*
+
+<value-attr>         ::= 'value="' <text> '"'
+<placeholder-attr>   ::= 'placeholder="' <text> '"'
+<required-attr>      ::= "required"
+<disabled-attr>      ::= "disabled"
+<readonly-attr>      ::= "readonly"
+<min-attr>           ::= 'min="' <value> '"'
+<max-attr>           ::= 'max="' <value> '"'
+<pattern-attr>       ::= 'pattern="' <regex> '"'
+
+## Select Element Grammar
+
+<select-element>     ::= '<select' <select-attrs> '>'
+                         <option-elements>
+                         '</select>'
+
+<select-attrs>       ::= <select-class-attr> <ws> <name-attr>
+                         [<ws> <id-attr>] [<ws> <required-attr>] [<ws> <disabled-attr>]
+
+<select-class-attr>  ::= 'class="input--style-' <digit> '"'
+
+<option-elements>    ::= <option-element>+
+<option-element>     ::= '<option' <option-attrs> '>' <option-text> '</option>'
+<option-attrs>       ::= 'value="' <option-value> '"' [<ws> <selected-attr>] [<ws> <disabled-attr>]
+<option-value>       ::= <text>
+<option-text>        ::= <text>
+<selected-attr>      ::= "selected"
+
+## Textarea Element Grammar
+
+<textarea-element>   ::= '<textarea' <textarea-attrs> '>' [<text>] '</textarea>'
+<textarea-attrs>     ::= <textarea-class-attr> <ws> <name-attr>
+                         [<ws> <id-attr>] [<ws> <rows-attr>] [<ws> <cols-attr>]
+                         [<ws> <placeholder-attr>] [<ws> <required-attr>]
+
+<textarea-class-attr>::= 'class="input--style-' <digit> '"'
+<rows-attr>          ::= 'rows="' <number> '"'
+<cols-attr>          ::= 'cols="' <number> '"'
+
+## Button Element Grammar
+
+<button-element>     ::= '<button' <button-attrs> '>' <button-text> '</button>'
+<button-attrs>       ::= <button-class-attr> <ws> <button-type-attr> [<ws> <disabled-attr>]
+
+<button-class-attr>  ::= 'class="' <button-classes> '"'
+<button-classes>     ::= "btn" [<ws> <button-modifiers>]
+<button-modifiers>   ::= <button-modifier> {<ws> <button-modifier>}*
+<button-modifier>    ::= <button-radius> | <button-color>
+<button-radius>      ::= "btn--radius-" <digit>
+<button-color>       ::= "btn--" <color-name>
+<color-name>         ::= "blue-2" | "red" | "green" | "yellow" | "purple"
+
+<button-type-attr>   ::= 'type="' <button-type> '"'
+<button-type>        ::= "submit" | "reset" | "button"
+
+<button-text>        ::= <text>
+
+## Text Content Grammar
+
+<text-content>       ::= <heading> | <paragraph> | <list> | <mixed-content>
+
+<heading>            ::= '<h' <heading-level> [<ws> 'class="' <text> '"'] '>'
+                         <text>
+                         '</h' <heading-level> '>'
+<heading-level>      ::= "1" | "2" | "3" | "4" | "5" | "6"
+
+<paragraph>          ::= '<p' [<ws> 'class="' <text> '"'] '>' <text> '</p>'
+
+<list>               ::= <ul> | <ol>
+<ul>                 ::= '<ul>' <list-items> '</ul>'
+<ol>                 ::= '<ol>' <list-items> '</ol>'
+<list-items>         ::= <li>+
+<li>                 ::= '<li>' <text> '</li>'
+
+<mixed-content>      ::= (<text> | <heading> | <paragraph> | <form-element> | <div>)+
+
+<div>                ::= '<div' [<ws> 'class="' <text> '"'] '>'
+                         [<mixed-content>]
+                         '</div>'
+
+## Basic Types
+
+<text>               ::= <char>+
+<text-10-60>         ::= <text>  /* length constraint: 10-60 chars */
+<text-50-160>        ::= <text>  /* length constraint: 50-160 chars */
+
+<url>                ::= <scheme> "://" <authority> <path> ["?" <query>] ["#" <fragment>]
+<scheme>             ::= "http" | "https"
+<authority>          ::= <host> [":" <port>]
+<host>               ::= <hostname> | <ip-address>
+<path>               ::= "/" {<path-segment> "/"}*
+<query>              ::= <query-param> {"&" <query-param>}*
+<fragment>           ::= <text>
+
+<mime-type>          ::= <type> "/" <subtype>
+<type>               ::= "text" | "image" | "application" | "video" | "audio"
+<subtype>            ::= <text>
+
+<regex>              ::= <text>  /* valid regular expression */
+
+<number>             ::= <digit>+
+<digit>              ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<letter>             ::= <lowercase> | <uppercase>
+<lowercase>          ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" |
+                         "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<uppercase>          ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" |
+                         "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+
+<char>               ::= <letter> | <digit> | <special-char>
+<special-char>       ::= " " | "!" | "@" | "#" | "$" | "%" | "^" | "&" | "*" | "(" | ")" |
+                         "-" | "_" | "=" | "+" | "[" | "]" | "{" | "}" | ";" | ":" |
+                         "'" | '"' | "," | "." | "<" | ">" | "/" | "?" | "|" | "\\"
+
+<ws>                 ::= " "  /* whitespace */
+
+## Validation Rules (Semantic Constraints)
+
+/*
+ * Semantic constraints not expressible in pure EBNF:
+ *
+ * 1. All id values must be unique within the document
+ * 2. All for attributes must reference existing id values
+ * 3. form method must be GET or POST
+ * 4. input type must be a valid HTML5 type
+ * 5. Character encoding must be UTF-8
+ * 6. Language codes must be valid ISO 639-1
+ * 7. URLs must be valid according to RFC 3986
+ * 8. Class names should follow kebab-case convention
+ * 9. ARIA attributes should be used where appropriate
+ * 10. Tab order should be logical (not random)
+ */
+
+## Example Valid Documents
+
+/*
+ * Minimal valid document:
+ *
+ * <!DOCTYPE html>
+ * <html lang="en">
+ * <head>
+ *   <meta charset="UTF-8">
+ *   <meta name="viewport" content="width=device-width, initial-scale=1">
+ *   <meta name="description" content="Hotel search platform for union members">
+ *   <title>Hotel Search</title>
+ *   <link href="css/main.css" rel="stylesheet" media="all">
+ * </head>
+ * <body>
+ *   <div class="page-wrapper bg-color-1">
+ *     <div class="wrapper wrapper--w1070">
+ *       <div class="card card-7">
+ *         <div class="card-body">
+ *           <form class="form" method="POST" action="#">
+ *             <div class="input-group input--large">
+ *               <label class="label" for="hotel">Hotel</label>
+ *               <select class="input--style-1" name="hotel" id="hotel">
+ *                 <option value="">Select a hotel...</option>
+ *                 <option value="hotel1">Hotel 1</option>
+ *               </select>
+ *             </div>
+ *             <button class="btn btn--blue-2" type="submit">Search</button>
+ *           </form>
+ *         </div>
+ *       </div>
+ *     </div>
+ *   </div>
+ * </body>
+ * </html>
+ */
+
+## Notes
+
+/*
+ * This grammar specification uses Extended Backus-Naur Form (EBNF) notation:
+ *
+ * Symbols:
+ * ::=     is defined as
+ * |       alternative (OR)
+ * []      optional (zero or one)
+ * {}      repetition (zero or more)
+ * ()      grouping
+ * +       one or more
+ * *       zero or more
+ * " "     terminal symbol (literal)
+ * < >     non-terminal symbol
+ * 
+ * Comments are enclosed in slash-asterisk pairs
+ * 
+ * This specification should be used in conjunction with:
+ * - HTML Living Standard (WHATWG)
+ * - CSS Specifications (W3C)
+ * - WCAG 2.1 (W3C)
+ * - RFC 2119 (IETF)
+ */
+
+## Version History
+
+/*
+ * Version 1.0.0 - 2024-01-01 - Initial grammar specification
+ * Version 2.0.0 - 2024-12-10 - Updated for new component structure
+ */
+
+## License
+
+/*
+ * Copyright (c) 2024 Trade Union Hotel Search Platform
+ * All rights reserved.
+ * 
+ * This specification is for internal use only.
+ * Unauthorized distribution is prohibited.
+ */

@@ -5,12 +5,12 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Colrolib Templates">
-    <meta name="author" content="colorlib.com">
-    <meta name="keywords" content="Colrolib Templates">
+    <meta name="description" content="Sistema de monitoramento de disponibilidade de vagas nos hotéis AFPESP">
+    <meta name="author" content="AFPESP">
+    <parameter name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
 
     <!-- Title Page-->
-    <title>Au Form Wizard</title>
+    <title>Monitor de Vagas - AFPESP Hotels</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -35,9 +35,24 @@
                     <form class="form" method="POST" action="#">
                         <div class="input-group input--large">
                             <label class="label">Hotéis</label>
-                            <select class="input--style-1" name="going" id="hotel-select">
-                                <option value="">Loading hotels...</option>
-                            </select>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <select class="input--style-1" name="going" id="hotel-select" style="flex: 1;">
+                                    <option value="">Loading hotels...</option>
+                                </select>
+                                <button type="button" id="refresh-hotels-btn" 
+                                        style="padding: 8px 12px;
+                                               background: #4CAF50;
+                                               color: white;
+                                               border: none;
+                                               border-radius: 4px;
+                                               cursor: pointer;
+                                               font-size: 14px;
+                                               white-space: nowrap;"
+                                        title="Refresh hotel list">
+                                    🔄
+                                </button>
+                            </div>
+                            <small id="cache-status" style="display: block; margin-top: 5px; color: #666; font-size: 12px;"></small>
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-In</label>
@@ -113,10 +128,38 @@
     <script type="module">
         import { apiClient } from './services/apiClient.js';
         
-        // Load hotels using API client
-        apiClient.getHotels()
-            .then(hotels => {
-                const select = document.getElementById('hotel-select');
+        // Function to update cache status display
+        function updateCacheStatus() {
+            const stats = apiClient.getCacheStats();
+            const statusEl = document.getElementById('cache-status');
+            
+            if (stats.exists && !stats.expired) {
+                statusEl.textContent = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
+                statusEl.style.color = '#4CAF50';
+            } else if (stats.exists && stats.expired) {
+                statusEl.textContent = `⏰ Cache expired, fetching fresh data...`;
+                statusEl.style.color = '#FF9800';
+            } else {
+                statusEl.textContent = '';
+            }
+        }
+        
+        // Function to load hotels (with optional force refresh)
+        async function loadHotels(forceRefresh = false) {
+            const select = document.getElementById('hotel-select');
+            const refreshBtn = document.getElementById('refresh-hotels-btn');
+            
+            try {
+                // Disable refresh button during load
+                if (refreshBtn) {
+                    refreshBtn.disabled = true;
+                    refreshBtn.textContent = '⏳';
+                }
+                
+                select.innerHTML = '<option value="">Loading...</option>';
+                
+                const hotels = await apiClient.getHotels(forceRefresh);
+                
                 select.innerHTML = '<option value="">Select a hotel</option>';
                 hotels.forEach(hotel => {
                     const option = document.createElement('option');
@@ -124,13 +167,36 @@
                     option.textContent = hotel.name;
                     select.appendChild(option);
                 });
-            })
-            .catch(error => {
+                
+                updateCacheStatus();
+                
+            } catch (error) {
                 console.error('Error loading hotels:', error);
-                document.getElementById('hotel-select').innerHTML = '<option value="">Error loading hotels</option>';
-            });
+                select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
+                
+                const statusEl = document.getElementById('cache-status');
+                statusEl.textContent = `❌ Error: ${error.message}`;
+                statusEl.style.color = '#f44336';
+            } finally {
+                // Re-enable refresh button
+                if (refreshBtn) {
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = '🔄';
+                }
+            }
+        }
+        
+        // Load hotels on page load
+        loadHotels();
+        
+        // Refresh button handler
+        document.getElementById('refresh-hotels-btn')?.addEventListener('click', () => {
+            console.log('🔄 Manual refresh requested');
+            loadHotels(true); // Force refresh
+        });
 
         // Handle form submission
+        document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('.form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();

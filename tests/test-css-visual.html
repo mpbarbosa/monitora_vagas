@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Visual Test Suite</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="../public/css/components/search-form.css">
+    <link rel="stylesheet" href="../public/css/components/progress-bar.css">
+    <link rel="stylesheet" href="../public/css/pages/home.css">
+    <style>
+        .visual-test-container {
+            padding: 2rem;
+            background: var(--color-gray-50);
+        }
+        .test-group {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-base);
+        }
+        .test-group h2 {
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .test-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-base);
+        }
+        .test-item h3 {
+            margin-top: 0;
+            color: var(--color-gray-700);
+            font-size: var(--font-size-lg);
+        }
+        .color-swatch {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin: 0.5rem;
+            border-radius: var(--border-radius-base);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .color-card {
+            text-align: center;
+        }
+        .color-label {
+            font-size: var(--font-size-xs);
+            margin-top: 0.5rem;
+            color: var(--color-text-muted);
+            font-family: var(--font-family-mono);
+        }
+        .spacing-demo {
+            background: var(--color-primary);
+            color: white;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .shadow-demo {
+            width: 150px;
+            height: 100px;
+            background: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem;
+            border-radius: var(--border-radius-md);
+        }
+        .typography-demo {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--color-gray-50);
+            border-left: 3px solid var(--color-primary);
+        }
+        .button-demo {
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="visual-test-container">
+        <div class="test-group">
+            <h2>Visual CSS Test Suite</h2>
+            <p>This page demonstrates and validates all CSS components and styles used in the public folder.</p>
+        </div>
+
+        <!-- Color System -->
+        <div class="test-group">
+            <h2>1. Color System</h2>
+            
+            <div class="test-item">
+                <h3>Primary Colors</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-primary);"></div>
+                        <div class="color-label">--color-primary</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-primary-dark);"></div>
+                        <div class="color-label">--color-primary-dark</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-primary-light);"></div>
+                        <div class="color-label">--color-primary-light</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-item">
+                <h3>Gray Scale</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-gray-50);"></div>
+                        <div class="color-label">gray-50</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-gray-200);"></div>
+                        <div class="color-label">gray-200</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-gray-500);"></div>
+                        <div class="color-label">gray-500</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-gray-900);"></div>
+                        <div class="color-label">gray-900</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-item">
+                <h3>Semantic Colors</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-success);"></div>
+                        <div class="color-label">success</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-warning);"></div>
+                        <div class="color-label">warning</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-danger);"></div>
+                        <div class="color-label">danger</div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: var(--color-info);"></div>
+                        <div class="color-label">info</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="test-group">
+            <h2>2. Typography System</h2>
+            
+            <div class="test-item">
+                <h3>Font Sizes</h3>
+                <div class="typography-demo" style="font-size: var(--font-size-xs);">
+                    Extra Small (12px) - var(--font-size-xs)
+                </div>
+                <div class="typography-demo" style="font-size: var(--font-size-base);">
+                    Base (16px) - var(--font-size-base)
+                </div>
+                <div class="typography-demo" style="font-size: var(--font-size-xl);">
+                    Extra Large (20px) - var(--font-size-xl)
+                </div>
+                <div class="typography-demo" style="font-size: var(--font-size-3xl);">
+                    3XL (30px) - var(--font-size-3xl)
+                </div>
+            </div>
+
+            <div class="test-item">
+                <h3>Font Weights</h3>
+                <div class="typography-demo" style="font-weight: var(--font-weight-light);">
+                    Light Weight (300)
+                </div>
+                <div class="typography-demo" style="font-weight: var(--font-weight-normal);">
+                    Normal Weight (400)
+                </div>
+                <div class="typography-demo" style="font-weight: var(--font-weight-semibold);">
+                    Semibold Weight (600)
+                </div>
+                <div class="typography-demo" style="font-weight: var(--font-weight-bold);">
+                    Bold Weight (700)
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacing System -->
+        <div class="test-group">
+            <h2>3. Spacing System</h2>
+            
+            <div class="test-item">
+                <h3>Spacing Scale</h3>
+                <div>
+                    <div class="spacing-demo" style="padding: var(--spacing-1);">spacing-1</div>
+                    <div class="spacing-demo" style="padding: var(--spacing-2);">spacing-2</div>
+                    <div class="spacing-demo" style="padding: var(--spacing-4);">spacing-4</div>
+                    <div class="spacing-demo" style="padding: var(--spacing-6);">spacing-6</div>
+                    <div class="spacing-demo" style="padding: var(--spacing-8);">spacing-8</div>
+                    <div class="spacing-demo" style="padding: var(--spacing-12);">spacing-12</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shadow System -->
+        <div class="test-group">
+            <h2>4. Shadow System</h2>
+            
+            <div class="test-item">
+                <h3>Shadow Levels</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <div class="shadow-demo" style="box-shadow: var(--shadow-sm);">
+                        shadow-sm
+                    </div>
+                    <div class="shadow-demo" style="box-shadow: var(--shadow-base);">
+                        shadow-base
+                    </div>
+                    <div class="shadow-demo" style="box-shadow: var(--shadow-md);">
+                        shadow-md
+                    </div>
+                    <div class="shadow-demo" style="box-shadow: var(--shadow-lg);">
+                        shadow-lg
+                    </div>
+                    <div class="shadow-demo" style="box-shadow: var(--shadow-xl);">
+                        shadow-xl
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Border Radius -->
+        <div class="test-group">
+            <h2>5. Border Radius</h2>
+            
+            <div class="test-item">
+                <h3>Radius Sizes</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <div class="shadow-demo" style="border-radius: var(--border-radius-sm); background: var(--color-primary); color: white;">
+                        radius-sm
+                    </div>
+                    <div class="shadow-demo" style="border-radius: var(--border-radius-base); background: var(--color-primary); color: white;">
+                        radius-base
+                    </div>
+                    <div class="shadow-demo" style="border-radius: var(--border-radius-lg); background: var(--color-primary); color: white;">
+                        radius-lg
+                    </div>
+                    <div class="shadow-demo" style="border-radius: var(--border-radius-xl); background: var(--color-primary); color: white;">
+                        radius-xl
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Components -->
+        <div class="test-group">
+            <h2>6. Button Styles</h2>
+            
+            <div class="test-item">
+                <h3>Search Button</h3>
+                <button class="search-button button-demo">
+                    <span class="search-icon">🔍</span>
+                    Search Jobs
+                </button>
+            </div>
+
+            <div class="test-item">
+                <h3>Reload Button</h3>
+                <button class="reload-button button-demo">
+                    Reload Application
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Components -->
+        <div class="test-group">
+            <h2>7. Form Components</h2>
+            
+            <div class="test-item">
+                <h3>Search Form</h3>
+                <div class="search-form">
+                    <div class="search-form-header">
+                        <h2>Find Your Perfect Job</h2>
+                        <p class="search-form-subtitle">Search from thousands of opportunities</p>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="test-location">Location</label>
+                            <select id="test-location">
+                                <option>Select location</option>
+                                <option>Remote</option>
+                                <option>New York</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="test-category">Category</label>
+                            <select id="test-category">
+                                <option>Select category</option>
+                                <option>Technology</option>
+                                <option>Healthcare</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="test-type" value="full-time" checked>
+                            <label>Full Time</label>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="test-type" value="part-time">
+                            <label>Part Time</label>
+                        </label>
+                    </div>
+                    
+                    <button class="search-button">
+                        <span class="search-icon">🔍</span>
+                        Search Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Layout Components -->
+        <div class="test-group">
+            <h2>8. Layout Components</h2>
+            
+            <div class="test-item">
+                <h3>Container</h3>
+                <div class="container" style="background: var(--color-gray-100); padding: 2rem;">
+                    <p>This is a container with max-width constraints</p>
+                </div>
+            </div>
+
+            <div class="test-item">
+                <h3>Feature Cards</h3>
+                <div class="features-grid">
+                    <div class="info-card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Easy Search</h3>
+                        <p>Find jobs quickly with our intuitive search interface</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">⚡</div>
+                        <h3>Fast Results</h3>
+                        <p>Get instant results from our optimized database</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Secure</h3>
+                        <p>Your data is protected with industry-standard security</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading States -->
+        <div class="test-group">
+            <h2>9. Loading States</h2>
+            
+            <div class="test-item">
+                <h3>Loading Spinner</h3>
+                <div class="loading-spinner"></div>
+            </div>
+
+            <div class="test-item">
+                <h3>Pulse Animation</h3>
+                <div class="pulse-animation"></div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="test-group">
+            <h2>10. Hero Section</h2>
+            
+            <div class="test-item">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1>Find Your Dream Job Today</h1>
+                        <p class="hero-description">
+                            Discover thousands of job opportunities from top companies around the world
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="test-group">
+            <h2>11. Footer</h2>
+            
+            <div class="test-item">
+                <div class="app-footer">
+                    <p>&copy; 2024 Job Search Platform. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsive Test Info -->
+        <div class="test-group">
+            <h2>12. Responsive Design</h2>
+            
+            <div class="test-item">
+                <h3>Current Viewport</h3>
+                <p id="viewport-info"></p>
+                <p><strong>Test Instructions:</strong> Resize your browser window to test responsive breakpoints:</p>
+                <ul>
+                    <li>Mobile: &lt; 576px</li>
+                    <li>Tablet: 576px - 767px</li>
+                    <li>Desktop: 768px - 991px</li>
+                    <li>Large Desktop: &gt; 992px</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            let breakpoint = '';
+            
+            if (width < 576) breakpoint = 'Mobile';
+            else if (width < 768) breakpoint = 'Tablet';
+            else if (width < 992) breakpoint = 'Desktop';
+            else breakpoint = 'Large Desktop';
+            
+            document.getElementById('viewport-info').textContent = 
+                `Viewport: ${width}px × ${height}px (${breakpoint})`;
+        }
+        
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
+    </script>
+</body>
+</html>

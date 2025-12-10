@@ -1,0 +1,605 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/html-structure-schema.json",
+  "title": "HTML Document Schema",
+  "description": "JSON Schema definition for HTML document structure validation",
+  "type": "object",
+  "required": ["doctype", "html"],
+  "properties": {
+    "doctype": {
+      "type": "string",
+      "const": "html",
+      "description": "HTML5 DOCTYPE declaration"
+    },
+    "html": {
+      "type": "object",
+      "required": ["lang", "head", "body"],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+          "description": "ISO 639-1 language code",
+          "examples": ["en", "pt-BR", "es"]
+        },
+        "head": {
+          "$ref": "#/definitions/head"
+        },
+        "body": {
+          "$ref": "#/definitions/body"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "head": {
+      "type": "object",
+      "required": ["meta", "title", "links"],
+      "properties": {
+        "meta": {
+          "type": "object",
+          "required": ["charset", "viewport", "description"],
+          "properties": {
+            "charset": {
+              "type": "string",
+              "const": "UTF-8",
+              "description": "Character encoding"
+            },
+            "viewport": {
+              "type": "object",
+              "required": ["width", "initial-scale"],
+              "properties": {
+                "width": {
+                  "type": "string",
+                  "const": "device-width"
+                },
+                "initial-scale": {
+                  "type": "number",
+                  "const": 1
+                },
+                "shrink-to-fit": {
+                  "type": "string",
+                  "enum": ["no", "yes"]
+                }
+              }
+            },
+            "description": {
+              "type": "string",
+              "minLength": 50,
+              "maxLength": 160,
+              "description": "SEO meta description"
+            },
+            "author": {
+              "type": "string",
+              "description": "Content author"
+            },
+            "keywords": {
+              "type": "string",
+              "description": "SEO keywords"
+            },
+            "robots": {
+              "type": "string",
+              "enum": ["index, follow", "noindex, follow", "index, nofollow", "noindex, nofollow"]
+            }
+          }
+        },
+        "title": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 60,
+          "description": "Page title for SEO"
+        },
+        "links": {
+          "type": "array",
+          "description": "External resource links",
+          "items": {
+            "$ref": "#/definitions/link"
+          }
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "required": ["rel", "href"],
+      "properties": {
+        "rel": {
+          "type": "string",
+          "enum": ["stylesheet", "icon", "canonical", "alternate", "preload", "prefetch"]
+        },
+        "href": {
+          "type": "string",
+          "format": "uri",
+          "description": "Resource URL"
+        },
+        "media": {
+          "type": "string",
+          "enum": ["all", "screen", "print"],
+          "default": "all"
+        },
+        "type": {
+          "type": "string",
+          "examples": ["text/css", "image/x-icon"]
+        },
+        "as": {
+          "type": "string",
+          "enum": ["style", "script", "image", "font"]
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "required": ["components"],
+      "properties": {
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              { "$ref": "#/definitions/pageWrapper" },
+              { "$ref": "#/definitions/script" }
+            ]
+          }
+        }
+      }
+    },
+    "pageWrapper": {
+      "type": "object",
+      "required": ["type", "className", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "div"
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^page-wrapper\\s+bg-color-\\d+.*$",
+          "description": "Page wrapper class with background"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/wrapper"
+          }
+        }
+      }
+    },
+    "wrapper": {
+      "type": "object",
+      "required": ["type", "className", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "div"
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^wrapper\\s+wrapper--w\\d+$",
+          "description": "Wrapper with width constraint"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/card"
+          }
+        }
+      }
+    },
+    "card": {
+      "type": "object",
+      "required": ["type", "className", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "div"
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^card\\s+card-\\d+$",
+          "description": "Card with style variant"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/cardBody"
+          }
+        }
+      }
+    },
+    "cardBody": {
+      "type": "object",
+      "required": ["type", "className", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "div"
+        },
+        "className": {
+          "type": "string",
+          "const": "card-body"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              { "$ref": "#/definitions/form" },
+              { "$ref": "#/definitions/heading" },
+              { "$ref": "#/definitions/paragraph" }
+            ]
+          }
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "required": ["type", "className", "method", "action", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "form"
+        },
+        "className": {
+          "type": "string",
+          "const": "form"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST"]
+        },
+        "action": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "novalidate": {
+          "type": "boolean"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/inputGroup"
+          }
+        }
+      }
+    },
+    "inputGroup": {
+      "type": "object",
+      "required": ["type", "className", "children"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "div"
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^input-group\\s+input--(large|medium|small)$"
+        },
+        "children": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "anyOf": [
+              { "$ref": "#/definitions/label" },
+              { "$ref": "#/definitions/input" },
+              { "$ref": "#/definitions/select" }
+            ]
+          }
+        }
+      }
+    },
+    "label": {
+      "type": "object",
+      "required": ["type", "className", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "label"
+        },
+        "className": {
+          "type": "string",
+          "const": "label"
+        },
+        "for": {
+          "type": "string",
+          "description": "Associated input ID"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Label text"
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "required": ["type", "inputType", "className", "name"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "input"
+        },
+        "inputType": {
+          "type": "string",
+          "enum": ["text", "email", "password", "number", "date", "tel", "url"]
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^input--style-\\d+$"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+          "description": "Form field name"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+          "description": "Unique identifier"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "min": {
+          "type": ["string", "number"]
+        },
+        "max": {
+          "type": ["string", "number"]
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Regex validation pattern"
+        }
+      }
+    },
+    "select": {
+      "type": "object",
+      "required": ["type", "className", "name", "options"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "select"
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^input--style-\\d+$"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/option"
+          }
+        }
+      }
+    },
+    "option": {
+      "type": "object",
+      "required": ["value", "text"],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "button": {
+      "type": "object",
+      "required": ["type", "className", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "button"
+        },
+        "buttonType": {
+          "type": "string",
+          "enum": ["submit", "reset", "button"]
+        },
+        "className": {
+          "type": "string",
+          "pattern": "^btn\\s+"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "heading": {
+      "type": "object",
+      "required": ["type", "level", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["h1", "h2", "h3", "h4", "h5", "h6"]
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "className": {
+          "type": "string"
+        }
+      }
+    },
+    "paragraph": {
+      "type": "object",
+      "required": ["type", "text"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "p"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "className": {
+          "type": "string"
+        }
+      }
+    },
+    "script": {
+      "type": "object",
+      "required": ["type", "src"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "script"
+        },
+        "src": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "async": {
+          "type": "boolean"
+        },
+        "defer": {
+          "type": "boolean"
+        },
+        "crossorigin": {
+          "type": "string",
+          "enum": ["anonymous", "use-credentials"]
+        },
+        "integrity": {
+          "type": "string",
+          "description": "Subresource Integrity hash"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "doctype": "html",
+      "html": {
+        "lang": "en",
+        "head": {
+          "meta": {
+            "charset": "UTF-8",
+            "viewport": {
+              "width": "device-width",
+              "initial-scale": 1,
+              "shrink-to-fit": "no"
+            },
+            "description": "Trade Union Hotel Search Platform - Find and book hotels for union members",
+            "author": "Development Team",
+            "keywords": "hotels, union, booking, search"
+          },
+          "title": "Hotel Search - Trade Union Platform",
+          "links": [
+            {
+              "rel": "stylesheet",
+              "href": "css/main.css",
+              "media": "all"
+            }
+          ]
+        },
+        "body": {
+          "components": [
+            {
+              "type": "div",
+              "className": "page-wrapper bg-color-1",
+              "children": [
+                {
+                  "type": "div",
+                  "className": "wrapper wrapper--w1070",
+                  "children": [
+                    {
+                      "type": "div",
+                      "className": "card card-7",
+                      "children": [
+                        {
+                          "type": "div",
+                          "className": "card-body",
+                          "children": [
+                            {
+                              "type": "form",
+                              "className": "form",
+                              "method": "POST",
+                              "action": "#",
+                              "children": [
+                                {
+                                  "type": "div",
+                                  "className": "input-group input--large",
+                                  "children": [
+                                    {
+                                      "type": "label",
+                                      "className": "label",
+                                      "text": "Hotel"
+                                    },
+                                    {
+                                      "type": "select",
+                                      "className": "input--style-1",
+                                      "name": "hotel",
+                                      "id": "hotel-select",
+                                      "options": [
+                                        {
+                                          "value": "",
+                                          "text": "Select a hotel..."
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

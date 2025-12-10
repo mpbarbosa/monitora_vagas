@@ -5,6 +5,7 @@
  */
 
 import { getEnvironment } from '../config/environment.js';
+import { hotelCache } from './hotelCache.js';
 
 export class BuscaVagasAPIClient {
     constructor() {
@@ -122,29 +123,29 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Get static hotel list
+     * Get static hotel list with persistent cache
+     * @param {boolean} forceRefresh - Force fetch from API, bypassing cache
      * @returns {Promise<Array>} List of hotels
      */
-    async getHotels() {
-        const cacheKey = 'hotels';
-        const cached = this.cache.get(cacheKey);
-        
-        if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
-            console.log('📦 Returning cached hotel list');
-            return cached.data;
+    async getHotels(forceRefresh = false) {
+        // Check persistent cache first (unless force refresh)
+        if (!forceRefresh) {
+            const cached = hotelCache.get();
+            if (cached) {
+                return cached;
+            }
         }
         
+        // If cache miss or force refresh, fetch from API
         const url = `${this.apiBaseUrl}/vagas/hoteis`;
-        console.log(`🏨 Fetching hotel list: ${url}`);
+        console.log(`🏨 Fetching hotel list from API: ${url}`);
         
         const result = await this.fetchWithTimeout(url);
         
-        this.cache.set(cacheKey, {
-            data: result.data,
-            timestamp: Date.now()
-        });
+        // Save to persistent cache
+        hotelCache.set(result.data);
         
-        console.log(`✅ Retrieved ${result.data.length} hotels`);
+        console.log(`✅ Retrieved ${result.data.length} hotels from API`);
         return result.data;
     }
 
@@ -228,11 +229,27 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Clear the cache
+     * Clear all caches (in-memory and persistent)
      */
     clearCache() {
         this.cache.clear();
-        console.log('🗑️ Cache cleared');
+        hotelCache.clear();
+        console.log('🗑️ All caches cleared');
+    }
+    
+    /**
+     * Get cache statistics
+     */
+    getCacheStats() {
+        return hotelCache.getStats();
+    }
+    
+    /**
+     * Force refresh hotel list
+     */
+    async refreshHotels() {
+        console.log('🔄 Forcing hotel list refresh...');
+        return this.getHotels(true);
     }
 }
 

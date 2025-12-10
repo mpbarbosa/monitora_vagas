@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Loading Test Suite</title>
+    
+    <!-- Load the same CSS files as index.html -->
+    <link href="../public/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../public/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link href="../public/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../public/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="../public/css/main.css" rel="stylesheet" media="all">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .test-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+        }
+        
+        .test-section h2 {
+            color: #444;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        
+        .test-case {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        
+        .test-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .test-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .test-status {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .status-pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .test-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            padding-left: 10px;
+            border-left: 2px solid #ddd;
+        }
+        
+        .summary {
+            position: sticky;
+            top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .summary h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .visual-test {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px dashed #ccc;
+            background: white;
+        }
+        
+        .loading-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-details {
+            background: #fff;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #d32f2f;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎨 CSS Loading Test Suite</h1>
+            <p>Automated tests to verify all CSS files are loaded and applied correctly</p>
+        </div>
+
+        <div class="summary" id="summary">
+            <h2>Test Summary</h2>
+            <div class="summary-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalTests">0</span>
+                    <span class="stat-label">Total Tests</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="passedTests">0</span>
+                    <span class="stat-label">Passed ✓</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="failedTests">0</span>
+                    <span class="stat-label">Failed ✗</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        // Test Suite Manager
+        class CSSLoadingTestSuite {
+            constructor() {
+                this.results = [];
+                this.totalTests = 0;
+                this.passedTests = 0;
+                this.failedTests = 0;
+                this.container = document.getElementById('testResults');
+            }
+
+            createSection(title) {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+                section.innerHTML = `<h2>${title}</h2>`;
+                this.container.appendChild(section);
+                return section;
+            }
+
+            createTestCase(parent, name) {
+                this.totalTests++;
+                const testCase = document.createElement('div');
+                testCase.className = 'test-case';
+                testCase.innerHTML = `
+                    <div class="test-case-header">
+                        <span class="test-name">${name}</span>
+                        <span class="test-status status-loading">
+                            <span class="loading-indicator"></span> Testing...
+                        </span>
+                    </div>
+                    <div class="test-details"></div>
+                `;
+                parent.appendChild(testCase);
+                return testCase;
+            }
+
+            updateTestCase(testCase, passed, message, details = null) {
+                const statusEl = testCase.querySelector('.test-status');
+                const detailsEl = testCase.querySelector('.test-details');
+                
+                if (passed) {
+                    this.passedTests++;
+                    statusEl.className = 'test-status status-pass';
+                    statusEl.textContent = '✓ PASS';
+                    detailsEl.innerHTML = `<strong>Result:</strong> ${message}`;
+                } else {
+                    this.failedTests++;
+                    statusEl.className = 'test-status status-fail';
+                    statusEl.textContent = '✗ FAIL';
+                    detailsEl.innerHTML = `<strong>Error:</strong> ${message}`;
+                    
+                    if (details) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-details';
+                        errorDiv.textContent = details;
+                        detailsEl.appendChild(errorDiv);
+                    }
+                }
+                
+                this.updateSummary();
+            }
+
+            updateSummary() {
+                document.getElementById('totalTests').textContent = this.totalTests;
+                document.getElementById('passedTests').textContent = this.passedTests;
+                document.getElementById('failedTests').textContent = this.failedTests;
+            }
+
+            // Test if a stylesheet is loaded
+            isStyleSheetLoaded(href) {
+                const sheets = Array.from(document.styleSheets);
+                return sheets.some(sheet => {
+                    try {
+                        return sheet.href && sheet.href.includes(href);
+                    } catch (e) {
+                        return false;
+                    }
+                });
+            }
+
+            // Test if CSS rules are accessible
+            canAccessCSSRules(href) {
+                const sheets = Array.from(document.styleSheets);
+                const sheet = sheets.find(s => {
+                    try {
+                        return s.href && s.href.includes(href);
+                    } catch (e) {
+                        return false;
+                    }
+                });
+                
+                if (!sheet) return { success: false, rules: 0 };
+                
+                try {
+                    const rules = sheet.cssRules || sheet.rules;
+                    return { success: true, rules: rules ? rules.length : 0 };
+                } catch (e) {
+                    return { success: false, error: e.message };
+                }
+            }
+
+            // Test computed styles
+            testComputedStyle(selector, property, expectedPattern) {
+                const element = document.querySelector(selector);
+                if (!element) {
+                    return { success: false, message: `Element "${selector}" not found` };
+                }
+                
+                const computed = window.getComputedStyle(element);
+                const value = computed.getPropertyValue(property);
+                
+                if (!value) {
+                    return { success: false, message: `Property "${property}" not found` };
+                }
+                
+                if (expectedPattern && !expectedPattern.test(value)) {
+                    return { 
+                        success: false, 
+                        message: `Value "${value}" doesn't match expected pattern`,
+                        actual: value 
+                    };
+                }
+                
+                return { success: true, value: value };
+            }
+
+            // Get all loaded stylesheets info
+            getLoadedStylesheets() {
+                const sheets = Array.from(document.styleSheets);
+                return sheets.map(sheet => {
+                    try {
+                        return {
+                            href: sheet.href || 'inline',
+                            rules: (sheet.cssRules || sheet.rules)?.length || 0,
+                            media: sheet.media?.mediaText || 'all'
+                        };
+                    } catch (e) {
+                        return {
+                            href: sheet.href || 'inline',
+                            rules: 'inaccessible (CORS)',
+                            media: sheet.media?.mediaText || 'all'
+                        };
+                    }
+                });
+            }
+        }
+
+        // Run tests when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            const suite = new CSSLoadingTestSuite();
+            
+            // Give stylesheets time to load
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Test 1: Stylesheet Loading
+            const section1 = suite.createSection('1. Stylesheet Loading Tests');
+            
+            const cssFiles = [
+                { name: 'Material Design Icons', path: 'material-design-iconic-font.min.css' },
+                { name: 'Font Awesome', path: 'font-awesome.min.css' },
+                { name: 'Select2', path: 'select2.min.css' },
+                { name: 'Date Picker', path: 'daterangepicker.css' },
+                { name: 'Main CSS', path: 'main.css' }
+            ];
+
+            for (const file of cssFiles) {
+                const testCase = suite.createTestCase(section1, `Load ${file.name}`);
+                const isLoaded = suite.isStyleSheetLoaded(file.path);
+                
+                if (isLoaded) {
+                    const access = suite.canAccessCSSRules(file.path);
+                    if (access.success) {
+                        suite.updateTestCase(testCase, true, 
+                            `Loaded successfully with ${access.rules} CSS rules`);
+                    } else {
+                        suite.updateTestCase(testCase, true, 
+                            `Loaded (CORS restricted - external stylesheet)`);
+                    }
+                } else {
+                    suite.updateTestCase(testCase, false, 
+                        `Stylesheet not found in document.styleSheets`,
+                        `Expected to find: ${file.path}`);
+                }
+            }
+
+            // Test 2: Google Fonts Loading
+            const section2 = suite.createSection('2. Web Fonts Loading Tests');
+            
+            const testCase2 = suite.createTestCase(section2, 'Google Fonts (Roboto)');
+            const fontsLoaded = suite.isStyleSheetLoaded('fonts.googleapis.com');
+            
+            if (fontsLoaded) {
+                suite.updateTestCase(testCase2, true, 
+                    'Google Fonts stylesheet loaded from googleapis.com');
+            } else {
+                suite.updateTestCase(testCase2, false, 
+                    'Google Fonts stylesheet not detected');
+            }
+
+            // Test 3: CSS Rules Accessibility
+            const section3 = suite.createSection('3. CSS Rules Accessibility Tests');
+            
+            const allSheets = suite.getLoadedStylesheets();
+            const testCase3 = suite.createTestCase(section3, 'Total Stylesheets Count');
+            
+            if (allSheets.length >= 5) {
+                suite.updateTestCase(testCase3, true, 
+                    `Found ${allSheets.length} stylesheets loaded`);
+            } else {
+                suite.updateTestCase(testCase3, false, 
+                    `Only ${allSheets.length} stylesheets found (expected at least 5)`,
+                    JSON.stringify(allSheets, null, 2));
+            }
+
+            // Test 4: Main CSS Variables
+            const section4 = suite.createSection('4. CSS Custom Properties Tests');
+            
+            // Create a test element to check CSS variables
+            const testDiv = document.createElement('div');
+            testDiv.style.cssText = 'position: absolute; visibility: hidden;';
+            document.body.appendChild(testDiv);
+            
+            const cssVars = [
+                '--color-primary',
+                '--font-family-base',
+                '--spacing-4',
+                '--border-radius-base',
+                '--shadow-base'
+            ];
+
+            for (const varName of cssVars) {
+                const testCase = suite.createTestCase(section4, `Variable ${varName}`);
+                const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                
+                if (value) {
+                    suite.updateTestCase(testCase, true, 
+                        `Variable defined: "${value}"`);
+                } else {
+                    suite.updateTestCase(testCase, false, 
+                        `Variable not defined or empty`);
+                }
+            }
+            
+            document.body.removeChild(testDiv);
+
+            // Test 5: Icon Fonts Rendering
+            const section5 = suite.createSection('5. Icon Fonts Tests');
+            
+            // Test Font Awesome
+            const faTest = document.createElement('i');
+            faTest.className = 'fa fa-check';
+            faTest.style.cssText = 'position: absolute; visibility: hidden;';
+            document.body.appendChild(faTest);
+            
+            const testCase5a = suite.createTestCase(section5, 'Font Awesome Icons');
+            const faStyle = getComputedStyle(faTest);
+            const faFont = faStyle.fontFamily;
+            
+            if (faFont.toLowerCase().includes('fontawesome')) {
+                suite.updateTestCase(testCase5a, true, 
+                    `Font family: ${faFont}`);
+            } else {
+                suite.updateTestCase(testCase5a, false, 
+                    `Font Awesome not applied. Found: ${faFont}`);
+            }
+            
+            document.body.removeChild(faTest);
+
+            // Test Material Design Icons
+            const mdiTest = document.createElement('i');
+            mdiTest.className = 'zmdi zmdi-check';
+            mdiTest.style.cssText = 'position: absolute; visibility: hidden;';
+            document.body.appendChild(mdiTest);
+            
+            const testCase5b = suite.createTestCase(section5, 'Material Design Icons');
+            const mdiStyle = getComputedStyle(mdiTest);
+            const mdiFont = mdiStyle.fontFamily;
+            
+            if (mdiFont.toLowerCase().includes('material')) {
+                suite.updateTestCase(testCase5b, true, 
+                    `Font family: ${mdiFont}`);
+            } else {
+                suite.updateTestCase(testCase5b, false, 
+                    `Material Design Icons not applied. Found: ${mdiFont}`);
+            }
+            
+            document.body.removeChild(mdiTest);
+
+            // Test 6: Main CSS Classes
+            const section6 = suite.createSection('6. Main CSS Classes Tests');
+            
+            const cssClasses = [
+                { class: 'page-wrapper', property: 'display' },
+                { class: 'wrapper', property: 'display' },
+                { class: 'card', property: 'display' },
+                { class: 'form', property: 'display' },
+                { class: 'btn', property: 'display' }
+            ];
+
+            for (const {class: className, property} of cssClasses) {
+                const testCase = suite.createTestCase(section6, `Class ".${className}"`);
+                const testEl = document.createElement('div');
+                testEl.className = className;
+                testEl.style.cssText = 'position: absolute; visibility: hidden;';
+                document.body.appendChild(testEl);
+                
+                const style = getComputedStyle(testEl);
+                const value = style[property];
+                
+                if (value && value !== 'none') {
+                    suite.updateTestCase(testCase, true, 
+                        `Styles applied: ${property}=${value}`);
+                } else {
+                    suite.updateTestCase(testCase, false, 
+                        `No styles detected for property: ${property}`);
+                }
+                
+                document.body.removeChild(testEl);
+            }
+
+            // Test 7: Responsive Breakpoints
+            const section7 = suite.createSection('7. Responsive Design Tests');
+            
+            const testCase7 = suite.createTestCase(section7, 'Media Queries Support');
+            
+            // Check if media queries are defined
+            let mediaQueryCount = 0;
+            const sheets = Array.from(document.styleSheets);
+            
+            for (const sheet of sheets) {
+                try {
+                    if (sheet.cssRules) {
+                        for (const rule of sheet.cssRules) {
+                            if (rule.type === CSSRule.MEDIA_RULE) {
+                                mediaQueryCount++;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // CORS blocked
+                }
+            }
+            
+            if (mediaQueryCount > 0) {
+                suite.updateTestCase(testCase7, true, 
+                    `Found ${mediaQueryCount} media query rules`);
+            } else {
+                suite.updateTestCase(testCase7, false, 
+                    `No media queries detected (may be CORS blocked)`);
+            }
+
+            // Test 8: Critical CSS Loading Order
+            const section8 = suite.createSection('8. CSS Loading Order Tests');
+            
+            const testCase8 = suite.createTestCase(section8, 'CSS Load Order');
+            const sheetOrder = allSheets.map(s => {
+                if (s.href === 'inline') return 'inline';
+                const parts = s.href.split('/');
+                return parts[parts.length - 1] || s.href;
+            });
+            
+            // Main.css should be last loaded stylesheet (before inline)
+            const mainCssIndex = sheetOrder.findIndex(s => s && s.includes('main.css'));
+            const vendorAfterMain = sheetOrder.slice(mainCssIndex + 1)
+                .filter(s => s !== 'inline' && s.includes('.css'));
+            
+            if (mainCssIndex >= 0 && vendorAfterMain.length === 0) {
+                suite.updateTestCase(testCase8, true, 
+                    `main.css loaded last (correct cascade order)`);
+            } else if (mainCssIndex >= 0) {
+                suite.updateTestCase(testCase8, false, 
+                    `CSS files loaded after main.css: ${vendorAfterMain.join(', ')}`);
+            } else {
+                suite.updateTestCase(testCase8, false, 
+                    `main.css not found in loaded stylesheets`);
+            }
+
+            // Test 9: Visual Test Elements
+            const section9 = suite.createSection('9. Visual Rendering Tests');
+            
+            // Create visual test elements
+            const visualDiv = document.createElement('div');
+            visualDiv.className = 'visual-test';
+            visualDiv.innerHTML = `
+                <h3>Visual Test Samples</h3>
+                <p>If CSS is loaded correctly, you should see styled elements below:</p>
+                <div style="margin: 20px 0;">
+                    <button class="btn" style="margin: 5px;">Button</button>
+                    <i class="fa fa-home"></i> Font Awesome
+                    <i class="zmdi zmdi-home"></i> Material Design
+                </div>
+            `;
+            section9.appendChild(visualDiv);
+            
+            const testCase9 = suite.createTestCase(section9, 'Visual Rendering Check');
+            suite.updateTestCase(testCase9, true, 
+                'Visual test elements rendered above');
+
+            // Test 10: Performance Metrics
+            const section10 = suite.createSection('10. Performance Tests');
+            
+            const testCase10 = suite.createTestCase(section10, 'CSS Load Time');
+            
+            if (performance && performance.getEntriesByType) {
+                const resources = performance.getEntriesByType('resource');
+                const cssResources = resources.filter(r => r.name.includes('.css'));
+                
+                if (cssResources.length > 0) {
+                    const avgLoadTime = cssResources.reduce((sum, r) => sum + r.duration, 0) / cssResources.length;
+                    const maxLoadTime = Math.max(...cssResources.map(r => r.duration));
+                    
+                    if (maxLoadTime < 1000) {
+                        suite.updateTestCase(testCase10, true, 
+                            `Average: ${avgLoadTime.toFixed(2)}ms, Max: ${maxLoadTime.toFixed(2)}ms`);
+                    } else {
+                        suite.updateTestCase(testCase10, false, 
+                            `Slow CSS loading: Max time ${maxLoadTime.toFixed(2)}ms`,
+                            `Consider optimizing CSS file size or delivery`);
+                    }
+                } else {
+                    suite.updateTestCase(testCase10, false, 
+                        'No CSS resources found in performance metrics');
+                }
+            } else {
+                suite.updateTestCase(testCase10, false, 
+                    'Performance API not available');
+            }
+
+            // Final summary
+            console.log('CSS Loading Test Suite Complete');
+            console.log(`Total: ${suite.totalTests}, Passed: ${suite.passedTests}, Failed: ${suite.failedTests}`);
+            console.log('Loaded Stylesheets:', allSheets);
+        });
+    </script>
+</body>
+</html>

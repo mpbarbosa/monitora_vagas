@@ -2,8 +2,8 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 1.3.1  
-**Last Updated**: 2025-12-09  
+**Version**: 1.4.0  
+**Last Updated**: 2025-12-10  
 **Status**: ✅ Production Ready
 
 ---
@@ -31,7 +31,9 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ✅ **Real-time Hotel Data** - Dynamic dropdown populated from live API  
 ✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
 ✅ **API Integration** - Full integration with Busca Vagas API v1.2.1  
+✅ **Client-side Caching** - Local storage cache for hotel data  
 ✅ **Comprehensive Testing** - 26 E2E tests with automatic API management  
+✅ **CSS Test Suite** - Automated CSS loading and styling validation  
 ✅ **Production Ready** - Deployed and fully functional
 
 ---
@@ -51,6 +53,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 
 - **ES6 Modules** - Modern JavaScript architecture
 - **API Client** - Robust error handling and retry logic
+- **Hotel Cache** - LocalStorage-based caching system with TTL
 - **Environment Detection** - Automatic dev/prod configuration
 - **CORS Support** - Cross-origin resource sharing enabled
 - **Caching** - 5-minute cache for hotel data
@@ -65,7 +68,14 @@ monitora_vagas/
 ├── docs/                      # Documentation
 │   ├── api/                   # API integration docs
 │   ├── architecture/          # Architecture decisions
-│   └── guides/                # Development guides
+│   ├── guides/                # Development guides
+│   ├── COLORLIB_TEMPLATE_APPLICATION.md
+│   ├── CSS_FOLDERS_COMPARISON.md
+│   ├── CSS_LOADING_ISSUE.md
+│   ├── HOTEL_CACHE_IMPLEMENTATION.md
+│   ├── HOTEL_CACHE_QUICK_REFERENCE.md
+│   ├── HTML_SPECIFICATION.md
+│   └── SPECIFICATION_FORMATS_README.md
 │
 ├── legacy/                    # Legacy code and prompts
 │   └── prompts/               # Workflow templates
@@ -98,14 +108,34 @@ monitora_vagas/
 │   └── favicon.ico           # Favicon
 │
 ├── src/                       # Source files
-│   └── js/                    # Additional JavaScript
-│       └── global.js         # Global JavaScript utilities
+│   ├── services/              # Shared services
+│   │   ├── apiClient.js      # API client service
+│   │   └── hotelCache.js     # Hotel data caching service
+│   │
+│   └── styles/                # Source stylesheets
+│       └── main.css          # Main stylesheet
 │
 ├── tests/                     # Test suite
+│   ├── e2e/                   # End-to-end tests
+│   ├── integration/           # Integration tests
+│   ├── unit/                  # Unit tests
+│   │
 │   ├── test-index-e2e.py     # E2E tests (26 tests)
+│   ├── test-css-loading.py   # CSS loading tests
+│   ├── test-css-automated.py # Automated CSS tests
+│   ├── test-background-color.py # Background color tests
+│   │
 │   ├── run-index-tests.sh    # Test runner script
-│   └── README.md             # Test documentation
+│   ├── run-css-tests.sh      # CSS test runner
+│   │
+│   ├── CSS_TEST_SUITE_README.md
+│   ├── CSS_LOADING_TEST_README.md
+│   ├── BACKGROUND_COLOR_TEST_README.md
+│   └── TEST_SUITE_README.md
 │
+├── QUICKSTART.md              # Quick start guide
+├── fix-css-symlink.sh         # CSS symlink fix script
+├── run-tests.sh               # Main test runner
 └── requirements.txt           # Python dependencies
 ```
 
@@ -170,14 +200,26 @@ monitora_vagas/
 
 ### Quick Test Run
 
+**Run All Tests:**
+```bash
+./run-tests.sh
+```
+
+**Run Index Tests:**
 ```bash
 cd tests
 ./run-index-tests.sh
 ```
 
+**Run CSS Tests:**
+```bash
+cd tests
+./run-css-tests.sh
+```
+
 ### Test Suite
 
-**36 Comprehensive Tests** covering:
+**Index Tests (36 tests):**
 - ✅ Page load and rendering (6 tests)
 - ✅ Form element interactions (5 tests)
 - ✅ Form validation (2 tests)
@@ -190,6 +232,12 @@ cd tests
 - ✅ Integration workflows (2 tests)
 - ✅ Date picker functionality (10 tests)
 
+**CSS Tests:**
+- ✅ CSS file loading validation
+- ✅ Background color verification
+- ✅ Style application tests
+- ✅ Visual regression tests
+
 ### Test Features
 
 - **Automatic API Management** - Starts/stops local API server
@@ -197,6 +245,7 @@ cd tests
 - **Browser Logging** - Console output with grey styling
 - **Health Checks** - Validates API connectivity
 - **Screenshot Support** - Captures test failures
+- **Automated CSS Validation** - Python-based CSS testing
 
 For detailed testing documentation, see:
 📖 **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)**
@@ -207,7 +256,7 @@ For detailed testing documentation, see:
 
 ### Guides
 
-- **[Quick Start Guide](docs/guides/QUICK_START.md)** - Get started quickly
+- **[Quick Start Guide](QUICKSTART.md)** - Get started quickly
 - **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)** - Complete testing documentation
 - **[Local Testing Guide](docs/guides/LOCAL_TESTING_GUIDE.md)** - Local development setup
 - **[Development Tools Guide](docs/guides/DEVELOPMENT_TOOLS_GUIDE.md)** - Development tools
@@ -224,6 +273,22 @@ For detailed testing documentation, see:
 - **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - Architecture overview
 - **[No-Scroll Principle](docs/guides/NO_SCROLL_PRINCIPLE_GUIDE.md)** - Design philosophy
 - **[Test Results Analysis](docs/architecture/TEST_RESULTS_ANALYSIS.md)** - Test insights
+
+### CSS & Styling
+
+- **[Colorlib Template Application](docs/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
+- **[CSS Folders Comparison](docs/CSS_FOLDERS_COMPARISON.md)** - CSS structure analysis
+- **[CSS Loading Issue](docs/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
+
+### Caching & Performance
+
+- **[Hotel Cache Implementation](docs/HOTEL_CACHE_IMPLEMENTATION.md)** - Caching system details
+- **[Hotel Cache Quick Reference](docs/HOTEL_CACHE_QUICK_REFERENCE.md)** - Cache usage guide
+
+### Specifications
+
+- **[HTML Specification](docs/HTML_SPECIFICATION.md)** - HTML standards
+- **[Specification Formats](docs/SPECIFICATION_FORMATS_README.md)** - Format documentation
 
 ---
 
@@ -308,11 +373,12 @@ NODE_ENV: 'development' | 'production'
 API_BASE_URL: 'http://localhost:3001/api' | 'https://www.mpbarbosa.com/api'
 PORT: 3000
 CACHE_TTL: 300000  // 5 minutes
+HOTEL_CACHE_TTL: 3600000  // 1 hour (LocalStorage cache)
 ```
 
 ### API Client Configuration
 
-Set in `public/services/apiClient.js`:
+Set in `src/services/apiClient.js`:
 
 ```javascript
 timeout: {
@@ -320,6 +386,15 @@ timeout: {
   search: 60000,       // 60 seconds
   weekendSearch: 600000 // 10 minutes
 }
+```
+
+### Hotel Cache Configuration
+
+Set in `src/services/hotelCache.js`:
+
+```javascript
+CACHE_KEY: 'hotelListCache'
+CACHE_TTL: 3600000  // 1 hour
 ```
 
 ---

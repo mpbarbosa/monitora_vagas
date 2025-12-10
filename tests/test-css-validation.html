@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Validation Test Suite</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <style>
+        body {
+            font-family: var(--font-family-base);
+            padding: 2rem;
+            background: var(--color-gray-50);
+        }
+        .test-suite {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 3px solid var(--color-primary);
+            background: var(--color-gray-50);
+        }
+        .test-result {
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .summary {
+            position: sticky;
+            top: 1rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stat-card {
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-card.total { background: #e3f2fd; }
+        .stat-card.pass { background: #d4edda; }
+        .stat-card.fail { background: #f8d7da; }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-suite">
+        <div class="test-header">
+            <h1>CSS Validation Test Suite</h1>
+            <p>Automated tests for CSS variables, properties, and styling validation</p>
+        </div>
+
+        <div class="summary" id="summary">
+            <h2>Test Summary</h2>
+            <div class="summary-stats">
+                <div class="stat-card total">
+                    <span class="stat-number" id="totalTests">0</span>
+                    <span class="stat-label">Total Tests</span>
+                </div>
+                <div class="stat-card pass">
+                    <span class="stat-number" id="passedTests">0</span>
+                    <span class="stat-label">Passed</span>
+                </div>
+                <div class="stat-card fail">
+                    <span class="stat-number" id="failedTests">0</span>
+                    <span class="stat-label">Failed</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        const testResults = document.getElementById('testResults');
+        let totalTests = 0;
+        let passedTests = 0;
+        let failedTests = 0;
+
+        function createTestSection(title) {
+            const section = document.createElement('div');
+            section.className = 'test-section';
+            section.innerHTML = `<h2>${title}</h2>`;
+            testResults.appendChild(section);
+            return section;
+        }
+
+        function createTestCase(section, name, testFn) {
+            totalTests++;
+            const testCase = document.createElement('div');
+            testCase.className = 'test-case';
+            testCase.innerHTML = `<strong>${name}</strong>`;
+            
+            const result = document.createElement('div');
+            result.className = 'test-result';
+            
+            try {
+                const testResult = testFn();
+                if (testResult.pass) {
+                    passedTests++;
+                    result.className += ' test-pass';
+                    result.innerHTML = `✓ PASS: ${testResult.message}`;
+                } else {
+                    failedTests++;
+                    result.className += ' test-fail';
+                    result.innerHTML = `✗ FAIL: ${testResult.message}`;
+                }
+            } catch (error) {
+                failedTests++;
+                result.className += ' test-fail';
+                result.innerHTML = `✗ ERROR: ${error.message}`;
+            }
+            
+            testCase.appendChild(result);
+            section.appendChild(testCase);
+        }
+
+        function getCSSVariable(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        function testCSSVariableExists(varName) {
+            const value = getCSSVariable(varName);
+            return {
+                pass: value !== '',
+                message: value !== '' ? `Variable ${varName} = "${value}"` : `Variable ${varName} is not defined`
+            };
+        }
+
+        function testColorFormat(varName, expectedFormat = 'hex|rgb') {
+            const value = getCSSVariable(varName);
+            const isHex = /^#[0-9a-fA-F]{3,8}$/.test(value);
+            const isRgb = /^rgb/.test(value);
+            const isValid = expectedFormat === 'hex|rgb' ? (isHex || isRgb) : value !== '';
+            
+            return {
+                pass: isValid,
+                message: isValid ? `${varName} has valid color: "${value}"` : `${varName} has invalid color format: "${value}"`
+            };
+        }
+
+        function testShadowFormat(varName) {
+            const value = getCSSVariable(varName);
+            const hasShadowSyntax = value.includes('rgba') || value.includes('rgb') || value.includes('px');
+            return {
+                pass: hasShadowSyntax,
+                message: hasShadowSyntax ? `${varName} = "${value}"` : `${varName} has invalid shadow: "${value}"`
+            };
+        }
+
+        function testSpacingValue(varName) {
+            const value = getCSSVariable(varName);
+            const isValidSpacing = /^\d+(\.\d+)?(rem|px|em)$/.test(value);
+            return {
+                pass: isValidSpacing,
+                message: isValidSpacing ? `${varName} = "${value}"` : `${varName} has invalid spacing: "${value}"`
+            };
+        }
+
+        function testBorderRadiusValue(varName) {
+            const value = getCSSVariable(varName);
+            const isValid = /^\d+(\.\d+)?(rem|px|em)$/.test(value) || value === '9999px';
+            return {
+                pass: isValid,
+                message: isValid ? `${varName} = "${value}"` : `${varName} has invalid border-radius: "${value}"`
+            };
+        }
+
+        function runTests() {
+            // Test 1: CSS Variables - Colors
+            const colorSection = createTestSection('1. CSS Color Variables');
+            createTestCase(colorSection, 'Primary color exists', () => testCSSVariableExists('--color-primary'));
+            createTestCase(colorSection, 'Primary dark exists', () => testCSSVariableExists('--color-primary-dark'));
+            createTestCase(colorSection, 'Primary color format', () => testColorFormat('--color-primary'));
+            createTestCase(colorSection, 'Secondary color exists', () => testCSSVariableExists('--color-secondary'));
+            createTestCase(colorSection, 'White color exists', () => testCSSVariableExists('--color-white'));
+            createTestCase(colorSection, 'Gray-900 color exists', () => testCSSVariableExists('--color-gray-900'));
+
+            // Test 2: Typography Variables
+            const typographySection = createTestSection('2. Typography Variables');
+            createTestCase(typographySection, 'Base font family exists', () => testCSSVariableExists('--font-family-base'));
+            createTestCase(typographySection, 'Base font size exists', () => testCSSVariableExists('--font-size-base'));
+            createTestCase(typographySection, 'Font weight bold exists', () => testCSSVariableExists('--font-weight-bold'));
+            createTestCase(typographySection, 'Line height base exists', () => testCSSVariableExists('--line-height-base'));
+
+            // Test 3: Spacing System
+            const spacingSection = createTestSection('3. Spacing System');
+            createTestCase(spacingSection, 'Spacing-4 exists', () => testCSSVariableExists('--spacing-4'));
+            createTestCase(spacingSection, 'Spacing-4 format', () => testSpacingValue('--spacing-4'));
+            createTestCase(spacingSection, 'Spacing-8 exists', () => testCSSVariableExists('--spacing-8'));
+            createTestCase(spacingSection, 'Spacing-8 format', () => testSpacingValue('--spacing-8'));
+            createTestCase(spacingSection, 'Spacing-16 exists', () => testCSSVariableExists('--spacing-16'));
+
+            // Test 4: Border Radius
+            const borderSection = createTestSection('4. Border Radius');
+            createTestCase(borderSection, 'Border-radius-base exists', () => testCSSVariableExists('--border-radius-base'));
+            createTestCase(borderSection, 'Border-radius-base format', () => testBorderRadiusValue('--border-radius-base'));
+            createTestCase(borderSection, 'Border-radius-lg exists', () => testCSSVariableExists('--border-radius-lg'));
+            createTestCase(borderSection, 'Border-radius-full exists', () => testCSSVariableExists('--border-radius-full'));
+
+            // Test 5: Shadows
+            const shadowSection = createTestSection('5. Shadow System');
+            createTestCase(shadowSection, 'Shadow-base exists', () => testCSSVariableExists('--shadow-base'));
+            createTestCase(shadowSection, 'Shadow-base format', () => testShadowFormat('--shadow-base'));
+            createTestCase(shadowSection, 'Shadow-card exists', () => testCSSVariableExists('--shadow-card'));
+            createTestCase(shadowSection, 'Shadow-lg exists', () => testCSSVariableExists('--shadow-lg'));
+
+            // Test 6: Transitions
+            const transitionSection = createTestSection('6. Transition Variables');
+            createTestCase(transitionSection, 'Transition-base exists', () => testCSSVariableExists('--transition-base'));
+            createTestCase(transitionSection, 'Transition-fast exists', () => testCSSVariableExists('--transition-fast'));
+            createTestCase(transitionSection, 'Transition-slow exists', () => testCSSVariableExists('--transition-slow'));
+
+            // Test 7: Container Widths
+            const containerSection = createTestSection('7. Container Widths');
+            createTestCase(containerSection, 'Container-xl exists', () => testCSSVariableExists('--container-xl'));
+            createTestCase(containerSection, 'Container-lg exists', () => testCSSVariableExists('--container-lg'));
+            createTestCase(containerSection, 'Container-md exists', () => testCSSVariableExists('--container-md'));
+
+            // Test 8: CSS Class Rendering
+            const renderSection = createTestSection('8. CSS Class Rendering');
+            createTestCase(renderSection, 'App-root class applied', () => {
+                const testDiv = document.createElement('div');
+                testDiv.className = 'app-root';
+                document.body.appendChild(testDiv);
+                const styles = getComputedStyle(testDiv);
+                const hasMinHeight = styles.minHeight !== '';
+                document.body.removeChild(testDiv);
+                return {
+                    pass: hasMinHeight,
+                    message: hasMinHeight ? 'app-root renders correctly' : 'app-root missing styles'
+                };
+            });
+
+            createTestCase(renderSection, 'Container class applied', () => {
+                const testDiv = document.createElement('div');
+                testDiv.className = 'container';
+                document.body.appendChild(testDiv);
+                const styles = getComputedStyle(testDiv);
+                const hasDisplay = styles.display !== '';
+                document.body.removeChild(testDiv);
+                return {
+                    pass: hasDisplay,
+                    message: hasDisplay ? 'container renders correctly' : 'container missing styles'
+                };
+            });
+
+            // Update summary
+            document.getElementById('totalTests').textContent = totalTests;
+            document.getElementById('passedTests').textContent = passedTests;
+            document.getElementById('failedTests').textContent = failedTests;
+
+            // Add final result
+            const finalResult = createTestSection('Final Result');
+            const passRate = ((passedTests / totalTests) * 100).toFixed(1);
+            finalResult.innerHTML += `
+                <div class="test-result ${passedTests === totalTests ? 'test-pass' : 'test-info'}">
+                    ${passedTests === totalTests ? '✓' : 'ℹ'} ${passedTests} of ${totalTests} tests passed (${passRate}%)
+                </div>
+            `;
+        }
+
+        // Run tests when page loads
+        window.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>

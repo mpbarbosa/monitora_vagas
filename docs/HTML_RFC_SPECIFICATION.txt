@@ -1,0 +1,625 @@
+Internet Engineering Task Force (IETF)                    Development Team
+Request for Comments: 9999                             Trade Union Platform
+Category: Standards Track                                     December 2024
+ISSN: 2070-1721
+
+
+          HTML Document Specification for Hotel Search Platform
+
+Abstract
+
+   This document specifies the HTML structure, components, and behavior
+   for the Trade Union Hotel Search Platform web application. It
+   defines the required elements, attributes, and interaction patterns
+   that conforming implementations must support.
+
+Status of This Memo
+
+   This is an internal specification document for the Trade Union Hotel
+   Search Platform. Distribution is limited to authorized personnel.
+
+Copyright Notice
+
+   Copyright (c) 2024. All rights reserved.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Document Structure  . . . . . . . . . . . . . . . . . . . . .   3
+     2.1.  DOCTYPE Declaration . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Root Element  . . . . . . . . . . . . . . . . . . . . . .   3
+     2.3.  Head Element  . . . . . . . . . . . . . . . . . . . . . .   3
+     2.4.  Body Element  . . . . . . . . . . . . . . . . . . . . . .   4
+   3.  Component Specifications  . . . . . . . . . . . . . . . . . .   5
+     3.1.  Page Wrapper Component  . . . . . . . . . . . . . . . . .   5
+     3.2.  Wrapper Component . . . . . . . . . . . . . . . . . . . .   5
+     3.3.  Card Component  . . . . . . . . . . . . . . . . . . . . .   6
+     3.4.  Form Component  . . . . . . . . . . . . . . . . . . . . .   6
+     3.5.  Input Group Component . . . . . . . . . . . . . . . . . .   7
+   4.  Interaction Patterns  . . . . . . . . . . . . . . . . . . . .   8
+     4.1.  Form Validation . . . . . . . . . . . . . . . . . . . . .   8
+     4.2.  Form Submission . . . . . . . . . . . . . . . . . . . . .   9
+     4.3.  Error Handling  . . . . . . . . . . . . . . . . . . . . .   9
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   6.  Accessibility Considerations  . . . . . . . . . . . . . . . .  10
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+   Appendix A.  Example Document . . . . . . . . . . . . . . . . . .  12
+   Appendix B.  Validation Checklist . . . . . . . . . . . . . . . .  13
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+
+1.  Introduction
+
+   This specification defines the HTML document structure for the Trade
+   Union Hotel Search Platform. The document provides a web-based
+   interface for searching and booking hotel accommodations.
+
+   The specification is organized as follows:
+
+   o  Section 2 defines the overall document structure
+   o  Section 3 specifies individual components
+   o  Section 4 describes interaction patterns
+   o  Section 5 addresses security considerations
+   o  Section 6 covers accessibility requirements
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+1.2.  Terminology
+
+   This document uses the following terms:
+
+   Component:  A reusable, self-contained HTML element or group of
+      elements that provides specific functionality.
+
+   Form Control:  An interactive element within a form, such as an
+      input field, select box, or button.
+
+   Container:  A parent element that contains one or more child
+      elements and provides layout or styling context.
+
+   Widget:  An interactive user interface component.
+
+2.  Document Structure
+
+   A conforming HTML document MUST follow the structure defined in this
+   section.
+
+2.1.  DOCTYPE Declaration
+
+   The document MUST begin with the HTML5 DOCTYPE declaration:
+
+   <!DOCTYPE html>
+
+   Implementations MUST NOT use legacy DOCTYPE declarations.
+
+2.2.  Root Element
+
+   The root element MUST be the html element with a lang attribute:
+
+   <html lang="en">
+
+   The lang attribute:
+
+   o  MUST be present
+   o  MUST contain a valid BCP 47 language tag [RFC5646]
+   o  SHOULD be "en" for English content
+
+2.3.  Head Element
+
+   The head element MUST contain the following child elements in order:
+
+   1.  Meta charset element
+   2.  Meta viewport element
+   3.  Meta description element
+   4.  Title element
+   5.  Link elements for external resources
+
+2.3.1.  Meta Charset
+
+   The charset meta element MUST be the first child of head:
+
+   <meta charset="UTF-8">
+
+   The charset MUST be UTF-8.
+
+2.3.2.  Meta Viewport
+
+   The viewport meta element MUST be present:
+
+   <meta name="viewport" 
+         content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   The content attribute MUST include:
+
+   o  width=device-width
+   o  initial-scale=1
+
+   The content attribute SHOULD include:
+
+   o  shrink-to-fit=no
+
+2.3.3.  Meta Description
+
+   The description meta element MUST be present:
+
+   <meta name="description" content="[description text]">
+
+   The content attribute:
+
+   o  MUST be between 50 and 160 characters
+   o  MUST accurately describe the page content
+   o  SHOULD include relevant keywords
+
+2.3.4.  Title Element
+
+   The title element MUST be present:
+
+   <title>[Page Title]</title>
+
+   The title text:
+
+   o  MUST be between 10 and 60 characters
+   o  MUST be unique within the site
+   o  SHOULD follow the pattern: "[Page Name] - [Site Name]"
+
+2.3.5.  Link Elements
+
+   Link elements for stylesheets MUST be present:
+
+   <link href="[stylesheet URL]" rel="stylesheet" media="all">
+
+   Link elements:
+
+   o  MUST have valid href attribute
+   o  MUST have rel="stylesheet"
+   o  SHOULD have media="all" unless specific media type required
+   o  MUST be ordered: vendor CSS before main CSS
+
+2.4.  Body Element
+
+   The body element MUST contain:
+
+   1.  Exactly one page wrapper component
+   2.  Zero or more script elements
+
+   Script elements:
+
+   o  SHOULD be placed before closing </body> tag
+   o  SHOULD use async or defer attributes when possible
+   o  MUST NOT block page rendering
+
+3.  Component Specifications
+
+   This section defines the required components and their structure.
+
+3.1.  Page Wrapper Component
+
+   The page wrapper is the top-level container within the body.
+
+   Structure:
+
+   <div class="page-wrapper [bg-class] [padding-classes]">
+     <!-- Content -->
+   </div>
+
+   Requirements:
+
+   o  Element MUST be a div
+   o  Class name MUST include "page-wrapper"
+   o  MUST include a background color class (bg-color-{n})
+   o  MAY include padding utility classes (p-t-{n}, p-b-{n})
+   o  MUST contain exactly one wrapper component
+
+3.2.  Wrapper Component
+
+   The wrapper constrains content width.
+
+   Structure:
+
+   <div class="wrapper wrapper--w{size}">
+     <!-- Content -->
+   </div>
+
+   Requirements:
+
+   o  Element MUST be a div
+   o  Class name MUST include "wrapper"
+   o  MUST include a width modifier class
+   o  Width modifier MUST be one of:
+      *  wrapper--w780
+      *  wrapper--w900
+      *  wrapper--w1070
+   o  MUST contain exactly one card component
+
+3.3.  Card Component
+
+   The card component provides a content container with styling.
+
+   Structure:
+
+   <div class="card card-{n}">
+     <div class="card-body">
+       <!-- Content -->
+     </div>
+   </div>
+
+   Requirements:
+
+   o  Element MUST be a div
+   o  Class name MUST include "card"
+   o  MUST include a style variant class (card-1 through card-7)
+   o  MUST contain exactly one card-body child
+   o  Card body MUST have class "card-body"
+   o  Card body MAY contain any valid content
+
+3.4.  Form Component
+
+   The form component handles user input.
+
+   Structure:
+
+   <form class="form" method="[method]" action="[action]">
+     <!-- Form controls -->
+   </form>
+
+   Requirements:
+
+   o  Element MUST be a form
+   o  Class name MUST be "form"
+   o  Method attribute MUST be "GET" or "POST"
+   o  Action attribute MUST be present
+   o  Action attribute MUST contain valid URL or "#"
+   o  MAY include novalidate attribute for custom validation
+   o  SHOULD contain one or more input group components
+
+3.5.  Input Group Component
+
+   The input group contains a label and form control.
+
+   Structure:
+
+   <div class="input-group input--[size]">
+     <label class="label" for="[id]">[Label Text]</label>
+     <input class="input--style-1" type="[type]" 
+            name="[name]" id="[id]">
+   </div>
+
+   Requirements:
+
+   o  Element MUST be a div
+   o  Class name MUST include "input-group"
+   o  MUST include a size modifier:
+      *  input--large (full width)
+      *  input--medium (half width)
+      *  input--small (quarter width)
+   o  MUST contain exactly one label element
+   o  MUST contain exactly one form control (input, select, or textarea)
+   o  Label MUST have class "label"
+   o  Label SHOULD have for attribute matching control id
+   o  Form control MUST have class "input--style-1"
+   o  Form control MUST have name attribute
+   o  Form control SHOULD have id attribute
+
+3.5.1.  Input Element
+
+   Input elements accept user text input.
+
+   Requirements:
+
+   o  Element MUST be input
+   o  Type attribute MUST be a valid HTML5 input type
+   o  Name attribute MUST be present and unique within form
+   o  Name attribute MUST match pattern: [a-zA-Z][a-zA-Z0-9_-]*
+   o  ID attribute SHOULD be present and unique within document
+   o  Required attribute MAY be present for required fields
+   o  Placeholder attribute MAY provide hint text
+
+3.5.2.  Select Element
+
+   Select elements provide dropdown selection.
+
+   Structure:
+
+   <select class="input--style-1" name="[name]" id="[id]">
+     <option value="">[Placeholder]</option>
+     <option value="[value]">[Text]</option>
+   </select>
+
+   Requirements:
+
+   o  Element MUST be select
+   o  Name attribute MUST be present and unique within form
+   o  MUST contain at least one option element
+   o  First option SHOULD be a placeholder with empty value
+   o  Each option MUST have value attribute
+   o  Each option MUST have text content
+
+3.5.3.  Button Element
+
+   Button elements trigger actions.
+
+   Structure:
+
+   <button class="btn [modifiers]" type="[type]">
+     [Button Text]
+   </button>
+
+   Requirements:
+
+   o  Element MUST be button or a (styled as button)
+   o  Class name MUST include "btn"
+   o  Type attribute MUST be "submit", "reset", or "button" (for buttons
+      in forms)
+   o  Text content MUST be present and descriptive
+   o  MAY include modifier classes for styling:
+      *  btn--radius-{n} for border radius
+      *  btn--{color} for color variants
+
+4.  Interaction Patterns
+
+   This section defines required interaction behaviors.
+
+4.1.  Form Validation
+
+   Form validation MUST occur before submission.
+
+4.1.1.  Field Validation
+
+   Each form field MUST be validated according to these rules:
+
+   Hotel Selection:
+
+   o  MUST NOT be empty
+   o  MUST be a valid option value
+   o  Error: "Please select a hotel"
+
+   Check-in Date:
+
+   o  MUST NOT be empty
+   o  MUST be a valid ISO 8601 date
+   o  MUST be today or a future date
+   o  MUST be before check-out date
+   o  Error: "Please select a valid check-in date"
+
+   Check-out Date:
+
+   o  MUST NOT be empty
+   o  MUST be a valid ISO 8601 date
+   o  MUST be after check-in date
+   o  MUST be at least 1 day after check-in
+   o  Error: "Check-out must be after check-in"
+
+4.1.2.  Validation Timing
+
+   Validation SHOULD occur:
+
+   o  On field blur (individual field)
+   o  On form submit (all fields)
+
+   Validation SHOULD NOT occur:
+
+   o  On every keystroke (too intrusive)
+   o  Before user has interacted with field
+
+4.2.  Form Submission
+
+   Form submission MUST follow this sequence:
+
+   1.  Prevent default browser submission
+   2.  Validate all fields
+   3.  If validation fails:
+       A.  Display error messages
+       B.  Focus first invalid field
+       C.  Stop submission
+   4.  If validation succeeds:
+       A.  Collect form data
+       B.  Show loading indicator
+       C.  Send data to server
+       D.  Handle response
+       E.  Hide loading indicator
+
+4.3.  Error Handling
+
+   Errors MUST be handled as follows:
+
+4.3.1.  Validation Errors
+
+   o  Display error message near invalid field
+   o  Add visual indicator to invalid field (e.g., red border)
+   o  Set aria-invalid="true" on invalid field
+   o  Announce error to screen readers
+
+4.3.2.  Network Errors
+
+   o  Display user-friendly error message
+   o  Provide retry option
+   o  Log error for debugging
+   o  Maintain form data (don't clear on error)
+
+4.3.3.  Server Errors
+
+   o  Display server-provided error message
+   o  If no message provided, show generic error
+   o  Provide contact information for support
+   o  Log error details
+
+5.  Security Considerations
+
+   Implementations MUST address the following security concerns:
+
+5.1.  Input Validation
+
+   o  All user input MUST be validated on client and server
+   o  Input MUST be sanitized before display
+   o  Input MUST be escaped before insertion into HTML
+   o  SQL injection MUST be prevented via parameterized queries
+
+5.2.  Cross-Site Scripting (XSS)
+
+   o  User input MUST NOT be rendered as HTML
+   o  Use textContent instead of innerHTML
+   o  Implement Content Security Policy headers
+   o  Sanitize data from external APIs
+
+5.3.  Cross-Site Request Forgery (CSRF)
+
+   o  Forms SHOULD include CSRF tokens
+   o  Server MUST validate CSRF tokens
+   o  Use SameSite cookie attribute
+
+5.4.  Secure Communication
+
+   o  Forms SHOULD be submitted over HTTPS
+   o  External resources SHOULD be loaded over HTTPS
+   o  Mixed content MUST be avoided
+
+6.  Accessibility Considerations
+
+   Implementations MUST meet WCAG 2.1 Level AA requirements.
+
+6.1.  Keyboard Navigation
+
+   All interactive elements MUST be keyboard accessible:
+
+   o  TAB: Move to next element
+   o  SHIFT+TAB: Move to previous element
+   o  ENTER: Activate button or submit form
+   o  SPACE: Toggle checkboxes/radio buttons
+   o  Arrow keys: Navigate select options
+
+6.2.  Screen Reader Support
+
+   o  All form fields MUST have associated labels
+   o  Labels MUST use for attribute or wrap input
+   o  Error messages MUST be announced
+   o  Loading states MUST be announced
+   o  Use appropriate ARIA attributes
+
+6.3.  Visual Accessibility
+
+   o  Color contrast MUST meet 4.5:1 ratio (normal text)
+   o  Color contrast MUST meet 3:1 ratio (large text)
+   o  Focus indicators MUST be visible
+   o  Text MUST be resizable up to 200%
+   o  Page MUST be usable at 400% zoom
+
+6.4.  ARIA Attributes
+
+   Recommended ARIA attributes:
+
+   o  aria-label: For elements without visible labels
+   o  aria-describedby: For help text
+   o  aria-invalid: For invalid fields
+   o  aria-required: For required fields
+   o  aria-live: For dynamic content updates
+
+7.  IANA Considerations
+
+   This document has no IANA actions.
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC5646]  Phillips, A., Ed. and M. Davis, Ed., "Tags for
+              Identifying Languages", BCP 47, RFC 5646,
+              DOI 10.17487/RFC5646, September 2009,
+              <https://www.rfc-editor.org/info/rfc5646>.
+
+   [HTML]     WHATWG, "HTML Living Standard",
+              <https://html.spec.whatwg.org/>.
+
+   [WCAG21]   W3C, "Web Content Accessibility Guidelines (WCAG) 2.1",
+              June 2018, <https://www.w3.org/TR/WCAG21/>.
+
+8.2.  Informative References
+
+   [CSS3]     W3C, "CSS Snapshot", <https://www.w3.org/TR/CSS/>.
+
+   [ES2015]   ECMA, "ECMAScript 2015 Language Specification",
+              <https://www.ecma-international.org/ecma-262/6.0/>.
+
+Appendix A.  Example Document
+
+   A.1.  Minimal Conforming Document
+
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="description" content="Hotel search platform">
+     <title>Hotel Search</title>
+     <link href="css/main.css" rel="stylesheet" media="all">
+   </head>
+   <body>
+     <div class="page-wrapper bg-color-1">
+       <div class="wrapper wrapper--w1070">
+         <div class="card card-7">
+           <div class="card-body">
+             <form class="form" method="POST" action="#">
+               <div class="input-group input--large">
+                 <label class="label" for="hotel">Hotel</label>
+                 <select class="input--style-1" name="hotel" id="hotel">
+                   <option value="">Select...</option>
+                 </select>
+               </div>
+               <button class="btn" type="submit">Search</button>
+             </form>
+           </div>
+         </div>
+       </div>
+     </div>
+   </body>
+   </html>
+
+Appendix B.  Validation Checklist
+
+   Conforming implementations SHOULD verify:
+
+   [X] DOCTYPE is HTML5
+   [X] HTML element has lang attribute
+   [X] Meta charset is first child of head
+   [X] Meta viewport is present
+   [X] Title is present and appropriate length
+   [X] All links have valid href
+   [X] All images have alt text
+   [X] All form fields have labels
+   [X] All buttons have descriptive text
+   [X] Tab order is logical
+   [X] Focus indicators are visible
+   [X] Color contrast meets requirements
+   [X] HTML validates without errors
+   [X] CSS validates without errors
+   [X] JavaScript has no console errors
+   [X] Page works without JavaScript (progressive enhancement)
+   [X] Page is responsive (mobile, tablet, desktop)
+   [X] Page is accessible (WCAG 2.1 AA)
+
+Authors' Addresses
+
+   Development Team
+   Trade Union Hotel Search Platform
+   
+   Email: dev-team@example.com
+   URI:   https://example.com/
+
