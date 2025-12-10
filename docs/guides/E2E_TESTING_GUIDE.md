@@ -2,8 +2,8 @@
 
 > Comprehensive guide for running and maintaining E2E tests for the Monitora Vagas web application
 
-**Last Updated**: 2025-12-09  
-**Version**: 1.0.0  
+**Last Updated**: 2025-12-10  
+**Version**: 1.1.0  
 **Test Framework**: Selenium + Python unittest
 
 ---
@@ -35,7 +35,7 @@ The E2E test suite validates the complete user workflow for the Monitora Vagas h
 
 ### Test Coverage
 
-- **26 Test Cases** covering:
+- **36 Test Cases** covering:
   - Page Load Tests (6 tests)
   - Form Interaction Tests (5 tests)
   - Form Validation Tests (2 tests)
@@ -44,6 +44,8 @@ The E2E test suite validates the complete user workflow for the Monitora Vagas h
   - Accessibility Tests (3 tests)
   - JavaScript Integration Tests (2 tests)
   - Performance Tests (2 tests)
+  - Integration Tests (2 tests)
+  - Date Picker Tests (10 tests)
 
 ---
 
@@ -286,6 +288,25 @@ for log in logs:
 - Verify API URL in browser console
 - Check API server CORS headers
 - Use `getHotels()` instead of `scrapeHotels()`
+
+#### 6. Date Input Test Failures
+
+**Error**: Date input tests failing with incorrect date values (e.g., `51222-02-02` instead of `2025-12-22`)
+
+**Cause**: 
+- Selenium's `send_keys()` method sends characters one-by-one to date inputs
+- HTML5 date inputs auto-format as characters are typed, causing incorrect interpretation
+
+**Solution**:
+```python
+# ❌ Don't use send_keys() for date inputs
+checkin_input.send_keys("2025-12-22")
+
+# ✅ Use JavaScript to set date values
+self.driver.execute_script("arguments[0].value = arguments[1];", checkin_input, "2025-12-22")
+```
+
+**Note**: Native HTML5 date inputs (`type="date"`) don't create visible datepicker DOM elements in headless mode, so tests should verify input functionality rather than datepicker UI presence.
 
 ---
 

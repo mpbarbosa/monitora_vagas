@@ -7,10 +7,19 @@
     "start": "python3 -m http.server 8080 --directory public",
     "test": "python3 tests/simple_ui_test.py"
   },
-  "keywords": ["trade-union", "hotels", "sindicate", "web-app", "modern-ui"],
+  "keywords": [
+    "trade-union",
+    "hotels",
+    "sindicate",
+    "web-app",
+    "modern-ui"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "selenium-webdriver": "^4.15.0"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.46.0"
   }
 }
