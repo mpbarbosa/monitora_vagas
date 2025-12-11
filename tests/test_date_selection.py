@@ -182,16 +182,16 @@ class DateSelectionTest:
             assert end_date_input.is_displayed(), "End date input should be visible"
             print("✓ Date inputs are visible")
             
-            # Test date input functionality
+            # Test date input functionality (ISO format yyyy-mm-dd)
             today = "2025-01-15"  # Use a fixed date for testing
             future_date = "2025-01-22"
             
             start_date_input.send_keys(today)
             end_date_input.send_keys(future_date)
             
-            assert start_date_input.get_attribute("value") == today, "Start date should be set"
-            assert end_date_input.get_attribute("value") == future_date, "End date should be set"
-            print("✓ Date inputs accept values")
+            assert start_date_input.get_attribute("value") == today, "Start date should be set (ISO format)"
+            assert end_date_input.get_attribute("value") == future_date, "End date should be set (ISO format)"
+            print("✓ Date inputs accept ISO format values (yyyy-mm-dd)")
             
             return True
             

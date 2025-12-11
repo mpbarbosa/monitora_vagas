@@ -1,5 +1,9 @@
 # Quick Start - Material Design 3 Version
 
+> **⚠️ HISTORICAL DOCUMENT**: This document describes archived MD3 experiments.  
+> **Current Version**: See main README.md and QUICKSTART.md for the production application.  
+> **Note**: Production version uses HTML5 native date inputs (ISO 8601 format) as of v1.4.3.
+
 ## 🚀 Access the Application
 
 The application is now available in **two versions**:

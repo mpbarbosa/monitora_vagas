@@ -208,34 +208,18 @@
             const checkoutInput = document.getElementById('input-checkout');
 
             const hotel = hotelSelect.value || '-1'; // Default to all hotels
-            const checkinBR = checkinInput.value; // dd/mm/yyyy
-            const checkoutBR = checkoutInput.value; // dd/mm/yyyy
+            const checkin = checkinInput.value; // yyyy-mm-dd (ISO format from date input)
+            const checkout = checkoutInput.value; // yyyy-mm-dd (ISO format from date input)
 
-            console.log('📝 Input parameters:', { hotel, checkinBR, checkoutBR });
+            console.log('📝 Input parameters:', { hotel, checkin, checkout });
 
             // Validate inputs
-            if (!checkinBR || !checkoutBR) {
+            if (!checkin || !checkout) {
                 alert('Por favor, selecione as datas de check-in e check-out');
                 return;
             }
 
-            // Convert Brazilian date format (dd/mm/yyyy) to ISO 8601 (yyyy-mm-dd)
-            const formatDateToISO = (dateStr) => {
-                const parts = dateStr.split('/');
-                if (parts.length !== 3) return null;
-                const [day, month, year] = parts;
-                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            };
-
-            const checkin = formatDateToISO(checkinBR);
-            const checkout = formatDateToISO(checkoutBR);
-
-            if (!checkin || !checkout) {
-                alert('Formato de data inválido. Use dd/mm/aaaa');
-                return;
-            }
-
-            console.log('✅ Dates converted to ISO format:', { checkin, checkout });
+            console.log('✅ Dates in ISO format:', { checkin, checkout });
 
             // STEP 3: Show loading state when button is clicked
             const submitButton = document.getElementById('search-button');
@@ -278,7 +262,7 @@
 
                 // STEP 6: Show the formatted data in the textarea
                 console.log('📊 Formatting and displaying results...');
-                displayResults(result, checkinBR, checkoutBR, hotel);
+                displayResults(result, checkin, checkout, hotel);
 
             } catch (error) {
                 console.error('❌ Search failed:', error);
@@ -296,7 +280,7 @@
         });
 
         // Function to display formatted results in hotel cards
-        function displayResults(apiResponse, checkinBR, checkoutBR, hotel) {
+        function displayResults(apiResponse, checkin, checkout, hotel) {
             const resultsContainer = document.getElementById('results-container');
             const hotelsCardsContainer = document.getElementById('hotels-cards-container');
 

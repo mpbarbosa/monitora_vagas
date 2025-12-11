@@ -472,21 +472,23 @@ interface Hotel {
 interface DateInput {
   // Properties
   element: HTMLInputElement;
-  value: string;
+  value: string; // ISO 8601 format (yyyy-mm-dd)
   minDate: string | null;
   maxDate: string | null;
   
   // Methods
-  getValue(): Date | null;
-  setValue(date: Date): void;
-  setMin(date: Date): void;
-  setMax(date: Date): void;
+  getValue(): string | null; // Returns ISO format string
+  setValue(date: string): void; // Accepts ISO format string
+  setMin(date: string): void; // Accepts ISO format string
+  setMax(date: string): void; // Accepts ISO format string
   validate(): boolean;
   
   // Events
-  onchange: (date: Date) => void;
+  onchange: (date: string) => void; // Passes ISO format string
 }
 ```
+
+**Note**: HTML5 date inputs use ISO 8601 format (yyyy-mm-dd) as specified by the HTML standard.
 
 ---
 
@@ -780,14 +782,17 @@ select.addEventListener('change', handleChange);
 | Field | Type | Required | Min Length | Max Length | Pattern |
 |-------|------|----------|------------|------------|---------|
 | Hotel | select | Yes | - | - | Non-empty |
-| Check-in | date | Yes | - | - | ISO 8601 |
-| Check-out | date | Yes | - | - | ISO 8601 |
+| Check-in | date | Yes | - | - | ISO 8601 (yyyy-mm-dd) |
+| Check-out | date | Yes | - | - | ISO 8601 (yyyy-mm-dd) |
+
+**Date Format**: HTML5 `type="date"` inputs use ISO 8601 format (yyyy-mm-dd) as mandated by the HTML specification. The browser's native date picker automatically handles locale-specific display while maintaining ISO format in the input value.
 
 ### C.2 Date Validation Rules
 
 | Rule | Description | Error Message |
 |------|-------------|---------------|
 | Not empty | Date must be selected | "Please select a date" |
+| Valid format | Date in ISO 8601 format (yyyy-mm-dd) | Browser native validation |
 | Future date | Check-in ≥ today | "Cannot book past dates" |
 | Check-out after check-in | Check-out > check-in | "Check-out must be after check-in" |
 | Minimum stay | Check-out ≥ check-in + 1 day | "Minimum stay is 1 night" |

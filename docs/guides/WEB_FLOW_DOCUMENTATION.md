@@ -1,8 +1,12 @@
 # 🌐 Web Page Search Operational Flow
 
+> **⚠️ HISTORICAL DOCUMENT**: This document describes an older version of the application.  
+> **Current Version**: See main README.md and docs/DATE_FORMAT_CHANGE.md for latest implementation.  
+> **Date Format Change**: Application now uses ISO 8601 (yyyy-mm-dd) format as of v1.4.3.
+
 **URL:** https://www.mpbarbosa.com/submodules/monitora_vagas/src/  
 **Date:** 2024-12-03  
-**Status:** ✅ Implemented and Tested
+**Status:** ⚠️  Historical Reference - See current docs
 
 ---
 

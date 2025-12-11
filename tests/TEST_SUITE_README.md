@@ -232,7 +232,7 @@ exit $E2E_RESULT
 - ✅ Page loads without errors
 - ✅ All form elements render correctly
 - ✅ Hotel dropdown populates from API
-- ✅ Date inputs accept Brazilian format (dd/mm/yyyy)
+- ✅ Date inputs use ISO format (yyyy-mm-dd) with native HTML5 date picker
 - ✅ Form validation prevents invalid submissions
 - ✅ Search button shows loading state
 - ✅ Results display in hotel cards

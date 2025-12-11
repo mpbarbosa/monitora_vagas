@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.3] - 2025-12-11
+
+### Changed
+
+- **Date Input Format**: Switched to ISO 8601 format (yyyy-mm-dd) per HTML5 standard
+  - Removed Brazilian date format (dd/mm/yyyy) conversion code
+  - Date inputs now use native browser format handling
+  - Simplified validation logic (15 lines of code removed)
+  - Browser automatically displays dates in user's locale while maintaining ISO format internally
+
+### Fixed
+
+- **Date Format Validation**: Removed custom validation message "Formato de data inválido. Use dd/mm/aaaa"
+  - HTML5 native validation now handles date format checking
+  - W3C HTML5 specification compliance achieved
+
+### Documentation
+
+- **HTML Specification**: Updated `docs/HTML_SPECIFICATION.md`
+  - Section 7.3: Updated Date Input Interface to specify ISO 8601 format
+  - Section C.1: Updated field validation patterns
+  - Section C.2: Added browser native validation rule
+- **Test Suite**: Updated `tests/test_date_selection.py` with ISO format comments
+- **README**: Updated `README.md` to mention native HTML5 date inputs
+- **New Document**: Created `docs/DATE_FORMAT_CHANGE.md` with comprehensive change details
+
+### Technical Details
+
+**Benefits:**
+- Standards compliance with HTML5 specification
+- Dates already in API-required format (no conversion needed)
+- Leverages browser native date validation
+- Mobile-optimized date picker UI
+- Reduced code complexity and maintenance burden
+
 ## [1.4.2] - 2025-12-11
 
 ### Fixed

@@ -250,7 +250,7 @@ Response: JSON array of hotel vacancy data
 
 - Missing dates: Alert message to user
 
-- Invalid date format: Alert "Formato de data inválido. Use dd/mm/aaaa"
+- Date validation: HTML5 native validation (browser handles format checking)
 - API errors: Logged to console and displayed to user
 
 #### Test Coverage
@@ -745,7 +745,7 @@ The application requires:
 
 - **Missing Dates:** Alert "Por favor, selecione as datas de check-in e check-out"
 
-- **Invalid Date Format:** Alert "Formato de data inválido. Use dd/mm/aaaa"
+- **Date Format:** HTML5 native date inputs use ISO 8601 format (yyyy-mm-dd) with browser-provided date picker
 - **Form Validation:** Prevent submission if required fields missing
 
 ### 7.3 Console Logging

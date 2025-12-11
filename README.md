@@ -44,7 +44,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ### User Features
 
 - **Hotel Selection** - 25 hotels across multiple locations
-- **Date Range Picker** - Intuitive check-in/check-out selection
+- **Date Range Picker** - Native HTML5 date inputs (ISO 8601 format)
 - **Guest Counter** - Dynamic guest number management
 - **Vacancy Search** - Real-time availability checking
 - **Results Display** - Clear, organized hotel cards
