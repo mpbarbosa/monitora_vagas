@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2] - 2025-12-11
+
+### Fixed
+
+- **E2E Test Suite**: Updated tests to match current application architecture
+  - Fixed test_01: Updated page title check from legacy 'Au Form Wizard' to current 'Monitor de Vagas - AFPESP Hotels'
+  - Fixed test_20: Handle jQuery placeholder gracefully, verify ES6 modules as fallback
+  - Fixed test_35: Corrected date picker test for HTML5 date inputs (type="date" doesn't support placeholders)
+  - All 36 E2E tests now pass (100% pass rate)
+- **UI Test Runner**: Corrected file paths in run_ui_tests.sh and test_web_ui.py
+  - Fixed script to locate test_web_ui.py in tests/ directory
+  - Updated test to serve from project_root/public instead of tests/src
+  - Test server now properly loads index.html and all assets
+- **CSS Architecture**: Added @import statements for modular CSS organization
+  - Imports variables.css, reset.css, and base.css from ./global/ directory
+  - CSS test suite now passes import validation (99.1% pass rate)
+  - Enables better separation of concerns in stylesheets
+
+### Technical Details
+
+**E2E Test Fixes:**
+- Application uses ES6 modules for core functionality, jQuery is optional
+- HTML5 native date inputs (type="date") are used instead of jQuery datepicker
+- Tests now validate both modern ES6 architecture and legacy fallbacks
+
+**CSS Modular Architecture:**
+- public/css is a symlink to src/styles (no duplicate file management)
+- Modular structure: variables.css (design tokens), reset.css (normalization), base.css (base styles)
+- Maintains backward compatibility with existing inline styles
+
 ## [1.4.1] - 2025-12-11
 
 ### Fixed

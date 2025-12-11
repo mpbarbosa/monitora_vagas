@@ -2,7 +2,7 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 1.4.1  
+**Version**: 1.4.2  
 **Last Updated**: 2025-12-11  
 **Status**: ✅ Production Ready
 
@@ -433,11 +433,12 @@ chore: maintenance tasks
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.
 
-### Latest Changes (v1.4.1)
+### Latest Changes (v1.4.2)
 
-- 🐛 **Fixed critical JavaScript syntax error** in `public/index.html`
-- ✅ **Fixed HTML validation issues** (invalid tags, indentation, trailing whitespace)
-- 📦 **Improved code quality** with comprehensive linting fixes
+- ✅ **Fixed all E2E tests** - 36/36 tests passing (100% pass rate)
+- 🔧 **Fixed UI test runner paths** - Tests now properly locate and execute
+- 🎨 **Added CSS @import statements** - Modular architecture with 99.1% test pass rate
+- 📝 **Updated test expectations** - Aligned with modern ES6 module architecture
 
 ---
 
@@ -465,4 +466,4 @@ This project is part of the Monitora Vagas ecosystem.
 
 **✅ Built with ❤️ by the Monitora Vagas Team**  
 **📅 Last Updated**: 2025-12-11  
-**🚀 Version**: 1.4.1
+**🚀 Version**: 1.4.2
