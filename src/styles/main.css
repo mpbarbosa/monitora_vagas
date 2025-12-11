@@ -836,3 +836,115 @@ input[type=number]::-webkit-outer-spin-button {
 .card-7 .card-body {
   padding: 0 20px;
 }
+
+/* ==========================================================================
+   #GUEST FILTER STATE MANAGEMENT (FR-004A)
+   ========================================================================== */
+
+/* Guest filter card disabled state */
+#guest-filter-card.filter-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  position: relative;
+}
+
+#guest-filter-card.filter-disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  border-radius: 5px;
+}
+
+#guest-filter-card.filter-disabled .label {
+  color: #999;
+}
+
+#guest-filter-card.filter-disabled .input--style-1 {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+#guest-filter-card.filter-disabled .icon-con .plus,
+#guest-filter-card.filter-disabled .icon-con .minus {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Guest filter card enabled state */
+#guest-filter-card.filter-enabled {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#guest-filter-card.filter-enabled .icon-con .plus,
+#guest-filter-card.filter-enabled .icon-con .minus {
+  cursor: pointer;
+}
+
+/* Accessibility: ARIA disabled state support */
+#guest-filter-card[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   #GUEST NUMBER FILTERING (FR-004B)
+   ========================================================================== */
+
+/* Hotel card and vacancy item transitions */
+.hotel-card {
+  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.hotel-card[style*="display: none"] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.vacancy-item {
+  transition: opacity 0.2s ease-in-out, max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.vacancy-item[style*="display: none"] {
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Results counter styling */
+#results-counter {
+  padding: 8px 16px;
+  background: #e3f2fd;
+  border-radius: 20px;
+  border: 1px solid #2196F3;
+  font-weight: 500;
+}
+
+#results-counter strong {
+  color: #1976D2;
+}
+
+/* No results message animation */
+#no-results-filter-message {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

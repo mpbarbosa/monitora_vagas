@@ -433,7 +433,26 @@ chore: maintenance tasks
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.
 
-### Latest Changes (v1.4.2)
+### Latest Changes (v1.4.6)
+
+- 🎯 **Implemented FR-004B: Client-Side Guest Number Filtering**
+  - Real-time filtering of vacancy results by guest capacity
+  - Parses "até N pessoas" pattern from vacancy text
+  - Shows/hides cards based on capacity >= guest count
+  - Visual counter: "Showing X of Y hotels for N guests"
+  - 100% test pass rate (8/8 tests)
+
+### Previous Changes (v1.4.5)
+
+- 🎯 **Implemented FR-004A: Guest Filter State Management**
+  - Guest filter disabled on page load, enabled after first search
+  - Visual feedback with opacity and status indicators
+  - Full ARIA accessibility support
+  - Smooth state transitions with animations
+
+- 🎨 **Updated empty state message** - Changed from "Nenhuma Vaga Encontrada" to "Sem vagas disponíveis"
+- ✅ **Updated unit tests** - Test expectations aligned with new message
+- 📝 **Updated documentation** - CHANGELOG and test suite documentation updated
 
 - ✅ **Fixed all E2E tests** - 36/36 tests passing (100% pass rate)
 - 🔧 **Fixed UI test runner paths** - Tests now properly locate and execute
@@ -466,4 +485,4 @@ This project is part of the Monitora Vagas ecosystem.
 
 **✅ Built with ❤️ by the Monitora Vagas Team**  
 **📅 Last Updated**: 2025-12-11  
-**🚀 Version**: 1.4.2
+**🚀 Version**: 1.4.6

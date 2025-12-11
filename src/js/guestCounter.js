@@ -1,6 +1,59 @@
-// Guest Counter Handler
+// Guest Counter Handler with Filter State Management (FR-004A)
 (function() {
     'use strict';
+
+    // Guest Filter State Manager
+    const GuestFilterStateManager = {
+        filterCard: null,
+        isEnabled: false,
+        
+        init: function() {
+            this.filterCard = document.getElementById('guest-filter-card');
+            if (this.filterCard) {
+                // Set initial disabled state
+                this.disable();
+                console.log('✓ Guest filter initialized in disabled state (FR-004A)');
+            }
+        },
+        
+        disable: function() {
+            if (!this.filterCard) return;
+            
+            this.filterCard.classList.remove('filter-enabled');
+            this.filterCard.classList.add('filter-disabled');
+            this.filterCard.setAttribute('aria-disabled', 'true');
+            this.isEnabled = false;
+            
+            // Disable interactive elements
+            const input = this.filterCard.querySelector('.quantity');
+            if (input) {
+                input.setAttribute('readonly', 'readonly');
+            }
+            
+            console.log('🔒 Guest filter disabled');
+        },
+        
+        enable: function() {
+            if (!this.filterCard) return;
+            
+            this.filterCard.classList.remove('filter-disabled');
+            this.filterCard.classList.add('filter-enabled');
+            this.filterCard.setAttribute('aria-disabled', 'false');
+            this.isEnabled = true;
+            
+            // Enable interactive elements
+            const input = this.filterCard.querySelector('.quantity');
+            if (input) {
+                input.removeAttribute('readonly');
+            }
+            
+            console.log('🔓 Guest filter enabled');
+        },
+        
+        isFilterEnabled: function() {
+            return this.isEnabled;
+        }
+    };
 
     function initGuestCounter() {
         const numberInputs = document.querySelectorAll('.js-number-input');
@@ -17,15 +70,39 @@
             
             plusBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Check if filter is enabled (FR-004A)
+                if (!GuestFilterStateManager.isFilterEnabled()) {
+                    console.log('⚠️ Guest filter is disabled. Complete a search first.');
+                    return;
+                }
+                
                 currentValue++;
                 input.value = currentValue + ' Hóspedes';
+                
+                // Apply guest number filter (FR-004B)
+                if (window.GuestNumberFilter) {
+                    window.GuestNumberFilter.applyFilter(currentValue);
+                }
             });
             
             minusBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Check if filter is enabled (FR-004A)
+                if (!GuestFilterStateManager.isFilterEnabled()) {
+                    console.log('⚠️ Guest filter is disabled. Complete a search first.');
+                    return;
+                }
+                
                 if (currentValue > 1) {
                     currentValue--;
                     input.value = currentValue + ' Hóspedes';
+                    
+                    // Apply guest number filter (FR-004B)
+                    if (window.GuestNumberFilter) {
+                        window.GuestNumberFilter.applyFilter(currentValue);
+                    }
                 }
             });
         });
@@ -33,8 +110,15 @@
     
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGuestCounter);
+        document.addEventListener('DOMContentLoaded', function() {
+            GuestFilterStateManager.init();
+            initGuestCounter();
+        });
     } else {
+        GuestFilterStateManager.init();
         initGuestCounter();
     }
+    
+    // Expose state manager to global scope for search completion handler
+    window.GuestFilterStateManager = GuestFilterStateManager;
 })();

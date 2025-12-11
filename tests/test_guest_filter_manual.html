@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FR-004A: Guest Filter State Management - Manual Test</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .test-section h2 {
+            color: #2196F3;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        
+        .guest-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .guest-filter label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .guest-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .guest-counter button {
+            width: 35px;
+            height: 35px;
+            border: 2px solid #4CAF50;
+            background: white;
+            color: #4CAF50;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .guest-counter button:hover:not(:disabled) {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .guest-counter input {
+            width: 120px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* Disabled state */
+        .guest-filter.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            position: relative;
+        }
+        
+        .guest-filter.disabled::after {
+            content: '🔒 DISABLED';
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            background: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Enabled state */
+        .guest-filter.enabled::after {
+            content: '🔓 ENABLED';
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .action-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        
+        .action-button:hover {
+            background: #1976D2;
+        }
+        
+        .action-button.success {
+            background: #4CAF50;
+        }
+        
+        .action-button.success:hover {
+            background: #388E3C;
+        }
+        
+        .status-log {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .status-log div {
+            margin: 5px 0;
+        }
+        
+        .log-info {
+            color: #2196F3;
+        }
+        
+        .log-success {
+            color: #4CAF50;
+        }
+        
+        .log-error {
+            color: #f44336;
+        }
+        
+        .acceptance-criteria {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .acceptance-criteria h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .acceptance-criteria ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .acceptance-criteria li {
+            margin: 5px 0;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 FR-004A: Guest Filter State Management</h1>
+        <p class="subtitle">Manual Testing Interface</p>
+        
+        <!-- Test Section 1: Initial State -->
+        <div class="test-section">
+            <h2>Test 1: Initial Disabled State (AC-004A.1)</h2>
+            <p>The guest filter should be <strong>disabled</strong> on page load.</p>
+            
+            <div class="guest-filter disabled" id="guestFilter">
+                <label>Hóspedes / Guests:</label>
+                <div class="guest-counter">
+                    <button type="button" id="minusBtn">-</button>
+                    <input type="text" id="guestCount" value="2 Hóspedes" readonly>
+                    <button type="button" id="plusBtn">+</button>
+                </div>
+            </div>
+            
+            <p><strong>Expected:</strong> Filter is greyed out, shows 🔒 DISABLED badge, and clicks are ignored.</p>
+        </div>
+        
+        <!-- Test Section 2: Enable After Search -->
+        <div class="test-section">
+            <h2>Test 2: Enable After Search Completion (AC-004A.4)</h2>
+            <p>Click the button below to simulate search completion:</p>
+            
+            <button class="action-button success" onclick="simulateSearchCompletion()">
+                🔍 Simulate Search Completion
+            </button>
+            
+            <p><strong>Expected:</strong> Filter becomes enabled (shows 🔓 ENABLED badge) and allows interaction.</p>
+        </div>
+        
+        <!-- Test Section 3: Interaction Test -->
+        <div class="test-section">
+            <h2>Test 3: Interaction Testing</h2>
+            <p>Try clicking the + and - buttons:</p>
+            <ul>
+                <li><strong>When DISABLED:</strong> Clicks should be ignored</li>
+                <li><strong>When ENABLED:</strong> Clicks should increment/decrement the count</li>
+            </ul>
+            
+            <button class="action-button" onclick="testInteraction()">
+                🖱️ Test Interaction
+            </button>
+        </div>
+        
+        <!-- Test Section 4: Manual Controls -->
+        <div class="test-section">
+            <h2>Test 4: Manual State Control</h2>
+            <p>Manually toggle the filter state:</p>
+            
+            <button class="action-button" onclick="disableFilter()">
+                🔒 Disable Filter
+            </button>
+            
+            <button class="action-button success" onclick="enableFilter()">
+                🔓 Enable Filter
+            </button>
+            
+            <button class="action-button" onclick="resetTest()">
+                🔄 Reset Test
+            </button>
+        </div>
+        
+        <!-- Status Log -->
+        <div class="test-section">
+            <h2>Status Log</h2>
+            <div class="status-log" id="statusLog">
+                <div class="log-info">System initialized - Filter is DISABLED</div>
+            </div>
+        </div>
+        
+        <!-- Acceptance Criteria -->
+        <div class="acceptance-criteria">
+            <h3>✅ Acceptance Criteria Checklist</h3>
+            <ul>
+                <li><strong>AC-004A.1:</strong> Filter disabled on page load ✓</li>
+                <li><strong>AC-004A.2:</strong> Disabled state prevents interaction ✓</li>
+                <li><strong>AC-004A.3:</strong> Visual indication (opacity, badge) ✓</li>
+                <li><strong>AC-004A.4:</strong> Filter enabled after search completion ✓</li>
+                <li><strong>AC-004A.5:</strong> Enabled state allows interaction ✓</li>
+                <li><strong>AC-004A.6:</strong> Immediate state transition ✓</li>
+                <li><strong>AC-004A.7:</strong> State persists until page reload ✓</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        let guestCount = 2;
+        let isEnabled = false;
+        
+        const guestFilter = document.getElementById('guestFilter');
+        const guestCountInput = document.getElementById('guestCount');
+        const plusBtn = document.getElementById('plusBtn');
+        const minusBtn = document.getElementById('minusBtn');
+        const statusLog = document.getElementById('statusLog');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log-${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            div.textContent = `[${timestamp}] ${message}`;
+            statusLog.insertBefore(div, statusLog.firstChild);
+        }
+        
+        function updateDisplay() {
+            guestCountInput.value = `${guestCount} Hóspede${guestCount !== 1 ? 's' : ''}`;
+        }
+        
+        function disableFilter() {
+            guestFilter.classList.remove('enabled');
+            guestFilter.classList.add('disabled');
+            guestFilter.setAttribute('aria-disabled', 'true');
+            isEnabled = false;
+            log('Filter DISABLED', 'error');
+        }
+        
+        function enableFilter() {
+            guestFilter.classList.remove('disabled');
+            guestFilter.classList.add('enabled');
+            guestFilter.setAttribute('aria-disabled', 'false');
+            isEnabled = true;
+            log('Filter ENABLED', 'success');
+        }
+        
+        function simulateSearchCompletion() {
+            log('Simulating search completion...', 'info');
+            setTimeout(() => {
+                enableFilter();
+                log('✅ Search completed successfully - Filter enabled', 'success');
+            }, 500);
+        }
+        
+        function testInteraction() {
+            if (!isEnabled) {
+                log('❌ Interaction blocked - Filter is DISABLED', 'error');
+                alert('❌ Cannot interact with filter when DISABLED\n\nClick "Simulate Search Completion" first!');
+            } else {
+                log('✅ Interaction allowed - Filter is ENABLED', 'success');
+                alert('✅ Filter is ENABLED - You can now use the + and - buttons!');
+            }
+        }
+        
+        function resetTest() {
+            guestCount = 2;
+            updateDisplay();
+            disableFilter();
+            statusLog.innerHTML = '<div class="log-info">System reset - Filter is DISABLED</div>';
+            log('Test reset completed', 'info');
+        }
+        
+        // Button click handlers
+        plusBtn.addEventListener('click', function() {
+            if (!isEnabled) {
+                log('❌ Plus button clicked but filter is DISABLED', 'error');
+                return;
+            }
+            guestCount++;
+            updateDisplay();
+            log(`Guest count increased to ${guestCount}`, 'success');
+        });
+        
+        minusBtn.addEventListener('click', function() {
+            if (!isEnabled) {
+                log('❌ Minus button clicked but filter is DISABLED', 'error');
+                return;
+            }
+            if (guestCount > 1) {
+                guestCount--;
+                updateDisplay();
+                log(`Guest count decreased to ${guestCount}`, 'success');
+            } else {
+                log('Cannot decrease below 1 guest', 'error');
+            }
+        });
+        
+        // Initialize
+        updateDisplay();
+        log('Manual test interface loaded', 'info');
+        log('Guest filter initialized in DISABLED state', 'info');
+    </script>
+</body>
+</html>

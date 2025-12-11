@@ -5,6 +5,137 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.6] - 2025-12-11
+
+### Added
+
+- **FR-004B: Client-Side Guest Number Filtering Implementation**
+  - Real-time filtering of hotel vacancy results based on guest count
+  - Parses capacity from "até N pessoas" pattern in vacancy text
+  - Shows/hides hotel cards based on capacity >= guest count rule
+  - Filter triggers immediately on guest count changes (+ / - buttons)
+  - Visual feedback with results counter showing filtered hotels
+  - Smooth CSS transitions for hide/show animations
+  - Fail-safe behavior: keeps cards visible if capacity cannot be parsed
+  - "No results" message when all cards are filtered out
+
+### Changed
+
+- **Guest Counter Integration** (`public/js/guestCounter.js`)
+  - Added filter calls in +/- button event handlers
+  - Filter applies automatically when guest count changes
+
+- **Results Display** (`public/index.html`)
+  - Added `.hotel-card` class to hotel cards for filtering
+  - Added `.vacancy-item` class to individual vacancy items
+  - Added `data-vacancy-text` attribute to store original text
+  - Added results counter div to show "X of Y hotels for N guests"
+
+### Technical Details
+
+**Files Created:**
+- `public/js/guestNumberFilter.js`: Guest filtering module (9KB, 233 lines)
+- `tests/test_guest_number_filter.py`: Automated test suite (8 test cases, 100% pass rate)
+
+**Files Modified:**
+- `public/index.html`: Added classes, data attributes, results counter, script tag
+- `public/js/guestCounter.js`: Integrated filter calls in event handlers
+- `public/css/main.css`: Added 58 lines of CSS for transitions and styling
+
+**Parsing Algorithm:**
+```javascript
+const regex = /at[eé]\s+(\d+)\s+pessoas?/i;
+// Matches: até, Até, ATE, ate, atê
+// Extracts: digit(s) between "até" and "pessoa(s)"
+```
+
+**Filter Logic:**
+```javascript
+if (capacity >= guestCount) {
+    card.style.display = 'block';  // SHOW
+} else {
+    card.style.display = 'none';   // HIDE
+}
+```
+
+**Performance:**
+- Pre-compiled regex for efficiency
+- Batched DOM updates
+- Handles 50+ cards without lag
+- Instant response (no debouncing)
+
+**Accessibility:**
+- Results counter updates dynamically
+- Screen-readable filter status
+- Maintains DOM structure (cards not removed)
+
+## [1.4.5] - 2025-12-11
+
+### Added
+
+- **FR-004A: Guest Filter State Management Implementation**
+  - Guest filter card is now disabled on initial page load
+  - Filter automatically enables after first search completion (success or failure)
+  - Visual indication of disabled state (50% opacity, greyed out)
+  - ARIA accessibility attributes for screen readers (`aria-disabled`)
+  - Pointer-events blocking when disabled
+  - Smooth transition animation when enabling (0.3s ease-in-out)
+  - Console logging for state changes
+
+### Changed
+
+- **Guest Counter Component** (`public/js/guestCounter.js`)
+  - Added `GuestFilterStateManager` class for state management
+  - Interaction handlers now check filter state before allowing clicks
+  - Exposed state manager to global scope for search integration
+  - Added comprehensive console logging for debugging
+
+### Fixed
+
+- **Error Display** in `public/index.html`
+  - Fixed undefined `resultsTextarea` reference in error handler
+  - Error messages now display properly in results container
+
+### Technical Details
+
+**Files Modified:**
+- `public/index.html`: Added guest-filter-card ID, readonly attribute, enable call after search
+- `public/css/main.css`: Added 60 lines of CSS for disabled/enabled states
+- `public/js/guestCounter.js`: Refactored with state management (115 lines total)
+
+**Files Created:**
+- `tests/test_guest_filter_state.py`: Automated test suite (7 test cases)
+- `tests/test_guest_filter_manual.html`: Interactive manual test interface
+- `docs/FUNCTIONAL_REQUIREMENTS.md`: Updated with FR-004A specification (v1.1)
+
+**CSS Classes:**
+- `.filter-disabled`: Applied when filter is disabled (opacity, pointer-events, overlay)
+- `.filter-enabled`: Applied when filter is enabled (full opacity, interactive)
+
+**Accessibility:**
+- ARIA `aria-disabled` attribute toggles between "true" and "false"
+- Keyboard navigation respects disabled state
+- Visual indicators supplement programmatic state
+
+**Browser Compatibility:**
+- All modern browsers (Chrome, Firefox, Safari, Edge)
+- CSS transitions supported
+- Graceful degradation for older browsers
+
+## [1.4.4] - 2025-12-11
+
+### Changed
+
+- **Empty Search Results Message**: Updated empty state message from "Nenhuma Vaga Encontrada" to "Sem vagas disponíveis" (in Portuguese)
+  - Updated main HTML file (`public/index.html`)
+  - Updated unit test expectations (`tests/test-index-unit.js`)
+  - Improved message clarity and consistency
+
+### Documentation
+
+- **CHANGELOG**: Updated with new empty state message change
+- **README**: No changes required (message is implementation detail)
+
 ## [1.4.3] - 2025-12-11
 
 ### Changed

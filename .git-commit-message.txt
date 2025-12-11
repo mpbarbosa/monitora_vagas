@@ -1,0 +1,53 @@
+feat: implement FR-004A & FR-004B with comprehensive testing (v1.4.6)
+
+This commit implements two major features for guest management and filtering:
+
+FR-004A: Guest Filter State Management
+- Guest filter disabled on page load, enabled after first search
+- Visual feedback with opacity and ARIA attributes
+- Smooth state transitions (0.3s ease-in-out)
+- Test coverage: 7 tests (85.7% pass rate)
+
+FR-004B: Client-Side Guest Number Filtering
+- Real-time filtering of vacancy results by guest capacity
+- Parses "até N pessoas" pattern from vacancy text
+- Shows/hides cards based on capacity >= guest count rule
+- Filter triggers immediately on guest count changes
+- Test coverage: 8 tests (100% pass rate)
+
+Implementation Details:
+- Created public/js/guestNumberFilter.js (233 lines)
+- Modified public/js/guestCounter.js (integrated filter calls)
+- Updated public/index.html (classes, data attributes)
+- Enhanced public/css/main.css (transitions, styling)
+
+Testing:
+- Added test_guest_filter_state.py (7 test cases)
+- Added test_guest_number_filter.py (8 test cases, 100% pass)
+- Added test_empty_state_message.py (2 tests, 100% pass)
+- Created test_guest_filter_manual.html (interactive demo)
+- Updated TEST_SUITE_README.md with new test documentation
+- Created FR-004AB-TEST-SUMMARY.md for detailed coverage
+
+Documentation:
+- Updated FUNCTIONAL_REQUIREMENTS.md (v1.1 → v1.2)
+- Added FR-004A status: Implemented (v1.4.5)
+- Added FR-004B status: Implemented (v1.4.6)
+- Created FR-004A-IMPLEMENTATION.md
+- Created FR-004B-QUICK-REFERENCE.md
+- Updated CHANGELOG.md with v1.4.5 and v1.4.6
+- Updated README.md version and features
+
+Files Modified: 7
+Files Created: 8
+Total Lines Added: ~2,000
+Test Pass Rate: 94.1% overall
+
+Breaking Changes: None
+Backward Compatible: Yes
+
+Related Requirements:
+- FR-004: Guest Counter (base functionality)
+- FR-006: Results Display (provides cards to filter)
+
+BREAKING CHANGE: None

@@ -309,7 +309,7 @@ describe('Index.html Unit Tests', () => {
             emptyState.className = 'empty-state';
             emptyState.innerHTML = `
                 <div style="font-size: 48px; margin-bottom: 16px;">😔</div>
-                <h4>Nenhuma Vaga Encontrada</h4>
+                <h4>Sem vagas disponíveis</h4>
                 <p>Não há quartos disponíveis para o período selecionado.</p>
             `;
             return emptyState;
@@ -327,7 +327,7 @@ describe('Index.html Unit Tests', () => {
         
         test('includes message in empty state', () => {
             const emptyState = createEmptyState();
-            expect(emptyState.innerHTML).toContain('Nenhuma Vaga Encontrada');
+            expect(emptyState.innerHTML).toContain('Sem vagas disponíveis');
         });
     });
     

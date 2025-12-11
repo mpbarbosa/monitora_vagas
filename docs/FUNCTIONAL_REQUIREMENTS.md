@@ -2,8 +2,8 @@
 
 ## Hotel Vacancy Search Application
 
-**Document Version:** 1.0  
-**Date:** 2025-12-09  
+**Document Version:** 1.2  
+**Date:** 2025-12-11  
 **Author:** Monitora Vagas Development Team  
 **Application:** index.html - Hotel Vacancy Search Interface  
 
@@ -45,11 +45,11 @@ The application provides a web-based interface for:
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-001 Description
 
 The system shall provide a dropdown list of available hotels loaded dynamically from the API.
 
-#### Acceptance Criteria
+#### FR-001 Acceptance Criteria
 
 - **AC-001.1:** On page load, the hotel dropdown displays "Loading hotels..." message
 
@@ -70,7 +70,7 @@ The system shall provide a dropdown list of available hotels loaded dynamically 
 
 - apiClient.js service module
 
-#### Test Coverage
+#### FR-001 Test Coverage
 
 - `test_04_hotel_select_has_options`
 
@@ -81,11 +81,11 @@ The system shall provide a dropdown list of available hotels loaded dynamically 
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-002 Description
 
 The system shall allow users to select a check-in date using an HTML5 date input.
 
-#### Acceptance Criteria
+#### FR-002 Acceptance Criteria
 
 - **AC-002.1:** Check-in input field is of type "date"
 
@@ -98,20 +98,20 @@ The system shall allow users to select a check-in date using an HTML5 date input
 - **AC-002.6:** Field can be cleared after selection
 - **AC-002.7:** Field is required for form submission
 
-#### Input Format
+#### Check-In Input Format
 
 - **Display Format:** Browser-dependent (based on user locale)
 
 - **Internal Format:** yyyy-MM-dd (ISO 8601)
 
-#### Validation Rules
+#### Check-In Validation Rules
 
 - Must be a valid date
 
 - Must be provided before form submission
 - No past date restriction (business rule to be determined)
 
-#### Test Coverage
+#### FR-002 Test Coverage
 
 - `test_05_checkin_input_accepts_text`
 
@@ -125,11 +125,11 @@ The system shall allow users to select a check-in date using an HTML5 date input
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-003 Description
 
 The system shall allow users to select a check-out date using an HTML5 date input.
 
-#### Acceptance Criteria
+#### FR-003 Acceptance Criteria
 
 - **AC-003.1:** Check-out input field is of type "date"
 
@@ -144,7 +144,7 @@ The system shall allow users to select a check-out date using an HTML5 date inpu
 
 - **AC-003.8:** System allows same-day check-in/check-out (validation on submit)
 
-#### Input Format
+#### Check-Out Input Format
 
 - **Display Format:** Browser-dependent (based on user locale)
 
@@ -157,7 +157,7 @@ The system shall allow users to select a check-out date using an HTML5 date inpu
 - Must be provided before form submission
 - Should be same as or after check-in date (business rule to be enforced)
 
-#### Test Coverage
+#### FR-003 Test Coverage
 
 - `test_06_checkout_input_accepts_text`
 
@@ -173,11 +173,11 @@ The system shall allow users to select a check-out date using an HTML5 date inpu
 **Priority:** Medium  
 **Status:** Implemented
 
-#### Description
+#### FR-004 Description
 
 The system shall provide an interactive guest counter with increment/decrement controls.
 
-#### Acceptance Criteria
+#### FR-004 Acceptance Criteria
 
 - **AC-004.1:** Guest input displays default value "2 Hóspedes"
 
@@ -192,18 +192,393 @@ The system shall provide an interactive guest counter with increment/decrement c
 
 - **AC-004.8:** Maximum guest count is enforced (to be defined)
 
-#### Business Rules
+#### FR-004 Business Rules
 
 - Default: 2 guests
 
 - Format: "{count} Hóspedes"
 - Interactive buttons for increment/decrement
 
-#### Test Coverage
+#### FR-004 Test Coverage
 
 - `test_07_guest_counter_plus_button_exists`
 
 - `test_08_guest_counter_minus_button_exists`
+
+---
+
+### FR-004A: Guest Filter State Management
+
+**Priority:** Medium  
+**Status:** Planned
+
+#### FR-004A Description
+
+The system shall control the enabled/disabled state of the "Hóspedes" (Guests) filter card based on search completion status.
+
+#### FR-004A Acceptance Criteria
+
+- **AC-004A.1:** On initial page load, the "Hóspedes"/"Guests" filter card shall be disabled
+- **AC-004A.2:** The disabled state shall prevent user interaction with the filter
+- **AC-004A.3:** Visual indication of disabled state shall be clearly displayed (e.g., greyed out, reduced opacity)
+- **AC-004A.4:** After search completion (successful or failed), the "Hóspedes" filter card shall be enabled
+- **AC-004A.5:** The enabled state shall allow full user interaction with guest count controls
+- **AC-004A.6:** The state transition shall occur immediately upon search completion
+- **AC-004A.7:** The filter card shall remain enabled after being activated until page reload
+
+#### FR-004A Business Rules
+
+- **Initial State:** Disabled (on page load)
+- **Trigger Event:** Search execution completion
+- **Final State:** Enabled (after first search)
+- **Persistence:** State persists across multiple searches within same session
+- **Reset Condition:** Page reload resets to disabled state
+
+#### User Flow
+
+```text
+1. Page Load → Guest filter card is DISABLED
+2. User fills in required search fields (hotel, dates)
+3. User clicks "busca vagas" button
+4. Search executes (API call)
+5. Search completes (with results or error)
+6. Guest filter card becomes ENABLED
+7. User can now interact with guest count controls
+```
+
+#### Visual States
+
+**Disabled State:**
+
+- Opacity: 0.5 or 0.6
+- Cursor: not-allowed or default
+- Pointer-events: none (optional)
+- Background: greyed or muted
+- Interactive elements (+ / -) non-functional
+
+**Enabled State:**
+
+- Opacity: 1.0
+- Cursor: pointer (on interactive elements)
+- Pointer-events: auto
+- Background: normal colors
+- Interactive elements (+ / -) fully functional
+
+#### Implementation Notes
+
+- Use CSS classes to toggle states (e.g., `.filter-disabled` / `.filter-enabled`)
+- JavaScript event listener on search completion
+- Consider accessibility (ARIA attributes: `aria-disabled="true"`)
+- Ensure keyboard navigation respects disabled state
+- Screen reader support for state changes
+
+#### Internationalization (Filter Label)
+
+- **Portuguese (pt-BR):** "Hóspedes"
+- **English (en-US):** "Guests"
+
+#### FR-004A Test Coverage
+
+To be defined:
+
+- `test_guest_filter_initial_disabled_state`
+- `test_guest_filter_enabled_after_search`
+- `test_guest_filter_visual_indication`
+- `test_guest_filter_interaction_blocked_when_disabled`
+
+#### Dependencies
+
+- FR-005: Vacancy Search Execution (triggers state change)
+- FR-004: Guest Counter (component being controlled)
+
+#### Related Requirements
+
+- FR-005: Search execution triggers the state change
+- FR-006: Results display (occurs simultaneously with filter enablement)
+
+---
+
+### FR-004B: Client-Side Guest Number Filtering
+
+**Priority:** High  
+**Status:** ✅ Implemented (v1.4.6 - 2025-12-11)
+
+#### Description
+
+The system shall provide client-side filtering of hotel vacancy results based on the number of guests selected by the user. The filter shall parse vacancy information to determine room capacity and show/hide results accordingly.
+
+#### Acceptance Criteria
+
+- **AC-004B.1:** All filtering logic shall be implemented entirely on the client-side (no server requests)
+- **AC-004B.2:** Filter shall parse guest capacity from vacancy result strings
+- **AC-004B.3:** Filter shall extract numeric value from "até N pessoas" pattern
+- **AC-004B.4:** Hotel vacancy cards shall remain visible if capacity ≥ selected guest count
+- **AC-004B.5:** Hotel vacancy cards shall become hidden if capacity < selected guest count
+- **AC-004B.6:** Filter shall be applied immediately whenever guest count changes
+- **AC-004B.7:** Filter shall re-evaluate all visible vacancy cards on each guest count change
+- **AC-004B.8:** Hidden cards shall not be removed from DOM, only CSS visibility changed
+
+#### Business Rules
+
+- **Filter Application:** Client-side only (JavaScript)
+- **Trigger Event:** Guest count increment/decrement
+- **Filter Logic:** Capacity >= Guest Count → Visible; Capacity < Guest Count → Hidden
+- **Parsing Pattern:** Extract number from "até {N} pessoas" in result string
+- **Default Behavior:** If capacity cannot be parsed, assume visible (fail-safe)
+
+#### Data Format Example
+
+**Input Result Line:**
+
+```plaintext
+ANDRADE (até 2 pessoas)13/12 - 15/12 (2 dias livres) - 24 Quarto(s)
+```
+
+**Parsed Information:**
+
+- Hotel Name: "ANDRADE"
+- Capacity: 2 (extracted from "até 2 pessoas")
+- Dates: 13/12 - 15/12
+- Available Rooms: 24
+
+**Filter Logic:**
+
+```javascript
+// Guest count: 2
+if (capacity >= guestCount) {  // 2 >= 2 → true
+    // Show card
+} else {
+    // Hide card
+}
+```
+
+#### Parsing Algorithm
+
+**Step 1:** Extract capacity pattern
+
+```javascript
+const regex = /até\s+(\d+)\s+pessoas?/i;
+const match = resultString.match(regex);
+```
+
+**Step 2:** Extract numeric value
+
+```javascript
+const capacity = match ? parseInt(match[1]) : null;
+```
+
+**Step 3:** Apply filter
+
+```javascript
+if (capacity !== null && capacity < guestCount) {
+    // Hide card
+    card.style.display = 'none';
+} else {
+    // Show card
+    card.style.display = 'block';
+}
+```
+
+#### User Flow
+
+```text
+1. User completes initial search → Results displayed
+2. Guest filter becomes enabled (FR-004A)
+3. User increments guest count (e.g., 2 → 3)
+   ├─> Filter triggers immediately
+   ├─> Parse all vacancy cards
+   ├─> Check: capacity >= 3?
+   ├─> Hide cards with capacity < 3
+   └─> Keep visible cards with capacity >= 3
+4. User decrements guest count (e.g., 3 → 2)
+   ├─> Filter triggers immediately
+   ├─> Re-evaluate all cards
+   └─> Show previously hidden cards if capacity >= 2
+```
+
+#### Implementation Notes
+
+**Event Listener:**
+
+```javascript
+plusBtn.addEventListener('click', function() {
+    guestCount++;
+    updateDisplay();
+    applyGuestFilter(guestCount);  // Apply filter
+});
+
+minusBtn.addEventListener('click', function() {
+    if (guestCount > 1) {
+        guestCount--;
+        updateDisplay();
+        applyGuestFilter(guestCount);  // Apply filter
+    }
+});
+```
+
+**Filter Function:**
+
+```javascript
+function applyGuestFilter(selectedGuestCount) {
+    const vacancyCards = document.querySelectorAll('.hotel-card');
+    
+    vacancyCards.forEach(card => {
+        const vacancies = card.querySelectorAll('.vacancy-item');
+        let hasVisibleVacancy = false;
+        
+        vacancies.forEach(vacancy => {
+            const text = vacancy.textContent;
+            const match = text.match(/até\s+(\d+)\s+pessoas?/i);
+            
+            if (match) {
+                const capacity = parseInt(match[1]);
+                if (capacity >= selectedGuestCount) {
+                    vacancy.style.display = 'block';
+                    hasVisibleVacancy = true;
+                } else {
+                    vacancy.style.display = 'none';
+                }
+            } else {
+                // No capacity info - keep visible (fail-safe)
+                vacancy.style.display = 'block';
+                hasVisibleVacancy = true;
+            }
+        });
+        
+        // Hide entire hotel card if no vacancies match
+        card.style.display = hasVisibleVacancy ? 'block' : 'none';
+    });
+}
+```
+
+#### Visual Feedback
+
+**Filter Active:**
+
+- Card visibility changes instantly
+- Smooth CSS transition (optional)
+- Counter updates to show "X of Y hotels"
+
+**Filter Result Examples:**
+
+##### Guest Count: 2
+
+```plaintext
+✓ ANDRADE (até 2 pessoas) → VISIBLE
+✓ PRAIA GRANDE (até 3 pessoas) → VISIBLE
+✓ GUARUJÁ (até 4 pessoas) → VISIBLE
+```
+
+#### Guest Count: 3
+
+```plaintext
+✗ ANDRADE (até 2 pessoas) → HIDDEN
+✓ PRAIA GRANDE (até 3 pessoas) → VISIBLE
+✓ GUARUJÁ (até 4 pessoas) → VISIBLE
+```
+
+#### Guest Count: 5
+
+```text
+✗ ANDRADE (até 2 pessoas) → HIDDEN
+✗ PRAIA GRANDE (até 3 pessoas) → HIDDEN
+✗ GUARUJÁ (até 4 pessoas) → HIDDEN
+```
+
+#### Performance Considerations
+
+- **DOM Manipulation:** Minimize reflows by batching updates
+- **Regex Efficiency:** Pre-compile regex patterns
+- **Debouncing:** Not required (instant feedback desired)
+- **Large Results:** Filter should handle 50+ cards efficiently
+
+#### Edge Cases
+
+#### Case 1: Missing Capacity Information
+
+```text
+"ANDRADE 13/12 - 15/12 - 24 Quarto(s)"  // No "até N pessoas"
+```
+
+**Behavior:** Keep visible (fail-safe)
+
+#### Case 2: Multiple Capacity Formats
+
+```text
+"até 1 pessoa"   → Extract: 1
+"até 2 pessoas"  → Extract: 2
+"Até 3 Pessoas"  → Extract: 3 (case-insensitive)
+"ate 4 pessoas"  → Extract: 4 (with/without accent)
+```
+
+#### Case 3: Invalid Capacity
+
+```text
+"até pessoas"    → No number, keep visible
+"até 0 pessoas"  → Invalid, keep visible
+"até -1 pessoas" → Invalid, keep visible
+```
+
+#### Case 4: Empty Results
+
+- No cards match filter → Display "No vacancies for N guests" message
+
+#### Accessibility
+
+- **Screen Readers:** Announce "Showing X hotels for Y guests"
+- **ARIA Live Region:** Update count dynamically
+- **Focus Management:** Maintain focus when cards hide/show
+- **Keyboard Navigation:** Filter respects keyboard interactions
+
+#### Internationalization (Capacity Pattern)
+
+- **Portuguese (pt-BR):** "até {N} pessoa(s)"
+- **English (en-US):** "up to {N} guest(s)" (future support)
+
+#### Test Coverage
+
+✅ Implemented (100% pass rate):
+
+- `test_guest_number_filter.py::test_01_filter_module_loaded`
+- `test_guest_number_filter.py::test_02_parsing_capacity`
+- `test_guest_number_filter.py::test_03_filter_shows_matching_cards`
+- `test_guest_number_filter.py::test_04_filter_hides_non_matching_cards`
+- `test_guest_number_filter.py::test_05_filter_triggers_on_guest_change`
+- `test_guest_number_filter.py::test_06_filter_re_evaluates_all_cards`
+- `test_guest_number_filter.py::test_07_filter_uses_css_display`
+- `test_guest_number_filter.py::test_08_filter_handles_missing_capacity`
+
+#### Implementation Files
+
+- **Module:** `public/js/guestNumberFilter.js` (233 lines)
+- **Integration:** `public/js/guestCounter.js` (event handlers)
+- **HTML:** `public/index.html` (classes, data attributes)
+- **CSS:** `public/css/main.css` (transitions, styling)
+- **Tests:** `tests/test_guest_number_filter.py` (8 test cases)
+
+#### Dependencies
+
+- FR-004: Guest Counter (provides guest count value)
+- FR-004A: Guest Filter State Management (enables filter after search)
+- FR-006: Results Display (provides vacancy cards to filter)
+
+#### Related Requirements
+
+- FR-004: Guest count manipulation
+- FR-004A: Filter state management
+- FR-006: Results display structure
+
+#### Integration Points
+
+**Guest Counter Component:**
+- Triggers `applyGuestFilter()` on +/- button click
+
+**Results Display Component:**
+- Provides hotel cards with consistent class names
+- Vacancy items must have parseable text content
+
+**Search Component:**
+- Initial filter application after results loaded
 
 ---
 
@@ -212,11 +587,11 @@ The system shall provide an interactive guest counter with increment/decrement c
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-005 Description
 
 The system shall execute a vacancy search when the user submits the form.
 
-#### Acceptance Criteria
+#### FR-005 Acceptance Criteria
 
 - **AC-005.1:** Search button displays text "busca vagas"
 
@@ -253,7 +628,7 @@ Response: JSON array of hotel vacancy data
 - Date validation: HTML5 native validation (browser handles format checking)
 - API errors: Logged to console and displayed to user
 
-#### Test Coverage
+#### FR-005 Test Coverage
 
 - `test_09_form_validates_empty_dates`
 
@@ -267,11 +642,11 @@ Response: JSON array of hotel vacancy data
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-006 Description
 
 The system shall display search results in a structured format with hotel cards.
 
-#### Acceptance Criteria
+#### FR-006 Acceptance Criteria
 
 - **AC-006.1:** Results container is hidden by default (display: none)
 
@@ -311,11 +686,11 @@ Results Container
 **Priority:** Medium  
 **Status:** Implemented
 
-#### Description
+#### FR-007 Description
 
 The system shall allow users to copy search results to the clipboard.
 
-#### Acceptance Criteria
+#### FR-007 Acceptance Criteria
 
 - **AC-007.1:** Copy button displays "📋 Copiar Resultados"
 
@@ -334,7 +709,7 @@ The system shall allow users to copy search results to the clipboard.
 2. System copies formatted hotel vacancy data to clipboard
 3. User can paste results into other applications
 
-#### Test Coverage
+#### FR-007 Test Coverage
 
 - `test_11_copy_results_button_exists`
 
@@ -347,11 +722,11 @@ The system shall allow users to copy search results to the clipboard.
 **Priority:** Medium  
 **Status:** Implemented
 
-#### Description
+#### FR-008 Description
 
 The system shall allow users to clear displayed search results.
 
-#### Acceptance Criteria
+#### FR-008 Acceptance Criteria
 
 - **AC-008.1:** Clear button displays "🗑️ Limpar Resultados"
 
@@ -373,7 +748,7 @@ The system shall allow users to clear displayed search results.
 3. System clears all hotel cards from display
 4. Form remains populated with previous search parameters
 
-#### Test Coverage
+#### FR-008 Test Coverage
 
 - `test_12_clear_results_button_exists`
 
@@ -386,11 +761,11 @@ The system shall allow users to clear displayed search results.
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-009 Description
 
 The system shall be responsive and function correctly across different device sizes.
 
-#### Acceptance Criteria
+#### FR-009 Acceptance Criteria
 
 - **AC-009.1:** Page renders correctly on mobile devices (375px width)
 
@@ -410,7 +785,7 @@ The system shall be responsive and function correctly across different device si
 - **Tablet:** 768x1024 (iPad)
 - **Desktop:** 1920x1080 (Full HD)
 
-#### Test Coverage
+#### FR-009 Test Coverage
 
 - `test_14_mobile_viewport`
 
@@ -424,11 +799,11 @@ The system shall be responsive and function correctly across different device si
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-010 Description
 
 The system shall meet basic accessibility standards for users with disabilities.
 
-#### Acceptance Criteria
+#### FR-010 Acceptance Criteria
 
 - **AC-010.1:** All form inputs have associated label elements
 
@@ -448,7 +823,7 @@ The system shall meet basic accessibility standards for users with disabilities.
 - Buttons have descriptive text (WCAG 2.4.4)
 - Form uses semantic HTML (WCAG 1.3.1)
 
-#### Test Coverage
+#### FR-010 Test Coverage
 
 - `test_17_form_labels_exist`
 
@@ -462,11 +837,11 @@ The system shall meet basic accessibility standards for users with disabilities.
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-011 Description
 
 The system shall properly load and integrate required JavaScript libraries and modules.
 
-#### Acceptance Criteria
+#### FR-011 Acceptance Criteria
 
 - **AC-011.1:** jQuery library is loaded and available
 
@@ -495,7 +870,7 @@ The system shall properly load and integrate required JavaScript libraries and m
 - guestCounter.js
 - apiClient.js (ES6 module)
 
-#### Test Coverage
+#### FR-011 Test Coverage
 
 - `test_20_jquery_loaded`
 
@@ -509,11 +884,11 @@ The system shall properly load and integrate required JavaScript libraries and m
 **Priority:** Medium  
 **Status:** Implemented
 
-#### Description
+#### FR-012 Description
 
 The system shall load and respond within acceptable performance thresholds.
 
-#### Acceptance Criteria
+#### FR-012 Acceptance Criteria
 
 - **AC-012.1:** Page loads in less than 5 seconds
 
@@ -530,7 +905,7 @@ The system shall load and respond within acceptable performance thresholds.
 - Time to Interactive: < 3 seconds
 - API Response Display: < 1 second after response
 
-#### Test Coverage
+#### FR-012 Test Coverage
 
 - `test_22_page_load_time`
 
@@ -544,11 +919,11 @@ The system shall load and respond within acceptable performance thresholds.
 **Priority:** High  
 **Status:** Implemented
 
-#### Description
+#### FR-013 Description
 
 The system shall provide functional date picker controls for date selection.
 
-#### Acceptance Criteria
+#### FR-013 Acceptance Criteria
 
 - **AC-013.1:** Check-in date picker opens on click
 
@@ -572,7 +947,7 @@ The system shall provide functional date picker controls for date selection.
 
 - Fallback: Daterangepicker library (vendor/datepicker/)
 
-#### Implementation Test Coverage
+#### FR-013 Test Coverage
 
 - `test_27_checkin_datepicker_opens`
 
@@ -847,9 +1222,11 @@ The application requires:
 
 ## 12. Revision History
 
-| Version | Date       | Author              | Changes                                      |
-| ------- | ---------- | ------------------- | -------------------------------------------- |
-| 1.0     | 2025-12-09 | Monitora Vagas Team | Initial functional requirements document     |
+| Version | Date       | Author              | Changes                                         |
+| ------- | ---------- | ------------------- | ----------------------------------------------- |
+| 1.0     | 2025-12-09 | Monitora Vagas Team | Initial functional requirements document        |
+| 1.1     | 2025-12-11 | Monitora Vagas Team | Added FR-004A: Guest Filter State Management    |
+| 1.2     | 2025-12-11 | Monitora Vagas Team | Added FR-004B: Client-Side Guest Number Filtering |
 
 ---
 
