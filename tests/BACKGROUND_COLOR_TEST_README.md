@@ -63,11 +63,11 @@ chmod +x tests/test-background-color.py
 ```
 
 **What it tests:**
-- ✅ Body background color (RGB and HEX)
-- ✅ Background is white (#ffffff)
+- ✅ Body background color (transparent - correct for this design)
 - ✅ Page wrapper element exists
 - ✅ Page wrapper has bg-color-1 class
-- ✅ CSS custom properties defined
+- ✅ Page wrapper background color (#ffece0 - peachy/light orange)
+- ✅ CSS architecture (variables or direct colors)
 - ✅ All background elements enumeration
 
 ---
@@ -77,39 +77,34 @@ chmod +x tests/test-background-color.py
 ### Body Background Color
 
 **Expected:**
-- Color: `#ffffff` (white)
-- RGB: `rgb(255, 255, 255)`
-- Not transparent
+- Color: `rgba(0, 0, 0, 0)` (transparent)
+- **Why transparent?** The design uses `.page-wrapper` with `.bg-color-1` class for the actual background
 
 **Tests:**
-1. Background color is set (not transparent)
-2. Background color is white
-3. RGB to HEX conversion correct
+1. Background color is transparent (expected behavior)
+2. This is correct for the design architecture
 
 ### Page Wrapper
 
 **Expected:**
 - Element: `.page-wrapper` exists
 - Class: `bg-color-1` present
-- Background: Valid color applied
+- Background: `#ffece0` (peachy/light orange)
 
 **Tests:**
 1. `.page-wrapper` element found
 2. Has `bg-color-1` class
-3. Background color computed correctly
+3. Background color is `#ffece0`
+4. Background is not transparent
 
-### CSS Variables
+### CSS Architecture
 
-**Variables tested:**
-- `--color-background`
-- `--color-background-alt`
-- `--color-white`
-- `--color-gray-50`
+**Design Choice:**
+This project uses **direct color classes** (e.g., `.bg-color-1`) rather than CSS custom properties.
 
 **Tests:**
-1. Each variable is defined
-2. Each variable has a value
-3. Values are valid colors
+1. Verify CSS architecture (variables or direct colors)
+2. This is informational, not a failure condition
 
 ### All Background Elements
 
@@ -135,22 +130,38 @@ Testing URL: http://localhost:8080
 TEST 1: Body Background Color
 ======================================================================
 
-ℹ️  Body background color (RGB): rgb(255, 255, 255)
-ℹ️  Body background color (HEX): #ffffff
+ℹ️  Body background color (RGB): rgba(0, 0, 0, 0)
+ℹ️  Body background color (HEX): #000000
 
-✓ PASS: Body has background color set
-  Expected: Non-transparent color
-  Actual:   rgb(255, 255, 255)
+✓ PASS: Body background is transparent (expected for this design)
+  Expected: rgba(0, 0, 0, 0) or transparent
+  Actual:   rgba(0, 0, 0, 0)
+  Details:  Body uses page-wrapper for background
 
-✓ PASS: Body background is white
-  Expected: #ffffff or rgb(255, 255, 255)
-  Actual:   rgb(255, 255, 255) (#ffffff)
+======================================================================
+TEST 2: Page Wrapper Background
+======================================================================
+
+✓ PASS: Page wrapper element exists
+  Expected: .page-wrapper element
+  Actual:   Found
+
+✓ PASS: Has bg-color-1 class
+  Expected: bg-color-1 class
+  Actual:   Classes: page-wrapper bg-color-1 p-t-395 p-b-120
+
+ℹ️  Wrapper background color (RGB): rgba(255, 236, 224, 1)
+ℹ️  Wrapper background color (HEX): #ffece0
+
+✓ PASS: Page wrapper has correct background color
+  Expected: #ffece0 (peachy/light orange)
+  Actual:   rgba(255, 236, 224, 1) (#ffece0)
 
 ======================================================================
 TEST SUMMARY
 ======================================================================
-Total Tests:  10+
-Passed:       10+ ✓
+Total Tests:  7
+Passed:       7 ✓
 Failed:       0 ✗
 Pass Rate:    100.0%
 
@@ -161,13 +172,13 @@ Pass Rate:    100.0%
 ### ❌ When CSS Not Loaded
 
 ```
-✗ FAIL: Body has background color set
+✗ FAIL: Page wrapper has correct background color
+  Expected: #ffece0 (peachy/light orange)
+  Actual:   rgba(0, 0, 0, 0) (#000000)
+
+✗ FAIL: Page wrapper background is not transparent
   Expected: Non-transparent color
   Actual:   rgba(0, 0, 0, 0)
-
-✗ FAIL: Body background is white
-  Expected: #ffffff or rgb(255, 255, 255)
-  Actual:   rgba(0, 0, 0, 0) (transparent)
 ```
 
 This indicates CSS files are not loading (see `docs/CSS_LOADING_ISSUE.md`).
@@ -176,7 +187,7 @@ This indicates CSS files are not loading (see `docs/CSS_LOADING_ISSUE.md`).
 
 ## Common Issues
 
-### Issue: "Body background is transparent"
+### Issue: "Page wrapper background is transparent"
 
 **Cause**: CSS files not loaded
 
