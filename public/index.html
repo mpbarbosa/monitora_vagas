@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Sistema de monitoramento de disponibilidade de vagas nos hotéis AFPESP">
     <meta name="author" content="AFPESP">
-    <parameter name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
+    <meta name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
 
     <!-- Title Page-->
     <title>Monitor de Vagas - AFPESP Hotels</title>
@@ -24,7 +24,7 @@
 
     <!-- Main CSS-->
     <link href="css/main.css" rel="stylesheet" media="all">
-<meta name="robots" content="noindex, follow">
+    <meta name="robots" content="noindex, follow">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
                                 <select class="input--style-1" name="going" id="hotel-select" style="flex: 1;">
                                     <option value="">Loading hotels...</option>
                                 </select>
-                                <button type="button" id="refresh-hotels-btn" 
+                                <button type="button" id="refresh-hotels-btn"
                                         style="padding: 8px 12px;
                                                background: #4CAF50;
                                                color: white;
@@ -74,33 +74,33 @@
                         </div>
                         <button class="btn-submit" type="submit" id="search-button">busca vagas</button>
                     </form>
-                    
+
                     <!-- Results Display Area -->
                     <div id="results-container" style="display: none; margin-top: 30px;">
                         <h3 style="color: #333; margin-bottom: 15px;">📊 Resultados da Busca</h3>
-                        
+
                         <!-- Hotels Cards Container -->
                         <div id="hotels-cards-container" style="display: flex; flex-direction: column; gap: 20px;">
                             <!-- Hotel cards will be inserted here dynamically -->
                         </div>
-                        
+
                         <div style="margin-top: 20px; display: flex; gap: 10px;">
-                            <button id="copy-results-btn" 
-                                    style="padding: 10px 20px; 
-                                           background: #4CAF50; 
-                                           color: white; 
-                                           border: none; 
-                                           border-radius: 5px; 
+                            <button id="copy-results-btn"
+                                    style="padding: 10px 20px;
+                                           background: #4CAF50;
+                                           color: white;
+                                           border: none;
+                                           border-radius: 5px;
                                            cursor: pointer;
                                            font-size: 14px;">
                                 📋 Copiar Resultados
                             </button>
-                            <button id="clear-results-btn" 
-                                    style="padding: 10px 20px; 
-                                           background: #f44336; 
-                                           color: white; 
-                                           border: none; 
-                                           border-radius: 5px; 
+                            <button id="clear-results-btn"
+                                    style="padding: 10px 20px;
+                                           background: #f44336;
+                                           color: white;
+                                           border: none;
+                                           border-radius: 5px;
                                            cursor: pointer;
                                            font-size: 14px;">
                                 🗑️ Limpar Resultados
@@ -127,12 +127,12 @@
     <script src="js/guestCounter.js"></script>
     <script type="module">
         import { apiClient } from './services/apiClient.js';
-        
+
         // Function to update cache status display
         function updateCacheStatus() {
             const stats = apiClient.getCacheStats();
             const statusEl = document.getElementById('cache-status');
-            
+
             if (stats.exists && !stats.expired) {
                 statusEl.textContent = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
                 statusEl.style.color = '#4CAF50';
@@ -143,23 +143,23 @@
                 statusEl.textContent = '';
             }
         }
-        
+
         // Function to load hotels (with optional force refresh)
         async function loadHotels(forceRefresh = false) {
             const select = document.getElementById('hotel-select');
             const refreshBtn = document.getElementById('refresh-hotels-btn');
-            
+
             try {
                 // Disable refresh button during load
                 if (refreshBtn) {
                     refreshBtn.disabled = true;
                     refreshBtn.textContent = '⏳';
                 }
-                
+
                 select.innerHTML = '<option value="">Loading...</option>';
-                
+
                 const hotels = await apiClient.getHotels(forceRefresh);
-                
+
                 select.innerHTML = '<option value="">Select a hotel</option>';
                 hotels.forEach(hotel => {
                     const option = document.createElement('option');
@@ -167,13 +167,13 @@
                     option.textContent = hotel.name;
                     select.appendChild(option);
                 });
-                
+
                 updateCacheStatus();
-                
+
             } catch (error) {
                 console.error('Error loading hotels:', error);
                 select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
-                
+
                 const statusEl = document.getElementById('cache-status');
                 statusEl.textContent = `❌ Error: ${error.message}`;
                 statusEl.style.color = '#f44336';
@@ -185,10 +185,10 @@
                 }
             }
         }
-        
+
         // Load hotels on page load
         loadHotels();
-        
+
         // Refresh button handler
         document.getElementById('refresh-hotels-btn')?.addEventListener('click', () => {
             console.log('🔄 Manual refresh requested');
@@ -196,30 +196,29 @@
         });
 
         // Handle form submission
-        document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('.form');
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            
+
             console.log('🚀 Starting vacancy search flow...');
-            
+
             // STEP 2: Get input parameters from web page UI
             const hotelSelect = document.getElementById('hotel-select');
             const checkinInput = document.getElementById('input-checkin');
             const checkoutInput = document.getElementById('input-checkout');
-            
+
             const hotel = hotelSelect.value || '-1'; // Default to all hotels
             const checkinBR = checkinInput.value; // dd/mm/yyyy
             const checkoutBR = checkoutInput.value; // dd/mm/yyyy
-            
+
             console.log('📝 Input parameters:', { hotel, checkinBR, checkoutBR });
-            
+
             // Validate inputs
             if (!checkinBR || !checkoutBR) {
                 alert('Por favor, selecione as datas de check-in e check-out');
                 return;
             }
-            
+
             // Convert Brazilian date format (dd/mm/yyyy) to ISO 8601 (yyyy-mm-dd)
             const formatDateToISO = (dateStr) => {
                 const parts = dateStr.split('/');
@@ -227,35 +226,35 @@
                 const [day, month, year] = parts;
                 return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
             };
-            
+
             const checkin = formatDateToISO(checkinBR);
             const checkout = formatDateToISO(checkoutBR);
-            
+
             if (!checkin || !checkout) {
                 alert('Formato de data inválido. Use dd/mm/aaaa');
                 return;
             }
-            
+
             console.log('✅ Dates converted to ISO format:', { checkin, checkout });
-            
+
             // STEP 3: Show loading state when button is clicked
             const submitButton = document.getElementById('search-button');
             const originalText = submitButton.textContent;
             submitButton.textContent = '🔍 Buscando...';
             submitButton.disabled = true;
-            
+
             // Hide previous results
             const resultsContainer = document.getElementById('results-container');
             const hotelsCardsContainer = document.getElementById('hotels-cards-container');
             resultsContainer.style.display = 'none';
             hotelsCardsContainer.innerHTML = '';
-            
+
             try {
                 // STEP 4: POST the data to API (using GET as per API spec)
                 const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}`;
                 console.log('🌐 API Request URL:', apiUrl);
                 console.log('📤 Posting data to API...');
-                
+
                 const response = await fetch(apiUrl, {
                     method: 'GET',
                     headers: {
@@ -263,31 +262,31 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                
+
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                
+
                 // STEP 5: Fetch the API data
                 console.log('📥 Fetching API response...');
                 const result = await response.json();
                 console.log('✅ API Response received:', result);
-                
+
                 if (!result.success) {
                     throw new Error(result.error || 'API returned error');
                 }
-                
+
                 // STEP 6: Show the formatted data in the textarea
                 console.log('📊 Formatting and displaying results...');
                 displayResults(result, checkinBR, checkoutBR, hotel);
-                
+
             } catch (error) {
                 console.error('❌ Search failed:', error);
-                
+
                 // Display error in textarea
                 resultsTextarea.value = `❌ ERRO NA BUSCA\n\n${error.message}\n\nPor favor, tente novamente.`;
                 resultsContainer.style.display = 'block';
-                
+
                 alert(`Erro na busca: ${error.message}`);
             } finally {
                 // Restore button state
@@ -295,26 +294,26 @@
                 submitButton.disabled = false;
             }
         });
-        
+
         // Function to display formatted results in hotel cards
         function displayResults(apiResponse, checkinBR, checkoutBR, hotel) {
             const resultsContainer = document.getElementById('results-container');
             const hotelsCardsContainer = document.getElementById('hotels-cards-container');
-            
+
             const { data } = apiResponse;
             const { result } = data;
-            
+
             // Clear previous results
             hotelsCardsContainer.innerHTML = '';
-            
+
             // Detailed Vacancies
             if (data.hasAvailability && result.vacancies && result.vacancies.length > 0) {
                 // Group by hotel
                 const hotelGroups = result.hotelGroups || {};
-                
+
                 Object.keys(hotelGroups).forEach((hotelName, index) => {
                     const vacancies = hotelGroups[hotelName];
-                    
+
                     // Create hotel card
                     const hotelCard = document.createElement('div');
                     hotelCard.style.cssText = `
@@ -324,7 +323,7 @@
                         padding: 20px;
                         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                     `;
-                    
+
                     // Hotel header
                     const hotelHeader = document.createElement('div');
                     hotelHeader.style.cssText = `
@@ -345,7 +344,7 @@
                         </span>
                     `;
                     hotelCard.appendChild(hotelHeader);
-                    
+
                     // Vacancies list
                     const vacanciesList = document.createElement('div');
                     vacanciesList.style.cssText = `
@@ -353,7 +352,7 @@
                         flex-direction: column;
                         gap: 10px;
                     `;
-                    
+
                     vacancies.forEach((vacancy, vIndex) => {
                         const vacancyItem = document.createElement('div');
                         vacancyItem.style.cssText = `
@@ -371,9 +370,9 @@
                         `;
                         vacanciesList.appendChild(vacancyItem);
                     });
-                    
+
                     hotelCard.appendChild(vacanciesList);
-                    
+
                     // FlexReserva link
                     const flexReservaLink = document.createElement('a');
                     flexReservaLink.href = 'https://www.flexreserva.org.br/';
@@ -399,10 +398,10 @@
                         flexReservaLink.style.background = '#2196F3';
                     });
                     hotelCard.appendChild(flexReservaLink);
-                    
+
                     hotelsCardsContainer.appendChild(hotelCard);
                 });
-                
+
             } else {
                 // Show empty state
                 const emptyState = document.createElement('div');
@@ -421,28 +420,28 @@
                 `;
                 hotelsCardsContainer.appendChild(emptyState);
             }
-            
+
             // Display results
             resultsContainer.style.display = 'block';
-            
+
             // Scroll to results
             resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
+
             console.log('✅ Results displayed successfully');
         }
-        
-        // Copy results to clipboard
-        document.addEventListener('DOMContentLoaded', () => {
+
+        // Copy results to clipboard (moved to top level to avoid nesting)
+        const setupResultsButtons = () => {
             const copyBtn = document.getElementById('copy-results-btn');
             const clearBtn = document.getElementById('clear-results-btn');
             const hotelsCardsContainer = document.getElementById('hotels-cards-container');
             const resultsContainer = document.getElementById('results-container');
-            
+
             if (copyBtn) {
                 copyBtn.addEventListener('click', () => {
                     // Get all text content from hotel cards
                     const textContent = hotelsCardsContainer.innerText;
-                    
+
                     // Copy to clipboard
                     navigator.clipboard.writeText(textContent).then(() => {
                         const originalText = copyBtn.textContent;
@@ -458,7 +457,7 @@
                         textarea.select();
                         document.execCommand('copy');
                         document.body.removeChild(textarea);
-                        
+
                         const originalText = copyBtn.textContent;
                         copyBtn.textContent = '✅ Copiado!';
                         setTimeout(() => {
@@ -467,19 +466,26 @@
                     });
                 });
             }
-            
+
             if (clearBtn) {
                 clearBtn.addEventListener('click', () => {
                     hotelsCardsContainer.innerHTML = '';
                     resultsContainer.style.display = 'none';
                 });
             }
-        });
+        };
+
+        // Call setup function after DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupResultsButtons);
+        } else {
+            setupResultsButtons();
+        }
     </script>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-<script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());

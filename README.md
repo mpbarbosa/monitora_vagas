@@ -2,8 +2,8 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 1.4.0  
-**Last Updated**: 2025-12-10  
+**Version**: 1.4.1  
+**Last Updated**: 2025-12-11  
 **Status**: ✅ Production Ready
 
 ---
@@ -18,6 +18,7 @@
 - [Documentation](#documentation)
 - [Dependencies](#dependencies)
 - [Development](#development)
+- [Changelog](#changelog)
 - [License](#license)
 
 ---
@@ -133,6 +134,7 @@ monitora_vagas/
 │   ├── BACKGROUND_COLOR_TEST_README.md
 │   └── TEST_SUITE_README.md
 │
+├── CHANGELOG.md               # Version history and release notes
 ├── QUICKSTART.md              # Quick start guide
 ├── fix-css-symlink.sh         # CSS symlink fix script
 ├── run-tests.sh               # Main test runner
@@ -427,6 +429,18 @@ chore: maintenance tasks
 
 ---
 
+## 📝 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.
+
+### Latest Changes (v1.4.1)
+
+- 🐛 **Fixed critical JavaScript syntax error** in `public/index.html`
+- ✅ **Fixed HTML validation issues** (invalid tags, indentation, trailing whitespace)
+- 📦 **Improved code quality** with comprehensive linting fixes
+
+---
+
 ## 📜 License
 
 This project is part of the Monitora Vagas ecosystem.
@@ -450,5 +464,5 @@ This project is part of the Monitora Vagas ecosystem.
 ---
 
 **✅ Built with ❤️ by the Monitora Vagas Team**  
-**📅 Last Updated**: 2025-12-09  
-**🚀 Version**: 1.3.1
+**📅 Last Updated**: 2025-12-11  
+**🚀 Version**: 1.4.1
