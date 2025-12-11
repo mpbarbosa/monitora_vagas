@@ -125,16 +125,20 @@ run_tests() {
     # Set environment variables
     export PYTHONPATH="${PYTHONPATH}:$(pwd)"
     
+    # Change to tests directory if not already there
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+    
     # Run tests with different options based on arguments
     if [ "$1" = "headless" ]; then
         print_status "Running tests in headless mode..."
         export HEADLESS=true
-        python3 test_web_ui.py
+        python3 "$SCRIPT_DIR/test_web_ui.py"
     elif [ "$1" = "verbose" ]; then
         print_status "Running tests in verbose mode..."
-        python3 test_web_ui.py -v
+        python3 "$SCRIPT_DIR/test_web_ui.py" -v
     else
-        python3 test_web_ui.py
+        python3 "$SCRIPT_DIR/test_web_ui.py"
     fi
     
     TEST_EXIT_CODE=$?
@@ -147,8 +151,8 @@ run_tests() {
     fi
     
     # Check for screenshots
-    if [ -d "test_screenshots" ]; then
-        SCREENSHOT_COUNT=$(ls test_screenshots/*.png 2>/dev/null | wc -l)
+    if [ -d "$PROJECT_ROOT/test_screenshots" ]; then
+        SCREENSHOT_COUNT=$(ls "$PROJECT_ROOT/test_screenshots"/*.png 2>/dev/null | wc -l)
         if [ $SCREENSHOT_COUNT -gt 0 ]; then
             print_status "Screenshots saved in test_screenshots/ directory ($SCREENSHOT_COUNT files)"
         fi

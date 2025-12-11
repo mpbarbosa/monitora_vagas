@@ -37,13 +37,19 @@ class TradeUnionWebUITest(unittest.TestCase):
         cls.server_port = cls.find_free_port()
         cls.base_url = f"http://localhost:{cls.server_port}"
         
-        # Get the project root directory (where test file is located)
-        cls.project_root = Path(__file__).parent
-        cls.src_dir = cls.project_root / "src"
+        # Get the project root directory (parent of tests directory)
+        cls.test_dir = Path(__file__).parent
+        cls.project_root = cls.test_dir.parent
+        cls.src_dir = cls.project_root / "public"
         
         print(f"Project root: {cls.project_root}")
         print(f"Source directory: {cls.src_dir}")
         print(f"Starting server on port {cls.server_port}")
+        
+        # Verify the directory exists
+        if not cls.src_dir.exists():
+            print(f"WARNING: Source directory not found: {cls.src_dir}")
+            print(f"Files in project root: {list(cls.project_root.iterdir())}")
         
         # Custom HTTP handler to serve from src directory
         class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
