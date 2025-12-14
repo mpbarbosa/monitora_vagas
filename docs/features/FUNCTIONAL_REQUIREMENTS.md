@@ -277,7 +277,7 @@ The system shall control the enabled/disabled state of the "Hóspedes" (Guests) 
 - **Portuguese (pt-BR):** "Hóspedes"
 - **English (en-US):** "Guests"
 
-#### FR-004A Test Coverage
+#### FR-004A Test Coverage (Guest Filter State Management)
 
 To be defined:
 
@@ -286,7 +286,7 @@ To be defined:
 - `test_guest_filter_visual_indication`
 - `test_guest_filter_interaction_blocked_when_disabled`
 
-#### Dependencies
+#### FR-004A Dependencies
 
 - FR-005: Vacancy Search Execution (triggers state change)
 - FR-004: Guest Counter (component being controlled)
@@ -396,7 +396,7 @@ if (capacity !== null && capacity < guestCount) {
    └─> Show previously hidden cards if capacity >= 2
 ```
 
-#### Implementation Notes
+#### FR-004B Implementation Notes
 
 **Event Listener:**
 
@@ -492,9 +492,9 @@ function applyGuestFilter(selectedGuestCount) {
 - **Debouncing:** Not required (instant feedback desired)
 - **Large Results:** Filter should handle 50+ cards efficiently
 
-#### Edge Cases
+#### FR-004B Edge Cases
 
-#### Case 1: Missing Capacity Information
+##### Case 1: Missing Capacity Information
 
 ```text
 "ANDRADE 13/12 - 15/12 - 24 Quarto(s)"  // No "até N pessoas"
@@ -535,7 +535,7 @@ function applyGuestFilter(selectedGuestCount) {
 - **Portuguese (pt-BR):** "até {N} pessoa(s)"
 - **English (en-US):** "up to {N} guest(s)" (future support)
 
-#### Test Coverage
+#### FR-004B Test Coverage (Client-Side Guest Number Filtering)
 
 ✅ Implemented (100% pass rate):
 
@@ -548,7 +548,7 @@ function applyGuestFilter(selectedGuestCount) {
 - `test_guest_number_filter.py::test_07_filter_uses_css_display`
 - `test_guest_number_filter.py::test_08_filter_handles_missing_capacity`
 
-#### Implementation Files
+#### FR-004B Implementation Files
 
 - **Module:** `public/js/guestNumberFilter.js` (233 lines)
 - **Integration:** `public/js/guestCounter.js` (event handlers)
@@ -556,28 +556,25 @@ function applyGuestFilter(selectedGuestCount) {
 - **CSS:** `public/css/main.css` (transitions, styling)
 - **Tests:** `tests/test_guest_number_filter.py` (8 test cases)
 
-#### Dependencies
+#### FR-004B Dependencies
 
 - FR-004: Guest Counter (provides guest count value)
 - FR-004A: Guest Filter State Management (enables filter after search)
 - FR-006: Results Display (provides vacancy cards to filter)
 
-#### Related Requirements
-
-- FR-004: Guest count manipulation
-- FR-004A: Filter state management
-- FR-006: Results display structure
-
-#### Integration Points
+#### FR-004B Integration Points
 
 **Guest Counter Component:**
+
 - Triggers `applyGuestFilter()` on +/- button click
 
 **Results Display Component:**
+
 - Provides hotel cards with consistent class names
 - Vacancy items must have parseable text content
 
 **Search Component:**
+
 - Initial filter application after results loaded
 
 ---
@@ -703,7 +700,7 @@ The system shall allow users to copy search results to the clipboard.
 - **AC-007.6:** Clicking button copies formatted results to clipboard
 - **AC-007.7:** Button has descriptive text content in HTML
 
-#### User Interaction
+#### FR-007 User Interaction
 
 1. User clicks "📋 Copiar Resultados" button
 2. System copies formatted hotel vacancy data to clipboard
@@ -741,7 +738,7 @@ The system shall allow users to clear displayed search results.
 
 - **AC-008.8:** Button has descriptive text content in HTML
 
-#### User Interaction
+#### FR-008 User Interaction
 
 1. User clicks "🗑️ Limpar Resultados" button
 2. System hides results container

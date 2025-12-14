@@ -2,8 +2,8 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 1.4.2  
-**Last Updated**: 2025-12-11  
+**Version**: 1.5.0  
+**Last Updated**: 2025-12-14  
 **Status**: ✅ Production Ready
 
 ---
@@ -266,8 +266,11 @@ For detailed testing documentation, see:
 
 ### API Documentation
 
-- **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - API integration guide
-- **[API Client Usage](docs/api/API_CLIENT_USAGE_REVIEW.md)** - How to use API client
+- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 **Complete API reference** (START HERE)
+- **[API Documentation Index](docs/api/README.md)** - API docs overview
+- **[API Integration Update](docs/api/API_INTEGRATION_UPDATE.md)** - Latest integration guide
+- **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - Integration success stories
+- **[API Client Usage](docs/api/API_CLIENT_USAGE_REVIEW.md)** - Client usage patterns
 - **[Integration Checklist](docs/api/INTEGRATION_CHECKLIST.md)** - Integration steps
 
 ### Architecture

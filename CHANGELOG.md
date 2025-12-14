@@ -5,6 +5,139 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-12-14
+
+### Added
+
+- **Booking Rules Implementation (BR-18, BR-19)**
+  - Client-side validation for holiday package dates
+  - Real-time feedback with color-coded notices
+  - Christmas Package: Dec 22-27 validation
+  - New Year Package: Dec 27-Jan 2 validation
+  - One-click date correction feature
+  - Holiday package banner in search results
+  - Enhanced error handling for booking rule violations
+
+- **Booking Rules Test Suite (25 Tests)**
+  - Created `tests/test_booking_rules.py` (750 lines, 25 automated tests)
+  - Created `tests/run-booking-rules-tests.sh` (executable test runner)
+  - Created `tests/BOOKING_RULES_TEST_SUITE.md` (12KB comprehensive guide)
+  - Created `tests/BOOKING_RULES_QUICK_REFERENCE.md` (4KB quick guide)
+  - Tests cover: Christmas package, New Year package, restricted dates, UI behavior, edge cases
+  - Selenium WebDriver + Python unittest framework
+  - Headless Chrome testing (CI/CD ready)
+  - ~30-45 second test duration
+
+- **Documentation Organization**
+  - Created 7 new category folders in `docs/`
+  - Created `docs/README.md` (10KB navigation index)
+  - Organized 63 documentation files into categories:
+    * features/ (3 files)
+    * styling/ (3 files)
+    * implementation/ (3 files)
+    * specifications/ (5 files)
+    * troubleshooting/ (3 files)
+    * workflows/ (1 file)
+    * testing/ (1 file)
+  - Added comprehensive documentation statistics
+
+- **Comprehensive API Documentation**
+  - Created `docs/api/API_DOCUMENTATION.md` - Complete API reference (19KB)
+  - Created `docs/api/README.md` - API documentation index (4KB)
+  - Covers all API methods: health check, hotel lists, vacancy search, weekend search
+  - Detailed request/response formats with JSON examples
+  - Error handling and retry logic documentation
+  - Caching strategy and cache management
+  - 4 practical usage examples
+  - Testing guidelines and troubleshooting section
+
+### Changed
+
+- **index.html - Booking Rules Compliance**
+  - Added holiday package detection (Christmas & New Year)
+  - Added client-side validation before API calls
+  - Enhanced error display for booking rule violations
+  - Added holiday package notice with dynamic styling
+  - Added automatic date correction button
+  - Added help text placeholders for date inputs
+  - Increased from 504 to 552 lines (+48 lines, +9.5%)
+
+- **API Version Updates**
+  - Updated from v1.2.1 to v1.4.1 (busca_vagas API)
+  - Confirmed backward compatibility (no breaking changes)
+  - Added API version history in documentation
+  - Documented holiday booking rules (BR-18, BR-19)
+
+- **API Client Usage Review** (`docs/api/API_CLIENT_USAGE_REVIEW.md`)
+  - Reflects current centralized API client architecture
+  - Documents all 5 API methods with complete signatures
+  - Added retry logic and caching documentation
+  - Includes usage examples for all methods
+  - Documents singleton pattern implementation
+  - Updated best practices section with 6 patterns
+  - Expanded from 235 to 507 lines (+116%)
+  - Updated API version to v1.4.1
+
+- **Tests Documentation**
+  - Updated `tests/README.md` with booking rules tests
+  - Added test coverage statistics (51 total tests)
+  - Added booking rules quick start commands
+  - Updated version to 1.5.0
+
+- **Main README**
+  - Added new API documentation links
+  - Updated version to 1.5.0
+  - Updated last modified date to 2025-12-14
+  - Added booking rules test suite reference
+
+### Technical Implementation
+
+**Booking Rules (BR-18, BR-19):**
+- Christmas Package: Dec 22 → Dec 27 (5 days/4 nights)
+- New Year Package: Dec 27 → Jan 2 (6 days/5 nights)
+- Holiday periods must use exact package dates only
+- Server-side validation (API) + Client-side guidance (UI)
+
+**Test Suite Coverage:**
+- 25 booking rules tests (new)
+- 26 E2E tests (existing)
+- Total: 51 automated tests
+- Categories: Holiday packages, restricted dates, UI, edge cases
+
+**Documentation Structure:**
+- 10 category folders (7 new, 3 existing)
+- 63 total documentation files
+- Comprehensive navigation index
+- Quick reference guides for all major features
+
+### Technical Notes
+
+- busca_vagas API v1.4.1 (released 2025-12-14):
+  - New: Holiday package booking rules (BR-18, BR-19)
+  - New: Enhanced booking validation logic
+  - Backward compatible with v1.2.1+
+  - No breaking changes to endpoints or responses
+  - Documentation: https://github.com/mpbarbosa/busca_vagas
+
+## [1.4.3] - 2025-12-14 (superseded by 1.5.0)
+
+### Documentation Structure
+
+**New Files:**
+- `docs/api/API_DOCUMENTATION.md`: 19KB comprehensive API reference
+- `docs/api/README.md`: 4KB API documentation index
+
+**Documentation Covers:**
+- All 5 API endpoints with detailed specifications
+- API Client class methods and utilities
+- Date formatting requirements (ISO 8601)
+- Response structure for all operations
+- Timeout configurations per operation type
+- Automatic retry with exponential backoff
+- Persistent caching with localStorage
+- Integration testing procedures
+- Common issues and troubleshooting
+
 ## [1.4.6] - 2025-12-11
 
 ### Added

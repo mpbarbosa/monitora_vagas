@@ -226,6 +226,7 @@ python3 test_web_ui.py
 - **Browser Pool:** Reuses instances for 5 minutes
 - **Timeout:** 60 seconds for search operations
 - **Hotel Filter:** `-1` means "All Hotels" (Todas)
+- **API Version:** v1.4.1 (includes booking rules validation)
 
 ---
 

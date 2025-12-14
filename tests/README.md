@@ -2,8 +2,8 @@
 
 > End-to-End testing suite for Monitora Vagas web application
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-12-09
+**Version**: 1.5.0  
+**Last Updated**: 2025-12-14
 
 ---
 
@@ -11,19 +11,37 @@
 
 ```
 tests/
-├── test-index-e2e.py          # Main E2E test suite (26 tests)
-├── run-index-tests.sh         # Shell script test runner
-└── README.md                  # This file
+├── test-index-e2e.py                    # Main E2E test suite (26 tests)
+├── test_booking_rules.py                # NEW: Booking rules test suite (25 tests)
+├── run-index-tests.sh                   # Shell script test runner
+├── run-booking-rules-tests.sh           # NEW: Booking rules test runner
+├── BOOKING_RULES_TEST_SUITE.md          # NEW: Booking rules documentation
+├── BOOKING_RULES_QUICK_REFERENCE.md     # NEW: Quick reference guide
+├── TEST_SUITE_README.md                 # Complete test documentation
+└── README.md                            # This file
 ```
+
+### New Test Suite (v1.5.0)
+**Booking Rules Tests** - Validates BR-18 and BR-19 compliance
+- 25 automated tests for holiday package validation
+- Christmas Package (Dec 22-27) testing
+- New Year Package (Dec 27-Jan 2) testing
+- UI behavior and edge cases
 
 ---
 
 ## 🎯 Quick Start
 
-### Run All Tests
+### Run All E2E Tests
 
 ```bash
 ./run-index-tests.sh
+```
+
+### Run Booking Rules Tests (NEW)
+
+```bash
+./run-booking-rules-tests.sh
 ```
 
 ### Run Specific Tests
@@ -35,8 +53,11 @@ tests/
 # With verbose output
 ./run-index-tests.sh --verbose
 
-# Individual test
+# Individual E2E test
 python3 test-index-e2e.py IndexE2ETests.test_04_hotel_select_has_options
+
+# Individual booking rules test
+python3 -m unittest test_booking_rules.BookingRulesTestSuite.test_01_valid_christmas_package
 ```
 
 ---
@@ -88,7 +109,7 @@ Init    Port 3001     Verify Running   26 Tests   Stop Server
 
 ## 📊 Test Coverage
 
-### 26 Comprehensive Tests
+### E2E Tests - 26 Comprehensive Tests
 
 **Page Load Tests** (6)
 - ✅ test_01_page_loads_successfully
@@ -97,6 +118,28 @@ Init    Port 3001     Verify Running   26 Tests   Stop Server
 - ✅ test_04_hotel_select_has_options
 - ✅ test_05_checkin_input_accepts_text
 - ✅ test_06_checkout_input_accepts_text
+
+### Booking Rules Tests - 25 Comprehensive Tests (NEW)
+
+**BR-18: Holiday Packages** (8 tests)
+- ✅ Valid Christmas Package (Dec 22-27)
+- ✅ Valid New Year Package (Dec 27-Jan 2)
+- ⚠️ Invalid partial Christmas dates
+- ⚠️ Invalid partial New Year dates
+- ⚠️ Invalid early/late check-in/out
+
+**BR-19: Restricted Dates** (4 tests)
+- ✅ December 27 overlap handling
+- ⚠️ Mid-period dates blocked
+- ⚠️ January restricted dates
+
+**UI & Edge Cases** (13 tests)
+- ✅ Notice visibility and styling
+- ✅ Non-holiday dates work normally
+- ✅ Empty dates and boundaries
+- ✅ Year boundary handling
+
+**Total Tests: 51** (26 E2E + 25 Booking Rules)
 
 **Form Interaction Tests** (5)
 - ✅ test_07_guest_counter_plus_button_exists
