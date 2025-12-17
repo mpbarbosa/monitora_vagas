@@ -1,63 +1,120 @@
-# Quick Start - Run the Project
+# Quick Start Guide
 
-## The Problem You're Experiencing
+**Version:** 2.0.0  
+**Last Updated:** December 16, 2025
 
-Your `index.html` appears **unstyled** because `public/css` is a **symbolic link** that doesn't work when you open files directly in the browser (`file://` protocol).
+## 🚀 Start the Application (30 seconds)
 
-## Quick Fix (30 seconds)
-
-### Option 1: Start a Web Server (Recommended) ⭐
-
-```bash
-cd /home/mpb/Documents/GitHub/monitora_vagas/public
-python3 -m http.server 8080
-```
-
-Then open in your browser: **http://localhost:8080**
-
-✅ **CSS will load!**  
-✅ **Page will be styled!**
-
----
-
-### Option 2: Copy CSS Files (If you can't use a server)
+### Using npm (Recommended) ⭐
 
 ```bash
 cd /home/mpb/Documents/GitHub/monitora_vagas
-./fix-css-symlink.sh
+npm start
 ```
 
-Follow the prompts, then open `public/index.html` normally.
+Then open in your browser: **http://localhost:8080/public/index.html**
+
+### Using Python Directly
+
+```bash
+cd /home/mpb/Documents/GitHub/monitora_vagas
+python3 -m http.server 8080
+```
+
+Then open in your browser: **http://localhost:8080/public/index.html**
+
+✅ **CSS loads correctly!**  
+✅ **JavaScript modules work!**  
+✅ **API integration functional!**
 
 ---
 
-## Why This Happens
+## 📝 What Changed in v2.0
 
+### No More Symlinks! 🎉
+
+**Before (v1.x):**
 ```
 public/
 ├── index.html
-├── css -> ../src/styles    ← This is a SYMLINK (symbolic link)
+├── css -> ../src/styles    ← Symlink (caused issues)
+├── js -> ../src/js         ← Symlink (caused issues)
 └── vendor/
+```
 
-Browsers block symlinks with file:// URLs for security
-Web servers (http://) handle symlinks correctly
+**After (v2.0):**
+```
+public/
+├── index.html              ← References ../src/styles directly
+├── vendor/                 ← Static third-party libraries
+└── (no symlinks!)
+
+src/
+├── styles/                 ← All CSS source files
+├── js/                     ← All JavaScript source files
+├── services/               ← API services
+└── ...                     ← Other source code
+```
+
+### Key Improvements
+
+✅ **No symlink issues** - Direct file references  
+✅ **Better organization** - Clear src/ and public/ separation  
+✅ **Follows best practices** - Modern web development structure  
+✅ **Build-ready** - Prepared for Vite/Webpack integration
+
+---
+
+## 📁 File Locations
+
+### HTML File
+```
+📄 public/index.html
+```
+
+### CSS Files
+```
+📁 src/styles/
+   ├── main.css              # Main stylesheet
+   ├── index-page.css        # Index page styles
+   ├── components/           # Component styles
+   ├── global/               # Global styles
+   └── pages/                # Page styles
+```
+
+### JavaScript Files
+```
+📁 src/js/
+   ├── hotelSearch.js        # Hotel search logic
+   ├── guestCounter.js       # Guest counter
+   ├── guestNumberFilter.js  # Guest filter
+   ├── global.js             # Global initialization
+   └── noScrollInterface.js  # No-scroll UI
+```
+
+### Services
+```
+📁 src/services/
+   ├── apiClient.js          # API client
+   └── hotelCache.js         # Hotel caching
 ```
 
 ---
 
-## Available Commands
+## 🌐 Available Commands
 
 ```bash
-# Start development server
-cd public && python3 -m http.server 8080
+# Start development server (npm)
+npm start
 
-# Alternative: Node.js server
-npx http-server public -p 8080
+# Start development server (Python)
+python3 -m http.server 8080
 
-# Alternative: PHP server
-cd public && php -S localhost:8080
+# Run tests
+npm test
 
-# Fix symlink permanently
+# Lint Markdown files
+npm run lint:md
 ./fix-css-symlink.sh
 ```
 

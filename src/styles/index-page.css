@@ -1,0 +1,322 @@
+/* Index Page Specific Styles - Separated from index.html */
+
+/* Hotel Selection */
+.hotel-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hotel-select-input {
+    flex: 1;
+}
+
+#refresh-hotels-btn {
+    padding: 8px 12px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#refresh-hotels-btn:hover {
+    background: #45a049;
+}
+
+#refresh-hotels-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Helper text */
+.help-text {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+.help-text.success {
+    color: #4CAF50;
+}
+
+.help-text.warning {
+    color: #FF9800;
+}
+
+.help-text.error {
+    color: #f44336;
+}
+
+/* Holiday Package Notice */
+.holiday-package-notice {
+    display: none;
+    margin-top: 10px;
+    padding: 12px;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+}
+
+.holiday-package-notice.visible {
+    display: block;
+}
+
+.holiday-package-title {
+    color: #856404;
+}
+
+.holiday-package-text {
+    margin: 5px 0 0 0;
+    color: #856404;
+    font-size: 14px;
+}
+
+/* Results Container */
+.results-container {
+    display: none;
+    margin-top: 30px;
+}
+
+.results-container.visible {
+    display: block;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.results-header h3 {
+    color: #333;
+    margin: 0;
+}
+
+.results-counter {
+    color: #666;
+    font-size: 14px;
+    display: none;
+}
+
+.results-counter.visible {
+    display: block;
+}
+
+/* Hotels Cards Container */
+.hotels-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Hotel Card */
+.hotel-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.hotel-icon {
+    font-size: 24px;
+}
+
+.hotel-name {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.vacancy-count {
+    margin-left: auto;
+    background: #4CAF50;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Vacancies List */
+.vacancies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vacancy-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #555;
+}
+
+.vacancy-number {
+    font-weight: 600;
+    color: #333;
+    margin-right: 8px;
+}
+
+/* FlexReserva Link */
+.flex-reserva-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #2196F3;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.flex-reserva-link:hover {
+    background: #1976D2;
+}
+
+/* Holiday Package Banner */
+.holiday-package-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.package-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.package-icon {
+    font-size: 36px;
+}
+
+.package-info {
+    flex: 1;
+}
+
+.package-title {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.package-description {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+/* Empty State */
+.empty-state {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-state-title {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 20px;
+}
+
+.empty-state-message {
+    margin: 0;
+    color: #666;
+}
+
+/* Error State */
+.error-state {
+    background: white;
+    border: 2px solid #f44336;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.error-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.error-state-title {
+    margin: 0 0 10px 0;
+    color: #f44336;
+    font-size: 20px;
+}
+
+.error-state-message {
+    margin: 0;
+    color: #666;
+}
+
+.error-state-details {
+    margin-top: 10px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Action Buttons */
+.results-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.results-action-btn {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+#copy-results-btn {
+    background: #4CAF50;
+}
+
+#copy-results-btn:hover {
+    background: #45a049;
+}
+
+#clear-results-btn {
+    background: #f44336;
+}
+
+#clear-results-btn:hover {
+    background: #da190b;
+}

@@ -1,9 +1,23 @@
 # Monitora Vagas Documentation
 
-**Last Updated:** 2025-12-14  
-**Version:** 1.4.3
+**Last Updated:** 2025-12-16  
+**Version:** 2.0.0
 
 Welcome to the Monitora Vagas documentation. This directory contains comprehensive documentation organized by category for easy navigation.
+
+---
+
+## 🆕 v2.0 Updates
+
+**New Documentation:**
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Comprehensive folder structure guide
+- [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary
+
+**Major Changes:**
+- Removed all symlinks from project
+- Reorganized folder structure following best practices
+- Applied HTML/CSS/JS separation principles
+- See [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) for details
 
 ---
 
@@ -82,6 +96,24 @@ Technical implementation details and code-level documentation.
 - Caching strategies (localStorage)
 - Date handling (ISO 8601)
 - Performance optimizations
+
+---
+
+### 📁 Project Structure & Organization
+
+**Root-level Documentation:**
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Comprehensive folder structure guide (14KB) ⭐
+- [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary (8KB) 🆕
+
+**Related Guides:**
+- [../.github/FOLDER_STRUCTURE_GUIDE.md](../.github/FOLDER_STRUCTURE_GUIDE.md) - Best practices guide
+- [../.github/HTML_CSS_JS_SEPARATION.md](../.github/HTML_CSS_JS_SEPARATION.md) - Separation principles
+
+**Topics:**
+- Folder organization and naming conventions
+- Static vs. source file separation
+- Build configuration and tooling
+- Migration from v1.x to v2.0
 
 ---
 

@@ -107,12 +107,9 @@ class BookingRulesTestSuite(unittest.TestCase):
         checkin_input = self.driver.find_element(By.ID, 'input-checkin')
         checkout_input = self.driver.find_element(By.ID, 'input-checkout')
         
-        # Clear and set dates
-        checkin_input.clear()
-        checkin_input.send_keys(checkin)
-        
-        checkout_input.clear()
-        checkout_input.send_keys(checkout)
+        # Set dates using JavaScript to avoid issues with date input formatting
+        self.driver.execute_script("arguments[0].value = arguments[1];", checkin_input, checkin)
+        self.driver.execute_script("arguments[0].value = arguments[1];", checkout_input, checkout)
         
         # Trigger change events
         self.driver.execute_script("arguments[0].dispatchEvent(new Event('change'));", checkin_input)
@@ -155,7 +152,7 @@ class BookingRulesTestSuite(unittest.TestCase):
         
         # Check notice content
         notice_text = self.get_notice_text()
-        self.assertIn("Natal", notice_text.lower(), "Should mention Christmas (Natal)")
+        self.assertIn("natal", notice_text.lower(), "Should mention Christmas (Natal)")
         self.assertIn("✅", notice_text, "Should show success checkmark")
         
         print(f"   ✅ Valid Christmas dates accepted: {checkin} → {checkout}")

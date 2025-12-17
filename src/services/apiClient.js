@@ -2,8 +2,11 @@
  * API Client Service for Busca Vagas API
  * Based on official API documentation v1.2.1
  * @see https://github.com/mpbarbosa/busca_vagas/blob/main/docs/API_CLIENT_DOCUMENTATION.md
+ * 
+ * Uses ibira.js for API fetching and caching
  */
 
+import { IbiraAPIFetchManager } from 'ibira.js';
 import { getEnvironment } from '../config/environment.js';
 import { hotelCache } from './hotelCache.js';
 
@@ -20,10 +23,17 @@ export class BuscaVagasAPIClient {
             weekendSearch: 600000 // 10 minutes for weekend search
         };
         
-        this.cache = new Map();
-        this.cacheDuration = 5 * 60 * 1000; // 5 minutes
+        // Initialize ibira.js API fetch manager
+        this.fetchManager = new IbiraAPIFetchManager({
+            maxCacheSize: 100,
+            cacheExpiration: 5 * 60 * 1000, // 5 minutes
+            maxRetries: 3,
+            retryDelay: 1000,
+            retryMultiplier: 2
+        });
         
         console.log(`✅ BuscaVagasAPIClient initialized with base URL: ${this.apiBaseUrl}`);
+        console.log(`✅ Using ibira.js for API fetching and caching`);
     }
 
     /**
@@ -36,33 +46,14 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Generic fetch wrapper with timeout and error handling
+     * Generic fetch wrapper using ibira.js with timeout and error handling
      * @param {string} url - Full URL to fetch
-     * @param {object} options - Fetch options
      * @param {number} timeoutMs - Timeout in milliseconds
      * @returns {Promise<object>} API response
      */
-    async fetchWithTimeout(url, options = {}, timeoutMs = this.timeout.default) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-        
+    async fetchWithTimeout(url, timeoutMs = this.timeout.default) {
         try {
-            const response = await fetch(url, {
-                ...options,
-                signal: controller.signal,
-                headers: {
-                    'Accept': 'application/json',
-                    ...options.headers
-                }
-            });
-            
-            clearTimeout(timeoutId);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            
-            const result = await response.json();
+            const result = await this.fetchManager.fetch(url, { timeout: timeoutMs });
             
             // API returns { success: boolean, data: {...}, error?: string }
             if (result.success === false) {
@@ -72,39 +63,11 @@ export class BuscaVagasAPIClient {
             return result;
             
         } catch (error) {
-            clearTimeout(timeoutId);
-            
             if (error.name === 'AbortError') {
                 throw new Error('Request timeout - please try again');
             }
             
             throw error;
-        }
-    }
-
-    /**
-     * Retry fetch with exponential backoff
-     * @param {Function} fetchFn - Function that returns a fetch promise
-     * @param {number} maxRetries - Maximum number of retry attempts
-     * @returns {Promise<object>} API response
-     */
-    async fetchWithRetry(fetchFn, maxRetries = 3) {
-        for (let attempt = 0; attempt < maxRetries; attempt++) {
-            try {
-                return await fetchFn();
-            } catch (error) {
-                const isLastAttempt = attempt === maxRetries - 1;
-                const isServerError = error.message.includes('HTTP 5');
-                
-                if (isLastAttempt || !isServerError) {
-                    throw error;
-                }
-                
-                // Exponential backoff: 1s, 2s, 4s
-                const waitTime = Math.pow(2, attempt) * 1000;
-                console.log(`⚠️ Retry attempt ${attempt + 1}/${maxRetries} after ${waitTime}ms...`);
-                await new Promise(resolve => setTimeout(resolve, waitTime));
-            }
         }
     }
 
@@ -116,7 +79,7 @@ export class BuscaVagasAPIClient {
         const url = `${this.apiBaseUrl}/health`;
         console.log(`🏥 Checking API health: ${url}`);
         
-        const result = await this.fetchWithTimeout(url);
+        const result = await this.fetchWithTimeout(url, this.timeout.default);
         console.log(`✅ API Status: ${result.status}`);
         
         return result;
@@ -159,9 +122,7 @@ export class BuscaVagasAPIClient {
         const url = `${this.apiBaseUrl}/vagas/hoteis/scrape`;
         console.log(`🔍 Scraping hotel list: ${url}`);
         
-        const result = await this.fetchWithRetry(
-            () => this.fetchWithTimeout(url, {}, this.timeout.search)
-        );
+        const result = await this.fetchWithTimeout(url, this.timeout.search);
         
         console.log(`✅ Scraped ${result.data.length} options from AFPESP (includes "Todas")`);
         return result.data;
@@ -187,9 +148,7 @@ export class BuscaVagasAPIClient {
         console.log(`🔍 Searching vacancies: ${url}`);
         console.log(`📅 Check-in: ${checkin}, Check-out: ${checkout}, Hotel: ${hotel}`);
         
-        const result = await this.fetchWithRetry(
-            () => this.fetchWithTimeout(url, {}, this.timeout.search)
-        );
+        const result = await this.fetchWithTimeout(url, this.timeout.search);
         
         // According to DATA_FLOW_DOCUMENTATION.md:
         // Response: { success, method, headlessMode, resourceSavings, hotelFilter, data: { success, date, hasAvailability, result } }
@@ -216,9 +175,7 @@ export class BuscaVagasAPIClient {
         console.log(`🔍 Searching ${count} weekend(s): ${url}`);
         console.log(`⏳ This may take several minutes (up to 10 minutes)...`);
         
-        const result = await this.fetchWithRetry(
-            () => this.fetchWithTimeout(url, {}, this.timeout.weekendSearch)
-        );
+        const result = await this.fetchWithTimeout(url, this.timeout.weekendSearch);
         
         const { data } = result;
         console.log(`✅ Weekend search completed:`);
@@ -232,7 +189,7 @@ export class BuscaVagasAPIClient {
      * Clear all caches (in-memory and persistent)
      */
     clearCache() {
-        this.cache.clear();
+        this.fetchManager.clearCache();
         hotelCache.clear();
         console.log('🗑️ All caches cleared');
     }
@@ -241,7 +198,10 @@ export class BuscaVagasAPIClient {
      * Get cache statistics
      */
     getCacheStats() {
-        return hotelCache.getStats();
+        return {
+            ...hotelCache.getStats(),
+            ibiraStats: this.fetchManager.getStats()
+        };
     }
     
     /**

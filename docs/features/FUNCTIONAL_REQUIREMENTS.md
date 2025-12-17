@@ -2,8 +2,8 @@
 
 ## Hotel Vacancy Search Application
 
-**Document Version:** 1.2  
-**Date:** 2025-12-11  
+**Document Version:** 1.3  
+**Date:** 2025-12-16  
 **Author:** Monitora Vagas Development Team  
 **Application:** index.html - Hotel Vacancy Search Interface  
 
@@ -753,6 +753,459 @@ The system shall allow users to clear displayed search results.
 
 ---
 
+### FR-008A: Search Lifecycle UI State Management
+
+**Priority:** High  
+**Status:** Planned
+
+#### FR-008A Description
+
+The system shall manage the enabled/disabled state of UI elements throughout the search lifecycle, controlling user interactions based on application state to prevent invalid operations and ensure proper workflow.
+
+#### FR-008A Acceptance Criteria
+
+**Initial Page Load State:**
+
+- **AC-008A.1:** On page load completion, all input elements (hotel selector, date inputs, guest counter) shall be enabled
+- **AC-008A.2:** Search button ("busca vagas") shall be enabled
+- **AC-008A.3:** "Start New Search" button shall not be visible
+- **AC-008A.4:** Clear Results and Copy Results buttons shall not be visible
+
+**During Search Execution:**
+
+- **AC-008A.5:** When search starts, hotel selector shall be disabled
+- **AC-008A.6:** When search starts, check-in date input shall be disabled
+- **AC-008A.7:** When search starts, check-out date input shall be disabled
+- **AC-008A.8:** When search starts, guest counter controls shall be disabled
+- **AC-008A.9:** When search starts, search button shall be disabled
+- **AC-008A.10:** Search button text shall change to "🔍 Buscando..." during search
+- **AC-008A.11:** Progress bar shall be visible during search execution
+- **AC-008A.12:** All disabled elements shall have visual indication (reduced opacity, disabled cursor)
+
+**After Search Completion:**
+
+- **AC-008A.13:** Hotel selector shall remain disabled after search completes
+- **AC-008A.14:** Check-in date input shall remain disabled after search completes
+- **AC-008A.15:** Check-out date input shall remain disabled after search completes
+- **AC-008A.16:** Guest counter controls shall be enabled after search completes
+- **AC-008A.17:** Search button ("busca vagas") shall remain disabled after search completes
+- **AC-008A.18:** "Start New Search" button shall become visible and enabled after search completes
+- **AC-008A.19:** Copy Results button shall become visible and enabled if results exist
+- **AC-008A.20:** Clear Results button shall become visible and enabled if results exist
+- **AC-008A.21:** Results container shall be displayed with search results
+
+**Guest Number Filtering (Post-Search):**
+
+- **AC-008A.22:** User can interact with guest counter to filter displayed results
+- **AC-008A.23:** Guest number changes shall trigger client-side filtering (FR-004B)
+- **AC-008A.24:** Filtering shall not trigger a new API call
+- **AC-008A.25:** Date inputs shall remain disabled during filtering operations
+
+**Start New Search Action:**
+
+- **AC-008A.26:** "Start New Search" button shall have distinct ID "start-new-search-btn"
+- **AC-008A.27:** Clicking "Start New Search" shall clear all displayed results
+- **AC-008A.28:** Clicking "Start New Search" shall hide results container
+- **AC-008A.29:** Clicking "Start New Search" shall enable hotel selector
+- **AC-008A.30:** Clicking "Start New Search" shall enable check-in date input
+- **AC-008A.31:** Clicking "Start New Search" shall enable check-out date input
+- **AC-008A.32:** Clicking "Start New Search" shall enable search button ("busca vagas")
+- **AC-008A.33:** Clicking "Start New Search" shall hide "Start New Search" button
+- **AC-008A.34:** Clicking "Start New Search" shall hide Copy Results and Clear Results buttons
+- **AC-008A.35:** Clicking "Start New Search" shall reset guest counter to default value (2)
+- **AC-008A.36:** Clicking "Start New Search" shall disable guest counter
+- **AC-008A.36:** Clicking "Start New Search" shall preserve previously selected values in date inputs
+- **AC-008A.37:** Clicking "Start New Search" shall return application to initial ready state
+
+#### FR-008A Business Rules
+
+**State Transitions:**
+
+1. **Initial State (Page Load):**
+   - All inputs: Enabled
+   - Guest filter: Disabled
+   - Search button: Enabled
+   - Start New Search button: Hidden
+   - Action buttons: Hidden
+
+2. **Searching State:**
+   - All inputs: Disabled
+   - Search button: Disabled (text: "🔍 Buscando...")
+   - Start New Search button: Hidden
+   - Progress bar: Visible
+
+3. **Results State:**
+   - Hotel/Date inputs: Disabled
+   - Guest counter: Enabled (for filtering)
+   - Search button: Disabled
+   - Start New Search button: Visible and enabled
+   - Action buttons: Visible and enabled
+
+4. **Reset to Initial State:**
+   - Triggered by "Start New Search" button
+   - Returns to state #1
+
+**Button Distinctions:**
+
+- **"busca vagas" (Search Button):**
+  - Primary search trigger
+  - Initiates API call with current parameters
+  - Enabled only in Initial State
+  - Disabled during and after search
+
+- **"Start New Search" Button:**
+  - Secondary action button
+  - Resets application to allow new search
+  - Visible only in Results State
+  - Clears results and re-enables inputs
+
+#### FR-008A User Flow
+
+**Primary Search Flow:**
+
+```text
+1. Page loads → Initial State (all inputs enabled)
+2. User fills hotel, check-in, check-out dates
+3. User clicks "busca vagas" button
+4. → Transition to Searching State (all disabled)
+5. API call executes, progress updates
+6. Search completes with results
+7. → Transition to Results State
+8. User can filter by guest number (dates locked)
+9. User clicks "Start New Search"
+10. → Transition back to Initial State
+11. Cycle repeats
+```
+
+**State Diagram:**
+
+```text
+┌─────────────────┐
+│  Initial State  │ ◄──────────────────┐
+│  (All Enabled)  │                    │
+└────────┬────────┘                    │
+         │ "busca vagas"               │
+         ▼                              │
+┌─────────────────┐                    │
+│ Searching State │                    │
+│ (All Disabled)  │                    │
+└────────┬────────┘                    │
+         │ Search completes            │
+         ▼                              │
+┌─────────────────┐                    │
+│  Results State  │                    │
+│ (Dates Locked)  │                    │
+│ (Guest Enabled) │                    │
+└────────┬────────┘                    │
+         │ "Start New Search"          │
+         └─────────────────────────────┘
+```
+
+#### FR-008A Visual Indicators
+
+**Disabled State Styling:**
+
+- Opacity: 0.5 or 0.6
+- Cursor: not-allowed
+- Background: Greyed or muted
+- Pointer-events: none (optional)
+- Border: Lighter shade
+
+**Enabled State Styling:**
+
+- Opacity: 1.0
+- Cursor: pointer (on interactive elements)
+- Background: Normal colors
+- Pointer-events: auto
+- Border: Normal colors
+
+**Button State Indicators:**
+
+```text
+Search Button States:
+├─ Enabled:  "busca vagas" (blue/primary color)
+├─ Disabled: "busca vagas" (greyed out)
+└─ Active:   "🔍 Buscando..." (blue, disabled)
+
+Start New Search Button:
+├─ Hidden: display: none
+└─ Visible: "🔄 Nova Busca" (green/secondary color)
+```
+
+#### FR-008A Implementation Notes
+
+**Element Selectors:**
+
+```javascript
+// Input elements to control
+const hotelSelect = document.getElementById('hotel-select');
+const checkinInput = document.getElementById('input-checkin');
+const checkoutInput = document.getElementById('input-checkout');
+const guestPlusBtn = document.querySelector('.guest-plus-btn');
+const guestMinusBtn = document.querySelector('.guest-minus-btn');
+
+// Button elements
+const searchBtn = document.getElementById('search-btn');
+const startNewSearchBtn = document.getElementById('start-new-search-btn');
+const copyResultsBtn = document.getElementById('copy-results-btn');
+const clearResultsBtn = document.getElementById('clear-results-btn');
+```
+
+**State Management Functions:**
+
+```javascript
+// Set Initial State
+function setInitialState() {
+    enableElement(hotelSelect);
+    enableElement(checkinInput);
+    enableElement(checkoutInput);
+    enableElement(guestPlusBtn);
+    enableElement(guestMinusBtn);
+    enableElement(searchBtn);
+    hideElement(startNewSearchBtn);
+    hideElement(copyResultsBtn);
+    hideElement(clearResultsBtn);
+}
+
+// Set Searching State
+function setSearchingState() {
+    disableElement(hotelSelect);
+    disableElement(checkinInput);
+    disableElement(checkoutInput);
+    disableElement(guestPlusBtn);
+    disableElement(guestMinusBtn);
+    disableElement(searchBtn);
+    searchBtn.textContent = '🔍 Buscando...';
+}
+
+// Set Results State
+function setResultsState() {
+    // Keep disabled: hotel, dates, search button
+    disableElement(hotelSelect);
+    disableElement(checkinInput);
+    disableElement(checkoutInput);
+    disableElement(searchBtn);
+    
+    // Enable guest controls
+    enableElement(guestPlusBtn);
+    enableElement(guestMinusBtn);
+    
+    // Show action buttons
+    showElement(startNewSearchBtn);
+    showElement(copyResultsBtn);
+    showElement(clearResultsBtn);
+}
+
+// Helper functions
+function enableElement(element) {
+    element.disabled = false;
+    element.style.opacity = '1';
+    element.style.cursor = 'pointer';
+}
+
+function disableElement(element) {
+    element.disabled = true;
+    element.style.opacity = '0.5';
+    element.style.cursor = 'not-allowed';
+}
+
+function showElement(element) {
+    element.style.display = 'block'; // or 'inline-block'
+}
+
+function hideElement(element) {
+    element.style.display = 'none';
+}
+```
+
+**Event Handlers:**
+
+```javascript
+// On search start
+searchBtn.addEventListener('click', function() {
+    setSearchingState();
+    // Execute search...
+});
+
+// On search complete
+document.addEventListener('search:complete', function() {
+    setResultsState();
+});
+
+// On start new search
+startNewSearchBtn.addEventListener('click', function() {
+    clearResults();
+    setInitialState();
+    resetGuestCounter(); // Reset to default value
+});
+```
+
+#### FR-008A Accessibility Considerations
+
+**ARIA Attributes:**
+
+```html
+<!-- Disabled state -->
+<input id="input-checkin" type="date" aria-disabled="true" disabled>
+
+<!-- Button state -->
+<button id="search-btn" aria-busy="true" disabled>🔍 Buscando...</button>
+
+<!-- Hidden elements -->
+<button id="start-new-search-btn" aria-hidden="true" style="display: none">
+```
+
+**Screen Reader Announcements:**
+
+```javascript
+// Announce state changes
+const ariaLive = document.getElementById('aria-live-region');
+
+// On search start
+ariaLive.textContent = 'Busca iniciada, aguarde...';
+
+// On search complete
+ariaLive.textContent = 'Busca concluída, resultados disponíveis';
+
+// On start new search
+ariaLive.textContent = 'Nova busca disponível';
+```
+
+**Keyboard Navigation:**
+
+- Disabled elements should not be focusable (tabindex="-1")
+- Focus should move to "Start New Search" button when search completes
+- "Start New Search" should return focus to hotel selector
+
+#### FR-008A Error Handling
+
+**Search Error State:**
+
+- If search fails, transition to Results State without results
+- Show error message
+- Enable "Start New Search" button to allow retry
+- Keep date inputs disabled (user must start new search)
+
+**Implementation:**
+
+```javascript
+document.addEventListener('search:error', function() {
+    setResultsState(); // Enable start new search
+    showError('Erro durante a busca');
+});
+```
+
+#### FR-008A Test Coverage
+
+To be implemented:
+
+- `test_ui_state_initial_load`
+- `test_ui_state_during_search`
+- `test_ui_state_after_search_complete`
+- `test_ui_state_guest_filtering_enabled`
+- `test_ui_state_dates_locked_after_search`
+- `test_start_new_search_button_visibility`
+- `test_start_new_search_resets_state`
+- `test_start_new_search_clears_results`
+- `test_start_new_search_enables_inputs`
+- `test_search_button_vs_start_new_search_distinction`
+- `test_disabled_visual_indicators`
+- `test_button_state_transitions`
+- `test_keyboard_navigation_disabled_state`
+- `test_aria_attributes_state_changes`
+
+#### FR-008A Dependencies
+
+- FR-004B: Client-Side Guest Number Filtering (guest counter remains enabled in Results State)
+- FR-005: Vacancy Search Execution (search button triggers state transitions)
+- FR-006: Results Display (results container visibility management)
+- FR-007: Copy Results to Clipboard (button visibility in Results State)
+- FR-008: Clear Results (button visibility in Results State)
+
+#### FR-008A Related Requirements
+
+- FR-001: Hotel Selection (hotel selector state management)
+- FR-002: Check-In Date Selection (date input state management)
+- FR-003: Check-Out Date Selection (date input state management)
+- FR-004: Guest Counter (guest controls state management)
+
+#### FR-008A Integration Points
+
+**Search Workflow Integration:**
+
+1. `handleSearchStart()` → Call `setSearchingState()`
+2. `handleSearchComplete()` → Call `setResultsState()`
+3. `handleSearchError()` → Call `setResultsState()`
+4. Start New Search click → Call `setInitialState()`
+
+**Component Coordination:**
+
+- SearchForm: Manages search button state
+- GuestCounter: Enabled in Results State only
+- ProgressBar: Visible in Searching State only
+- ResultsContainer: Visible in Results State only
+
+#### FR-008A User Experience Benefits
+
+1. **Prevents Invalid Actions:**
+   - Cannot modify dates during or after search
+   - Cannot trigger multiple concurrent searches
+   - Cannot filter results before search completes
+
+2. **Clear Workflow Guidance:**
+   - Visual indicators show what actions are available
+   - Disabled elements prevent confusion
+   - Button states guide user through workflow
+
+3. **Data Consistency:**
+   - Results always match the displayed search parameters
+   - Cannot partially modify search without full reset
+   - Clear distinction between filtering and new search
+
+4. **Error Prevention:**
+   - Disabled buttons prevent accidental clicks
+   - State transitions ensure proper sequence
+   - Reset functionality provides clean slate
+
+#### FR-008A Example Scenarios
+
+**Scenario 1: First Search**
+
+```text
+1. User loads page → All inputs enabled
+2. User selects hotel "ANDRADE"
+3. User selects dates: 2025-12-20 to 2025-12-22
+4. User clicks "busca vagas" → All disabled
+5. Search executes → Progress shown
+6. Results display → Dates locked, guest enabled
+7. User adjusts guest count 2 → 3 → Results filtered
+8. User clicks "Start New Search" → All re-enabled
+```
+
+**Scenario 2: Multiple Searches**
+
+```text
+1. Search completed, viewing results
+2. User wants different dates
+3. User clicks "Start New Search"
+4. Date inputs now enabled
+5. User changes dates to 2025-12-25 to 2025-12-27
+6. User clicks "busca vagas"
+7. New search executes with updated dates
+```
+
+**Scenario 3: Search Error**
+
+```text
+1. User initiates search
+2. API call fails
+3. Error message displayed
+4. "Start New Search" button available
+5. User can retry with same or different parameters
+```
+
+---
+
 ### FR-009: Responsive Design
 
 **Priority:** High  
@@ -1137,13 +1590,14 @@ The application requires:
 | Form Interaction      | 5          | Complete |
 | Form Validation       | 2          | Complete |
 | UI Components         | 3          | Complete |
+| UI State Management   | 14         | Planned  |
 | Responsive Design     | 3          | Complete |
 | Accessibility         | 3          | Complete |
 | JavaScript Integration| 2          | Complete |
 | Performance           | 2          | Complete |
 | Integration           | 2          | Complete |
 | Date Picker           | 10         | Complete |
-| **Total**             | **36**     | **100%** |
+| **Total**             | **50**     | **72%** |
 
 ---
 
@@ -1224,6 +1678,7 @@ The application requires:
 | 1.0     | 2025-12-09 | Monitora Vagas Team | Initial functional requirements document        |
 | 1.1     | 2025-12-11 | Monitora Vagas Team | Added FR-004A: Guest Filter State Management    |
 | 1.2     | 2025-12-11 | Monitora Vagas Team | Added FR-004B: Client-Side Guest Number Filtering |
+| 1.3     | 2025-12-16 | Monitora Vagas Team | Added FR-008A: Search Lifecycle UI State Management |
 
 ---
 

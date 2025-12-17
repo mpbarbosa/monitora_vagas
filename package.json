@@ -3,9 +3,13 @@
   "version": "2.0.0",
   "description": "Modern web application for trade union hotel search platform",
   "main": "src/main.js",
+  "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 8080 --directory public",
-    "test": "python3 tests/simple_ui_test.py"
+    "dev": "python3 -m http.server 8080",
+    "start": "python3 -m http.server 8080",
+    "build": "echo 'Build step - copy files if needed'",
+    "test": "python3 tests/simple_ui_test.py",
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore legacy"
   },
   "keywords": [
     "trade-union",
@@ -17,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ibira.js": "github:mpbarbosa/ibira.js",
     "selenium-webdriver": "^4.15.0"
   },
   "devDependencies": {

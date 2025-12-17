@@ -10,7 +10,7 @@
     <meta name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
 
     <!-- Title Page-->
-    <title>Monitor de Vagas - AFPESP Hotels</title>
+    <title>Busca de Vagas em Hotéis Sindicais - AFPESP</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -23,7 +23,8 @@
     <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css/main.css" rel="stylesheet" media="all">
+    <link href="src/styles/main.css" rel="stylesheet" media="all">
+    <link href="src/styles/index-page.css" rel="stylesheet" media="all">
     <meta name="robots" content="noindex, follow">
 </head>
 
@@ -35,39 +36,30 @@
                     <form class="form" method="POST" action="#">
                         <div class="input-group input--large">
                             <label class="label">Hotéis</label>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <select class="input--style-1" name="going" id="hotel-select" style="flex: 1;">
+                            <div class="hotel-select-wrapper">
+                                <select class="input--style-1 hotel-select-input" name="going" id="hotel-select">
                                     <option value="">Loading hotels...</option>
                                 </select>
-                                <button type="button" id="refresh-hotels-btn"
-                                        style="padding: 8px 12px;
-                                               background: #4CAF50;
-                                               color: white;
-                                               border: none;
-                                               border-radius: 4px;
-                                               cursor: pointer;
-                                               font-size: 14px;
-                                               white-space: nowrap;"
-                                        title="Refresh hotel list">
+                                <button type="button" id="refresh-hotels-btn" title="Refresh hotel list">
                                     🔄
                                 </button>
                             </div>
-                            <small id="cache-status" style="display: block; margin-top: 5px; color: #666; font-size: 12px;"></small>
+                            <small id="cache-status" class="help-text"></small>
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-In</label>
                             <input class="input--style-1" type="date" name="checkin" id="input-checkin">
-                            <small id="checkin-help" style="display: block; margin-top: 5px; color: #666; font-size: 12px;"></small>
+                            <small id="checkin-help" class="help-text"></small>
                         </div>
                         <div class="input-group input--medium">
                             <label class="label">Check-Out</label>
                             <input class="input--style-1" type="date" name="checkout" id="input-checkout">
-                            <small id="checkout-help" style="display: block; margin-top: 5px; color: #666; font-size: 12px;"></small>
+                            <small id="checkout-help" class="help-text"></small>
                         </div>
                         <!-- Holiday Package Info -->
-                        <div id="holiday-package-notice" style="display: none; margin-top: 10px; padding: 12px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">
-                            <strong style="color: #856404;">🎄 Pacote de Feriado:</strong>
-                            <p id="holiday-package-text" style="margin: 5px 0 0 0; color: #856404; font-size: 14px;"></p>
+                        <div id="holiday-package-notice" class="holiday-package-notice">
+                            <strong class="holiday-package-title">🎄 Pacote de Feriado:</strong>
+                            <p id="holiday-package-text" class="holiday-package-text"></p>
                         </div>
                         <div class="input-group input--medium" id="guest-filter-card">
                             <label class="label">hóspedes</label>
@@ -83,38 +75,24 @@
                     </form>
 
                     <!-- Results Display Area -->
-                    <div id="results-container" style="display: none; margin-top: 30px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <h3 style="color: #333; margin: 0;">📊 Resultados da Busca</h3>
-                            <div id="results-counter" style="color: #666; font-size: 14px; display: none;">
+                    <div id="results-container" class="results-container">
+                        <div class="results-header">
+                            <h3>📊 Resultados da Busca</h3>
+                            <div id="results-counter" class="results-counter">
                                 <!-- Counter will be updated by filter -->
                             </div>
                         </div>
 
                         <!-- Hotels Cards Container -->
-                        <div id="hotels-cards-container" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div id="hotels-cards-container" class="hotels-cards-container">
                             <!-- Hotel cards will be inserted here dynamically -->
                         </div>
 
-                        <div style="margin-top: 20px; display: flex; gap: 10px;">
-                            <button id="copy-results-btn"
-                                    style="padding: 10px 20px;
-                                           background: #4CAF50;
-                                           color: white;
-                                           border: none;
-                                           border-radius: 5px;
-                                           cursor: pointer;
-                                           font-size: 14px;">
+                        <div class="results-actions">
+                            <button id="copy-results-btn" class="results-action-btn">
                                 📋 Copiar Resultados
                             </button>
-                            <button id="clear-results-btn"
-                                    style="padding: 10px 20px;
-                                           background: #f44336;
-                                           color: white;
-                                           border: none;
-                                           border-radius: 5px;
-                                           cursor: pointer;
-                                           font-size: 14px;">
+                            <button id="clear-results-btn" class="results-action-btn">
                                 🗑️ Limpar Resultados
                             </button>
                         </div>
@@ -134,408 +112,20 @@
     <script src="vendor/datepicker/moment.min.js"></script>
     <script src="vendor/datepicker/daterangepicker.js"></script>
 
-    <!-- Main JS-->
-    <script src="js/global.js"></script>
-    <script src="js/guestNumberFilter.js"></script>
-    <script src="js/guestCounter.js"></script>
-    <script type="module">
-        import { apiClient } from './services/apiClient.js';
-
-        // Function to update cache status display
-        function updateCacheStatus() {
-            const stats = apiClient.getCacheStats();
-            const statusEl = document.getElementById('cache-status');
-
-            if (stats.exists && !stats.expired) {
-                statusEl.textContent = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
-                statusEl.style.color = '#4CAF50';
-            } else if (stats.exists && stats.expired) {
-                statusEl.textContent = `⏰ Cache expired, fetching fresh data...`;
-                statusEl.style.color = '#FF9800';
-            } else {
-                statusEl.textContent = '';
-            }
+    <!-- Import Map for ES6 Modules -->
+    <script type="importmap">
+    {
+        "imports": {
+            "ibira.js": "./node_modules/ibira.js/src/ibira.js"
         }
-
-        // Function to load hotels (with optional force refresh)
-        async function loadHotels(forceRefresh = false) {
-            const select = document.getElementById('hotel-select');
-            const refreshBtn = document.getElementById('refresh-hotels-btn');
-
-            try {
-                // Disable refresh button during load
-                if (refreshBtn) {
-                    refreshBtn.disabled = true;
-                    refreshBtn.textContent = '⏳';
-                }
-
-                select.innerHTML = '<option value="">Loading...</option>';
-
-                const hotels = await apiClient.getHotels(forceRefresh);
-
-                select.innerHTML = '<option value="">Select a hotel</option>';
-                hotels.forEach(hotel => {
-                    const option = document.createElement('option');
-                    option.value = hotel.hotelId;
-                    option.textContent = hotel.name;
-                    select.appendChild(option);
-                });
-
-                updateCacheStatus();
-
-            } catch (error) {
-                console.error('Error loading hotels:', error);
-                select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
-
-                const statusEl = document.getElementById('cache-status');
-                statusEl.textContent = `❌ Error: ${error.message}`;
-                statusEl.style.color = '#f44336';
-            } finally {
-                // Re-enable refresh button
-                if (refreshBtn) {
-                    refreshBtn.disabled = false;
-                    refreshBtn.textContent = '🔄';
-                }
-            }
-        }
-
-        // Load hotels on page load
-        loadHotels();
-
-        // Refresh button handler
-        document.getElementById('refresh-hotels-btn')?.addEventListener('click', () => {
-            console.log('🔄 Manual refresh requested');
-            loadHotels(true); // Force refresh
-        });
-
-        // Handle form submission
-        const form = document.querySelector('.form');
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            console.log('🚀 Starting vacancy search flow...');
-
-            // STEP 2: Get input parameters from web page UI
-            const hotelSelect = document.getElementById('hotel-select');
-            const checkinInput = document.getElementById('input-checkin');
-            const checkoutInput = document.getElementById('input-checkout');
-
-            const hotel = hotelSelect.value || '-1'; // Default to all hotels
-            const checkin = checkinInput.value; // yyyy-mm-dd (ISO format from date input)
-            const checkout = checkoutInput.value; // yyyy-mm-dd (ISO format from date input)
-
-            console.log('📝 Input parameters:', { hotel, checkin, checkout });
-
-            // Validate inputs
-            if (!checkin || !checkout) {
-                alert('Por favor, selecione as datas de check-in e check-out');
-                return;
-            }
-
-            console.log('✅ Dates in ISO format:', { checkin, checkout });
-
-            // STEP 3: Show loading state when button is clicked
-            const submitButton = document.getElementById('search-button');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = '🔍 Buscando...';
-            submitButton.disabled = true;
-
-            // Hide previous results
-            const resultsContainer = document.getElementById('results-container');
-            const hotelsCardsContainer = document.getElementById('hotels-cards-container');
-            resultsContainer.style.display = 'none';
-            hotelsCardsContainer.innerHTML = '';
-
-            try {
-                // STEP 4: POST the data to API (using GET as per API spec)
-                const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}`;
-                console.log('🌐 API Request URL:', apiUrl);
-                console.log('📤 Posting data to API...');
-
-                const response = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                // STEP 5: Fetch the API data
-                console.log('📥 Fetching API response...');
-                const result = await response.json();
-                console.log('✅ API Response received:', result);
-
-                // Handle HTTP errors (including booking rule violations)
-                if (!response.ok) {
-                    // Check if it's a booking rule validation error
-                    if (response.status === 400 && result.code) {
-                        throw createBookingRuleError(result);
-                    }
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                if (!result.success) {
-                    throw new Error(result.error || 'API returned error');
-                }
-
-                // STEP 6: Show the formatted data in the textarea
-                console.log('📊 Formatting and displaying results...');
-                displayResults(result, checkin, checkout, hotel);
-
-            } catch (error) {
-                console.error('❌ Search failed:', error);
-
-                // Display error in results container with special handling for booking rules
-                if (error.isBookingRuleError) {
-                    hotelsCardsContainer.innerHTML = createBookingRuleErrorHTML(error);
-                } else {
-                    hotelsCardsContainer.innerHTML = `
-                        <div style="background: white; border: 2px solid #f44336; border-radius: 12px; padding: 40px; text-align: center; color: #666;">
-                            <div style="font-size: 48px; margin-bottom: 16px;">❌</div>
-                            <h4 style="margin: 0 0 10px 0; color: #f44336; font-size: 20px;">Erro na Busca</h4>
-                            <p style="margin: 0; color: #666;">${error.message}</p>
-                            <p style="margin-top: 10px; color: #999; font-size: 14px;">Por favor, tente novamente.</p>
-                        </div>
-                    `;
-                }
-                resultsContainer.style.display = 'block';
-
-                // Don't show alert for booking rule errors (already shown in results)
-                if (!error.isBookingRuleError) {
-                    alert(`Erro na busca: ${error.message}`);
-                }
-            } finally {
-                // Restore button state
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-                
-                // Enable guest filter after search completion (FR-004A)
-                if (window.GuestFilterStateManager) {
-                    window.GuestFilterStateManager.enable();
-                    console.log('✅ Guest filter enabled after search completion (FR-004A)');
-                }
-            }
-        });
-
-        // Function to display formatted results in hotel cards
-        function displayResults(apiResponse, checkin, checkout, hotel) {
-            const resultsContainer = document.getElementById('results-container');
-            const hotelsCardsContainer = document.getElementById('hotels-cards-container');
-
-            const { data, holidayPackage } = apiResponse;
-            const { result } = data;
-
-            // Clear previous results
-            hotelsCardsContainer.innerHTML = '';
-
-            // Show holiday package banner if present
-            if (holidayPackage) {
-                const packageBanner = document.createElement('div');
-                packageBanner.style.cssText = `
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    border-radius: 12px;
-                    padding: 20px;
-                    margin-bottom: 20px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                `;
-                
-                const icon = holidayPackage.type === 'CHRISTMAS' ? '🎄' : '🎆';
-                packageBanner.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span style="font-size: 36px;">${icon}</span>
-                        <div style="flex: 1;">
-                            <h3 style="margin: 0 0 5px 0; font-size: 20px; font-weight: 600;">
-                                ${holidayPackage.name}
-                            </h3>
-                            <p style="margin: 0; opacity: 0.9; font-size: 14px;">
-                                ${holidayPackage.duration} • Pacote completo de feriado
-                            </p>
-                        </div>
-                    </div>
-                `;
-                hotelsCardsContainer.appendChild(packageBanner);
-            }
-
-            // Detailed Vacancies
-            if (data.hasAvailability && result.vacancies && result.vacancies.length > 0) {
-                // Group by hotel
-                const hotelGroups = result.hotelGroups || {};
-
-                Object.keys(hotelGroups).forEach((hotelName, index) => {
-                    const vacancies = hotelGroups[hotelName];
-
-                    // Create hotel card
-                    const hotelCard = document.createElement('div');
-                    hotelCard.className = 'hotel-card';  // Class for filtering
-                    hotelCard.style.cssText = `
-                        background: white;
-                        border: 2px solid #e0e0e0;
-                        border-radius: 12px;
-                        padding: 20px;
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                    `;
-
-                    // Hotel header
-                    const hotelHeader = document.createElement('div');
-                    hotelHeader.style.cssText = `
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        margin-bottom: 15px;
-                        padding-bottom: 15px;
-                        border-bottom: 2px solid #f0f0f0;
-                    `;
-                    hotelHeader.innerHTML = `
-                        <span style="font-size: 24px;">🏨</span>
-                        <h4 style="margin: 0; color: #333; font-size: 18px; font-weight: 600;">
-                            ${hotelName}
-                        </h4>
-                        <span style="margin-left: auto; background: #4CAF50; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500;">
-                            ${vacancies.length} ${vacancies.length === 1 ? 'vaga' : 'vagas'}
-                        </span>
-                    `;
-                    hotelCard.appendChild(hotelHeader);
-
-                    // Vacancies list
-                    const vacanciesList = document.createElement('div');
-                    vacanciesList.style.cssText = `
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                    `;
-
-                    vacancies.forEach((vacancy, vIndex) => {
-                        const vacancyItem = document.createElement('div');
-                        vacancyItem.className = 'vacancy-item';  // Class for filtering
-                        vacancyItem.setAttribute('data-vacancy-text', vacancy);  // Store original text
-                        vacancyItem.style.cssText = `
-                            padding: 12px;
-                            background: #f8f9fa;
-                            border-radius: 8px;
-                            border-left: 4px solid #4CAF50;
-                            font-family: 'Roboto', sans-serif;
-                            font-size: 14px;
-                            color: #555;
-                        `;
-                        vacancyItem.innerHTML = `
-                            <span style="font-weight: 600; color: #333; margin-right: 8px;">${vIndex + 1}.</span>
-                            ${vacancy}
-                        `;
-                        vacanciesList.appendChild(vacancyItem);
-                    });
-
-                    hotelCard.appendChild(vacanciesList);
-
-                    // FlexReserva link
-                    const flexReservaLink = document.createElement('a');
-                    flexReservaLink.href = 'https://www.flexreserva.org.br/';
-                    flexReservaLink.target = '_blank';
-                    flexReservaLink.rel = 'noopener noreferrer';
-                    flexReservaLink.textContent = 'Ir para o FlexReserva';
-                    flexReservaLink.style.cssText = `
-                        display: inline-block;
-                        margin-top: 15px;
-                        padding: 10px 20px;
-                        background: #2196F3;
-                        color: white;
-                        text-decoration: none;
-                        border-radius: 6px;
-                        font-weight: 500;
-                        font-size: 14px;
-                        transition: background 0.3s;
-                    `;
-                    flexReservaLink.addEventListener('mouseover', () => {
-                        flexReservaLink.style.background = '#1976D2';
-                    });
-                    flexReservaLink.addEventListener('mouseout', () => {
-                        flexReservaLink.style.background = '#2196F3';
-                    });
-                    hotelCard.appendChild(flexReservaLink);
-
-                    hotelsCardsContainer.appendChild(hotelCard);
-                });
-
-            } else {
-                // Show empty state
-                const emptyState = document.createElement('div');
-                emptyState.style.cssText = `
-                    background: white;
-                    border: 2px solid #e0e0e0;
-                    border-radius: 12px;
-                    padding: 40px;
-                    text-align: center;
-                    color: #666;
-                `;
-                emptyState.innerHTML = `
-                    <div style="font-size: 48px; margin-bottom: 16px;">😔</div>
-                    <h4 style="margin: 0 0 10px 0; color: #333; font-size: 20px;">Sem vagas disponíveis</h4>
-                    <p style="margin: 0; color: #666;">Não há quartos disponíveis para o período selecionado.</p>
-                `;
-                hotelsCardsContainer.appendChild(emptyState);
-            }
-
-            // Display results
-            resultsContainer.style.display = 'block';
-
-            // Scroll to results
-            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            console.log('✅ Results displayed successfully');
-        }
-
-        // Copy results to clipboard (moved to top level to avoid nesting)
-        const setupResultsButtons = () => {
-            const copyBtn = document.getElementById('copy-results-btn');
-            const clearBtn = document.getElementById('clear-results-btn');
-            const hotelsCardsContainer = document.getElementById('hotels-cards-container');
-            const resultsContainer = document.getElementById('results-container');
-
-            if (copyBtn) {
-                copyBtn.addEventListener('click', () => {
-                    // Get all text content from hotel cards
-                    const textContent = hotelsCardsContainer.innerText;
-
-                    // Copy to clipboard
-                    navigator.clipboard.writeText(textContent).then(() => {
-                        const originalText = copyBtn.textContent;
-                        copyBtn.textContent = '✅ Copiado!';
-                        setTimeout(() => {
-                            copyBtn.textContent = originalText;
-                        }, 2000);
-                    }).catch(err => {
-                        // Fallback for older browsers
-                        const textarea = document.createElement('textarea');
-                        textarea.value = textContent;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
-
-                        const originalText = copyBtn.textContent;
-                        copyBtn.textContent = '✅ Copiado!';
-                        setTimeout(() => {
-                            copyBtn.textContent = originalText;
-                        }, 2000);
-                    });
-                });
-            }
-
-            if (clearBtn) {
-                clearBtn.addEventListener('click', () => {
-                    hotelsCardsContainer.innerHTML = '';
-                    resultsContainer.style.display = 'none';
-                });
-            }
-        };
-
-        // Call setup function after DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setupResultsButtons);
-        } else {
-            setupResultsButtons();
-        }
+    }
     </script>
+
+    <!-- Main JS-->
+    <script src="src/js/global.js"></script>
+    <script src="src/js/guestNumberFilter.js"></script>
+    <script src="src/js/guestCounter.js"></script>
+    <script type="module" src="src/js/hotelSearch.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>

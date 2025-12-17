@@ -2,9 +2,9 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 1.5.0  
-**Last Updated**: 2025-12-14  
-**Status**: ✅ Production Ready
+**Version**: 2.0.0  
+**Last Updated**: 2025-12-16  
+**Status**: ✅ Production Ready (Restructured)
 
 ---
 
@@ -66,36 +66,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 
 ```
 monitora_vagas/
-├── docs/                      # Documentation
-│   ├── api/                   # API integration docs
-│   ├── architecture/          # Architecture decisions
-│   ├── guides/                # Development guides
-│   ├── COLORLIB_TEMPLATE_APPLICATION.md
-│   ├── CSS_FOLDERS_COMPARISON.md
-│   ├── CSS_LOADING_ISSUE.md
-│   ├── HOTEL_CACHE_IMPLEMENTATION.md
-│   ├── HOTEL_CACHE_QUICK_REFERENCE.md
-│   ├── HTML_SPECIFICATION.md
-│   └── SPECIFICATION_FORMATS_README.md
-│
-├── legacy/                    # Legacy code and prompts
-│   └── prompts/               # Workflow templates
-│
-├── public/                    # Web application
-│   ├── config/                # Environment configuration
-│   │   ├── environment.js     # Environment detection
-│   │   └── constants.js       # Application constants
-│   │
-│   ├── css/                   # Stylesheets
-│   │   └── main.css          # Main application styles
-│   │
-│   ├── js/                    # JavaScript modules
-│   │   ├── global.js         # Global utilities
-│   │   └── guestCounter.js   # Guest counter component
-│   │
-│   ├── services/              # API services
-│   │   └── apiClient.js      # Busca Vagas API client
-│   │
+├── public/                    # Static assets (not processed)
 │   ├── vendor/                # Third-party libraries
 │   │   ├── jquery/           # jQuery
 │   │   ├── bootstrap-wizard/ # Bootstrap Wizard
@@ -103,18 +74,46 @@ monitora_vagas/
 │   │   ├── select2/          # Select2 dropdown
 │   │   ├── font-awesome-4.7/ # Font Awesome icons
 │   │   └── mdi-font/         # Material Design icons
-│   │
-│   ├── index.html            # Main application page
+│   ├── archived-versions/     # Archived HTML versions
+│   ├── index.html            # Main HTML file
 │   ├── sw.js                 # Service worker
 │   └── favicon.ico           # Favicon
 │
-├── src/                       # Source files
-│   ├── services/              # Shared services
-│   │   ├── apiClient.js      # API client service
-│   │   └── hotelCache.js     # Hotel data caching service
+├── src/                       # Source code (processed)
+│   ├── assets/                # Dynamic assets
+│   │   ├── fonts/            # Web fonts
+│   │   ├── icons/            # SVG icons
+│   │   └── images/           # Images
 │   │
-│   └── styles/                # Source stylesheets
-│       └── main.css          # Main stylesheet
+│   ├── services/              # API & external services
+│   │   ├── apiClient.js      # Busca Vagas API client ✅
+│   │   └── hotelCache.js     # Hotel data caching ✅
+│   │
+│   ├── js/                    # JavaScript modules
+│   │   ├── global.js         # Global initialization ✅
+│   │   ├── guestCounter.js   # Guest counter ✅
+│   │   ├── guestNumberFilter.js # Guest filtering ✅
+│   │   └── hotelSearch.js    # Hotel search logic ✅
+│   │
+│   ├── config/                # Configuration
+│   │   └── environment.js    # Environment vars ✅
+│   │
+│   ├── styles/                # Stylesheets
+│   │   ├── components/       # Component styles
+│   │   ├── global/           # Global styles
+│   │   ├── pages/            # Page styles
+│   │   ├── main.css          # Main stylesheet ✅
+│   │   └── index-page.css    # Index page styles ✅
+│   │
+│   ├── archive/              # 🗄️ Archived code (NOT in use)
+│   │   ├── components/       # Archived UI components
+│   │   ├── pages/           # Archived pages
+│   │   ├── config/          # Archived config
+│   │   ├── utils/           # Archived utils
+│   │   └── README.md        # Archive documentation
+│   │
+│   ├── components/           # Empty (see archive/)
+│   └── utils/                # Empty (see archive/)
 │
 ├── tests/                     # Test suite
 │   ├── e2e/                   # End-to-end tests
@@ -134,12 +133,41 @@ monitora_vagas/
 │   ├── BACKGROUND_COLOR_TEST_README.md
 │   └── TEST_SUITE_README.md
 │
-├── CHANGELOG.md               # Version history and release notes
+├── docs/                       # Comprehensive documentation
+│   ├── PROJECT_STRUCTURE.md  # Detailed structure docs
+│   ├── api/                   # API documentation
+│   ├── architecture/          # Architecture decisions
+│   └── guides/                # Development guides
+│
+├── .github/                   # GitHub-specific files
+│   ├── FOLDER_STRUCTURE_GUIDE.md
+│   └── HTML_CSS_JS_SEPARATION.md
+│
+├── CHANGELOG.md               # Version history
 ├── QUICKSTART.md              # Quick start guide
-├── fix-css-symlink.sh         # CSS symlink fix script
+├── package.json               # Node.js dependencies
+├── vite.config.js             # Vite build config (future)
 ├── run-tests.sh               # Main test runner
 └── requirements.txt           # Python dependencies
 ```
+
+> 📖 **For detailed structure documentation, see:** [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+
+### v2.0 Structure Changes
+
+**What Changed:**
+- ✅ Removed symlinks from `public/` folder
+- ✅ All source code organized in `src/` directory
+- ✅ Clear separation: `public/` for static, `src/` for source
+- ✅ Follows modern web development best practices
+- ✅ Prepared for future build tool integration
+
+**Key Improvements:**
+- Better organization and maintainability
+- Clear separation of concerns
+- Easier testing and development
+- Ready for Vite/Webpack integration
+- No duplicate files or symlinks
 
 ---
 
@@ -160,20 +188,24 @@ monitora_vagas/
    cd monitora_vagas
    ```
 
-2. **Install Python dependencies**
+2. **Install dependencies**
    ```bash
+   # Python dependencies (for testing)
    pip install -r requirements.txt
+   
+   # Node.js dependencies (optional, for future builds)
+   npm install
    ```
 
-3. **Start a web server**
+3. **Start the development server**
    ```bash
-   cd public
-   python3 -m http.server 8080
+   npm start
+   # This runs: python3 -m http.server 8080
    ```
 
 4. **Access the application**
    ```
-   http://localhost:8080/index.html
+   http://localhost:8080/public/index.html
    ```
 
 ### Using with Local API
@@ -278,6 +310,19 @@ For detailed testing documentation, see:
 - **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - Architecture overview
 - **[No-Scroll Principle](docs/guides/NO_SCROLL_PRINCIPLE_GUIDE.md)** - Design philosophy
 - **[Test Results Analysis](docs/architecture/TEST_RESULTS_ANALYSIS.md)** - Test insights
+- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Detailed folder structure
+- **[Restructure Summary](docs/RESTRUCTURE_SUMMARY.md)** - Recent restructuring notes
+
+### Code Quality & Best Practices
+
+- **[High Cohesion Guide](.github/HIGH_COHESION_GUIDE.md)** - High cohesion principles
+- **[Low Coupling Guide](.github/LOW_COUPLING_GUIDE.md)** - Low coupling patterns
+- **[HTML/CSS/JS Separation](.github/HTML_CSS_JS_SEPARATION.md)** - Separation of concerns
+- **[Referential Transparency](.github/REFERENTIAL_TRANSPARENCY.md)** - Pure function guidelines
+
+### Technical Specifications
+
+- **[Main.js Technical Spec](docs/specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)** - Main entry point spec
 
 ### CSS & Styling
 

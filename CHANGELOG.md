@@ -5,6 +5,118 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-12-16
+
+### Major Restructure
+
+This is a major version bump due to significant project structure changes following modern web development best practices.
+
+#### Changed - Project Structure
+
+- **Removed symlinks from `public/` folder**
+  - Deleted `public/css` → `src/styles` symlink
+  - Deleted `public/js` → `src/js` symlink
+  - Deleted `public/services` → `src/services` symlink
+  - Deleted `public/config` → `src/config` symlink
+
+- **Reorganized folder structure**
+  - `public/` now contains ONLY static assets (vendor libs, index.html, favicon, sw.js)
+  - `src/` now contains ALL source code (JS, CSS, components, services, utils)
+  - Clear separation between static and source files
+  - Follows `.github/FOLDER_STRUCTURE_GUIDE.md` principles
+
+- **Updated file references**
+  - HTML now references source files with relative paths (`../src/`)
+  - Maintained ES6 module imports with relative paths
+  - All vendor libraries remain in `public/vendor/`
+
+#### Added
+
+- **New Structure Documentation**
+  - Created `docs/PROJECT_STRUCTURE.md` (14KB) - Comprehensive structure guide
+  - Documents current folder organization
+  - Explains naming conventions and best practices
+  - Includes migration notes from v1.x to v2.0
+
+- **Build Configuration**
+  - Added `vite.config.js` for future build tool integration
+  - Updated `package.json` with new scripts and module type
+  - Added path aliases for cleaner imports (future use)
+
+- **New Source Organization**
+  - Created `src/assets/` with subfolders (fonts, icons, images)
+  - Organized `src/styles/` with subfolders (components, global, pages)
+  - Structured `src/components/` for reusable UI components
+  - Added `src/pages/` for page-level components
+
+#### Improved
+
+- **HTML/CSS/JS Separation**
+  - Applied separation principles from `.github/HTML_CSS_JS_SEPARATION.md`
+  - Moved inline styles from HTML to external CSS (`src/styles/index-page.css`)
+  - Moved inline JavaScript to external module (`src/js/hotelSearch.js`)
+  - Reduced `index.html` from 552 lines to 133 lines (~75% reduction)
+
+- **Code Organization**
+  - All JavaScript now in `src/js/`
+  - All CSS now in `src/styles/`
+  - All services now in `src/services/`
+  - All utilities now in `src/utils/`
+  - All configuration now in `src/config/`
+
+#### Updated
+
+- **Documentation**
+  - Updated `README.md` with new v2.0 structure
+  - Updated version to 2.0.0 across all files
+  - Added restructure notes and migration guide
+  - Updated Quick Start guide with new paths
+
+- **Package Configuration**
+  - Set `"type": "module"` in `package.json`
+  - Updated npm scripts for new structure
+  - Added `dist/` and `build/` to `.gitignore`
+
+### Migration Guide
+
+**From v1.x to v2.0:**
+
+1. **File paths in HTML changed:**
+   ```diff
+   - <link href="css/main.css">
+   + <link href="../src/styles/main.css">
+   
+   - <script src="js/hotelSearch.js">
+   + <script src="../src/js/hotelSearch.js">
+   ```
+
+2. **No more symlinks:**
+   - All symlinks removed
+   - Source files accessed via relative paths
+   - Clearer separation of static vs. source
+
+3. **New folder structure:**
+   - Check `docs/PROJECT_STRUCTURE.md` for details
+   - Source code now in organized `src/` structure
+   - Static files isolated in `public/`
+
+### Breaking Changes
+
+⚠️ **Important:** If you have local modifications:
+
+1. **URL Paths Changed:**
+   - Access application at: `http://localhost:8080/public/index.html` (not `/index.html`)
+   
+2. **Import Paths:**
+   - ES6 module imports still use relative paths
+   - No breaking changes to JavaScript imports
+   
+3. **Symlinks Removed:**
+   - If you relied on symlinks, update your references
+   - Check documentation for new structure
+
+---
+
 ## [1.5.0] - 2025-12-14
 
 ### Added
