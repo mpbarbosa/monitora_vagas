@@ -2,10 +2,21 @@
 // This file handles environment-specific settings
 
 /**
+ * Check if we're in a browser environment
+ */
+const isBrowser = typeof window !== 'undefined' && typeof window.location !== 'undefined';
+
+/**
+ * Check if we're in a Node.js test environment
+ */
+const isNodeTest = typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test';
+
+/**
  * Browser-compatible environment variables with defaults
  * Note: In browsers we don't have access to process.env, so we use defaults
+ * In Node.js (tests), we use process.env
  */
-const ENV_VARS = {
+const ENV_VARS = isBrowser ? {
     // Application environment - detect based on hostname
     // Override for testing: check URL parameter useProductionAPI
     NODE_ENV: (new URLSearchParams(window.location.search).get('useProductionAPI') === 'true') 
@@ -59,6 +70,45 @@ const ENV_VARS = {
     
     // Error tracking
     SENTRY_DSN: ''
+} : {
+    // Node.js environment (for tests and server-side)
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    PORT: process.env.PORT || 3000,
+    API_BASE_URL: process.env.TEST_API_URL || process.env.API_BASE_URL || 'http://localhost:3001/api',
+    
+    // AFPESP website configuration
+    AFPESP_BASE_URL: 'https://www.afpesp.org.br',
+    AFPESP_SEARCH_ENDPOINT: '/turismo/disponibilidade',
+    
+    // Search configuration
+    DEFAULT_WEEKENDS: 8,
+    MAX_WEEKENDS: 12,
+    
+    // Rate limiting
+    RATE_LIMIT_WINDOW: 900000,
+    RATE_LIMIT_MAX_REQUESTS: 10,
+    
+    // Caching
+    CACHE_TTL: 300000,
+    
+    // Logging
+    LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+    
+    // Security
+    CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    
+    // Database
+    DATABASE_URL: process.env.DATABASE_URL || '',
+    
+    // Email service
+    EMAIL_SERVICE_API_KEY: process.env.EMAIL_SERVICE_API_KEY || '',
+    EMAIL_FROM: process.env.EMAIL_FROM || 'noreply@sindicatos-monitor.com',
+    
+    // Analytics
+    ANALYTICS_ID: process.env.ANALYTICS_ID || '',
+    
+    // Error tracking
+    SENTRY_DSN: process.env.SENTRY_DSN || ''
 };
 
 /**

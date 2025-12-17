@@ -305,6 +305,14 @@
     transition: background 0.3s;
 }
 
+#start-new-search-btn {
+    background: #2196F3;
+}
+
+#start-new-search-btn:hover {
+    background: #0b7dda;
+}
+
 #copy-results-btn {
     background: #4CAF50;
 }

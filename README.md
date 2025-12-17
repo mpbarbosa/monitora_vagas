@@ -2,9 +2,9 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 2.0.0  
-**Last Updated**: 2025-12-16  
-**Status**: ✅ Production Ready (Restructured)
+**Version**: 2.1.0  
+**Last Updated**: 2025-12-17  
+**Status**: ✅ Production Ready (Enhanced)
 
 ---
 
@@ -33,8 +33,10 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
 ✅ **API Integration** - Full integration with Busca Vagas API v1.2.1  
 ✅ **Client-side Caching** - Local storage cache for hotel data  
-✅ **Comprehensive Testing** - 26 E2E tests with automatic API management  
-✅ **CSS Test Suite** - Automated CSS loading and styling validation  
+✅ **Search Lifecycle Management** - FR-008A implemented with state-driven UI  
+✅ **Referential Transparency** - Pure functional API client with dependency injection  
+✅ **Comprehensive Testing** - Unit, E2E, and integration test suites  
+✅ **Code Quality** - ESLint with no-this rule for functional programming  
 ✅ **Production Ready** - Deployed and fully functional
 
 ---
@@ -86,14 +88,15 @@ monitora_vagas/
 │   │   └── images/           # Images
 │   │
 │   ├── services/              # API & external services
-│   │   ├── apiClient.js      # Busca Vagas API client ✅
+│   │   ├── apiClient.js      # Busca Vagas API client (pure functional) ✅
 │   │   └── hotelCache.js     # Hotel data caching ✅
 │   │
 │   ├── js/                    # JavaScript modules
 │   │   ├── global.js         # Global initialization ✅
 │   │   ├── guestCounter.js   # Guest counter ✅
 │   │   ├── guestNumberFilter.js # Guest filtering ✅
-│   │   └── hotelSearch.js    # Hotel search logic ✅
+│   │   ├── hotelSearch.js    # Hotel search logic ✅
+│   │   └── searchLifecycleState.js # FR-008A search state management ✅
 │   │
 │   ├── config/                # Configuration
 │   │   └── environment.js    # Environment vars ✅
@@ -117,9 +120,13 @@ monitora_vagas/
 │
 ├── tests/                     # Test suite
 │   ├── e2e/                   # End-to-end tests
+│   │   └── apiClient.e2e.test.js # API client E2E tests
 │   ├── integration/           # Integration tests
 │   ├── unit/                  # Unit tests
 │   │
+│   ├── apiClient.test.js     # API client unit tests (Jest)
+│   ├── test_apiClient_pure_functions.js # Pure function tests
+│   ├── test_search_lifecycle_state.py # FR-008A state tests
 │   ├── test-index-e2e.py     # E2E tests (26 tests)
 │   ├── test-css-loading.py   # CSS loading tests
 │   ├── test-css-automated.py # Automated CSS tests
@@ -127,7 +134,11 @@ monitora_vagas/
 │   │
 │   ├── run-index-tests.sh    # Test runner script
 │   ├── run-css-tests.sh      # CSS test runner
+│   ├── run-fr008a-tests.sh   # FR-008A test runner
 │   │
+│   ├── API_CLIENT_TEST_README.md
+│   ├── E2E_TEST_SUMMARY.md
+│   ├── JEST_SETUP_COMPLETE.md
 │   ├── CSS_TEST_SUITE_README.md
 │   ├── CSS_LOADING_TEST_README.md
 │   ├── BACKGROUND_COLOR_TEST_README.md
@@ -146,6 +157,8 @@ monitora_vagas/
 ├── CHANGELOG.md               # Version history
 ├── QUICKSTART.md              # Quick start guide
 ├── package.json               # Node.js dependencies
+├── eslint.config.js           # ESLint configuration (no-this rule)
+├── jest.config.js             # Jest test configuration
 ├── vite.config.js             # Vite build config (future)
 ├── run-tests.sh               # Main test runner
 └── requirements.txt           # Python dependencies
@@ -239,6 +252,22 @@ monitora_vagas/
 ./run-tests.sh
 ```
 
+**Run API Client Tests (Unit):**
+```bash
+npm run test:api
+```
+
+**Run API Client E2E Tests:**
+```bash
+npm run test:api:e2e
+```
+
+**Run FR-008A Tests:**
+```bash
+cd tests
+./run-fr008a-tests.sh
+```
+
 **Run Index Tests:**
 ```bash
 cd tests
@@ -252,6 +281,18 @@ cd tests
 ```
 
 ### Test Suite
+
+**API Client Tests:**
+- ✅ **Unit Tests** (100+ assertions) - Pure function validators, URL builders, error handlers
+- ✅ **E2E Tests** - Real API integration, cache behavior, error scenarios
+- ✅ **Referential Transparency** - Dependency injection, time-based testing
+
+**Search Lifecycle Tests (FR-008A):**
+- ✅ Initial state validation
+- ✅ During search state management
+- ✅ After search state behavior
+- ✅ "Start New Search" button functionality
+- ✅ Input enable/disable states
 
 **Index Tests (36 tests):**
 - ✅ Page load and rendering (6 tests)
@@ -299,6 +340,10 @@ For detailed testing documentation, see:
 ### API Documentation
 
 - **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 **Complete API reference** (START HERE)
+- **[API Client Functional Requirements](docs/features/API_CLIENT_FUNCTIONAL_REQUIREMENTS.md)** - Complete FR specs
+- **[API Client Quick Reference](docs/features/API_CLIENT_QUICK_REFERENCE.md)** - Quick lookup guide
+- **[API Client Referential Transparency Analysis](docs/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
+- **[API Client Improvements v1.1](docs/APICLIENT_IMPROVEMENTS_v1.1.md)** - Enhancement summary
 - **[API Documentation Index](docs/api/README.md)** - API docs overview
 - **[API Integration Update](docs/api/API_INTEGRATION_UPDATE.md)** - Latest integration guide
 - **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - Integration success stories
@@ -323,6 +368,7 @@ For detailed testing documentation, see:
 ### Technical Specifications
 
 - **[Main.js Technical Spec](docs/specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)** - Main entry point spec
+- **[FR-008A Implementation](docs/features/FR-008A_IMPLEMENTATION_SUMMARY.md)** - Search lifecycle state management
 
 ### CSS & Styling
 
@@ -359,6 +405,7 @@ colorama==0.4.6       # Terminal colors
 - **Moment.js** - Date formatting
 - **Select2** - Enhanced dropdowns
 - **Font Awesome** - Icons
+- **ibira.js** - Functional API client library
 
 ### Development
 
@@ -366,6 +413,8 @@ colorama==0.4.6       # Terminal colors
 - **ChromeDriver** - Selenium driver
 - **Python HTTP Server** - Local web server
 - **Node.js** - API server
+- **Jest** - JavaScript unit testing
+- **ESLint** - Code linting (no-this rule enabled)
 
 ---
 

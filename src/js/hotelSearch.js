@@ -244,11 +244,10 @@ async function handleFormSubmit(event) {
 
     console.log('✅ Dates in ISO format:', { checkin, checkout });
 
-    // Show loading state when button is clicked
-    const submitButton = document.getElementById('search-button');
-    const originalText = submitButton.textContent;
-    submitButton.textContent = '🔍 Buscando...';
-    submitButton.disabled = true;
+    // Set searching state (FR-008A)
+    if (window.SearchLifecycleState) {
+        window.SearchLifecycleState.setSearchingState();
+    }
 
     // Hide previous results
     const resultsContainer = document.getElementById('results-container');
@@ -310,9 +309,10 @@ async function handleFormSubmit(event) {
             alert(`Erro na busca: ${error.message}`);
         }
     } finally {
-        // Restore button state
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
+        // Set results state (FR-008A)
+        if (window.SearchLifecycleState) {
+            window.SearchLifecycleState.setResultsState();
+        }
         
         // Enable guest filter after search completion (FR-004A)
         if (window.GuestFilterStateManager) {

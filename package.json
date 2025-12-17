@@ -9,6 +9,17 @@
     "start": "python3 -m http.server 8080",
     "build": "echo 'Build step - copy files if needed'",
     "test": "python3 tests/simple_ui_test.py",
+    "test:api": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/apiClient.test.js",
+    "test:api:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/apiClient.test.js --watch",
+    "test:api:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/apiClient.test.js --coverage",
+    "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/e2e/apiClient.e2e.test.js",
+    "test:e2e:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/e2e/apiClient.e2e.test.js --watch",
+    "test:e2e:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/e2e/apiClient.e2e.test.js --coverage",
+    "test:e2e:local": "TEST_API_URL=http://localhost:3001/api npm run test:e2e",
+    "test:all": "npm run test && npm run test:api",
+    "test:all:js": "npm run test:api && npm run test:e2e",
+    "lint": "eslint 'src/**/*.js'",
+    "lint:fix": "eslint 'src/**/*.js' --fix",
     "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore legacy"
   },
   "keywords": [
@@ -25,6 +36,11 @@
     "selenium-webdriver": "^4.15.0"
   },
   "devDependencies": {
-    "markdownlint-cli": "^0.46.0"
+    "@jest/globals": "^29.7.0",
+    "eslint": "^9.39.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "markdownlint-cli": "^0.46.0",
+    "node-fetch": "^3.3.2"
   }
 }
