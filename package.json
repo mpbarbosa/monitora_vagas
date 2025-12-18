@@ -17,7 +17,11 @@
     "test:e2e:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/e2e/apiClient.e2e.test.js --coverage",
     "test:e2e:local": "TEST_API_URL=http://localhost:3001/api npm run test:e2e",
     "test:all": "npm run test && npm run test:api",
-    "test:all:js": "npm run test:api && npm run test:e2e",
+    "test:all:js": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:js:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:version": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/test-semantic-version.test.js",
+    "test:version:py": "python3 tests/test_semantic_version.py",
+    "test:version:all": "./tests/run-version-tests.sh",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "eslint 'src/**/*.js' --fix",
     "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore legacy"
@@ -32,6 +36,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "ibira.js": "github:mpbarbosa/ibira.js",
     "selenium-webdriver": "^4.15.0"
   },

@@ -21,7 +21,6 @@ This document provides a comprehensive technical specification for the Hotel Vac
 The application encompasses:
 
 - Hotel list loading with caching mechanism
-- Manual refresh capability for hotel list
 - Date selection and validation
 - Guest counter with filtering
 - Vacancy search workflow
@@ -29,7 +28,7 @@ The application encompasses:
 - Results display with hotel cards
 - Guest number filtering (client-side)
 - Copy and clear results functionality
-- **Start New Search functionality**
+- **Reset functionality**
 - Holiday package detection and display
 - Error handling and user feedback
 
@@ -87,7 +86,7 @@ public/index.html
 │   ├── Check-In/Check-Out (date inputs)
 │   ├── Guest Counter (plus/minus controls)
 │   ├── Search Button (submit)
-│   ├── Start New Search Button (🔄 Nova Busca) ⭐ NEW
+│   ├── Reset Button (🔄 Nova Busca) ⭐ NEW
 │   └── Results Container (dynamic cards)
 ├── Vendor Scripts (loaded via <script> tags)
 │   ├── jQuery
@@ -394,8 +393,8 @@ if (window.GuestFilterStateManager) {
 - ❌ **AC-008A.5-8:** Hotel selector and date inputs are NOT disabled during search
 - ❌ **AC-008A.13-15:** Hotel selector and date inputs are NOT kept disabled after search
 - ❌ **AC-008A.17:** Search button is re-enabled after search (should stay disabled)
-- ❌ **AC-008A.18:** "Start New Search" button does not exist
-- ❌ **AC-008A.26-37:** "Start New Search" functionality not implemented
+- ❌ **AC-008A.18:** "Reset" button does not exist
+- ❌ **AC-008A.26-37:** "Reset" functionality not implemented
 - ❌ **AC-008A.12:** No visual indication (opacity/cursor) for disabled elements
 - ❌ State transition functions not implemented
 
@@ -403,13 +402,13 @@ if (window.GuestFilterStateManager) {
 - All inputs remain enabled throughout entire workflow
 - User can modify search parameters during search
 - User can click search button multiple times (concurrent searches)
-- No "Start New Search" button - user clicks same "busca vagas" button
+- No "Reset" button - user clicks same "busca vagas" button
 - Results can be cleared but inputs are not locked
 
 **Expected Behavior (FR-008A):**
 ```javascript
 // State transitions needed:
-// Initial State → Searching State → Results State → Initial State (via Start New Search)
+// Initial State → Searching State → Results State → Initial State (via Reset)
 ```
 
 #### 3.4.3 Required Implementation for FR-008A Compliance
@@ -446,8 +445,8 @@ function setResultsState() {
         window.GuestFilterStateManager.enable();
     }
     
-    // Show "Start New Search" button
-    document.getElementById('start-new-search-btn').style.display = 'block';
+    // Show "Reset" button
+    document.getElementById('reset-btn').style.display = 'block';
 }
 
 function setInitialState() {
@@ -463,8 +462,8 @@ function setInitialState() {
         window.GuestCounter.disable();
     }
     
-    // Hide "Start New Search" button
-    document.getElementById('start-new-search-btn').style.display = 'none';
+    // Hide "Reset" button
+    document.getElementById('reset-btn').style.display = 'none';
     
     // Clear results
     document.getElementById('results-container').style.display = 'none';
@@ -474,10 +473,10 @@ function setInitialState() {
 }
 ```
 
-**2. Add "Start New Search" Button to HTML:**
+**2. Add "Reset" Button to HTML:**
 
 ```html
-<button id="start-new-search-btn"
+<button id="reset-btn"
         style="padding: 10px 20px;
                background: #2196F3;
                color: white;
@@ -506,15 +505,15 @@ form.addEventListener('submit', async (event) => {
         setResultsState();  // NEW: Apply results state
     } catch (error) {
         // ... error handling ...
-        setResultsState();  // NEW: Show Start New Search even on error
+        setResultsState();  // NEW: Show Reset even on error
     }
 });
 ```
 
-**4. Add "Start New Search" Handler:**
+**4. Add "Reset" Handler:**
 
 ```javascript
-document.getElementById('start-new-search-btn')?.addEventListener('click', () => {
+document.getElementById('reset-btn')?.addEventListener('click', () => {
     setInitialState();
     
     // Reset guest counter to default
@@ -531,7 +530,7 @@ document.getElementById('start-new-search-btn')?.addEventListener('click', () =>
 
 **High Priority (Prevents Issues):**
 1. Disable inputs during search (prevent concurrent searches)
-2. Add "Start New Search" button
+2. Add "Reset" button
 3. Lock date/hotel inputs after search (maintain result consistency)
 
 **Medium Priority (UX Enhancement):**
@@ -757,7 +756,6 @@ catch (error) {
 | `input-checkout` | Check-out date input | input[type="date"] |
 | `guest-filter-card` | Guest counter container | div |
 | `search-button` | Submit search button | button[type="submit"] |
-| `refresh-hotels-btn` | Manual hotel list refresh | button |
 
 ### 7.2 Display Elements
 
@@ -777,7 +775,7 @@ catch (error) {
 |------------|---------|--------------|
 | `copy-results-btn` | Copy results to clipboard | visible when results exist |
 | `clear-results-btn` | Clear displayed results | visible when results exist |
-| `start-new-search-btn` | Reset for new search | **NOT IMPLEMENTED** |
+| `reset-btn` | Reset for new search | **NOT IMPLEMENTED** |
 
 ---
 
@@ -789,9 +787,7 @@ catch (error) {
 
 **Implementation:** Handled by `apiClient` module
 
-**User Control:** Manual refresh button allows force refresh
-
-**Cache Display:** Real-time stats visible to user
+**Cache Display:** Real-time stats visible to user via tooltip
 
 ### 8.2 Results Rendering
 
@@ -859,8 +855,7 @@ catch (error) {
 ✅ **FR-001:** Hotel Selection - COMPLETE
 
 - Hotel list loaded from API
-- Caching implemented
-- Manual refresh available
+- Caching implemented with 24-hour TTL
 
 ✅ **FR-002/FR-003:** Date Selection - COMPLETE
 
@@ -912,7 +907,7 @@ catch (error) {
 
 - Disable inputs during search
 - Lock hotel/date inputs after search
-- "Start New Search" button
+- "Reset" button
 - Complete state transitions
 - Visual styling for disabled states
 - ARIA attributes
@@ -1021,7 +1016,7 @@ catch (error) {
 - UI state transitions (initial → searching → results)
 - Input disable/enable functionality
 - Button visibility changes
-- "Start New Search" workflow
+- "Reset" workflow
 - Visual styling verification
 - ARIA attribute validation
 - Focus management
@@ -1034,7 +1029,7 @@ catch (error) {
 
 1. **Implement FR-008A:** Complete search lifecycle state management
 2. **Clean up `src/` folder:** Delete or clearly mark as unused
-3. **Add "Start New Search" button:** Implement missing UI element
+3. **Add "Reset" button:** Implement missing UI element
 4. **Document inline architecture:** Update all docs to reflect reality
 
 ### 14.2 Short-term Improvements (Medium Priority)
@@ -1098,7 +1093,7 @@ catch (error) {
 
 1. ✅ **Document actual architecture** - COMPLETE (this document)
 2. 🔴 **Implement FR-008A** - State management incomplete
-3. 🔴 **Add "Start New Search" button** - Missing UI element
+3. 🔴 **Add "Reset" button** - Missing UI element
 4. 🔴 **Disable inputs during/after search** - Not implemented
 
 ### 17.2 Important (Should Fix)
@@ -1150,7 +1145,7 @@ window.SearchLifecycleState = {
     setInitialState(),         // Set initial page load state
     setSearchingState(),       // Set searching (during API call) state
     setResultsState(),         // Set results (after completion) state
-    handleStartNewSearch(),    // Handle Start New Search button click
+    handleStartNewSearch(),    // Handle Reset button click
     getCurrentState()          // Get current state ('initial'|'searching'|'results')
 }
 ```
@@ -1165,19 +1160,19 @@ window.SearchLifecycleState = {
    - Integrated with existing guest filter enablement
 
 2. **`public/index.html`** - HTML structure
-   - Added "Start New Search" button (`#start-new-search-btn`)
+   - Added "Reset" button (`#reset-btn`)
    - Added script tag to load `searchLifecycleState.js`
    - Button placed in results actions section
 
 3. **`src/styles/index-page.css`** - Styling
-   - Added `#start-new-search-btn` styles (blue theme #2196F3)
+   - Added `#reset-btn` styles (blue theme #2196F3)
    - Hover effects and transitions
 
 ### 18.4 State Transitions (Implemented)
 
 ```
 ┌─────────────┐
-│   Initial   │  ← Start New Search button resets here
+│   Initial   │  ← Reset button resets here
 └──────┬──────┘
        │ "busca vagas" clicked
        ▼
@@ -1200,7 +1195,7 @@ window.SearchLifecycleState = {
 | Check-out input | ✅ Enabled | ❌ Disabled | ❌ Disabled (locked) |
 | Guest counter | ❌ Disabled | ❌ Disabled | ✅ Enabled (filtering) |
 | Search button | ✅ Enabled | ❌ Disabled | ❌ Disabled |
-| Start New Search btn | 🚫 Hidden | 🚫 Hidden | ✅ Visible |
+| Reset btn | 🚫 Hidden | 🚫 Hidden | ✅ Visible |
 | Action buttons | 🚫 Hidden | 🚫 Hidden | ✅ Visible |
 
 ### 18.6 Test Coverage
@@ -1226,7 +1221,7 @@ window.SearchLifecycleState = {
 - AC-008A.1 to AC-008A.4: Initial State ✅
 - AC-008A.5 to AC-008A.12: Searching State ✅
 - AC-008A.13 to AC-008A.21: Results State ✅
-- AC-008A.26 to AC-008A.37: Start New Search ✅
+- AC-008A.26 to AC-008A.37: Reset ✅
 
 ### 18.8 Documentation Updates
 
@@ -1245,13 +1240,13 @@ window.SearchLifecycleState = {
 - ❌ FR-008A documented but NOT implemented
 - ❌ Manual button state management
 - ❌ No input locking
-- ❌ No "Start New Search" button
+- ❌ No "Reset" button
 
 **Current (v2.1):**
 - ✅ FR-008A FULLY IMPLEMENTED with state machine
 - ✅ Centralized state management (`SearchLifecycleState`)
 - ✅ Input locking for data consistency
-- ✅ "Start New Search" workflow complete
+- ✅ "Reset" workflow complete
 - ✅ Full ARIA accessibility
 - ✅ 100% test coverage (19 tests)
 
@@ -1283,7 +1278,7 @@ window.SearchLifecycleState = {
 
 1. ✅ **Document actual architecture** - COMPLETE
 2. ✅ **Implement FR-008A** - **NOW COMPLETE** (v1.4.7)
-3. ✅ **Add "Start New Search" button** - **NOW IMPLEMENTED**
+3. ✅ **Add "Reset" button** - **NOW IMPLEMENTED**
 4. ✅ **Disable inputs during/after search** - **NOW IMPLEMENTED**
 
 **Important (Still Recommended):**
@@ -1307,7 +1302,7 @@ if (window.SearchLifecycleState) {
     window.SearchLifecycleState.setResultsState();
 }
 
-// In src/js/searchLifecycleState.js - Start New Search handler
+// In src/js/searchLifecycleState.js - Reset handler
 handleStartNewSearch: function() {
     // Clear results
     this.elements.hotelsCardsContainer.innerHTML = '';
@@ -1320,7 +1315,7 @@ handleStartNewSearch: function() {
     this.enableElement(this.elements.searchBtn);
     
     // Reset and disable guest counter
-    this.elements.guestInput.value = '2 Hóspedes';
+    this.elements.guestInput.value = '2';
     if (window.GuestFilterStateManager) {
         window.GuestFilterStateManager.disable();
     }

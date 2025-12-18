@@ -485,34 +485,68 @@ describe('Property-Based Tests', () => {
 // DEPENDENCY INJECTION TESTS
 // ============================================================================
 
-describe.skip('BuscaVagasAPIClient - Dependency Injection', () => {
-    // Note: These tests require proper module mocking which is complex with ES6 modules
-    // The dependency injection pattern is validated in integration tests
-    // To run these tests, use a different testing approach or mock strategy
+describe('BuscaVagasAPIClient - Dependency Injection', () => {
     
     test('constructor accepts logger configuration', () => {
-        // Skip: Requires environment mock to work properly
-        expect(true).toBe(true);
+        const mockLogger = {
+            log: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        
+        const client = new BuscaVagasAPIClient({ logger: mockLogger });
+        
+        expect(client.logger).toBe(mockLogger);
+        expect(mockLogger.log).toHaveBeenCalled();
     });
     
     test('falls back to console if no logger provided', () => {
-        // Skip: Requires environment mock to work properly
-        expect(true).toBe(true);
+        const client = new BuscaVagasAPIClient();
+        
+        expect(client.logger).toBe(console);
     });
     
     test('logger can be mocked for silent testing', () => {
-        // Skip: Requires environment mock to work properly
-        expect(true).toBe(true);
+        const silentLogger = {
+            log: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        
+        const client = new BuscaVagasAPIClient({ logger: silentLogger });
+        
+        // Verify logger is set and used
+        expect(client.logger).toBe(silentLogger);
+        expect(silentLogger.log).toHaveBeenCalledWith(
+            expect.stringContaining('BuscaVagasAPIClient initialized')
+        );
     });
     
     test('custom logger receives all log messages', () => {
-        // Skip: Requires environment mock to work properly
-        expect(true).toBe(true);
+        const logMessages = [];
+        const customLogger = {
+            log: (msg) => logMessages.push(msg),
+            error: (msg) => logMessages.push(`ERROR: ${msg}`),
+            warn: (msg) => logMessages.push(`WARN: ${msg}`)
+        };
+        
+        const client = new BuscaVagasAPIClient({ logger: customLogger });
+        
+        expect(logMessages.length).toBeGreaterThan(0);
+        expect(logMessages[0]).toContain('BuscaVagasAPIClient initialized');
+        expect(logMessages[1]).toContain('ibira.js');
     });
     
     test('logger is accessible as instance property', () => {
-        // Skip: Requires environment mock to work properly
-        expect(true).toBe(true);
+        const mockLogger = {
+            log: jest.fn(),
+            error: jest.fn()
+        };
+        
+        const client = new BuscaVagasAPIClient({ logger: mockLogger });
+        
+        expect(client).toHaveProperty('logger');
+        expect(client.logger).toBe(mockLogger);
     });
 });
 
@@ -520,37 +554,56 @@ describe.skip('BuscaVagasAPIClient - Dependency Injection', () => {
 // INSTANCE METHOD TESTS
 // ============================================================================
 
-describe.skip('BuscaVagasAPIClient - Instance Methods', () => {
-    // Note: These tests require proper module mocking
-    // The pure functions are tested above (all passing)
-    // Class instantiation requires environment dependencies
+describe('BuscaVagasAPIClient - Instance Methods', () => {
+    let client;
+    let mockLogger;
+
+    beforeEach(() => {
+        mockLogger = {
+            log: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        client = new BuscaVagasAPIClient({ logger: mockLogger });
+    });
     
     describe('formatDateISO method', () => {
         test('delegates to pure helper function', () => {
-            // Skip: Tested via pure function tests
-            expect(true).toBe(true);
+            const testDate = new Date('2024-03-15T10:30:00.000Z');
+            const result = client.formatDateISO(testDate);
+            expect(result).toBe('2024-03-15');
         });
         
         test('is deterministic', () => {
-            // Skip: Tested via pure function tests
-            expect(true).toBe(true);
+            const testDate = new Date('2024-12-25T23:59:59.999Z');
+            const result1 = client.formatDateISO(testDate);
+            const result2 = client.formatDateISO(testDate);
+            expect(result1).toBe(result2);
+            expect(result1).toBe('2024-12-25');
         });
     });
     
     describe('Configuration', () => {
         test('has correct timeout configuration', () => {
-            // Skip: Requires proper instantiation
-            expect(true).toBe(true);
+            expect(client.timeout).toBeDefined();
+            expect(typeof client.timeout).toBe('object');
+            expect(client.timeout.default).toBeDefined();
+            expect(client.timeout.search).toBeDefined();
+            expect(client.timeout.weekendSearch).toBeDefined();
+            expect(client.timeout.default).toBeGreaterThan(0);
+            expect(client.timeout.search).toBeGreaterThan(0);
+            expect(client.timeout.weekendSearch).toBeGreaterThan(0);
         });
         
         test('has API base URL configured', () => {
-            // Skip: Requires proper instantiation
-            expect(true).toBe(true);
+            expect(client.apiBaseUrl).toBeDefined();
+            expect(typeof client.apiBaseUrl).toBe('string');
+            expect(client.apiBaseUrl).toMatch(/^https?:\/\//);
         });
         
         test('has fetch manager initialized', () => {
-            // Skip: Requires proper instantiation
-            expect(true).toBe(true);
+            expect(client.fetchManager).toBeDefined();
+            expect(client.fetchManager).not.toBeNull();
         });
     });
 });

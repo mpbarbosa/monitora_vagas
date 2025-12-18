@@ -168,13 +168,9 @@ import { apiClient } from './services/apiClient.js';
 // Load hotels with cache
 const hotels = await apiClient.getHotels();
 
-// Refresh hotels button
-document.getElementById('refresh-hotels-btn').addEventListener('click', async () => {
-    const hotels = await apiClient.refreshHotels();
-});
-
-// Display cache stats
+// Display cache stats in tooltip
 const stats = apiClient.getCacheStats();
+// Show stats on hotel-select hover via Bootstrap tooltip
 ```
 
 **Status:** ✅ USING API CLIENT  
@@ -200,7 +196,7 @@ const stats = apiClient.getCacheStats();
 3. **Persistent Caching**
    - localStorage-based hotel cache
    - Survives browser restarts
-   - Manual refresh capability
+   - 24-hour TTL with automatic expiration
    - Cache statistics API
 
 4. **Proper Date Formatting**
@@ -496,7 +492,7 @@ const isoDate = apiClient.formatDateISO(new Date());
 // Cache management
 apiClient.clearCache();           // Clear all caches
 apiClient.getCacheStats();        // Get cache info
-apiClient.refreshHotels();        // Force hotel refresh
+apiClient.getHotels(true);        // Force hotel refresh (bypass cache)
 ```
 
 ---

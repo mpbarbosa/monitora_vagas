@@ -22,9 +22,9 @@ FR-008A implements comprehensive UI state management throughout the hotel vacanc
 
 - Hotel and date inputs locked after search
 - Prevents parameter modification
-- Forces explicit "Start New Search" action
+- Forces explicit "Reset" action
 
-✅ **Start New Search Button**
+✅ **Reset Button**
 
 - Resets application to initial state
 - Clears results and re-enables inputs
@@ -58,7 +58,7 @@ FR-008A implements comprehensive UI state management throughout the hotel vacanc
 │ (Dates Locked)  │                    │
 │ (Guest Enabled) │                    │
 └────────┬────────┘                    │
-         │ "Start New Search"          │
+         │ "Reset"          │
          └─────────────────────────────┘
 ```
 
@@ -96,7 +96,7 @@ python -m pytest tests/test_search_lifecycle_state.py::TestInitialPageLoadState 
 |------|---------|-------|
 | `src/js/searchLifecycleState.js` | Core state management module | 280 |
 | `src/js/hotelSearch.js` | State transition integration | Modified |
-| `public/index.html` | Start New Search button | +3 lines |
+| `public/index.html` | Reset button | +3 lines |
 | `src/styles/index-page.css` | Button styling | +8 lines |
 
 ### Testing
@@ -126,7 +126,7 @@ python -m pytest tests/test_search_lifecycle_state.py::TestInitialPageLoadState 
 | Date inputs | ✅ Enabled | Normal |
 | Guest counter | ❌ Disabled | Greyed (FR-004A) |
 | Search button | ✅ Enabled | "busca vagas" |
-| Start New Search | 🚫 Hidden | display: none |
+| Reset | 🚫 Hidden | display: none |
 | Action buttons | 🚫 Hidden | display: none |
 
 ### Searching State (During API Call)
@@ -137,7 +137,7 @@ python -m pytest tests/test_search_lifecycle_state.py::TestInitialPageLoadState 
 | Date inputs | ❌ Disabled | 50% opacity |
 | Guest counter | ❌ Disabled | 50% opacity |
 | Search button | ❌ Disabled | "🔍 Buscando..." |
-| Start New Search | 🚫 Hidden | display: none |
+| Reset | 🚫 Hidden | display: none |
 | Action buttons | 🚫 Hidden | display: none |
 
 ### Results State (After Completion)
@@ -148,7 +148,7 @@ python -m pytest tests/test_search_lifecycle_state.py::TestInitialPageLoadState 
 | Date inputs | ❌ Disabled (locked) | 50% opacity |
 | Guest counter | ✅ Enabled | Normal (filtering) |
 | Search button | ❌ Disabled | 50% opacity |
-| Start New Search | ✅ Visible | Blue button |
+| Reset | ✅ Visible | Blue button |
 | Action buttons | ✅ Visible | Green/Red buttons |
 
 ---
@@ -195,12 +195,12 @@ if (window.GuestFilterStateManager) {
 5. **API call executes** with visual feedback
 6. **Search completes** → Transitions to Results State
 7. **User can filter** results by guest count
-8. **User wants new search** → Clicks "Start New Search"
+8. **User wants new search** → Clicks "Reset"
 9. **System resets** to Initial State
 
 ### Multiple Searches
 
-1. From Results State, click "Start New Search"
+1. From Results State, click "Reset"
 2. Inputs re-enabled, results cleared
 3. Date values preserved for convenience
 4. Guest counter reset to 2 and disabled
@@ -215,7 +215,7 @@ if (window.GuestFilterStateManager) {
 - **AC-008A.1 to AC-008A.4:** Initial State ✅
 - **AC-008A.5 to AC-008A.12:** Searching State ✅
 - **AC-008A.13 to AC-008A.21:** Results State ✅
-- **AC-008A.26 to AC-008A.37:** Start New Search ✅
+- **AC-008A.26 to AC-008A.37:** Reset ✅
 
 See [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-008a-search-lifecycle-ui-state-management) for detailed criteria.
 
@@ -275,7 +275,7 @@ python -m http.server 3001
 
 ### Button Not Working
 
-**Problem:** Start New Search button doesn't respond
+**Problem:** Reset button doesn't respond
 
 **Solution:**
 

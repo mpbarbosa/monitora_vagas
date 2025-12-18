@@ -1,4 +1,7 @@
-// Guest Counter Handler with Filter State Management (FR-004A)
+/**
+ * Guest Counter Handler with Filter State Management (FR-004A)
+ * @version 2.0.0
+ */
 (function() {
     'use strict';
 
@@ -78,7 +81,7 @@
                 }
                 
                 currentValue++;
-                input.value = currentValue + ' Hóspedes';
+                input.value = currentValue;
                 
                 // Apply guest number filter (FR-004B)
                 if (window.GuestNumberFilter) {
@@ -97,7 +100,7 @@
                 
                 if (currentValue > 1) {
                     currentValue--;
-                    input.value = currentValue + ' Hóspedes';
+                    input.value = currentValue;
                     
                     // Apply guest number filter (FR-004B)
                     if (window.GuestNumberFilter) {

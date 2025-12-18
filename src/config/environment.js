@@ -1,5 +1,8 @@
-// Environment configuration for different deployment stages
-// This file handles environment-specific settings
+/**
+ * Environment configuration for different deployment stages
+ * This file handles environment-specific settings
+ * @version 2.0.0
+ */
 
 /**
  * Check if we're in a browser environment
@@ -17,25 +20,21 @@ const isNodeTest = typeof process !== 'undefined' && process.env && process.env.
  * In Node.js (tests), we use process.env
  */
 const ENV_VARS = isBrowser ? {
-    // Application environment - detect based on hostname
-    // Override for testing: check URL parameter useProductionAPI
-    NODE_ENV: (new URLSearchParams(window.location.search).get('useProductionAPI') === 'true') 
-        ? 'production'
-        : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'development' 
-            : 'production'),
+    // Application environment - always production when in browser
+    // (API calls go to production server unless useLocalAPI=true)
+    NODE_ENV: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+        ? 'development' 
+        : 'production',
     
     // Application port
     PORT: 3000,
     
     // API endpoints - dynamically set based on environment
-    // Development: Use mock API on localhost:3001
+    // Development: Use production API by default (use ?useLocalAPI=true for mock server)
     // Production: Use live API
-    API_BASE_URL: (new URLSearchParams(window.location.search).get('useProductionAPI') === 'true')
-        ? 'https://www.mpbarbosa.com/api'
-        : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3001/api'
-            : 'https://www.mpbarbosa.com/api'),
+    API_BASE_URL: (new URLSearchParams(window.location.search).get('useLocalAPI') === 'true')
+        ? 'http://localhost:3001/api'
+        : 'https://www.mpbarbosa.com/api',
     
     // AFPESP website configuration
     AFPESP_BASE_URL: 'https://www.afpesp.org.br',

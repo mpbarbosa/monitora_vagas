@@ -1,5 +1,157 @@
 /* Index Page Specific Styles - Separated from index.html */
 
+/* Cache Status Tooltip */
+.cache-status-tooltip {
+    --bs-tooltip-max-width: 300px;
+}
+
+.cache-status-tooltip .tooltip-inner {
+    text-align: left;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Fixed Header */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #007bff;
+}
+
+.fixed-header .navbar {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+}
+
+.fixed-header .navbar-brand {
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.fixed-header .navbar-brand i {
+    margin-right: 0.5rem;
+}
+
+/* Header Form Container */
+.header-form-container {
+    background: rgba(0, 123, 255, 0.95);
+    padding: 0.75rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-form {
+    margin: 0;
+}
+
+.header-form .form-label {
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.header-form .form-control,
+.header-form .form-select {
+    font-size: 0.875rem;
+    height: calc(1.5em + 0.5rem + 2px); /* Ensures consistent height for sm controls */
+}
+
+.header-form .hotel-select-wrapper {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.header-form .hotel-select-wrapper select {
+    flex: 1;
+}
+
+/* Guest counter in header */
+.header-form .input-group {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border-radius: 0.25rem;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.header-form .input-group .icon-con {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 0 0.25rem 0.25rem 0;
+    border-left: none;
+    flex: 0 0 auto;
+    position: relative;
+    align-items: stretch;
+    height: 31px;
+}
+
+.header-form .input-group .icon-con .minus,
+.header-form .input-group .icon-con .plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 100%;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.header-form .quantity {
+    background: white;
+    border: 1px solid #ced4da;
+    border-left: 0;
+    border-radius: 0 0.25rem 0.25rem 0;
+    min-width: 110px;
+    height: 31px;
+    max-width: 120px;
+    flex: 0 0 auto;
+}
+
+/* Adjust body padding to account for fixed header with form */
+body {
+    padding-top: 180px; /* Height of navbar + form */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    body {
+        padding-top: 300px; /* More space for stacked form */
+    }
+    
+    .fixed-header .navbar-nav {
+        padding: 0.5rem 0;
+    }
+    
+    .fixed-header .nav-item {
+        padding: 0.25rem 0;
+    }
+    
+    .header-form-container {
+        padding: 1rem;
+    }
+    
+    .header-form .col-md-3,
+    .header-form .col-md-2,
+    .header-form .col-md-1 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body {
+        padding-top: 400px; /* Even more space for mobile */
+    }
+}
+
 /* Hotel Selection */
 .hotel-select-wrapper {
     display: flex;
@@ -305,12 +457,21 @@
     transition: background 0.3s;
 }
 
-#start-new-search-btn {
+#reset-btn {
     background: #2196F3;
+    margin-top: 10px;
+    width: 100%;
 }
 
-#start-new-search-btn:hover {
+#reset-btn:hover {
     background: #0b7dda;
+}
+
+/* Responsive styling for start new search button */
+@media (max-width: 767px) {
+    #reset-btn {
+        font-size: 14px;
+    }
 }
 
 #copy-results-btn {
@@ -327,4 +488,12 @@
 
 #clear-results-btn:hover {
     background: #da190b;
+}
+
+/* Version Footer */
+.version-footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #666;
+    font-size: 12px;
 }

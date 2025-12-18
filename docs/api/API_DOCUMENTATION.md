@@ -503,11 +503,11 @@ const stats = apiClient.getCacheStats();
 ### Cache Invalidation
 
 The hotel cache should be invalidated when:
-- User explicitly requests refresh
 - API returns different hotel count
 - Hotels appear outdated (manual judgment)
+- Cache expires after 24 hours
 
-**Recommendation:** Implement a "Refresh Hotels" button in UI for user control.
+**Note:** Cache can be cleared programmatically via `apiClient.clearCache()` if needed.
 
 ---
 

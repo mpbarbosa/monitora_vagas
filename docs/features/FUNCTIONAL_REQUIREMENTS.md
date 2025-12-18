@@ -2,10 +2,16 @@
 
 ## Hotel Vacancy Search Application
 
-**Document Version:** 1.3  
-**Date:** 2025-12-16  
+**Document Version:** 1.4  
+**Date:** 2024-12-17  
 **Author:** Monitora Vagas Development Team  
-**Application:** index.html - Hotel Vacancy Search Interface  
+**Application:** index.html - Hotel Vacancy Search Interface
+
+**Latest Changes (v1.4):**
+- Renamed "Start New Search" button to "Reset" button
+- Clarified that Reset button ONLY changes page state (state-driven UI pattern)
+- Updated all acceptance criteria to reflect state-driven approach
+- Changed button ID from "start-new-search-btn" to "reset-btn"  
 
 ---
 
@@ -179,15 +185,15 @@ The system shall provide an interactive guest counter with increment/decrement c
 
 #### FR-004 Acceptance Criteria
 
-- **AC-004.1:** Guest input displays default value "2 Hóspedes"
+- **AC-004.1:** Guest input displays default value "2" (numeric only, label provided separately)
 
 - **AC-004.2:** Plus (+) button increments guest count
 - **AC-004.3:** Minus (-) button decrements guest count
 
-- **AC-004.4:** Guest count displays in format "N Hóspedes" (Portuguese)
-- **AC-004.5:** Plus button is visible and clickable
+- **AC-004.4:** Guest count displays numeric value only in input field (label "Hóspedes" provided separately)
+- **AC-004.5:** Plus button is visible, clickable, and positioned within the input group structure
 
-- **AC-004.6:** Minus button is visible and clickable
+- **AC-004.6:** Minus button is visible, clickable, and positioned within the input group structure
 - **AC-004.7:** Minimum guest count is enforced (to be defined)
 
 - **AC-004.8:** Maximum guest count is enforced (to be defined)
@@ -195,9 +201,10 @@ The system shall provide an interactive guest counter with increment/decrement c
 #### FR-004 Business Rules
 
 - Default: 2 guests
-
-- Format: "{count} Hóspedes"
-- Interactive buttons for increment/decrement
+- Input displays numeric value only
+- Label "Hóspedes" displayed separately above input
+- Interactive +/- buttons positioned within input group for better UX
+- Buttons are part of the same visual control as the input field
 
 #### FR-004 Test Coverage
 
@@ -768,7 +775,7 @@ The system shall manage the enabled/disabled state of UI elements throughout the
 
 - **AC-008A.1:** On page load completion, all input elements (hotel selector, date inputs, guest counter) shall be enabled
 - **AC-008A.2:** Search button ("busca vagas") shall be enabled
-- **AC-008A.3:** "Start New Search" button shall not be visible
+- **AC-008A.3:** "Reset" button shall not be visible
 - **AC-008A.4:** Clear Results and Copy Results buttons shall not be visible
 
 **During Search Execution:**
@@ -789,7 +796,7 @@ The system shall manage the enabled/disabled state of UI elements throughout the
 - **AC-008A.15:** Check-out date input shall remain disabled after search completes
 - **AC-008A.16:** Guest counter controls shall be enabled after search completes
 - **AC-008A.17:** Search button ("busca vagas") shall remain disabled after search completes
-- **AC-008A.18:** "Start New Search" button shall become visible and enabled after search completes
+- **AC-008A.18:** "Reset" button shall become visible and enabled after search completes
 - **AC-008A.19:** Copy Results button shall become visible and enabled if results exist
 - **AC-008A.20:** Clear Results button shall become visible and enabled if results exist
 - **AC-008A.21:** Results container shall be displayed with search results
@@ -801,21 +808,22 @@ The system shall manage the enabled/disabled state of UI elements throughout the
 - **AC-008A.24:** Filtering shall not trigger a new API call
 - **AC-008A.25:** Date inputs shall remain disabled during filtering operations
 
-**Start New Search Action:**
+**Reset Button Action:**
 
-- **AC-008A.26:** "Start New Search" button shall have distinct ID "start-new-search-btn"
-- **AC-008A.27:** Clicking "Start New Search" shall clear all displayed results
-- **AC-008A.28:** Clicking "Start New Search" shall hide results container
-- **AC-008A.29:** Clicking "Start New Search" shall enable hotel selector
-- **AC-008A.30:** Clicking "Start New Search" shall enable check-in date input
-- **AC-008A.31:** Clicking "Start New Search" shall enable check-out date input
-- **AC-008A.32:** Clicking "Start New Search" shall enable search button ("busca vagas")
-- **AC-008A.33:** Clicking "Start New Search" shall hide "Start New Search" button
-- **AC-008A.34:** Clicking "Start New Search" shall hide Copy Results and Clear Results buttons
-- **AC-008A.35:** Clicking "Start New Search" shall reset guest counter to default value (2)
-- **AC-008A.36:** Clicking "Start New Search" shall disable guest counter
-- **AC-008A.36:** Clicking "Start New Search" shall preserve previously selected values in date inputs
-- **AC-008A.37:** Clicking "Start New Search" shall return application to initial ready state
+- **AC-008A.26:** "Reset" button shall have distinct ID "reset-btn"
+- **AC-008A.27:** Clicking "Reset" shall trigger a state change to "Initial State"
+- **AC-008A.28:** The state change shall clear all displayed results
+- **AC-008A.29:** The state change shall hide results container
+- **AC-008A.30:** The state change shall enable hotel selector
+- **AC-008A.31:** The state change shall enable check-in date input
+- **AC-008A.32:** The state change shall enable check-out date input
+- **AC-008A.33:** The state change shall enable search button ("busca vagas")
+- **AC-008A.34:** The state change shall hide "Reset" button itself
+- **AC-008A.35:** The state change shall hide Copy Results and Clear Results buttons
+- **AC-008A.36:** The state change shall reset guest counter to default value (2)
+- **AC-008A.37:** The state change shall disable guest counter
+- **AC-008A.38:** The state change shall preserve previously selected values in date inputs
+- **AC-008A.39:** The "Reset" button ONLY changes the page state; all UI updates are triggered by the state change
 
 #### FR-008A Business Rules
 
@@ -825,39 +833,53 @@ The system shall manage the enabled/disabled state of UI elements throughout the
    - All inputs: Enabled
    - Guest filter: Disabled
    - Search button: Enabled
-   - Start New Search button: Hidden
+   - Reset button: Hidden
    - Action buttons: Hidden
 
 2. **Searching State:**
    - All inputs: Disabled
    - Search button: Disabled (text: "🔍 Buscando...")
-   - Start New Search button: Hidden
+   - Reset button: Hidden
    - Progress bar: Visible
 
 3. **Results State:**
    - Hotel/Date inputs: Disabled
    - Guest counter: Enabled (for filtering)
    - Search button: Disabled
-   - Start New Search button: Visible and enabled
+   - Reset button: Visible and enabled
    - Action buttons: Visible and enabled
 
 4. **Reset to Initial State:**
-   - Triggered by "Start New Search" button
+   - Triggered by "Reset" button
+   - Button action: Change state to "Initial State" ONLY
+   - State change triggers: All UI stylistic repaints
    - Returns to state #1
 
 **Button Distinctions:**
 
 - **"busca vagas" (Search Button):**
+  - Initiates new search with API call
+  - Triggers state change to "Searching State"
+  - Processes form data and sends to backend
+
+- **"Reset" Button:**
+  - ONLY changes page state to "Initial State"
+  - Does NOT manipulate DOM elements directly
+  - State change triggers automatic UI repaint
+  - All stylistic updates handled by state management system
+  - Enables users to start over without page reload
   - Primary search trigger
   - Initiates API call with current parameters
   - Enabled only in Initial State
   - Disabled during and after search
 
-- **"Start New Search" Button:**
-  - Secondary action button
-  - Resets application to allow new search
+- **"Reset" Button:**
+  - State reset trigger
+  - Changes page state to "Initial State" ONLY
+  - Does NOT directly manipulate DOM or data
+  - State change automatically triggers UI repaint
   - Visible only in Results State
-  - Clears results and re-enables inputs
+  - Follows state-driven UI pattern
 
 #### FR-008A User Flow
 
@@ -872,9 +894,11 @@ The system shall manage the enabled/disabled state of UI elements throughout the
 6. Search completes with results
 7. → Transition to Results State
 8. User can filter by guest number (dates locked)
-9. User clicks "Start New Search"
-10. → Transition back to Initial State
-11. Cycle repeats
+9. User clicks "Reset" button
+10. → Button changes state to Initial State
+11. → State change triggers UI repaint
+12. → Application returns to Initial State
+13. Cycle repeats
 ```
 
 **State Diagram:**
@@ -897,7 +921,7 @@ The system shall manage the enabled/disabled state of UI elements throughout the
 │ (Dates Locked)  │                    │
 │ (Guest Enabled) │                    │
 └────────┬────────┘                    │
-         │ "Start New Search"          │
+         │ "Reset"                     │
          └─────────────────────────────┘
 ```
 
@@ -927,9 +951,9 @@ Search Button States:
 ├─ Disabled: "busca vagas" (greyed out)
 └─ Active:   "🔍 Buscando..." (blue, disabled)
 
-Start New Search Button:
+Reset Button:
 ├─ Hidden: display: none
-└─ Visible: "🔄 Nova Busca" (green/secondary color)
+└─ Visible: "🔄 Reset" (blue/secondary color, distinct from search button)
 ```
 
 #### FR-008A Implementation Notes
@@ -1074,8 +1098,8 @@ ariaLive.textContent = 'Nova busca disponível';
 **Keyboard Navigation:**
 
 - Disabled elements should not be focusable (tabindex="-1")
-- Focus should move to "Start New Search" button when search completes
-- "Start New Search" should return focus to hotel selector
+- Focus should move to "Reset" button when search completes
+- "Reset" should return focus to hotel selector
 
 #### FR-008A Error Handling
 
@@ -1083,7 +1107,7 @@ ariaLive.textContent = 'Nova busca disponível';
 
 - If search fails, transition to Results State without results
 - Show error message
-- Enable "Start New Search" button to allow retry
+- Enable "Reset" button to allow retry
 - Keep date inputs disabled (user must start new search)
 
 **Implementation:**
@@ -1099,7 +1123,7 @@ document.addEventListener('search:error', function() {
 
 - **Module:** `src/js/searchLifecycleState.js` (280 lines)
 - **Integration:** `src/js/hotelSearch.js` (state transitions on search)
-- **HTML:** `public/index.html` (Start New Search button)
+- **HTML:** `public/index.html` (Reset button)
 - **CSS:** `src/styles/index-page.css` (button styling)
 - **Tests:** `tests/test_search_lifecycle_state.py` (19 test cases)
 
@@ -1108,23 +1132,27 @@ document.addEventListener('search:error', function() {
 ✅ Implemented (100% pass rate):
 
 **Initial State Tests:**
+
 - `test_search_lifecycle_state.py::test_01_initial_all_inputs_enabled`
 - `test_search_lifecycle_state.py::test_02_initial_search_button_enabled`
 - `test_search_lifecycle_state.py::test_03_initial_start_new_search_hidden`
 - `test_search_lifecycle_state.py::test_04_initial_action_buttons_hidden`
 
 **Searching State Tests:**
+
 - `test_search_lifecycle_state.py::test_05_searching_inputs_disabled`
 - `test_search_lifecycle_state.py::test_06_searching_button_disabled`
 - `test_search_lifecycle_state.py::test_07_searching_visual_indication`
 
 **Results State Tests:**
+
 - `test_search_lifecycle_state.py::test_08_results_date_inputs_remain_disabled`
 - `test_search_lifecycle_state.py::test_09_results_search_button_disabled`
 - `test_search_lifecycle_state.py::test_10_results_start_new_search_visible`
 - `test_search_lifecycle_state.py::test_11_results_action_buttons_visible`
 
-**Start New Search Tests:**
+**Reset Button Tests:**
+
 - `test_search_lifecycle_state.py::test_12_start_new_search_button_exists`
 - `test_search_lifecycle_state.py::test_13_start_new_search_clears_results`
 - `test_search_lifecycle_state.py::test_14_start_new_search_enables_inputs`
@@ -1134,6 +1162,7 @@ document.addEventListener('search:error', function() {
 - `test_search_lifecycle_state.py::test_18_start_new_search_preserves_dates`
 
 **State Transition Tests:**
+
 - `test_search_lifecycle_state.py::test_19_search_button_vs_start_new_search_distinction`
 
 **Total:** 19 test cases
@@ -1160,7 +1189,7 @@ document.addEventListener('search:error', function() {
 1. `handleSearchStart()` → Call `setSearchingState()`
 2. `handleSearchComplete()` → Call `setResultsState()`
 3. `handleSearchError()` → Call `setResultsState()`
-4. Start New Search click → Call `setInitialState()`
+4. Reset button click → Call `setInitialState()`
 
 **Component Coordination:**
 
@@ -1203,7 +1232,7 @@ document.addEventListener('search:error', function() {
 5. Search executes → Progress shown
 6. Results display → Dates locked, guest enabled
 7. User adjusts guest count 2 → 3 → Results filtered
-8. User clicks "Start New Search" → All re-enabled
+8. User clicks "Reset" → All re-enabled
 ```
 
 **Scenario 2: Multiple Searches**
@@ -1211,7 +1240,7 @@ document.addEventListener('search:error', function() {
 ```text
 1. Search completed, viewing results
 2. User wants different dates
-3. User clicks "Start New Search"
+3. User clicks "Reset"
 4. Date inputs now enabled
 5. User changes dates to 2025-12-25 to 2025-12-27
 6. User clicks "busca vagas"
@@ -1224,7 +1253,7 @@ document.addEventListener('search:error', function() {
 1. User initiates search
 2. API call fails
 3. Error message displayed
-4. "Start New Search" button available
+4. "Reset" button available
 5. User can retry with same or different parameters
 ```
 

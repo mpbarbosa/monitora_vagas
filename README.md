@@ -2,9 +2,10 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 2.1.0  
-**Last Updated**: 2025-12-17  
-**Status**: ✅ Production Ready (Enhanced)
+**Version**: 2.0.0  
+**Last Updated**: 2024-12-17  
+**Status**: ✅ Production Ready (Enhanced)  
+**Framework**: Bootstrap 5.3.3 + Custom CSS
 
 ---
 
@@ -29,6 +30,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 
 ### Key Highlights
 
+✅ **Bootstrap 5.3.3** - Latest Bootstrap framework integrated  
 ✅ **Real-time Hotel Data** - Dynamic dropdown populated from live API  
 ✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
 ✅ **API Integration** - Full integration with Busca Vagas API v1.2.1  
@@ -54,6 +56,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 
 ### Technical Features
 
+- **Bootstrap 5.3.3** - Modern UI framework with responsive utilities
 - **ES6 Modules** - Modern JavaScript architecture
 - **API Client** - Robust error handling and retry logic
 - **Hotel Cache** - LocalStorage-based caching system with TTL
@@ -61,6 +64,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 - **CORS Support** - Cross-origin resource sharing enabled
 - **Caching** - 5-minute cache for hotel data
 - **Error Handling** - Comprehensive error messages
+- **No jQuery Required** - Bootstrap 5 uses vanilla JavaScript
 
 ---
 
@@ -221,7 +225,23 @@ monitora_vagas/
    http://localhost:8080/public/index.html
    ```
 
-### Using with Local API
+### API Configuration
+
+By default, the application uses the **production API** at `https://www.mpbarbosa.com/api`.
+
+**To use a local mock API for development:**
+
+1. **Start the mock API server**
+   ```bash
+   node docs/api/mock-api-server.js
+   ```
+
+2. **Access with local API**
+   ```
+   http://localhost:8080/public/index.html?useLocalAPI=true
+   ```
+
+**To use the real Busca Vagas API locally:**
 
 1. **Clone Busca Vagas API**
    ```bash
@@ -237,8 +257,7 @@ monitora_vagas/
 
 3. **Access with local API**
    ```
-   http://localhost:8080/index.html
-   (Automatically detects local API on port 3001)
+   http://localhost:8080/public/index.html?useLocalAPI=true
    ```
 
 ---
@@ -372,8 +391,10 @@ For detailed testing documentation, see:
 
 ### CSS & Styling
 
+- **[Bootstrap Integration](docs/BOOTSTRAP_INTEGRATION.md)** - 🆕 Bootstrap 5.3.3 setup and usage
 - **[Colorlib Template Application](docs/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
 - **[CSS Folders Comparison](docs/CSS_FOLDERS_COMPARISON.md)** - CSS structure analysis
+- **[Guest Button States](docs/GUEST_BUTTON_STATES.md)** - UI state management
 - **[CSS Loading Issue](docs/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
 
 ### Caching & Performance
@@ -399,12 +420,13 @@ colorama==0.4.6       # Terminal colors
 
 ### JavaScript (Runtime)
 
-- **jQuery** - DOM manipulation
-- **Bootstrap Wizard** - Multi-step forms
+- **Bootstrap 5.3.3** - Modern UI framework (no jQuery needed)
+- **jQuery** - DOM manipulation (legacy components)
 - **Daterangepicker** - Date selection
 - **Moment.js** - Date formatting
 - **Select2** - Enhanced dropdowns
-- **Font Awesome** - Icons
+- **Font Awesome 4.7** - Icons
+- **Material Design Icons** - Additional icons
 - **ibira.js** - Functional API client library
 
 ### Development

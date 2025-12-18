@@ -1,3 +1,41 @@
+## [2.0.2] - 2024-12-17
+
+### Fixed
+- **AC-008A.39 Compliance**: Reset button no longer triggers form submission
+  - Moved Reset button outside `<form>` element
+  - Added explicit `type="button"` attribute
+  - Button now ONLY changes state (no form submission)
+  - Ensures compliance with AC-008A.39 requirement
+
+### Testing
+- Added `tests/test_reset_button_structure.py` - HTML structure validation
+- Added `tests/test_reset_button_compliance.py` - Comprehensive Selenium tests
+- All tests verify AC-008A.39 compliance
+
+### Documentation
+- Added `docs/RESET_BUTTON_FIX_AC008A39.md` - Complete fix documentation
+
+## [2.0.1] - 2024-12-17
+
+### Changed
+- **Button Rename**: "Start New Search" button renamed to "Reset" button
+  - More accurately reflects functionality (state change only)
+  - Updated button ID from `start-new-search-btn` to `reset-btn`
+  - Updated button label from "Nova Busca" to "Reset"
+  - Clarifies state-driven UI pattern in all documentation
+
+### Documentation
+- Updated FR-008A functional requirements (v1.3 → v1.4)
+- Updated all related documentation files
+- Added RESET_BUTTON_CLARIFICATION.md
+- Clarified that Reset button ONLY changes page state
+
+### Technical
+- Updated JavaScript: `handleStartNewSearch()` → `handleReset()`
+- Updated JavaScript: `startNewSearchBtn` → `resetBtn`
+- Updated CSS: `#start-new-search-btn` → `#reset-btn`
+- Updated all test files with new button ID and name
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

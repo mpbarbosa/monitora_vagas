@@ -83,14 +83,14 @@ class TestInitialPageLoadState:
         assert search_btn.text.lower() == 'busca vagas', "Search button should have correct text"
     
     def test_03_initial_start_new_search_hidden(self, driver):
-        """AC-008A.3: Start New Search button not visible on page load"""
+        """AC-008A.3: Reset button not visible on page load"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
         time.sleep(1)
         
-        assert not is_element_visible(driver, 'start-new-search-btn'), \
-            "Start New Search button should be hidden initially"
+        assert not is_element_visible(driver, 'reset-btn'), \
+            "Reset button should be hidden initially"
     
     def test_04_initial_action_buttons_hidden(self, driver):
         """AC-008A.4: Copy and Clear buttons not visible on page load"""
@@ -221,7 +221,7 @@ class TestResultsState:
         assert is_element_disabled(search_btn), "Search button should remain disabled after search"
     
     def test_10_results_start_new_search_visible(self, driver):
-        """AC-008A.18: Start New Search button visible after search"""
+        """AC-008A.18: Reset button visible after search"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -233,11 +233,11 @@ class TestResultsState:
         
         time.sleep(3)
         
-        assert is_element_visible(driver, 'start-new-search-btn'), \
-            "Start New Search button should be visible after search"
+        assert is_element_visible(driver, 'reset-btn'), \
+            "Reset button should be visible after search"
         
-        start_new_btn = driver.find_element(By.ID, 'start-new-search-btn')
-        assert is_element_enabled(start_new_btn), "Start New Search button should be enabled"
+        start_new_btn = driver.find_element(By.ID, 'reset-btn')
+        assert is_element_enabled(start_new_btn), "Reset button should be enabled"
     
     def test_11_results_action_buttons_visible(self, driver):
         """AC-008A.19-20: Copy and Clear buttons visible after search"""
@@ -259,19 +259,19 @@ class TestResultsState:
 
 
 class TestStartNewSearchAction:
-    """Test AC-008A.26 to AC-008A.37: Start New Search Action"""
+    """Test AC-008A.26 to AC-008A.37: Reset Action"""
     
     def test_12_start_new_search_button_exists(self, driver):
-        """AC-008A.26: Start New Search button has correct ID"""
+        """AC-008A.26: Reset button has correct ID"""
         driver.get('http://localhost:3001/index.html')
         
-        wait_for_element(driver, By.ID, 'start-new-search-btn')
+        wait_for_element(driver, By.ID, 'reset-btn')
         
-        btn = driver.find_element(By.ID, 'start-new-search-btn')
-        assert btn is not None, "Start New Search button should exist with correct ID"
+        btn = driver.find_element(By.ID, 'reset-btn')
+        assert btn is not None, "Reset button should exist with correct ID"
     
     def test_13_start_new_search_clears_results(self, driver):
-        """AC-008A.27-28: Start New Search clears and hides results"""
+        """AC-008A.27-28: Reset clears and hides results"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -283,18 +283,18 @@ class TestStartNewSearchAction:
         driver.find_element(By.ID, 'search-button').click()
         time.sleep(3)
         
-        # Click Start New Search
-        start_new_btn = driver.find_element(By.ID, 'start-new-search-btn')
+        # Click Reset
+        start_new_btn = driver.find_element(By.ID, 'reset-btn')
         start_new_btn.click()
         time.sleep(1)
         
         # Check results are hidden
         results_container = driver.find_element(By.ID, 'results-container')
         assert 'visible' not in results_container.get_attribute('class'), \
-            "Results container should be hidden after Start New Search"
+            "Results container should be hidden after Reset"
     
     def test_14_start_new_search_enables_inputs(self, driver):
-        """AC-008A.29-31: Start New Search enables hotel and date inputs"""
+        """AC-008A.29-31: Reset enables hotel and date inputs"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -306,8 +306,8 @@ class TestStartNewSearchAction:
         driver.find_element(By.ID, 'search-button').click()
         time.sleep(3)
         
-        # Click Start New Search
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        # Click Reset
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
         hotel_select = driver.find_element(By.ID, 'hotel-select')
@@ -319,7 +319,7 @@ class TestStartNewSearchAction:
         assert is_element_enabled(checkout_input), "Check-out input should be enabled"
     
     def test_15_start_new_search_enables_search_button(self, driver):
-        """AC-008A.32: Start New Search enables search button"""
+        """AC-008A.32: Reset enables search button"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -330,7 +330,7 @@ class TestStartNewSearchAction:
         driver.find_element(By.ID, 'search-button').click()
         time.sleep(3)
         
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
         search_btn = driver.find_element(By.ID, 'search-button')
@@ -338,7 +338,7 @@ class TestStartNewSearchAction:
         assert search_btn.text.lower() == 'busca vagas', "Search button should have original text"
     
     def test_16_start_new_search_hides_itself(self, driver):
-        """AC-008A.33: Start New Search hides itself"""
+        """AC-008A.33: Reset hides itself"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -349,14 +349,14 @@ class TestStartNewSearchAction:
         driver.find_element(By.ID, 'search-button').click()
         time.sleep(3)
         
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
-        assert not is_element_visible(driver, 'start-new-search-btn'), \
-            "Start New Search button should be hidden after click"
+        assert not is_element_visible(driver, 'reset-btn'), \
+            "Reset button should be hidden after click"
     
     def test_17_start_new_search_resets_guest_counter(self, driver):
-        """AC-008A.35-36: Start New Search resets guest counter to default"""
+        """AC-008A.35-36: Reset resets guest counter to default"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -367,7 +367,7 @@ class TestStartNewSearchAction:
         driver.find_element(By.ID, 'search-button').click()
         time.sleep(3)
         
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
         guest_input = driver.find_element(By.CSS_SELECTOR, '.quantity')
@@ -375,7 +375,7 @@ class TestStartNewSearchAction:
             "Guest counter should reset to 2"
     
     def test_18_start_new_search_preserves_dates(self, driver):
-        """AC-008A.36: Start New Search preserves date values (dates remain in input fields)"""
+        """AC-008A.36: Reset preserves date values (dates remain in input fields)"""
         driver.get('http://localhost:3001/index.html')
         
         wait_for_element(driver, By.ID, 'hotel-select')
@@ -390,7 +390,7 @@ class TestStartNewSearchAction:
         time.sleep(3)
         
         # Click start new search
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
         # Verify dates are still in fields (not cleared)
@@ -403,9 +403,9 @@ class TestStartNewSearchAction:
         
         # Inputs should be enabled for modification
         assert is_element_enabled(driver.find_element(By.ID, 'input-checkin')), \
-            "Check-in input should be enabled after Start New Search"
+            "Check-in input should be enabled after Reset"
         assert is_element_enabled(driver.find_element(By.ID, 'input-checkout')), \
-            "Check-out input should be enabled after Start New Search"
+            "Check-out input should be enabled after Reset"
 
 
 class TestButtonStateTransitions:
@@ -420,7 +420,7 @@ class TestButtonStateTransitions:
         
         # Initially, search button enabled, start new search hidden
         assert is_element_enabled(driver.find_element(By.ID, 'search-button'))
-        assert not is_element_visible(driver, 'start-new-search-btn')
+        assert not is_element_visible(driver, 'reset-btn')
         
         # After search, search button disabled, start new search visible
         driver.find_element(By.ID, 'input-checkin').send_keys('2025-12-20')
@@ -429,14 +429,14 @@ class TestButtonStateTransitions:
         time.sleep(3)
         
         assert is_element_disabled(driver.find_element(By.ID, 'search-button'))
-        assert is_element_visible(driver, 'start-new-search-btn')
+        assert is_element_visible(driver, 'reset-btn')
         
         # After start new search, back to initial state
-        driver.find_element(By.ID, 'start-new-search-btn').click()
+        driver.find_element(By.ID, 'reset-btn').click()
         time.sleep(1)
         
         assert is_element_enabled(driver.find_element(By.ID, 'search-button'))
-        assert not is_element_visible(driver, 'start-new-search-btn')
+        assert not is_element_visible(driver, 'reset-btn')
 
 
 if __name__ == '__main__':

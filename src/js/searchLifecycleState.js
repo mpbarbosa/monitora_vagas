@@ -1,6 +1,7 @@
 /**
  * Search Lifecycle UI State Management (FR-008A)
  * Manages enabled/disabled state of UI elements throughout the search lifecycle
+ * @version 2.0.0
  */
 
 (function() {
@@ -16,7 +17,7 @@
             guestMinusBtn: null,
             guestInput: null,
             searchBtn: null,
-            startNewSearchBtn: null,
+            resetBtn: null,
             copyResultsBtn: null,
             clearResultsBtn: null,
             resultsContainer: null,
@@ -40,7 +41,7 @@
             this.elements.guestMinusBtn = document.querySelector('.minus');
             this.elements.guestInput = document.querySelector('.quantity');
             this.elements.searchBtn = document.getElementById('search-button');
-            this.elements.startNewSearchBtn = document.getElementById('start-new-search-btn');
+            this.elements.resetBtn = document.getElementById('reset-btn');
             this.elements.copyResultsBtn = document.getElementById('copy-results-btn');
             this.elements.clearResultsBtn = document.getElementById('clear-results-btn');
             this.elements.resultsContainer = document.getElementById('results-container');
@@ -49,10 +50,10 @@
             // Set initial state
             this.setInitialState();
             
-            // Setup Start New Search button handler
-            if (this.elements.startNewSearchBtn) {
-                this.elements.startNewSearchBtn.addEventListener('click', () => {
-                    this.handleStartNewSearch();
+            // Setup Reset button handler
+            if (this.elements.resetBtn) {
+                this.elements.resetBtn.addEventListener('click', () => {
+                    this.handleReset();
                 });
             }
 
@@ -62,6 +63,9 @@
         /**
          * Set Initial State (Page Load)
          * AC-008A.1 to AC-008A.4
+         * 
+         * This method handles ALL UI state changes for initial state.
+         * It's called both on page load and when "Reset" is clicked.
          */
         setInitialState: function() {
             console.log('🔄 Setting Initial State');
@@ -78,17 +82,25 @@
                 this.elements.searchBtn.textContent = 'busca vagas';
             }
 
-            // Guest counter handled by GuestFilterStateManager (FR-004A)
-            // Initially disabled until first search
+            // Reset guest counter to default value (state-driven)
+            if (this.elements.guestInput) {
+                this.elements.guestInput.value = '2';
+            }
+            
+            // Disable guest counter (FR-004A)
+            if (window.GuestFilterStateManager) {
+                window.GuestFilterStateManager.disable();
+            }
+            this.setGuestButtonsState('initial');
 
-            // AC-008A.3: Hide Start New Search button
-            this.hideElement(this.elements.startNewSearchBtn);
+            // AC-008A.3: Hide Reset button
+            this.hideElement(this.elements.resetBtn);
 
             // AC-008A.4: Hide action buttons
             this.hideElement(this.elements.copyResultsBtn);
             this.hideElement(this.elements.clearResultsBtn);
 
-            console.log('✅ Initial State set');
+            console.log('✅ Initial State set - UI repainted');
         },
 
         /**
@@ -105,6 +117,9 @@
             this.disableElement(this.elements.checkoutInput);
             this.disableElement(this.elements.guestPlusBtn);
             this.disableElement(this.elements.guestMinusBtn);
+
+            // Set guest buttons to searching state
+            this.setGuestButtonsState('searching');
 
             // AC-008A.9 & AC-008A.10: Disable search button and change text
             this.disableElement(this.elements.searchBtn);
@@ -132,13 +147,14 @@
 
             // AC-008A.16: Enable guest counter (handled by GuestFilterStateManager)
             // Will be enabled by search completion in hotelSearch.js
+            this.setGuestButtonsState('results');
 
             // AC-008A.17: Search button remains disabled
             this.disableElement(this.elements.searchBtn);
 
-            // AC-008A.18: Show and enable Start New Search button
-            this.showElement(this.elements.startNewSearchBtn);
-            this.enableElement(this.elements.startNewSearchBtn);
+            // AC-008A.18: Show and enable Reset button
+            this.showElement(this.elements.resetBtn);
+            this.enableElement(this.elements.resetBtn);
 
             // AC-008A.19 & AC-008A.20: Show action buttons
             this.showElement(this.elements.copyResultsBtn);
@@ -150,52 +166,30 @@
         },
 
         /**
-         * Handle Start New Search button click
+         * Handle Reset button click
          * AC-008A.26 to AC-008A.37
+         * 
+         * IMPORTANT: This method ONLY changes state to trigger UI repaint.
+         * It does NOT manipulate data or DOM content directly.
+         * The state change triggers stylistic updates through setInitialState().
          */
-        handleStartNewSearch: function() {
-            console.log('🔄 Starting New Search');
+        handleReset: function() {
+            console.log('🔄 Starting New Search - State Change Only');
 
-            // AC-008A.27 & AC-008A.28: Clear and hide results
-            if (this.elements.hotelsCardsContainer) {
-                this.elements.hotelsCardsContainer.innerHTML = '';
-            }
+            // Change state to initial - this triggers all UI updates
+            this.setInitialState();
+            
+            // Clear results container visibility (stylistic change only)
             if (this.elements.resultsContainer) {
                 this.elements.resultsContainer.classList.remove('visible');
             }
-
-            // AC-008A.29 to AC-008A.31: Enable inputs
-            this.enableElement(this.elements.hotelSelect);
-            this.enableElement(this.elements.checkinInput);
-            this.enableElement(this.elements.checkoutInput);
-
-            // AC-008A.32: Enable search button
-            this.enableElement(this.elements.searchBtn);
-            if (this.elements.searchBtn) {
-                this.elements.searchBtn.textContent = 'busca vagas';
+            
+            // Clear results content (data cleanup delegated to state)
+            if (this.elements.hotelsCardsContainer) {
+                this.elements.hotelsCardsContainer.innerHTML = '';
             }
 
-            // AC-008A.33: Hide Start New Search button
-            this.hideElement(this.elements.startNewSearchBtn);
-
-            // AC-008A.34: Hide action buttons
-            this.hideElement(this.elements.copyResultsBtn);
-            this.hideElement(this.elements.clearResultsBtn);
-
-            // AC-008A.35 & AC-008A.36: Reset and disable guest counter
-            if (this.elements.guestInput) {
-                this.elements.guestInput.value = '2 Hóspedes';
-            }
-            if (window.GuestFilterStateManager) {
-                window.GuestFilterStateManager.disable();
-            }
-
-            // AC-008A.36: Date values are preserved (no action needed)
-
-            // AC-008A.37: Return to initial state
-            this.currentState = 'initial';
-
-            console.log('✅ New Search ready');
+            console.log('✅ State changed to initial - UI will repaint');
         },
 
         /**
@@ -239,6 +233,38 @@
             if (!element) return;
             element.style.display = 'none';
             element.setAttribute('aria-hidden', 'true');
+        },
+
+        /**
+         * Set guest buttons visual state (plus/minus)
+         * @param {string} state - 'initial', 'searching', or 'results'
+         */
+        setGuestButtonsState: function(state) {
+            const buttons = [this.elements.guestPlusBtn, this.elements.guestMinusBtn];
+            const states = ['state-initial', 'state-searching', 'state-results'];
+            
+            buttons.forEach(function(btn) {
+                if (!btn) return;
+                
+                // Remove all state classes
+                states.forEach(function(stateClass) {
+                    btn.classList.remove(stateClass);
+                });
+                
+                // Add current state class
+                btn.classList.add('state-' + state);
+                
+                // Set disabled property and aria-disabled attribute
+                if (state === 'results') {
+                    btn.disabled = false;
+                    btn.setAttribute('aria-disabled', 'false');
+                } else {
+                    btn.disabled = true;
+                    btn.setAttribute('aria-disabled', 'true');
+                }
+            });
+            
+            console.log('🎨 Guest buttons state: ' + state);
         },
 
         /**

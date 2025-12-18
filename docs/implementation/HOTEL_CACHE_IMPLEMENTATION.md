@@ -128,20 +128,15 @@ apiClient.clearCache();
 Added visual cache status and manual refresh button:
 
 ```html
-<!-- Hotel dropdown with refresh button -->
-<div style="display: flex; align-items: center; gap: 10px;">
-    <select id="hotel-select" style="flex: 1;">
+<!-- Hotel dropdown with cache status tooltip -->
+<div>
+    <select id="hotel-select" title="Hotel cache status displayed on hover">
         <option value="">Loading hotels...</option>
     </select>
-    <button type="button" id="refresh-hotels-btn" title="Refresh hotel list">
-        🔄
-    </button>
 </div>
 
-<!-- Cache status indicator -->
-<small id="cache-status" style="display: block; margin-top: 5px; color: #666; font-size: 12px;">
-    📦 Cached 8 hotels (15 min ago, expires in 1425 min)
-</small>
+<!-- Cache status shown as Bootstrap tooltip on hotel-select -->
+<!-- Example tooltip content: "📦 Cached 8 hotels (15 min ago, expires in 1425 min)" -->
 ```
 
 #### Status Messages
@@ -205,15 +200,14 @@ The cache system provides detailed console logs:
 // Status: "📦 Cached 8 hotels (30 min ago, expires in 1410 min)"
 ```
 
-### Example 2: Manual Refresh
+### Example 2: Force Refresh via API
 
 ```javascript
-// User clicks 🔄 button
-// Console: 🔄 Manual refresh requested
+// Programmatic force refresh
 // Console: 🔄 Forcing hotel list refresh...
 // Console: 🏨 Fetching hotel list from API: ...
 // Console: 💾 Cached 8 hotels (TTL: 1440 minutes)
-// Status: "📦 Cached 8 hotels (0 min ago, expires in 1440 min)"
+// Tooltip: "📦 Cached 8 hotels (0 min ago, expires in 1440 min)"
 ```
 
 ### Example 3: Cache Expiration

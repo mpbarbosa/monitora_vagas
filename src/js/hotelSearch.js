@@ -2,23 +2,50 @@
  * Hotel Search Module
  * Handles hotel search form submission and results display
  * Separated from index.html per HTML/CSS/JS separation principles
+ * @version 2.0.0
  */
 
 import { apiClient } from '../services/apiClient.js';
 
-// Function to update cache status display
+// Function to update cache status display (as tooltip)
 function updateCacheStatus() {
     const stats = apiClient.getCacheStats();
-    const statusEl = document.getElementById('cache-status');
+    const selectEl = document.getElementById('hotel-select');
+    
+    if (!selectEl) return;
 
+    // Get or create tooltip instance
+    let tooltip = bootstrap.Tooltip.getInstance(selectEl);
+    
     if (stats.exists && !stats.expired) {
-        statusEl.textContent = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
-        statusEl.className = 'help-text success';
+        const tooltipText = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
+        selectEl.setAttribute('data-bs-title', tooltipText);
+        
+        // Reinitialize tooltip if exists, otherwise create new one
+        if (tooltip) {
+            tooltip.dispose();
+        }
+        tooltip = new bootstrap.Tooltip(selectEl, {
+            trigger: 'hover focus',
+            placement: 'bottom'
+        });
     } else if (stats.exists && stats.expired) {
-        statusEl.textContent = `⏰ Cache expired, fetching fresh data...`;
-        statusEl.className = 'help-text warning';
+        const tooltipText = `⏰ Cache expired, fetching fresh data...`;
+        selectEl.setAttribute('data-bs-title', tooltipText);
+        
+        if (tooltip) {
+            tooltip.dispose();
+        }
+        tooltip = new bootstrap.Tooltip(selectEl, {
+            trigger: 'hover focus',
+            placement: 'bottom'
+        });
     } else {
-        statusEl.textContent = '';
+        // No cache, remove tooltip
+        if (tooltip) {
+            tooltip.dispose();
+        }
+        selectEl.removeAttribute('data-bs-title');
     }
 }
 
@@ -52,9 +79,18 @@ async function loadHotels(forceRefresh = false) {
         console.error('Error loading hotels:', error);
         select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
 
-        const statusEl = document.getElementById('cache-status');
-        statusEl.textContent = `❌ Error: ${error.message}`;
-        statusEl.className = 'help-text error';
+        // Show error in tooltip
+        const tooltipText = `❌ Error: ${error.message}`;
+        select.setAttribute('data-bs-title', tooltipText);
+        
+        let tooltip = bootstrap.Tooltip.getInstance(select);
+        if (tooltip) {
+            tooltip.dispose();
+        }
+        new bootstrap.Tooltip(select, {
+            trigger: 'hover focus',
+            placement: 'bottom'
+        });
     } finally {
         // Re-enable refresh button
         if (refreshBtn) {

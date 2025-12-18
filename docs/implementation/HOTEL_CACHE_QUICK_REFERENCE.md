@@ -57,12 +57,6 @@ const stats = hotelCache.getStats();   // Get stats
 
 ## 🎨 UI Elements
 
-### Refresh Button
-- **Icon**: 🔄
-- **Location**: Next to hotel dropdown
-- **Action**: Force refresh hotel list from API
-- **State**: Shows ⏳ during loading
-
 ### Cache Status
 - **📦** Cache active (green)
 - **⏰** Cache expired (orange)

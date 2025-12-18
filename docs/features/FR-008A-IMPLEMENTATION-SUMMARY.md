@@ -21,7 +21,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 1. **`src/js/searchLifecycleState.js`** (280 lines)
    - Core state management module
    - Manages three distinct states: Initial, Searching, Results
-   - Handles "Start New Search" functionality
+   - Handles "Reset" functionality
    - Exposes global `SearchLifecycleState` object
 
 2. **`tests/test_search_lifecycle_state.py`** (18,188 characters)
@@ -32,7 +32,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 #### Modified Files
 
 1. **`public/index.html`**
-   - Added "Start New Search" button with ID `start-new-search-btn`
+   - Added "Reset" button with ID `reset-btn`
    - Added script tag to load `searchLifecycleState.js`
 
 2. **`src/js/hotelSearch.js`**
@@ -41,7 +41,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
    - Calls `setResultsState()` on search completion
 
 3. **`src/styles/index-page.css`**
-   - Added styling for `#start-new-search-btn`
+   - Added styling for `#reset-btn`
    - Blue theme (#2196F3) to distinguish from other action buttons
 
 4. **`docs/features/FUNCTIONAL_REQUIREMENTS.md`**
@@ -73,7 +73,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 │ (Dates Locked)  │                    │
 │ (Guest Enabled) │                    │
 └────────┬────────┘                    │
-         │ "Start New Search"          │
+         │ "Reset"          │
          └─────────────────────────────┘
 ```
 
@@ -81,7 +81,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 
 #### 1. Initial State (Page Load)
 
-**Trigger:** Page load or "Start New Search" button click
+**Trigger:** Page load or "Reset" button click
 
 **Element States:**
 
@@ -90,7 +90,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 - ✅ Check-out input: Enabled
 - ❌ Guest counter: Disabled (FR-004A)
 - ✅ Search button: Enabled ("busca vagas")
-- 🚫 Start New Search button: Hidden
+- 🚫 Reset button: Hidden
 - 🚫 Copy Results button: Hidden
 - 🚫 Clear Results button: Hidden
 
@@ -105,7 +105,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 - ❌ Check-out input: Disabled
 - ❌ Guest counter: Disabled
 - ❌ Search button: Disabled ("🔍 Buscando...")
-- 🚫 Start New Search button: Hidden
+- 🚫 Reset button: Hidden
 - 🚫 Action buttons: Hidden
 
 **Visual Indicators:**
@@ -125,7 +125,7 @@ FR-008A implements comprehensive UI state management throughout the search lifec
 - ❌ Check-out input: Disabled (locked)
 - ✅ Guest counter: Enabled (for filtering)
 - ❌ Search button: Disabled
-- ✅ Start New Search button: Visible and enabled
+- ✅ Reset button: Visible and enabled
 - ✅ Copy Results button: Visible and enabled
 - ✅ Clear Results button: Visible and enabled
 
@@ -142,9 +142,9 @@ After search completion, date and hotel inputs are locked to maintain data consi
 - Initially disabled (FR-004A)
 - Remains disabled during search
 - Enabled after search completion for client-side filtering (FR-004B)
-- Reset to default (2) on "Start New Search"
+- Reset to default (2) on "Reset"
 
-### 3. Start New Search Button
+### 3. Reset Button
 
 **Functionality:**
 
@@ -197,7 +197,7 @@ After search completion, date and hotel inputs are locked to maintain data consi
 
 4. **TestStartNewSearchAction** (7 tests)
    - AC-008A.26 to AC-008A.37
-   - Validates "Start New Search" functionality
+   - Validates "Reset" functionality
 
 5. **TestButtonStateTransitions** (1 test)
    - Validates complete state transition cycle
@@ -241,16 +241,16 @@ if (window.SearchLifecycleState) {
 
 - Guest filter disabled initially (FR-004A)
 - Enabled after search completion
-- Reset and disabled on "Start New Search"
+- Reset and disabled on "Reset"
 
 ### 3. HTML Structure
 
 **File:** `public/index.html`
 
 ```html
-<!-- Start New Search button added to results actions -->
+<!-- Reset button added to results actions -->
 <div class="results-actions">
-    <button id="start-new-search-btn" class="results-action-btn" style="display: none;">
+    <button id="reset-btn" class="results-action-btn" style="display: none;">
         🔄 Nova Busca
     </button>
     <!-- Other action buttons... -->
@@ -367,7 +367,7 @@ Tested and working on:
 - AC-008A.1 to AC-008A.4: Initial State ✅
 - AC-008A.5 to AC-008A.12: Searching State ✅
 - AC-008A.13 to AC-008A.21: Results State ✅
-- AC-008A.26 to AC-008A.37: Start New Search ✅
+- AC-008A.26 to AC-008A.37: Reset ✅
 
 ---
 
