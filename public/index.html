@@ -8,7 +8,7 @@
     <meta name="description" content="Sistema de monitoramento de disponibilidade de vagas nos hotéis AFPESP">
     <meta name="author" content="AFPESP">
     <meta name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
-    <meta name="version" content="2.0.1">
+    <meta name="version" content="2.1.0">
 
     <!-- Title Page-->
     <title>Busca de Vagas em Hotéis Sindicais - AFPESP</title>
@@ -95,6 +95,20 @@
                             <button class="btn btn-outline-secondary plus" type="button" disabled>+</button>
                         </div>
                     </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="apply-booking-rules" checked 
+                                   aria-label="Aplicar regras de reserva" 
+                                   aria-describedby="booking-rules-help"
+                                   data-bs-toggle="tooltip" 
+                                   data-bs-placement="bottom" 
+                                   data-bs-title="Desmarque para ver todas as datas disponíveis">
+                            <label class="form-check-label text-white small" for="apply-booking-rules" 
+                                   style="font-size: 0.75rem; white-space: nowrap;">
+                                Regras
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-2">
                         <button class="btn btn-warning btn-sm w-100" type="submit" id="search-button">
                             <i class="fa fa-search"></i> Buscar
@@ -156,7 +170,7 @@
             </div>
         </div>
         <footer class="version-footer">
-            <small>v2.0.0</small>
+            <small>v2.1.0</small>
         </footer>
     </div>
 
