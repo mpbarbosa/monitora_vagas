@@ -42,7 +42,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "ibira.js": "github:mpbarbosa/ibira.js",
-    "selenium-webdriver": "^4.15.0"
+    "selenium-webdriver": "^4.39.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
