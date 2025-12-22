@@ -29,12 +29,15 @@ tests/
 ### Documentation
 ```
 docs/
-├── GUEST_INPUT_WIDTH_FIX.md          # Latest fix (2024-12-17)
-├── GUEST_BUTTONS_VISIBILITY_FIX.md   # Guest buttons
-├── CACHE_STATUS_TOOLTIP.md           # Cache tooltip
-├── TOP_ALIGNMENT_FIX.md              # Top alignment
-├── TEST_UPDATES_SUMMARY.md           # All test updates
-└── RECENT_UPDATES_2024-12-17.md      # Today's summary
+├── GUEST_INPUT_WIDTH_FIX.md              # Latest fix (2024-12-17)
+├── styling/
+│   └── GUEST_BUTTONS_COMPLETE_GUIDE.md   # Complete guest buttons guide
+├── CACHE_STATUS_TOOLTIP.md               # Cache tooltip
+├── TOP_ALIGNMENT_FIX.md                  # Top alignment
+├── testing/
+│   └── TEST_UPDATES_SUMMARY.md           # All test updates
+└── guides/
+    └── RECENT_UPDATES_2024-12-17.md      # Today's summary
 ```
 
 ### Source Files Modified

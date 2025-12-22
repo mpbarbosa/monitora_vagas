@@ -531,11 +531,11 @@ The application implements three distinct states:
 - **AC-008A.39**: Reset Button Compliance
 
 ### 16.2 Implementation Guides
-- `FIXED_HEADER.md`: Fixed header implementation details
-- `FORM_IN_HEADER_IMPLEMENTATION.md`: Form integration
-- `GUEST_BUTTONS_LAYOUT_IMPROVEMENT.md`: Guest control layout
-- `CACHE_STATUS_TOOLTIP.md`: Tooltip implementation
-- `RESET_BUTTON_FIX_AC008A39.md`: Reset button compliance
+- `styling/FIXED_HEADER.md`: Fixed header implementation details
+- `styling/FORM_IN_HEADER_IMPLEMENTATION.md`: Form integration
+- `styling/GUEST_BUTTONS_COMPLETE_GUIDE.md`: Complete guest buttons implementation (layout, states, visibility, cursor)
+- `styling/CACHE_STATUS_TOOLTIP.md`: Tooltip implementation
+- `features/RESET_BUTTON_FIX_AC008A39.md`: Reset button compliance
 
 ### 16.3 API Documentation
 - `docs/api/API_CONFIGURATION.md`: API configuration

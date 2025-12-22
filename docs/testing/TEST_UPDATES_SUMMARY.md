@@ -413,7 +413,7 @@ python3 tests/run_updated_tests.py
 4. `run_updated_tests.py` - Comprehensive runner
 
 ### New Documentation
-1. `GUEST_BUTTONS_VISIBILITY_FIX.md`
+1. `styling/GUEST_BUTTONS_COMPLETE_GUIDE.md` (consolidated guide)
 2. `CACHE_STATUS_TOOLTIP.md`
 3. `TOP_ALIGNMENT_FIX.md`
 4. `GUEST_INPUT_WIDTH_FIX.md`

@@ -137,15 +137,25 @@ Technical specifications and standards.
 ### 🎨 [Styling](./styling/)
 CSS, templates, and visual design documentation.
 
-**Files:** 3 documents
+**Files:** 11 documents
+- [GUEST_BUTTONS_COMPLETE_GUIDE.md](./styling/GUEST_BUTTONS_COMPLETE_GUIDE.md) - Complete guest buttons implementation ⭐ 🆕
+- [BOOTSTRAP_INTEGRATION.md](./styling/BOOTSTRAP_INTEGRATION.md) - Bootstrap 5.3.3 integration
+- [BOOTSTRAP_UPGRADE_SUMMARY.md](./styling/BOOTSTRAP_UPGRADE_SUMMARY.md) - Bootstrap upgrade summary
 - [COLORLIB_TEMPLATE_APPLICATION.md](./styling/COLORLIB_TEMPLATE_APPLICATION.md) - Template integration
 - [CSS_FOLDERS_COMPARISON.md](./styling/CSS_FOLDERS_COMPARISON.md) - CSS structure analysis
 - [CSS_LOADING_ISSUE.md](./styling/CSS_LOADING_ISSUE.md) - CSS troubleshooting
+- [CACHE_STATUS_TOOLTIP.md](./styling/CACHE_STATUS_TOOLTIP.md) - Cache status tooltip implementation
+- [FIXED_HEADER.md](./styling/FIXED_HEADER.md) - Fixed header implementation
+- [FORM_IN_HEADER_IMPLEMENTATION.md](./styling/FORM_IN_HEADER_IMPLEMENTATION.md) - Form integration in header
+- [GUEST_INPUT_WIDTH_FIX.md](./styling/GUEST_INPUT_WIDTH_FIX.md) - Guest input width fix
+- [TOP_ALIGNMENT_FIX.md](./styling/TOP_ALIGNMENT_FIX.md) - Top alignment improvements
 
 **Topics:**
-- Colorlib template integration
-- CSS organization
-- Styling issues and solutions
+- Guest button states, layouts, and interactions (consolidated guide)
+- Bootstrap framework integration
+- Colorlib template customization
+- CSS organization and troubleshooting
+- UI component styling
 
 ---
 
@@ -214,13 +224,13 @@ Development workflows and execution contexts.
 | Architecture | 12 | System design and patterns |
 | Features | 3 | Requirements and specifications |
 | Guides | 24 | User and developer guides |
-| Implementation | 3 | Technical implementation details |
+| Implementation | 4 | Technical implementation details |
 | Specifications | 5 | Standards and schemas |
-| Styling | 3 | CSS and visual design |
+| Styling | 11 | CSS and visual design |
 | Testing | 1 | Test data and results |
 | Troubleshooting | 3 | Problem solving guides |
 | Workflows | 1 | Development processes |
-| **Total** | **63** | **Complete documentation** |
+| **Total** | **72** | **Complete documentation** |
 
 ---
 
@@ -261,6 +271,12 @@ Use relative links for internal documentation:
 ---
 
 ## 🆕 Recent Updates
+
+### December 22, 2024
+- **Documentation Consolidation**: Merged 5 guest button documents into comprehensive guide
+  - Created [GUEST_BUTTONS_COMPLETE_GUIDE.md](./styling/GUEST_BUTTONS_COMPLETE_GUIDE.md)
+  - Consolidated layout, visibility, cursor, and states documentation
+  - Single source of truth for guest button implementation
 
 ### December 14, 2025
 - Organized documentation into categories

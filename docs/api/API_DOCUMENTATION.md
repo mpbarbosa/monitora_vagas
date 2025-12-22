@@ -1,8 +1,9 @@
 # Monitora Vagas API Documentation
 
-**Version:** 2.0.0  
-**Last Updated:** 2025-12-14  
-**API Version:** Based on busca_vagas API v1.4.1 (compatible with v1.2.1+)
+**Version:** 2.1.0  
+**Last Updated:** 2024-12-22  
+**API Version:** Based on busca_vagas API v1.5.0 (compatible with v1.2.1+)
+**Latest Change:** Added `applyBookingRules` parameter support (FR-014)
 
 ---
 
@@ -197,10 +198,23 @@ const scrapedHotels = await apiClient.scrapeHotels();
 
 **Optional Parameters:**
 - `hotel` - Hotel filter (default: "-1" for all hotels)
+- `applyBookingRules` - Apply booking validation rules (default: `true`) **[FR-014]**
+  - `true`: Apply holiday booking rules and date restrictions (default)
+  - `false`: Bypass booking rules and show all available dates
+
+**Booking Rules (when `applyBookingRules=true`):**
+
+The API enforces special booking rules for holiday periods:
+- **Christmas Package:** December 22nd → December 27th (5 days/4 nights)
+- **New Year Package:** December 27th → January 2nd (6 days/5 nights)
+
+During these periods, reservations **must** use the exact package dates. Custom dates will return a booking rule error.
+
+To bypass these restrictions and search custom dates, set `applyBookingRules=false`.
 
 **Request:**
 ```javascript
-// Search all hotels
+// Search all hotels with booking rules (default)
 const results = await apiClient.searchVacancies(
   '2025-04-03',  // checkin
   '2025-04-05',  // checkout
@@ -212,6 +226,12 @@ const results = await apiClient.searchVacancies(
   new Date('2025-04-03'),  // Can use Date objects
   new Date('2025-04-05'),
   'Amparo'
+);
+
+// Search during holiday period WITHOUT booking rules (FR-014)
+// Note: applyBookingRules must be added to URL manually or via fetch
+const response = await fetch(
+  '/api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false'
 );
 ```
 

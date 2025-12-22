@@ -265,12 +265,14 @@ async function handleFormSubmit(event) {
     const hotelSelect = document.getElementById('hotel-select');
     const checkinInput = document.getElementById('input-checkin');
     const checkoutInput = document.getElementById('input-checkout');
+    const applyBookingRulesCheckbox = document.getElementById('apply-booking-rules');
 
     const hotel = hotelSelect.value || '-1'; // Default to all hotels
     const checkin = checkinInput.value; // yyyy-mm-dd (ISO format from date input)
     const checkout = checkoutInput.value; // yyyy-mm-dd (ISO format from date input)
+    const applyBookingRules = applyBookingRulesCheckbox ? applyBookingRulesCheckbox.checked : true; // FR-014
 
-    console.log('📝 Input parameters:', { hotel, checkin, checkout });
+    console.log('📝 Input parameters:', { hotel, checkin, checkout, applyBookingRules });
 
     // Validate inputs
     if (!checkin || !checkout) {
@@ -293,7 +295,8 @@ async function handleFormSubmit(event) {
 
     try {
         // POST the data to API (using GET as per API spec)
-        const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}`;
+        // FR-014: Include applyBookingRules parameter
+        const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}&applyBookingRules=${applyBookingRules}`;
         console.log('🌐 API Request URL:', apiUrl);
         console.log('📤 Posting data to API...');
 

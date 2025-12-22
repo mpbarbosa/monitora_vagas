@@ -490,6 +490,34 @@ body {
     background: #da190b;
 }
 
+/* Booking Rules Toggle (FR-014) */
+.header-form .form-check.form-switch {
+    padding-left: 2.5em;
+    min-height: 1.5rem;
+}
+
+.header-form .form-check-input {
+    cursor: pointer;
+    width: 2.5em;
+    height: 1.25em;
+    margin-top: 0.125em;
+}
+
+.header-form .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.header-form .form-check-input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.header-form .form-check-label {
+    cursor: pointer;
+    user-select: none;
+}
+
 /* Version Footer */
 .version-footer {
     text-align: center;

@@ -2,12 +2,18 @@
 
 ## Hotel Vacancy Search Application
 
-**Document Version:** 1.4  
-**Date:** 2024-12-17  
+**Document Version:** 1.5  
+**Date:** 2024-12-22  
 **Author:** Monitora Vagas Development Team  
 **Application:** index.html - Hotel Vacancy Search Interface
 
-**Latest Changes (v1.4):**
+**Latest Changes (v1.5):**
+- Added FR-014: Booking Rules Toggle feature
+- New API parameter: `applyBookingRules` (boolean)
+- Allows users to enable/disable booking validation rules
+- Comprehensive implementation guide with accessibility considerations
+
+**Previous Changes (v1.4):**
 - Renamed "Start New Search" button to "Reset" button
 - Clarified that Reset button ONLY changes page state (state-driven UI pattern)
 - Updated all acceptance criteria to reflect state-driven approach
@@ -1462,6 +1468,225 @@ The system shall provide functional date picker controls for date selection.
 
 ---
 
+### FR-014: Booking Rules Toggle
+
+**Priority:** Medium  
+**Status:** Planned
+
+#### FR-014 Description
+
+The system shall provide the ability to enable or disable booking rules validation when searching for hotel vacancies. This feature allows users to bypass standard booking restrictions and view all available dates regardless of business rules.
+
+#### FR-014 Acceptance Criteria
+
+- **AC-014.1:** A checkbox or toggle control shall be provided to enable/disable booking rules
+- **AC-014.2:** The control shall be clearly labeled (e.g., "Apply Booking Rules" or "Aplicar Regras de Reserva")
+- **AC-014.3:** The default state shall be enabled (booking rules applied)
+- **AC-014.4:** The toggle state shall be included in API requests via the `applyBookingRules` parameter
+- **AC-014.5:** When enabled (true), the API shall apply standard booking validation rules
+- **AC-014.6:** When disabled (false), the API shall return all available dates without booking restrictions
+- **AC-014.7:** The toggle state shall be clearly visible to the user
+- **AC-014.8:** Visual feedback shall indicate the current state (enabled/disabled)
+
+#### FR-014 Business Rules
+
+- **Default State:** Enabled (booking rules applied)
+- **API Parameter:** `applyBookingRules` (boolean)
+- **Parameter Values:**
+  - `true`: Apply booking rules (default)
+  - `false`: Bypass booking rules
+- **Persistence:** State can persist across searches within the same session (optional)
+- **Access Control:** All users have access (no special permissions required)
+
+#### API Integration
+
+**Parameter Name:** `applyBookingRules`  
+**Data Type:** Boolean  
+**Default Value:** `true`
+
+**API Request Example:**
+
+```javascript
+// With booking rules enabled (default)
+{
+  "hotel": "123",
+  "checkin": "2024-12-25",
+  "checkout": "2024-12-28",
+  "applyBookingRules": true
+}
+
+// With booking rules disabled
+{
+  "hotel": "123",
+  "checkin": "2024-12-25",
+  "checkout": "2024-12-28",
+  "applyBookingRules": false
+}
+```
+
+#### UI Implementation Options
+
+**Option 1: Checkbox**
+```html
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" 
+         id="apply-booking-rules" checked>
+  <label class="form-check-label" for="apply-booking-rules">
+    Aplicar Regras de Reserva
+  </label>
+</div>
+```
+
+**Option 2: Toggle Switch**
+```html
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" 
+         id="apply-booking-rules" checked>
+  <label class="form-check-label" for="apply-booking-rules">
+    Aplicar Regras de Reserva
+  </label>
+</div>
+```
+
+#### User Flow
+
+```text
+1. User navigates to search form
+2. User sees "Aplicar Regras de Reserva" toggle (checked by default)
+3. User fills in search criteria (hotel, dates, guests)
+4. User decides whether to apply booking rules:
+   a. Keep toggle enabled → Standard booking rules apply
+   b. Disable toggle → View all available dates without restrictions
+5. User clicks "busca vagas" button
+6. System includes applyBookingRules parameter in API request
+7. API returns results based on booking rules setting
+8. Results display with indication of whether rules were applied
+```
+
+#### Visual States
+
+**Enabled State (Rules Applied):**
+- Checkbox/Toggle: Checked ✓
+- Visual indicator: Green or primary color
+- Tooltip/Help text: "Regras de reserva serão aplicadas"
+
+**Disabled State (Rules Bypassed):**
+- Checkbox/Toggle: Unchecked ☐
+- Visual indicator: Gray or neutral color
+- Tooltip/Help text: "Exibindo todas as datas disponíveis"
+
+#### Placement Recommendations
+
+The booking rules toggle should be placed:
+1. Near the search button for easy access
+2. Within the search form container
+3. After the guest counter or as the last form control
+4. With clear spacing and visual separation
+
+**Suggested Layout:**
+```text
+┌─────────────────────────────────────────┐
+│ Hotel Dropdown                          │
+├─────────────────────────────────────────┤
+│ Check-In Date  │  Check-Out Date        │
+├─────────────────────────────────────────┤
+│ Guest Counter                           │
+├─────────────────────────────────────────┤
+│ ☑ Aplicar Regras de Reserva            │
+├─────────────────────────────────────────┤
+│           [ Buscar Vagas ]              │
+└─────────────────────────────────────────┘
+```
+
+#### Internationalization
+
+| Language | Label | Help Text |
+|----------|-------|-----------|
+| **Portuguese (pt-BR)** | "Aplicar Regras de Reserva" | "Desmarque para ver todas as datas disponíveis" |
+| **English (en-US)** | "Apply Booking Rules" | "Uncheck to view all available dates" |
+
+#### Accessibility Considerations
+
+- **ARIA Label:** `aria-label="Apply booking rules"`
+- **ARIA Description:** `aria-describedby="booking-rules-help"`
+- **Keyboard Support:** Space bar to toggle checkbox/switch
+- **Screen Reader:** Announce state changes ("Booking rules enabled" / "Booking rules disabled")
+- **Focus Indicator:** Clear focus ring on keyboard navigation
+- **Color Contrast:** Ensure WCAG 2.1 AA compliance
+
+#### Implementation Notes
+
+**JavaScript:**
+```javascript
+// Get toggle state
+const applyBookingRules = document.getElementById('apply-booking-rules').checked;
+
+// Include in API request
+const searchParams = {
+  hotel: selectedHotel,
+  checkin: checkinDate,
+  checkout: checkoutDate,
+  applyBookingRules: applyBookingRules
+};
+```
+
+**State Management:**
+- Store toggle state in component/form state
+- Include in search lifecycle state management
+- Persist state using localStorage (optional)
+- Reset on page reload (or restore from localStorage)
+
+#### Use Cases
+
+**Use Case 1: Standard Booking**
+- User: Hotel booking agent following standard procedures
+- Action: Keeps booking rules enabled
+- Result: Only dates that meet booking criteria are shown
+
+**Use Case 2: Special Circumstances**
+- User: Manager checking availability for special event
+- Action: Disables booking rules
+- Result: All available dates shown, including those outside normal booking windows
+
+**Use Case 3: Availability Research**
+- User: Travel coordinator planning future trips
+- Action: Toggles between enabled/disabled to compare availability
+- Result: Can see both standard and extended availability
+
+#### Error Handling
+
+- If API doesn't support `applyBookingRules` parameter, default to standard behavior
+- Log warning if parameter is not recognized by API
+- Graceful degradation: Feature optional, doesn't break existing functionality
+
+#### FR-014 Test Coverage
+
+Planned tests:
+- `test_booking_rules_toggle_exists`
+- `test_booking_rules_default_state_enabled`
+- `test_booking_rules_toggle_changes_state`
+- `test_booking_rules_parameter_included_in_request`
+- `test_booking_rules_enabled_api_call`
+- `test_booking_rules_disabled_api_call`
+- `test_booking_rules_accessibility`
+- `test_booking_rules_keyboard_navigation`
+
+#### FR-014 Dependencies
+
+- FR-005: Vacancy Search Execution (integrates with search API call)
+- apiClient.js: Must support `applyBookingRules` parameter
+- API endpoint: `/api/vagas` must accept and process `applyBookingRules` parameter
+
+#### Future Enhancements
+
+- Admin panel to set default booking rules state
+- Role-based access control (only certain users can disable rules)
+- Audit log for when booking rules are bypassed
+- Display indicator in results showing which rules were applied/bypassed
+- Configurable booking rules (define what rules can be toggled)
+
+---
+
 ## 3. Non-Functional Requirements
 
 ### NFR-001: Browser Compatibility
@@ -1516,12 +1741,13 @@ The application requires:
 4. User selects check-in date
 5. User selects check-out date
 6. User adjusts guest count (optional)
-7. User clicks "busca vagas" button
-8. System validates inputs
-9. System displays loading state
-10. System calls API with search parameters
-11. System displays results in card format
-12. User can copy results or clear results
+7. User toggles booking rules if needed (optional, FR-014)
+8. User clicks "busca vagas" button
+9. System validates inputs
+10. System displays loading state
+11. System calls API with search parameters (including applyBookingRules)
+12. System displays results in card format
+13. User can copy results or clear results
 ```
 
 ### 4.2 Alternative Workflow: Clear Results
@@ -1564,9 +1790,19 @@ The application requires:
 {
   "hotel": "string (hotelId or '-1')",
   "checkin": "string (yyyy-MM-dd)",
-  "checkout": "string (yyyy-MM-dd)"
+  "checkout": "string (yyyy-MM-dd)",
+  "applyBookingRules": "boolean (optional, default: true)"
 }
 ```
+
+**Parameter Details:**
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| hotel | string | No | "-1" | Hotel ID or "-1" for all hotels |
+| checkin | string | Yes | - | Check-in date in ISO 8601 format (yyyy-MM-dd) |
+| checkout | string | Yes | - | Check-out date in ISO 8601 format (yyyy-MM-dd) |
+| applyBookingRules | boolean | No | true | Enable/disable booking validation rules (FR-014) |
 
 ### 5.3 API Response Format
 
@@ -1733,6 +1969,7 @@ The application requires:
 | 1.2     | 2025-12-11 | Monitora Vagas Team | Added FR-004B: Client-Side Guest Number Filtering |
 | 1.3     | 2025-12-16 | Monitora Vagas Team | Added FR-008A: Search Lifecycle UI State Management |
 | 1.4     | 2025-12-17 | Monitora Vagas Team | Implemented FR-008A with 19 test cases (100% coverage) |
+| 1.5     | 2024-12-22 | Monitora Vagas Team | Added FR-014: Booking Rules Toggle (applyBookingRules API parameter) |
 
 ---
 

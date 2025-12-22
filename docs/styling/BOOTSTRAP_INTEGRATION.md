@@ -390,10 +390,10 @@ This combines Bootstrap's `.btn` base styles with our custom `.btn-submit` styli
 
 ## 🔗 Related Documentation
 
-- [README.md](../README.md) - Main project documentation
-- [API_CONFIGURATION.md](./API_CONFIGURATION.md) - API setup
-- [GUEST_BUTTON_STATES.md](./GUEST_BUTTON_STATES.md) - UI state management
-- [Project Structure](./PROJECT_STRUCTURE.md) - File organization
+- [README.md](../../README.md) - Main project documentation
+- [API_CONFIGURATION.md](../api/API_CONFIGURATION.md) - API setup
+- [Guest Buttons Complete Guide](./GUEST_BUTTONS_COMPLETE_GUIDE.md) - UI state management
+- [Project Structure](../architecture/PROJECT_STRUCTURE.md) - File organization
 
 ---
 

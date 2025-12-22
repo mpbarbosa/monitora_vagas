@@ -1,0 +1,64 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    
+    # Grouping strategy
+    groups:
+      # Group patch and minor updates for production dependencies
+      production-dependencies:
+        patterns:
+          - "bootstrap"
+          - "ibira.js"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Group test dependencies together
+      test-dependencies:
+        patterns:
+          - "jest*"
+          - "@jest/*"
+          - "selenium-webdriver"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Group dev tools
+      dev-dependencies:
+        patterns:
+          - "eslint*"
+          - "markdownlint*"
+          - "node-fetch"
+        update-types:
+          - "minor"
+          - "patch"
+    
+    # Version update strategy
+    versioning-strategy: increase
+    
+    # Labels for PRs
+    labels:
+      - "dependencies"
+      - "automated"
+    
+    # Allow security updates
+    open-pull-requests-limit: 10
+    
+    # Commit message prefix
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    
+    # Ignore specific updates (manual upgrade preferred)
+    ignore:
+      # Major version updates need manual testing
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

@@ -40,12 +40,18 @@ This document tracks semantic version updates applied to files modified on Decem
 - **Change Type:** PATCH
 - **Reason:** Updated to reflect guest filter layout improvements
 
-#### docs/GUEST_BUTTON_CURSOR_FIX.md
+#### docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md
 
-- **Previous Version:** 1.0.1
-- **New Version:** 1.0.2
-- **Change Type:** PATCH
-- **Reason:** Additional cursor behavior fixes documented
+- **Previous Version:** Multiple separate docs (1.0.0-1.0.2)
+- **New Version:** 2.0.0
+- **Change Type:** MAJOR (Consolidation)
+- **Reason:** Consolidated 5 separate guest button documentation files into comprehensive guide
+- **Consolidated Files:**
+  - GUEST_BUTTONS_LAYOUT_IMPROVEMENT.md
+  - GUEST_BUTTONS_VISIBILITY_FIX.md
+  - GUEST_BUTTON_CURSOR_FIX.md
+  - GUEST_BUTTON_STATES.md
+  - GUEST_BUTTON_STATES_SUMMARY.md
 
 #### docs/GUEST_INPUT_WIDTH_FIX.md
 
@@ -53,13 +59,6 @@ This document tracks semantic version updates applied to files modified on Decem
 - **New Version:** 1.0.1
 - **Change Type:** Initial versioning with PATCH
 - **Reason:** Document already existed with updates, starting at 1.0.1
-
-#### docs/GUEST_BUTTONS_LAYOUT_IMPROVEMENT.md
-
-- **Previous Version:** None
-- **New Version:** 1.0.0
-- **Change Type:** Initial versioning
-- **Reason:** New documentation file tracking layout improvements
 
 ---
 

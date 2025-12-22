@@ -431,9 +431,9 @@ Refactoring completed:
 
 ## 🔗 Related Documentation
 
-- [State-Driven UI Pattern](./STATE_DRIVEN_UI_PATTERN.md) - Complete pattern guide
-- [Search Lifecycle (FR-008A)](./features/FR-008A-README.md) - Original requirements
-- [Guest Button States](./GUEST_BUTTON_STATES.md) - Related state management
+- [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md) - Complete pattern guide
+- [Search Lifecycle (FR-008A)](../features/FR-008A-README.md) - Original requirements
+- [Guest Buttons Complete Guide](../styling/GUEST_BUTTONS_COMPLETE_GUIDE.md) - Related state management
 
 ---
 
