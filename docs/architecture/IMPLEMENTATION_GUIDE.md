@@ -178,8 +178,8 @@ AFPESP Website
 
 ## 📚 Documentation
 
-- **API Integration Changes:** [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md)
-- **API Usage Review:** [API_CLIENT_USAGE_REVIEW.md](./API_CLIENT_USAGE_REVIEW.md)
+- **API Integration Changes:** [API_INTEGRATION_CHANGES.md](../api/API_INTEGRATION_CHANGES.md)
+- **API Usage Review:** [API_CLIENT_USAGE_REVIEW.md](../api/API_CLIENT_USAGE_REVIEW.md)
 - **Backend API Docs:** [busca_vagas API Documentation](https://github.com/mpbarbosa/busca_vagas/blob/main/docs/API_CLIENT_DOCUMENTATION.md)
 
 ---

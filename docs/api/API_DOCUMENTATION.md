@@ -753,7 +753,7 @@ python3 tests/e2e_test_suite.py
 - **busca_vagas API:** [DATA_FLOW_DOCUMENTATION.md](https://github.com/mpbarbosa/busca_vagas/blob/main/docs/DATA_FLOW_DOCUMENTATION.md)
 - **Integration Guide:** [API_INTEGRATION_UPDATE.md](./API_INTEGRATION_UPDATE.md)
 - **Implementation Guide:** [IMPLEMENTATION_GUIDE.md](../architecture/IMPLEMENTATION_GUIDE.md)
-- **Quick Start:** [QUICKSTART.md](../../QUICKSTART.md)
+- **Quick Start:** [QUICKSTART.md](../guides/QUICKSTART.md)
 
 ---
 

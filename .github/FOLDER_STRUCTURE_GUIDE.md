@@ -211,12 +211,14 @@ monitora_vagas/
 **Purpose**: Files served directly without build processing
 
 **Contents**:
+
 - `index.html` - Main HTML entry point
 - `vendor/` - Third-party JavaScript libraries
 - `archived-versions/` - Historical HTML versions
 - `sw.js` - Service worker for PWA support
 
 **Guidelines**:
+
 - ✅ Place files that don't need preprocessing
 - ✅ Use for vendor libraries loaded via CDN fallback
 - ✅ Keep HTML files for direct browser access
@@ -242,6 +244,7 @@ export const isProduction = () => window.location.hostname !== 'localhost';
 ```
 
 **Guidelines**:
+
 - ✅ Export const objects for constants
 - ✅ Use uppercase for constant names
 - ✅ Group related constants
@@ -262,6 +265,7 @@ export function createAPIClient(config) {
 ```
 
 **Principles**:
+
 - ✅ **Referential Transparency**: Pure functions, no side effects
 - ✅ **Dependency Injection**: Pass dependencies as parameters
 - ✅ **Immutability**: Never mutate input parameters
@@ -274,6 +278,7 @@ export function createAPIClient(config) {
 **Purpose**: Application logic and UI interactions
 
 **Organization**:
+
 - `global.js` - Application bootstrap and initialization
 - `hotelSearch.js` - Search functionality
 - `guestCounter.js` - Guest counter component
@@ -281,6 +286,7 @@ export function createAPIClient(config) {
 - `searchLifecycleState.js` - State management (FR-008A)
 
 **Guidelines**:
+
 - ✅ Use ES6 module imports/exports
 - ✅ One primary responsibility per file
 - ✅ Prefix private functions with underscore
@@ -291,7 +297,8 @@ export function createAPIClient(config) {
 #### `/src/styles` - CSS Organization
 
 **Structure**:
-```
+
+```text
 styles/
 ├── global/          # Global styles
 │   ├── reset.css
@@ -306,6 +313,7 @@ styles/
 ```
 
 **Guidelines**:
+
 - ✅ Use BEM naming convention
 - ✅ Leverage Bootstrap utilities
 - ✅ Use CSS custom properties (variables)
@@ -331,6 +339,7 @@ styles/
 | `workflows/` | Process docs | WORKFLOW_EXECUTION_CONTEXT.md |
 
 **Guidelines**:
+
 - ✅ Use descriptive UPPERCASE filenames with underscores
 - ✅ Include README.md in each directory
 - ✅ Cross-reference related documents
@@ -341,7 +350,8 @@ styles/
 ### `/tests` - Test Suites
 
 **Organization**:
-```
+
+```text
 tests/
 ├── e2e/                    # End-to-end tests
 │   ├── README.md
@@ -355,12 +365,14 @@ tests/
 ```
 
 **Testing Strategy**:
+
 - **Unit Tests**: Jest for JavaScript modules
 - **Integration Tests**: API client with mock responses
 - **E2E Tests**: Python/Selenium for full user flows
 - **UI Tests**: Visual regression and component testing
 
 **Guidelines**:
+
 - ✅ Name test files with `.test.js` or `test_*.py`
 - ✅ Group tests by feature or module
 - ✅ Use descriptive test names
@@ -464,7 +476,7 @@ formControls.css
 
 **Naming Convention**: `UPPERCASE_WITH_UNDERSCORES.md`
 
-```
+```text
 ✅ Good
 FUNCTIONAL_REQUIREMENTS.md
 API_DOCUMENTATION.md
@@ -506,7 +518,7 @@ More content...
 
 ## References
 
-- [Related Doc](./RELATED_DOC.md)
+- [Related Doc](#related-documentation)
 - [External Link](https://example.com)
 ```
 
@@ -522,6 +534,7 @@ More content...
    - Identify dependencies
 
 2. **Implement**:
+
    ```bash
    # Create feature branch
    git checkout -b feature/FR-XXX-description
@@ -533,6 +546,7 @@ More content...
    ```
 
 3. **Test**:
+
    ```bash
    # Run linting
    npm run lint
@@ -556,7 +570,7 @@ More content...
 
 ### File Placement Decision Tree
 
-```
+```text
 Is it a third-party library?
 ├─ Yes → /public/vendor/
 └─ No
@@ -667,6 +681,7 @@ function _updateUI() {
 ```
 
 **Guidelines**:
+
 - ✅ Centralize state transitions
 - ✅ UI updates triggered by state changes
 - ✅ Immutable state updates
@@ -687,7 +702,7 @@ function _updateUI() {
 
 ### Test Organization
 
-```
+```text
 tests/
 ├── unit/                      # Unit tests
 │   ├── apiClient.test.js     # API client tests
@@ -757,7 +772,7 @@ test('search works', () => { });
 
 ```markdown
 <!-- Relative links within docs/ -->
-See [API Documentation](../api/API_DOCUMENTATION.md)
+See [API Documentation](../docs/api/API_DOCUMENTATION.md)
 
 <!-- Links to source code -->
 Implementation: [`src/services/apiClient.js`](../../src/services/apiClient.js)

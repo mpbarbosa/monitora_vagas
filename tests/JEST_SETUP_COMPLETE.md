@@ -440,7 +440,7 @@ npm run test:api tests/apiClient.test.js
 
 - [Jest ES6 Modules](https://jestjs.io/docs/ecmascript-modules)
 - [Jest Configuration](https://jestjs.io/docs/configuration)
-- [Referential Transparency](./.github/REFERENTIAL_TRANSPARENCY.md)
+- [Referential Transparency](../.github/REFERENTIAL_TRANSPARENCY.md)
 
 ### Related Files
 

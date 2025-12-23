@@ -2,7 +2,7 @@
 
 > **📋 Document Scope: Monitora Vagas Specific**  
 > This is the **Monitora Vagas-specific version** with customizations for this project.  
-> **Canonical Reference**: See [/docs/GIT_BEST_PRACTICES_GUIDE.md](../../../docs/GIT_BEST_PRACTICES_GUIDE.md) in the main repository for universal best practices.  
+> **Canonical Reference**: See [/docs/GIT_BEST_PRACTICES_GUIDE.md](./GIT_BEST_PRACTICES_GUIDE.md) in the main repository for universal best practices.  
 > **Main Repository**: [mpbarbosa_site](https://github.com/mpbarbosa/mpbarbosa_site)
 
 ## Overview

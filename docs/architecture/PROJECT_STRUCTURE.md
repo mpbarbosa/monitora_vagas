@@ -150,7 +150,7 @@ monitora_vagas/
 
 **Current Status:** Empty (components archived)
 
-⚠️ **Note:** Previous components were moved to `/src/archive/components/` as they were not referenced in the current implementation. See [Archive Documentation](../src/archive/README.md) for details.
+⚠️ **Note:** Previous components were moved to `/src/archive/components/` as they were not referenced in the current implementation. See [Archive Documentation](../../legac../README.md (archived)) for details.
 
 **Archived Components:**
 - `AdvancedSearchModal/` - Advanced search modal dialog (archived)
@@ -243,7 +243,7 @@ During the v2.0.0 restructure, we identified files that exist but are not import
 - Root files: App.js, main.js
 
 **Documentation:**
-See [src/archive/README.md](../src/archive/README.md) for:
+See [src/archiv../README.md](../../legac../README.md (archived)) for:
 - Complete list of archived files
 - Reasons for archiving
 - How to restore files if needed
@@ -491,18 +491,18 @@ monitora_vagas/
 
 ## Related Documentation
 
-- [Folder Structure Guide](../.github/FOLDER_STRUCTURE_GUIDE.md) - Comprehensive structure guide
-- [HTML/CSS/JS Separation](../.github/HTML_CSS_JS_SEPARATION.md) - Separation principles
-- [Quick Start](../QUICKSTART.md) - Getting started guide
-- [README](../README.md) - Project overview
+- [Folder Structure Guide](../../.github/FOLDER_STRUCTURE_GUIDE.md) - Comprehensive structure guide
+- [HTML/CSS/JS Separation](../../.github/HTML_CSS_JS_SEPARATION.md) - Separation principles
+- [Quick Start](../guides/QUICKSTART.md) - Getting started guide
+- [README](.../README.md) - Project overview
 
 ---
 
 ## Support
 
 For questions or suggestions about the project structure:
-1. Check the [Folder Structure Guide](../.github/FOLDER_STRUCTURE_GUIDE.md)
-2. Review [documentation in `/docs`](./README.md)
+1. Check the [Folder Structure Guide](../../.github/FOLDER_STRUCTURE_GUIDE.md)
+2. Review [documentation in `/docs`](../README.md)
 3. Open an issue on GitHub
 4. Contact the development team
 

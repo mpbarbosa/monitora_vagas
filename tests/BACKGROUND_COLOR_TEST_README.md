@@ -416,9 +416,9 @@ Pass Rate:    100.0%
 
 ## Related Documentation
 
-- [CSS Loading Issue](../docs/CSS_LOADING_ISSUE.md) - Fix CSS not loading
+- [CSS Loading Issue](../docs/styling/CSS_LOADING_ISSUE.md) - Fix CSS not loading
 - [CSS Loading Tests](./CSS_LOADING_TEST_README.md) - Test CSS file loading
-- [Quick Start](../QUICKSTART.md) - Get started quickly
+- [Quick Start](../docs/guides/QUICKSTART.md) - Get started quickly
 
 ---
 

@@ -10,14 +10,14 @@ Welcome to the Monitora Vagas documentation. This directory contains comprehensi
 ## 🆕 v2.0 Updates
 
 **New Documentation:**
-- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Comprehensive folder structure guide
-- [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary
+- [PROJECT_STRUCTURE.md](./architecture/PROJECT_STRUCTURE.md) - Comprehensive folder structure guide
+- [RESTRUCTURE_SUMMARY.md](./guides/RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary
 
 **Major Changes:**
 - Removed all symlinks from project
 - Reorganized folder structure following best practices
 - Applied HTML/CSS/JS separation principles
-- See [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) for details
+- See [RESTRUCTURE_SUMMARY.md](./guides/RESTRUCTURE_SUMMARY.md) for details
 
 ---
 
@@ -27,7 +27,7 @@ Welcome to the Monitora Vagas documentation. This directory contains comprehensi
 Integration with busca_vagas API and client implementation.
 
 **Files:** 8 documents
-- [API_DOCUMENTATION.md](./api/API_DOCUMENTATION.md) - Complete API reference (START HERE)
+- [API_DOCUMENTATION.md](./api/API_DOCUMENTATION.md) - Complete API reference)
 - [README.md](./api/README.md) - API documentation index
 - [API_CLIENT_USAGE_REVIEW.md](./api/API_CLIENT_USAGE_REVIEW.md) - Client usage patterns
 - [API_INTEGRATION_UPDATE.md](./api/API_INTEGRATION_UPDATE.md) - Latest integration guide
@@ -102,8 +102,8 @@ Technical implementation details and code-level documentation.
 ### 📁 Project Structure & Organization
 
 **Root-level Documentation:**
-- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Comprehensive folder structure guide (14KB) ⭐
-- [RESTRUCTURE_SUMMARY.md](./RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary (8KB) 🆕
+- [PROJECT_STRUCTURE.md](./architectur./architecture/PROJECT_STRUCTURE.md) - Comprehensive folder structure guide) ⭐
+- [RESTRUCTURE_SUMMARY.md](./guide./guides/RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary) 🆕
 
 **Related Guides:**
 - [../.github/FOLDER_STRUCTURE_GUIDE.md](../.github/FOLDER_STRUCTURE_GUIDE.md) - Best practices guide
@@ -200,7 +200,7 @@ Development workflows and execution contexts.
 ## 🚀 Quick Start
 
 ### New to the Project?
-1. Start with [QUICKSTART.md](../QUICKSTART.md) in the project root
+1. Start with [QUICKSTART.md](./guides/QUICKSTART.md) in the project root
 2. Read [API Documentation](./api/README.md) for API integration
 3. Review [Features Documentation](./features/FUNCTIONAL_REQUIREMENTS.md) for requirements
 
@@ -332,7 +332,7 @@ When adding new documentation:
 
 - 📖 Check the appropriate category folder
 - 🔍 Use grep to search documentation: `grep -r "search term" docs/`
-- 📋 Review [QUICKSTART.md](../QUICKSTART.md) for basics
+- 📋 Review [QUICKSTART.md](./guides/QUICKSTART.md) for basics
 - 🐛 Check [Troubleshooting](./troubleshooting/) for known issues
 
 ---

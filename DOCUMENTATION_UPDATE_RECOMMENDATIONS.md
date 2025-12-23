@@ -543,15 +543,15 @@ describe('MyModule', () => {
 **Add new category**:
 
 ```markdown
-### 📏 [Standards](./standards/)
+### 📏 [Standards](../docs/standards/)
 Coding standards, best practices, and conventions.
 
 **Files:** 5 documents
-- [CENTRALIZED_LOGGER.md](./standards/CENTRALIZED_LOGGER.md) - Logger service standards
-- [CONSTANTS_EXTRACTION.md](./standards/CONSTANTS_EXTRACTION.md) - Constants management
-- [DOCUMENTATION_AUTOMATION.md](./standards/DOCUMENTATION_AUTOMATION.md) - Automated doc standards
-- [ES6_MODULE_CONVERSION.md](./standards/ES6_MODULE_CONVERSION.md) - Module conversion guide
-- [ESLINT_CONFIGURATION.md](./standards/ESLINT_CONFIGURATION.md) - ESLint setup
+- [CENTRALIZED_LOGGER.md](../docs/standards/CENTRALIZED_LOGGER.md) - Logger service standards
+- [CONSTANTS_EXTRACTION.md](../docs/standards/CONSTANTS_EXTRACTION.md) - Constants management
+- [DOCUMENTATION_AUTOMATION.md](../docs/standards/DOCUMENTATION_AUTOMATION.md) - Automated doc standards
+- [ES6_MODULE_CONVERSION.md](../docs/standards/ES6_MODULE_CONVERSION.md) - Module conversion guide
+- [ESLINT_CONFIGURATION.md](../docs/standards/ESLINT_CONFIGURATION.md) - ESLint setup
 
 **Topics:**
 - Logging best practices

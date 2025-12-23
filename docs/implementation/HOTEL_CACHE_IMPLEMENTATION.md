@@ -457,9 +457,9 @@ public/
 
 ## Related Documentation
 
-- [API Client Documentation](../docs/API_CLIENT_DOCUMENTATION.md)
-- [Service Worker](../public/sw.js)
-- [Colorlib Template](./COLORLIB_TEMPLATE_APPLICATION.md)
+- [API Client Documentation](../api/API_CLIENT_DOCUMENTATION.md)
+- [Service Worker](../../public/sw.js)
+- [Colorlib Template](../styling/COLORLIB_TEMPLATE_APPLICATION.md)
 
 ---
 

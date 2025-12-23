@@ -278,8 +278,8 @@ Similar to:
 ## 📖 Related Documentation
 
 - [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md)
-- [Start New Search Refactoring](../../docs/implementation/START_NEW_SEARCH_REFACTORING.md) (now "Reset Button")
-- [Functional Requirements FR-008A](./FUNCTIONAL_REQUIREMENTS.md#fr-008a)
+- [Start New Search Refactoring](../implementation/START_NEW_SEARCH_REFACTORING.md (archived))
+- [Functional Requirements FR-008A](./FUNCTIONAL_REQUIREMENTS.md#fr-008a-search-lifecycle-ui-state-management)
 
 ---
 

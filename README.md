@@ -175,7 +175,7 @@ monitora_vagas/
 └── requirements.txt           # Python dependencies
 ```
 
-> 📖 **For detailed structure documentation, see:** [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+> 📖 **For detailed structure documentation, see:** [docs/architecture/PROJECT_STRUCTURE.md](docs/architecture/PROJECT_STRUCTURE.md)
 
 ### v2.0 Structure Changes
 
@@ -365,11 +365,11 @@ For detailed testing documentation, see:
 
 ### API Documentation
 
-- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 **Complete API reference** (START HERE)
+- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - Complete API reference (START HERE)
 - **[API Client Functional Requirements](docs/features/API_CLIENT_FUNCTIONAL_REQUIREMENTS.md)** - Complete FR specs
 - **[API Client Quick Reference](docs/features/API_CLIENT_QUICK_REFERENCE.md)** - Quick lookup guide
-- **[API Client Referential Transparency Analysis](docs/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
-- **[API Client Improvements v1.1](docs/APICLIENT_IMPROVEMENTS_v1.1.md)** - Enhancement summary
+- **[API Client Referential Transparency Analysis](docs/api/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
+- **[API Client Improvements v1.1](docs/api/APICLIENT_IMPROVEMENTS_v1.1.md)** - Enhancement summary
 - **[API Documentation Index](docs/api/README.md)** - API docs overview
 - **[API Integration Update](docs/api/API_INTEGRATION_UPDATE.md)** - Latest integration guide
 - **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - Integration success stories
@@ -400,21 +400,21 @@ For detailed testing documentation, see:
 
 ### CSS & Styling
 
-- **[Bootstrap Integration](docs/BOOTSTRAP_INTEGRATION.md)** - 🆕 Bootstrap 5.3.3 setup and usage
-- **[Colorlib Template Application](docs/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
-- **[CSS Folders Comparison](docs/CSS_FOLDERS_COMPARISON.md)** - CSS structure analysis
-- **[Guest Button States](docs/GUEST_BUTTON_STATES.md)** - UI state management
-- **[CSS Loading Issue](docs/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
+- **[Bootstrap Integration](docs/styling/BOOTSTRAP_INTEGRATION.md)** - 🆕 Bootstrap 5.3.3 setup and usage
+- **[Colorlib Template Application](docs/styling/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
+- **[CSS Folders Comparison](docs/styling/CSS_FOLDERS_COMPARISON.md)** - CSS structure analysis
+- **[Guest Button States](docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md)** - UI state management
+- **[CSS Loading Issue](docs/styling/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
 
 ### Caching & Performance
 
-- **[Hotel Cache Implementation](docs/HOTEL_CACHE_IMPLEMENTATION.md)** - Caching system details
-- **[Hotel Cache Quick Reference](docs/HOTEL_CACHE_QUICK_REFERENCE.md)** - Cache usage guide
+- **[Hotel Cache Implementation](docs/implementation/HOTEL_CACHE_IMPLEMENTATION.md)** - Caching system details
+- **[Hotel Cache Quick Reference](docs/implementation/HOTEL_CACHE_QUICK_REFERENCE.md)** - Cache usage guide
 
 ### Specifications
 
-- **[HTML Specification](docs/HTML_SPECIFICATION.md)** - HTML standards
-- **[Specification Formats](docs/SPECIFICATION_FORMATS_README.md)** - Format documentation
+- **[HTML Specification](docs/specifications/HTML_SPECIFICATION.md)** - HTML standards
+- **[Specification Formats](docs/specifications/SPECIFICATION_FORMATS_README.md)** - Format documentation
 
 ---
 

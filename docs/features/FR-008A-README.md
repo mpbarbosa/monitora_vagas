@@ -217,7 +217,7 @@ if (window.GuestFilterStateManager) {
 - **AC-008A.13 to AC-008A.21:** Results State ✅
 - **AC-008A.26 to AC-008A.37:** Reset ✅
 
-See [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-008a-search-lifecycle-ui-state-management) for detailed criteria.
+See [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-008a) for detailed criteria.
 
 ---
 

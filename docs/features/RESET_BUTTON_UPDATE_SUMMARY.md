@@ -70,10 +70,10 @@ Complete update of all project files following the rename of "Start New Search" 
 ## 🔗 Related Documentation
 
 - [Functional Requirements](./FUNCTIONAL_REQUIREMENTS.md)
-- [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md)
+- [State-Driven UI Pattern](../architectur../architecture/STATE_DRIVEN_UI_PATTERN.md)
 - [FR-008A README](./FR-008A-README.md)
 - [FR-008A Implementation Summary](./FR-008A-IMPLEMENTATION-SUMMARY.md)
-- [Main.js Technical Specification](../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
+- [Main.js Technical Specification](.../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
 
 ---
 
@@ -159,28 +159,28 @@ this.elements.resetBtn = document.getElementById('reset-btn');
 
 #### Core Documentation
 
-**`docs/features/FUNCTIONAL_REQUIREMENTS.md` (v1.3 → v1.4)**
+**`doc./FUNCTIONAL_REQUIREMENTS.md` (v1.3 → v1.4)**
 - 32+ occurrences updated
 - New AC-008A.39 added
 - Button distinction section rewritten
 - Changelog entry added
 
-**`docs/features/FR-008A-README.md`**
+**`doc./FR-008A-README.md`**
 - 11 occurrences updated
 - State diagrams updated
 - Feature descriptions clarified
 
-**`docs/features/FR-008A-IMPLEMENTATION-SUMMARY.md`**
+**`doc./FR-008A-IMPLEMENTATION-SUMMARY.md`**
 - All button references updated
 - Implementation notes clarified
 
 #### Technical Documentation
 
-**`docs/specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md`**
+**`doc../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md`**
 - Button references updated
 - State management description clarified
 
-**`docs/STATE_DRIVEN_UI_PATTERN.md`**
+**`doc../architecture/STATE_DRIVEN_UI_PATTERN.md`**
 - Examples updated with Reset button
 - Pattern description references updated
 
@@ -364,14 +364,14 @@ No test logic changes required:
 ## 📖 Related Documentation
 
 ### Primary References
-- [Functional Requirements v1.4](./features/FUNCTIONAL_REQUIREMENTS.md)
+- [Functional Requirements v1.4](./FUNCTIONAL_REQUIREMENTS.md)
 - [Reset Button Clarification](./RESET_BUTTON_CLARIFICATION.md)
-- [State-Driven UI Pattern](./STATE_DRIVEN_UI_PATTERN.md)
+- [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md)
 
 ### Implementation Details
-- [FR-008A README](./features/FR-008A-README.md)
-- [FR-008A Implementation](./features/FR-008A-IMPLEMENTATION-SUMMARY.md)
-- [Technical Specification](./specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
+- [FR-008A README](./FR-008A-README.md)
+- [FR-008A Implementation](./FR-008A-IMPLEMENTATION-SUMMARY.md)
+- [Technical Specification](../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
 
 ---
 

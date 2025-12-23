@@ -364,7 +364,7 @@ Testing URL: http://localhost:8080
 
 - [CSS Test Suite](./CSS_TEST_SUITE_README.md) - Main CSS validation tests
 - [Test Suite README](./TEST_SUITE_README.md) - Complete test documentation
-- [HTML Specification](../docs/HTML_SPECIFICATION.md) - Formal HTML specs
+- [HTML Specification](../docs/specifications/HTML_SPECIFICATION.md) - Formal HTML specs
 
 ---
 
