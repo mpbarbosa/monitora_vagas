@@ -150,7 +150,7 @@ monitora_vagas/
 
 **Current Status:** Empty (components archived)
 
-⚠️ **Note:** Previous components were moved to `/src/archive/components/` as they were not referenced in the current implementation. See [Archive Documentation](../../legacy/README.md) for details.
+⚠️ **Note:** Previous components were moved to `/legacy/` as they were not referenced in the current implementation. Components are now managed in `public/index.html` and `src/js/` modules.
 
 **Archived Components:**
 - `AdvancedSearchModal/` - Advanced search modal dialog (archived)
@@ -243,7 +243,7 @@ During the v2.0.0 restructure, we identified files that exist but are not import
 - Root files: App.js, main.js
 
 **Documentation:**
-See [legacy/README.md](../../legacy/README.md) for:
+See `legacy/` folder for:
 - Complete list of archived files
 - Reasons for archiving
 - How to restore files if needed
@@ -494,7 +494,7 @@ monitora_vagas/
 - [Folder Structure Guide](../../.github/FOLDER_STRUCTURE_GUIDE.md) - Comprehensive structure guide
 - [HTML/CSS/JS Separation](../../.github/HTML_CSS_JS_SEPARATION.md) - Separation principles
 - [Quick Start](../guides/QUICKSTART.md) - Getting started guide
-- [README](.../README.md) - Project overview
+- [README](../README.md) - Project overview
 
 ---
 

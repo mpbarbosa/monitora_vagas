@@ -1063,7 +1063,7 @@ catch (error) {
 
 ### 16.1 Related Documents
 
-- [FUNCTIONAL_REQUIREMENTS.md](../features/FUNCTIONAL_REQUIREMENTS.md) - Functional requirements - FR-008A)
+- [FUNCTIONAL_REQUIREMENTS.md](../features/FUNCTIONAL_REQUIREMENTS.md) - Functional requirements - FR-008A
 - [HTML_SPECIFICATION.md](./HTML_SPECIFICATION.md) - HTML structure specification
 - [SPECIFICATION_FORMATS_README.md](./SPECIFICATION_FORMATS_README.md) - Documentation standards
 

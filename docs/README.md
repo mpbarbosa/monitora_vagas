@@ -27,7 +27,7 @@ Welcome to the Monitora Vagas documentation. This directory contains comprehensi
 Integration with busca_vagas API and client implementation.
 
 **Files:** 8 documents
-- [API_DOCUMENTATION.md](./api/API_DOCUMENTATION.md) - Complete API reference)
+- [API_DOCUMENTATION.md](./api/API_DOCUMENTATION.md) - Complete API reference
 - [README.md](./api/README.md) - API documentation index
 - [API_CLIENT_USAGE_REVIEW.md](./api/API_CLIENT_USAGE_REVIEW.md) - Client usage patterns
 - [API_INTEGRATION_UPDATE.md](./api/API_INTEGRATION_UPDATE.md) - Latest integration guide
