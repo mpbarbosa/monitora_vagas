@@ -40,7 +40,7 @@ Added Bootstrap toggle switch in search form:
 </div>
 ```
 
-For complete details, see [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-014).
+For complete details, see [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-014-booking-rules-toggle).
 
 **Placement:**
 - After guest counter (col-md-2)
@@ -330,7 +330,7 @@ Tests run: 8
 
 ## 📚 Related Documentation
 
-- [FR-014 Specification](./FUNCTIONAL_REQUIREMENTS.md#fr-014)
+- [FR-014 Specification](./FUNCTIONAL_REQUIREMENTS.md#fr-014-booking-rules-toggle)
 - [Test Suite](../../tests/test_booking_rules_toggle.py)
 - [Bootstrap 5 Forms](https://getbootstrap.com/docs/5.3/forms/checks-radios/)
 

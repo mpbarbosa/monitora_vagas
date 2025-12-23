@@ -102,8 +102,8 @@ Technical implementation details and code-level documentation.
 ### 📁 Project Structure & Organization
 
 **Root-level Documentation:**
-- [PROJECT_STRUCTURE.md](./architectur./architecture/PROJECT_STRUCTURE.md) - Comprehensive folder structure guide) ⭐
-- [RESTRUCTURE_SUMMARY.md](./guide./guides/RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary) 🆕
+- [PROJECT_STRUCTURE.md](./architecture/PROJECT_STRUCTURE.md) - Comprehensive folder structure guide ⭐
+- [RESTRUCTURE_SUMMARY.md](./guides/RESTRUCTURE_SUMMARY.md) - v2.0 restructure summary 🆕
 
 **Related Guides:**
 - [../.github/FOLDER_STRUCTURE_GUIDE.md](../.github/FOLDER_STRUCTURE_GUIDE.md) - Best practices guide

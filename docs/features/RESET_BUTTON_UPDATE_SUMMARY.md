@@ -70,10 +70,10 @@ Complete update of all project files following the rename of "Start New Search" 
 ## 🔗 Related Documentation
 
 - [Functional Requirements](./FUNCTIONAL_REQUIREMENTS.md)
-- [State-Driven UI Pattern](../architectur../architecture/STATE_DRIVEN_UI_PATTERN.md)
+- [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md)
 - [FR-008A README](./FR-008A-README.md)
 - [FR-008A Implementation Summary](./FR-008A-IMPLEMENTATION-SUMMARY.md)
-- [Main.js Technical Specification](.../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
+- [Main.js Technical Specification](../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
 
 ---
 

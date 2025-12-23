@@ -775,7 +775,7 @@ test('search works', () => { });
 See [API Documentation](../docs/api/API_DOCUMENTATION.md)
 
 <!-- Links to source code -->
-Implementation: [`src/services/apiClient.js`](../../src/services/apiClient.js)
+Implementation: `src/services/apiClient.js`
 
 <!-- External links -->
 Based on [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/)
