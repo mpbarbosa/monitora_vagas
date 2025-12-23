@@ -365,7 +365,7 @@ For detailed testing documentation, see:
 
 ### API Documentation
 
-- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - Complete API reference (START HERE)
+- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 Complete API reference (START HERE)
 - **[API Client Functional Requirements](docs/features/API_CLIENT_FUNCTIONAL_REQUIREMENTS.md)** - Complete FR specs
 - **[API Client Quick Reference](docs/features/API_CLIENT_QUICK_REFERENCE.md)** - Quick lookup guide
 - **[API Client Referential Transparency Analysis](docs/api/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
@@ -393,7 +393,7 @@ For detailed testing documentation, see:
 
 ### Technical Specifications
 
-- **[Functional Requirements](docs/features/FUNCTIONAL_REQUIREMENTS.md)** - Complete requirements (FR-001 to FR-014)
+- **[Functional Requirements](docs/features/FUNCTIONAL_REQUIREMENTS.md)** - 📋 Complete requirements FR-001 to FR-014
 - **[FR-008A Implementation](docs/features/FR-008A_IMPLEMENTATION_SUMMARY.md)** - Search lifecycle state management
 - **[FR-014 Implementation](docs/features/FR-014-IMPLEMENTATION-SUMMARY.md)** - Booking rules toggle feature
 - **[GUI Layout Technical Docs](docs/specifications/GUI_LAYOUT_TECHNICAL_DOCUMENTATION.md)** - UI layout specifications
