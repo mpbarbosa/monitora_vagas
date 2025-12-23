@@ -1,7 +1,23 @@
 #!/bin/bash
-
+#
 # API Integration Test Script
 # Tests the updated API integration against DATA_FLOW_DOCUMENTATION.md
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./test_api_integration.sh
+#
+# Prerequisites:
+#   - curl command
+#   - bash shell
+#   - Internet connection (tests production API)
+#
+# Environment Variables:
+#   API_BASE_URL - API endpoint (default: https://www.mpbarbosa.com/api)
+#   API_TIMEOUT  - Request timeout in seconds (default: 30)
+#
 
 echo "🧪 API Integration Test"
 echo "======================="

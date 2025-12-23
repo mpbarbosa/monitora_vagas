@@ -69,6 +69,124 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 
 ---
 
+### Utility Scripts
+
+#### CSS Symlink Fix (`fix-css-symlink.sh`)
+
+**Purpose:** Resolves CSS loading issues when using `file://` URLs by replacing symbolic links with actual CSS files.
+
+**Problem:** The `public/css` directory is a symbolic link to `src/styles/`, which doesn't work with `file://` protocol in browsers.
+
+**Solution:** Replaces the symlink with actual CSS files, enabling local file browsing without a web server.
+
+**Usage:**
+```bash
+# Run the script (interactive)
+./fix-css-symlink.sh
+
+# The script will:
+# 1. Show current symlink setup
+# 2. Ask for confirmation
+# 3. Remove symlink and create real directory
+# 4. Copy CSS files from src/styles to public/css
+# 5. Display file structure and sizes
+```
+
+**When to Use:**
+- Opening `index.html` directly in browser (`file://` URL)
+- CSS styles not loading in local development
+- Need offline development without web server
+
+**Alternative Solutions (provided by script):**
+```bash
+# Option 1: Python HTTP Server
+cd public && python3 -m http.server 8080
+
+# Option 2: Node.js HTTP Server
+npx http-server public -p 8080
+
+# Option 3: PHP Built-in Server
+cd public && php -S localhost:8080
+```
+
+**To Keep Files in Sync:**
+```bash
+# Sync src/styles to public/css
+rsync -av --delete src/styles/ public/css/
+```
+
+#### Dependency Updates (`scripts/update-dependencies.sh`)
+
+**Purpose:** Safely update npm dependencies following the phased approach from `DEPENDENCY_ANALYSIS_REPORT.md`.
+
+**Features:**
+- Phased updates (critical → safe → major)
+- Interactive confirmation for breaking changes
+- Automatic test suite execution
+- Color-coded output for status
+
+**Usage:**
+```bash
+# Run all safe updates (Phase 0 + Phase 1)
+./scripts/update-dependencies.sh all
+
+# Phase 0: Critical fixes only
+./scripts/update-dependencies.sh 0
+# or
+./scripts/update-dependencies.sh critical
+
+# Phase 1: Safe updates (Bootstrap, markdownlint)
+./scripts/update-dependencies.sh 1
+# or
+./scripts/update-dependencies.sh safe
+
+# Phase 2: Jest upgrade (requires confirmation)
+./scripts/update-dependencies.sh 2
+# or
+./scripts/update-dependencies.sh jest
+
+# Run test suite only
+./scripts/update-dependencies.sh test
+```
+
+**Update Phases:**
+
+**Phase 0 - Critical Fixes:**
+- Moves `selenium-webdriver` to devDependencies (classification fix)
+- No breaking changes
+- Safe to run anytime
+
+**Phase 1 - Safe Updates:**
+- Bootstrap: `5.3.3` → `5.3.8` (patch update)
+- markdownlint-cli: `0.43.0` → `0.47.0` (minor update)
+- No breaking changes
+- Automatic test recommendation
+
+**Phase 2 - Jest Upgrade:**
+- Jest: `29.7.0` → `30.2.0` (major version)
+- @jest/globals: `29.7.0` → `30.2.0`
+- jest-environment-jsdom: `29.7.0` → `30.2.0`
+- Requires manual confirmation
+- **Must run full test suite after**
+
+**Post-Update Steps:**
+```bash
+# 1. Review changes
+git diff package.json package-lock.json
+
+# 2. Run test suite
+npm run test:all
+
+# 3. Commit changes
+git add package.json package-lock.json
+git commit -m "chore(deps): update dependencies - Phase 1 complete"
+```
+
+**Environment Variables:**
+None required - script uses default npm configuration.
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -277,6 +395,23 @@ By default, the application uses the **production API** at `https://www.mpbarbos
 ```bash
 ./run-tests.sh
 ```
+
+### Test Scripts Overview
+
+| Script | Purpose | Location | Runtime |
+|--------|---------|----------|---------|
+| `run-tests.sh` | Master test runner for background color tests | Root | 1-2 min |
+| `run-index-tests.sh` | Comprehensive index.html E2E tests (36 tests) | `tests/` | 3-5 min |
+| `run-fr008a-tests.sh` | Search lifecycle state management tests | `tests/` | 2-3 min |
+| `run-booking-rules-tests.sh` | Booking rules toggle tests (BR-18, BR-19) | `tests/` | 2-3 min |
+| `run-css-tests.sh` | CSS loading and style validation tests | `tests/` | 1-2 min |
+| `run_ui_tests.sh` | Web UI Selenium test setup and runner | `tests/` | 3-5 min |
+| `run-version-tests.sh` | Semantic version validation (Python + JS) | `tests/` | <1 min |
+| `start-local-testing.sh` | Starts mock API + web server for testing | `tests/` | N/A (server) |
+| `test_api_integration.sh` | API integration validation against spec | `tests/` | 1-2 min |
+| `test-md3-migration.sh` | Material Design 3 migration tests | `tests/` | 2-3 min |
+
+### Detailed Test Commands
 
 **Run API Client Tests (Unit):**
 ```bash

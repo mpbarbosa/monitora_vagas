@@ -1,6 +1,24 @@
 #!/bin/bash
-# Trade Union Hotel Search Platform - Web UI Test Setup and Runner
-# This script sets up the testing environment and runs the Selenium tests
+#
+# Web UI Test Setup and Runner
+# Sets up the testing environment and runs Selenium UI tests
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./run_ui_tests.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - pip
+#   - Chrome browser
+#   - Internet connection (first-time setup)
+#
+# Environment Variables:
+#   UI_TEST_SERVER_PORT - Web server port (default: 8080)
+#   UI_TEST_HEADLESS    - Headless mode (default: 1, 0 for visible browser)
+#
 
 set -e  # Exit on any error
 

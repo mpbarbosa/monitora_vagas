@@ -1,6 +1,22 @@
 #!/bin/bash
+#
 # Semantic Version Tests Runner
 # Runs both Python and JavaScript version tests
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./run-version-tests.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - Node.js
+#   - Must run from project root
+#
+# Environment Variables:
+#   None required
+#
 
 set -e
 

@@ -48,7 +48,7 @@ beforeAll(() => {
     htmlContent = readFileSync(htmlPath, 'utf-8');
     
     // Load CSS file
-    const cssPath = join(projectRoot, 'public', 'src', 'styles', 'index-page.css');
+    const cssPath = join(projectRoot, 'src', 'styles', 'index-page.css');
     cssContent = readFileSync(cssPath, 'utf-8');
     
     // Load package.json

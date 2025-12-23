@@ -1,6 +1,23 @@
 #!/bin/bash
+#
 # CSS Test Suite Runner
 # Runs all CSS-related tests for the public folder
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./run-css-tests.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - selenium
+#   - Chrome browser
+#
+# Environment Variables:
+#   CSS_TEST_PORT - Web server port (default: 8080)
+#   VERBOSE      - Enable verbose output (default: 0)
+#
 
 set -e
 

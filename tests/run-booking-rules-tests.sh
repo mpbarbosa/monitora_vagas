@@ -3,8 +3,21 @@
 # Booking Rules Test Runner
 # Runs the complete booking rules test suite for BR-18 and BR-19
 #
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
 # Usage:
 #   ./run-booking-rules-tests.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - pytest
+#   - selenium
+#   - Chrome browser
+#
+# Environment Variables:
+#   BOOKING_RULES_TEST_URL - Test server URL (default: http://localhost:8766)
+#   VERBOSE               - Enable verbose output (default: 0)
 #
 
 set -e  # Exit on error

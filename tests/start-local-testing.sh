@@ -1,7 +1,22 @@
 #!/bin/bash
-
+#
 # Quick Start Script for Local Testing with Mock API
 # Starts both mock API server and web application
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./start-local-testing.sh
+#
+# Prerequisites:
+#   - Node.js (any recent version)
+#   - Python 3.x
+#
+# Environment Variables:
+#   API_PORT - Mock API server port (default: 3000)
+#   WEB_PORT - Web server port (default: 8080)
+#
 
 echo "╔══════════════════════════════════════════════════════════════════╗"
 echo "║           🚀 STARTING LOCAL TEST ENVIRONMENT                     ║"

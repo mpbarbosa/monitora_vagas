@@ -1,5 +1,22 @@
 #!/bin/bash
-# Fix CSS Loading Issue - Remove symlink and create real directory
+#
+# CSS Loading Fix Script
+# Replaces symlink with real directory to fix file:// URL loading
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./fix-css-symlink.sh
+#
+# Prerequisites:
+#   - Bash shell
+#   - Basic Unix utilities (rm, mkdir, cp)
+#   - Optional: tree command for directory display
+#
+# Environment Variables:
+#   None required
+#
 
 cd /home/mpb/Documents/GitHub/monitora_vagas/public
 

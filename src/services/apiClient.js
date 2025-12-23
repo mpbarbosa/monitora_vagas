@@ -14,6 +14,7 @@
 
 import { IbiraAPIFetchManager } from 'ibira.js';
 import { getEnvironment } from '../config/environment.js';
+import { TIME, API } from '../config/constants.js';
 import { hotelCache } from './hotelCache.js';
 
 // ============================================================================
@@ -121,7 +122,53 @@ export function ensureISOFormat(date) {
 // API CLIENT CLASS
 // ============================================================================
 
+/**
+ * API Client for Busca Vagas API
+ * Handles all communication with the backend API including:
+ * - Health checks
+ * - Hotel list management with caching
+ * - Vacancy searches (date range and weekend searches)
+ * - Puppeteer-based scraping operations
+ * 
+ * Uses ibira.js for advanced caching and retry logic
+ * 
+ * @class
+ * @example
+ * // Using singleton instance
+ * import { apiClient } from './services/apiClient.js';
+ * 
+ * // Check API health
+ * const health = await apiClient.checkHealth();
+ * 
+ * // Get hotels (cached)
+ * const hotels = await apiClient.getHotels();
+ * 
+ * // Search vacancies
+ * const results = await apiClient.searchVacancies(
+ *   new Date('2024-01-15'),
+ *   new Date('2024-01-17'),
+ *   '-1'
+ * );
+ * 
+ * @example
+ * // Creating custom instance for testing
+ * import { BuscaVagasAPIClient } from './services/apiClient.js';
+ * 
+ * const client = new BuscaVagasAPIClient({
+ *   logger: customLogger
+ * });
+ */
 export class BuscaVagasAPIClient {
+    /**
+     * Creates a new API client instance
+     * @param {Object} [config={}] - Configuration options
+     * @param {Object} [config.logger=console] - Logger instance (injectable for testing)
+     * @param {string} [config.apiBaseUrl] - Override API base URL
+     * @param {Object} [config.timeout] - Custom timeout configuration
+     * @param {number} [config.timeout.default] - Default timeout in ms
+     * @param {number} [config.timeout.search] - Search timeout in ms
+     * @param {number} [config.timeout.weekendSearch] - Weekend search timeout in ms
+     */
     constructor(config = {}) {
         const env = getEnvironment();
         
@@ -164,9 +211,17 @@ export class BuscaVagasAPIClient {
 
     /**
      * Generic fetch wrapper using ibira.js with timeout and error handling
+     * Automatically handles API response format and errors
      * @param {string} url - Full URL to fetch
-     * @param {number} timeoutMs - Timeout in milliseconds
-     * @returns {Promise<object>} API response
+     * @param {number} [timeoutMs=this.timeout.default] - Timeout in milliseconds
+     * @returns {Promise<Object>} API response object with { success, data, ... }
+     * @throws {Error} If request times out or API returns error
+     * @private
+     * @example
+     * const response = await this.fetchWithTimeout(
+     *   'https://api.example.com/endpoint',
+     *   5000
+     * );
      */
     async fetchWithTimeout(url, timeoutMs = this.timeout.default) {
         try {
@@ -190,7 +245,19 @@ export class BuscaVagasAPIClient {
 
     /**
      * Check API health status
-     * @returns {Promise<object>} Health check response
+     * @returns {Promise<Object>} Health check response
+     * @returns {boolean} returns.success - Whether API is healthy
+     * @returns {string} returns.status - API status message
+     * @returns {string} returns.version - API version
+     * @throws {Error} If health check fails or times out
+     * @example
+     * try {
+     *   const health = await apiClient.checkHealth();
+     *   console.log(`API Status: ${health.status}`);
+     *   console.log(`API Version: ${health.version}`);
+     * } catch (error) {
+     *   console.error('API is down:', error);
+     * }
      */
     async checkHealth() {
         const url = buildHealthUrl(this.apiBaseUrl);
@@ -203,10 +270,22 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Get static hotel list with persistent cache
-     * @param {boolean} forceRefresh - Force fetch from API, bypassing cache
-     * @param {number} currentTime - Current timestamp for cache validation (optional)
-     * @returns {Promise<Array>} List of hotels
+     * Get static hotel list with persistent LocalStorage cache
+     * First checks cache, then falls back to API if expired or not found
+     * @param {boolean} [forceRefresh=false] - Force fetch from API, bypassing cache
+     * @param {number} [currentTime=Date.now()] - Current timestamp for cache validation (injectable for testing)
+     * @returns {Promise<Array<Object>>} List of hotels
+     * @returns {string} returns[].id - Hotel ID (used in API queries)
+     * @returns {string} returns[].name - Hotel display name
+     * @returns {string} returns[].type - Hotel type ("Hotel" or "All")
+     * @throws {Error} If API request fails
+     * @example
+     * // Get hotels (uses cache if valid)
+     * const hotels = await apiClient.getHotels();
+     * console.log(`Found ${hotels.length} hotels`);
+     * 
+     * // Force refresh from API
+     * const freshHotels = await apiClient.getHotels(true);
      */
     async getHotels(forceRefresh = false, currentTime = Date.now()) {
         // Check persistent cache first (unless force refresh)
@@ -231,10 +310,19 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Scrape hotel list from AFPESP website
-     * As of v1.2.1, this endpoint returns all dropdown options including "Todas"
-     * Each item has a 'type' field: "All" for "Todas", "Hotel" for actual hotels
-     * @returns {Promise<Array>} List of scraped hotels with type field
+     * Scrape hotel list from AFPESP website using Puppeteer
+     * Returns all dropdown options including "Todas" (All hotels)
+     * As of API v1.2.1, each item has a 'type' field
+     * @returns {Promise<Array<Object>>} List of scraped hotels with type field
+     * @returns {string} returns[].id - Hotel ID
+     * @returns {string} returns[].name - Hotel name
+     * @returns {string} returns[].type - "All" for "Todas", "Hotel" for actual hotels
+     * @throws {Error} If scraping fails or times out
+     * @example
+     * const scrapedHotels = await apiClient.scrapeHotels();
+     * const allOption = scrapedHotels.find(h => h.type === 'All');
+     * const actualHotels = scrapedHotels.filter(h => h.type === 'Hotel');
+     * console.log(`Scraped ${actualHotels.length} hotels plus "All" option`);
      */
     async scrapeHotels() {
         const url = buildScrapeUrl(this.apiBaseUrl);
@@ -247,11 +335,38 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Search for vacancies between two dates (Puppeteer-based)
-     * @param {Date|string} checkinDate - Check-in date
-     * @param {Date|string} checkoutDate - Check-out date
-     * @param {string} hotel - Hotel filter (default: '-1' for all hotels)
-     * @returns {Promise<object>} Vacancy search results
+     * Search for vacancies between two dates using Puppeteer
+     * Performs automated browser search on AFPESP website
+     * @param {Date|string} checkinDate - Check-in date (Date object or ISO string YYYY-MM-DD)
+     * @param {Date|string} checkoutDate - Check-out date (Date object or ISO string YYYY-MM-DD)
+     * @param {string} [hotel='-1'] - Hotel filter: '-1' for all hotels, or specific hotel ID
+     * @returns {Promise<Object>} Vacancy search results
+     * @returns {boolean} returns.success - Whether search completed successfully
+     * @returns {boolean} returns.hasAvailability - Whether vacancies were found
+     * @returns {string} returns.date - Search date timestamp
+     * @returns {Object} returns.result - Detailed search results
+     * @returns {string} returns.result.status - Search status message
+     * @throws {Error} If search fails, times out, or dates are invalid
+     * @example
+     * // Search all hotels for specific dates
+     * const results = await apiClient.searchVacancies(
+     *   new Date('2024-12-25'),
+     *   new Date('2024-12-27'),
+     *   '-1'
+     * );
+     * 
+     * if (results.hasAvailability) {
+     *   console.log('Vacancies found!');
+     *   console.log(results.result);
+     * }
+     * 
+     * @example
+     * // Search specific hotel using ISO string dates
+     * const results = await apiClient.searchVacancies(
+     *   '2024-12-25',
+     *   '2024-12-27',
+     *   'hotel123'
+     * );
      */
     async searchVacancies(checkinDate, checkoutDate, hotel = '-1') {
         // Convert dates to ISO format if needed (using pure helper)
@@ -277,9 +392,32 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Search for weekend vacancies (Puppeteer-based)
-     * @param {number} count - Number of weekends to search (1-12, default 8)
-     * @returns {Promise<object>} Weekend search results
+     * Search for weekend vacancies using Puppeteer
+     * Searches multiple consecutive weekends for availability
+     * NOTE: This is a long-running operation (up to 10 minutes for 12 weekends)
+     * @param {number} [count=8] - Number of weekends to search (1-12, default 8)
+     * @returns {Promise<Object>} Weekend search results
+     * @returns {boolean} returns.success - Whether search completed successfully
+     * @returns {Object} returns.searchDetails - Search metadata
+     * @returns {number} returns.searchDetails.totalWeekendsSearched - Number of weekends searched
+     * @returns {Object} returns.availability - Availability summary
+     * @returns {number} returns.availability.weekendsWithVacancies - Count of weekends with available rooms
+     * @returns {Array<Object>} returns.weekends - Detailed results per weekend
+     * @throws {Error} If count is invalid (not 1-12) or search fails
+     * @example
+     * // Search next 8 weekends (default)
+     * const results = await apiClient.searchWeekendVacancies();
+     * console.log(`Found vacancies in ${results.availability.weekendsWithVacancies} weekends`);
+     * 
+     * @example
+     * // Search next 12 weekends (maximum)
+     * console.log('Starting weekend search (this may take up to 10 minutes)...');
+     * const results = await apiClient.searchWeekendVacancies(12);
+     * results.weekends.forEach(weekend => {
+     *   if (weekend.hasAvailability) {
+     *     console.log(`Vacancy: ${weekend.checkin} to ${weekend.checkout}`);
+     *   }
+     * });
      */
     async searchWeekendVacancies(count = 8) {
         // Validate using pure helper function
@@ -304,7 +442,12 @@ export class BuscaVagasAPIClient {
     }
 
     /**
-     * Clear all caches (in-memory and persistent)
+     * Clear all caches (in-memory API cache and persistent hotel cache)
+     * Useful for testing or when data needs to be refreshed
+     * @example
+     * // Clear all caches
+     * apiClient.clearCache();
+     * console.log('All caches cleared');
      */
     clearCache() {
         this.fetchManager.clearCache();
@@ -313,9 +456,21 @@ export class BuscaVagasAPIClient {
     }
     
     /**
-     * Get cache statistics
-     * @param {number} currentTime - Current timestamp for cache validation (optional)
-     * @returns {object} Cache statistics
+     * Get cache statistics for debugging and monitoring
+     * Combines hotel cache stats with ibira.js API cache stats
+     * @param {number} [currentTime=Date.now()] - Current timestamp for cache validation (injectable for testing)
+     * @returns {Object} Combined cache statistics
+     * @returns {boolean} returns.exists - Whether hotel cache exists
+     * @returns {number} [returns.count] - Number of cached hotels
+     * @returns {number} [returns.age] - Hotel cache age in minutes
+     * @returns {number} [returns.remaining] - Time remaining before expiration
+     * @returns {boolean} [returns.expired] - Whether hotel cache is expired
+     * @returns {number} [returns.size] - Hotel cache size in bytes
+     * @returns {Object} returns.ibiraStats - ibira.js API cache statistics
+     * @example
+     * const stats = apiClient.getCacheStats();
+     * console.log(`Hotel cache: ${stats.exists ? stats.count + ' hotels' : 'empty'}`);
+     * console.log(`API cache: ${stats.ibiraStats.size} entries`);
      */
     getCacheStats(currentTime = Date.now()) {
         return {
@@ -325,9 +480,13 @@ export class BuscaVagasAPIClient {
     }
     
     /**
-     * Force refresh hotel list
-     * @param {number} currentTime - Current timestamp for cache (optional)
-     * @returns {Promise<Array>} Fresh hotel list
+     * Force refresh hotel list by bypassing cache
+     * Convenience method for getHotels(true)
+     * @param {number} [currentTime=Date.now()] - Current timestamp for cache (injectable for testing)
+     * @returns {Promise<Array<Object>>} Fresh hotel list from API
+     * @example
+     * const freshHotels = await apiClient.refreshHotels();
+     * console.log(`Refreshed ${freshHotels.length} hotels`);
      */
     async refreshHotels(currentTime = Date.now()) {
         this.logger.log('🔄 Forcing hotel list refresh...');
@@ -340,8 +499,27 @@ export class BuscaVagasAPIClient {
 // ============================================================================
 
 /**
- * Create singleton instance with default configuration
- * Can be overridden for testing by importing the class directly
+ * Singleton instance of BuscaVagasAPIClient with default configuration
+ * Ready to use for all API operations throughout the application
+ * 
+ * For testing or custom configuration, import BuscaVagasAPIClient class instead
+ * 
+ * @type {BuscaVagasAPIClient}
+ * @example
+ * // Import and use singleton
+ * import { apiClient } from './services/apiClient.js';
+ * 
+ * const hotels = await apiClient.getHotels();
+ * const health = await apiClient.checkHealth();
+ * 
+ * @example
+ * // For testing with custom config
+ * import { BuscaVagasAPIClient } from './services/apiClient.js';
+ * 
+ * const testClient = new BuscaVagasAPIClient({
+ *   logger: mockLogger,
+ *   apiBaseUrl: 'http://test-api.local'
+ * });
  */
 export const apiClient = new BuscaVagasAPIClient();
 

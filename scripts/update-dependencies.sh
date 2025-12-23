@@ -1,7 +1,29 @@
 #!/bin/bash
-
+#
 # Dependency Update Script
 # Implements the phased update plan from DEPENDENCY_ANALYSIS_REPORT.md
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./scripts/update-dependencies.sh [phase]
+#
+# Phases:
+#   0, critical  - Critical fixes (selenium classification)
+#   1, safe      - Safe updates (bootstrap, markdownlint)
+#   2, jest      - Jest upgrade (requires confirmation)
+#   test         - Run test suite
+#   all          - Run phases 0 and 1 (default)
+#
+# Prerequisites:
+#   - Node.js 14+
+#   - npm 6+
+#   - Git (for reviewing changes)
+#
+# Environment Variables:
+#   None required - uses default npm configuration
+#
 
 set -e
 

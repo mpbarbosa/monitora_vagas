@@ -1,5 +1,23 @@
 #!/bin/bash
+#
+# Background Color Test Runner
 # Quick test runner script for background color tests
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./run-tests.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - Selenium (auto-installed if missing)
+#   - Chrome browser
+#   - ChromeDriver (managed by Selenium 4+)
+#
+# Environment Variables:
+#   SERVER_PID - Process ID of started server (internal use)
+#
 
 echo "╔═══════════════════════════════════════════════════════════════════════════╗"
 echo "║           Background Color Test Runner                                    ║"

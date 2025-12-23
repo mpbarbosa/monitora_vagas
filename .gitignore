@@ -271,17 +271,26 @@ local.*
 *.local
 
 # =============================================================================
-# Selenium/Puppeteer Specific (Legacy Support)
+# Selenium/Puppeteer Specific
 # =============================================================================
+
+# Test screenshots and artifacts
+test_screenshots/
+screenshots/
+**/test_screenshots/
+*.png
+!docs/**/*.png
+!public/vendor/**/*.png
 
 # Selenium specific
 selenium-debug.log
 geckodriver.log
-screenshots/
+chromedriver.log
 downloads/
 
 # Puppeteer
 .puppeteerrc.cjs
+puppeteer_cache/
 
 # =============================================================================
 # Project Specific (Trade Union Hotels)
@@ -296,6 +305,19 @@ results/
 test-data/
 mock-data/
 test_screenshots/
+**/test_screenshots/
+
+# Test artifacts and results
+test-results/
+test_reports/
+*.test.log
+test_output/
+
+# Selenium/Puppeteer artifacts
+selenium-debug.log
+geckodriver.log
+screenshots/
+downloads/
 
 # Test directories
 __tests__/
@@ -355,6 +377,10 @@ __pycache__/
 *$py.class
 *.so
 .Python
+
+# Python cache directories (outside venv)
+**/__pycache__/
+!venv/**/__pycache__/
 
 # Distribution / packaging
 .Python

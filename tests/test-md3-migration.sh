@@ -1,7 +1,23 @@
 #!/bin/bash
-
+#
 # Material Design 3 Migration - Test Script
 # Automated testing for the MD3 migration
+#
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./test-md3-migration.sh
+#
+# Prerequisites:
+#   - Python 3.x
+#   - selenium
+#   - Chrome browser
+#   - Web server on port 8080
+#
+# Environment Variables:
+#   MD3_TEST_URL - Test server URL (default: http://localhost:8080)
+#
 
 echo "═══════════════════════════════════════════════════════════"
 echo "  Material Design 3 Migration - Automated Testing"

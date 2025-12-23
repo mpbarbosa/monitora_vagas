@@ -1,18 +1,24 @@
 #!/bin/bash
-
 #
 # FR-008A Test Runner
 # Tests for Search Lifecycle UI State Management
 #
-# Requirements:
+# Version: 1.0.0
+# Last Updated: 2024-12-23
+#
+# Usage:
+#   ./run-fr008a-tests.sh
+#
+# Prerequisites:
 #   - Python 3.x
 #   - pytest
 #   - selenium
 #   - Chrome browser
 #   - Local test server running on port 3001
 #
-# Usage:
-#   ./run-fr008a-tests.sh
+# Environment Variables:
+#   FR008A_TEST_URL - Test server URL (default: http://localhost:3001)
+#   VERBOSE         - Enable verbose output (default: 0)
 #
 
 set -e  # Exit on error
