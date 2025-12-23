@@ -2,11 +2,12 @@
  * Guest Counter Handler with Filter State Management (FR-004A)
  * @version 2.0.0
  */
-(function() {
-    'use strict';
 
-    // Guest Filter State Manager
-    const GuestFilterStateManager = {
+import { GuestNumberFilter } from './guestNumberFilter.js';
+import { logger } from '../services/logger.js';
+
+// Guest Filter State Manager
+const GuestFilterStateManager = {
         filterCard: null,
         isEnabled: false,
         
@@ -15,7 +16,7 @@
             if (this.filterCard) {
                 // Set initial disabled state
                 this.disable();
-                console.log('✓ Guest filter initialized in disabled state (FR-004A)');
+                logger.debug('Guest filter initialized in disabled state', 'FR-004A');
             }
         },
         
@@ -33,7 +34,7 @@
                 input.setAttribute('readonly', 'readonly');
             }
             
-            console.log('🔒 Guest filter disabled');
+            logger.debug('Guest filter disabled', 'GuestFilter');
         },
         
         enable: function() {
@@ -50,7 +51,7 @@
                 input.removeAttribute('readonly');
             }
             
-            console.log('🔓 Guest filter enabled');
+            logger.debug('Guest filter enabled', 'GuestFilter');
         },
         
         isFilterEnabled: function() {
@@ -76,7 +77,7 @@
                 
                 // Check if filter is enabled (FR-004A)
                 if (!GuestFilterStateManager.isFilterEnabled()) {
-                    console.log('⚠️ Guest filter is disabled. Complete a search first.');
+                    logger.warn('Guest filter is disabled. Complete a search first.', 'GuestFilter');
                     return;
                 }
                 
@@ -84,9 +85,7 @@
                 input.value = currentValue;
                 
                 // Apply guest number filter (FR-004B)
-                if (window.GuestNumberFilter) {
-                    window.GuestNumberFilter.applyFilter(currentValue);
-                }
+                GuestNumberFilter.applyFilter(currentValue);
             });
             
             minusBtn.addEventListener('click', function(e) {
@@ -94,7 +93,7 @@
                 
                 // Check if filter is enabled (FR-004A)
                 if (!GuestFilterStateManager.isFilterEnabled()) {
-                    console.log('⚠️ Guest filter is disabled. Complete a search first.');
+                    logger.warn('Guest filter is disabled. Complete a search first.', 'GuestFilter');
                     return;
                 }
                 
@@ -103,25 +102,21 @@
                     input.value = currentValue;
                     
                     // Apply guest number filter (FR-004B)
-                    if (window.GuestNumberFilter) {
-                        window.GuestNumberFilter.applyFilter(currentValue);
-                    }
+                    GuestNumberFilter.applyFilter(currentValue);
                 }
             });
         });
     }
-    
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            GuestFilterStateManager.init();
-            initGuestCounter();
-        });
-    } else {
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
         GuestFilterStateManager.init();
         initGuestCounter();
-    }
-    
-    // Expose state manager to global scope for search completion handler
-    window.GuestFilterStateManager = GuestFilterStateManager;
-})();
+    });
+} else {
+    GuestFilterStateManager.init();
+    initGuestCounter();
+}
+
+export { GuestFilterStateManager, initGuestCounter };

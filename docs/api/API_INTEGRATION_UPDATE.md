@@ -329,7 +329,7 @@ checkout: "2025-04-05"
 
 - [DATA_FLOW_DOCUMENTATION.md](https://github.com/mpbarbosa/busca_vagas/blob/main/docs/DATA_FLOW_DOCUMENTATION.md) - API structure reference
 - [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md) - Previous integration work
-- [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md) - Overall implementation guide
+- [IMPLEMENTATION_GUIDE.md](../architecture/IMPLEMENTATION_GUIDE.md) - Overall implementation guide
 - [README.md](./README.md) - Project overview
 
 ---

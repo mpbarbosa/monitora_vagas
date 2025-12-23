@@ -295,10 +295,23 @@ results/
 # Test data
 test-data/
 mock-data/
+test_screenshots/
+
+# Test directories
+__tests__/
 
 # Development utilities
 dev-tools/
 scripts/local/
+
+# AI workflow files
+.ai_workflow/
+
+# Documentation implementation drafts
+docs/implementation/
+
+# Legacy files
+legacy/prompts/
 
 # =============================================================================
 # Keep These Files (Negative Patterns)

@@ -3,6 +3,7 @@
 ## Feature: Guest Filter State Management
 
 ### 🎯 Objective
+
 Disable the guest filter on page load and enable it only after the first search completion.
 
 ---
@@ -10,6 +11,7 @@ Disable the guest filter on page load and enable it only after the first search 
 ## 📦 Components
 
 ### 1. HTML Element
+
 ```html
 <div class="input-group input--medium" id="guest-filter-card">
     <!-- Guest counter controls -->
@@ -24,6 +26,7 @@ Disable the guest filter on page load and enable it only after the first search 
 ### 2. CSS Classes
 
 #### Disabled State
+
 ```css
 #guest-filter-card.filter-disabled {
     opacity: 0.5;
@@ -33,12 +36,14 @@ Disable the guest filter on page load and enable it only after the first search 
 
 **Location:** `public/css/main.css:845-896`  
 **Visual Effects:**
+
 - 50% opacity (greyed out appearance)
 - Pointer events blocked
 - Visual overlay with cursor indicator
 - Greyed labels and inputs
 
 #### Enabled State
+
 ```css
 #guest-filter-card.filter-enabled {
     opacity: 1;
@@ -48,6 +53,7 @@ Disable the guest filter on page load and enable it only after the first search 
 ```
 
 **Visual Effects:**
+
 - Full opacity (normal appearance)
 - Pointer events active
 - Smooth transition animation
@@ -74,17 +80,20 @@ const GuestFilterStateManager = {
 #### Methods
 
 **init()** - Called on page load
+
 - Sets `filterCard` reference
 - Calls `disable()`
 - Logs initialization
 
 **disable()** - Disables the filter
+
 - Adds `filter-disabled` class
 - Sets `aria-disabled="true"`
 - Adds `readonly` attribute to input
 - Sets `isEnabled = false`
 
 **enable()** - Enables the filter
+
 - Removes `filter-disabled` class
 - Adds `filter-enabled` class
 - Sets `aria-disabled="false"`
@@ -92,6 +101,7 @@ const GuestFilterStateManager = {
 - Sets `isEnabled = true`
 
 **isFilterEnabled()** - Returns current state
+
 - Returns `true` if enabled
 - Returns `false` if disabled
 
@@ -122,7 +132,7 @@ const GuestFilterStateManager = {
 
 ## 🔄 State Flow
 
-```
+```text
 ┌─────────────────┐
 │   Page Load     │
 └────────┬────────┘
@@ -175,16 +185,19 @@ const GuestFilterStateManager = {
 ## 🧪 Testing
 
 ### Automated Tests
+
 **File:** `tests/test_guest_filter_state.py`  
 **Run:** `python3 tests/test_guest_filter_state.py`  
 **Coverage:** 7 test cases
 
 ### Manual Tests
+
 **File:** `tests/test_guest_filter_manual.html`  
 **Run:** Open in browser  
 **Features:** Interactive demo with visual feedback
 
 ### Quick Manual Test
+
 1. Open `public/index.html` in browser
 2. Verify guest filter is greyed out (disabled)
 3. Try clicking +/- buttons (should not work)
@@ -198,12 +211,14 @@ const GuestFilterStateManager = {
 ## 🎨 Visual States
 
 ### Disabled
+
 - **Opacity:** 0.5 (50% transparent)
 - **Color:** Greyed out (#999)
 - **Cursor:** not-allowed
 - **Interaction:** Blocked
 
 ### Enabled
+
 - **Opacity:** 1.0 (fully visible)
 - **Color:** Normal (#333)
 - **Cursor:** pointer (on buttons)
@@ -214,6 +229,7 @@ const GuestFilterStateManager = {
 ## ♿ Accessibility
 
 ### ARIA Attributes
+
 ```html
 <!-- Disabled -->
 <div id="guest-filter-card" aria-disabled="true">
@@ -223,6 +239,7 @@ const GuestFilterStateManager = {
 ```
 
 ### Screen Reader Support
+
 - State changes announced via ARIA
 - Readonly input prevents keyboard focus when disabled
 - Visual and programmatic indicators in sync
@@ -234,31 +251,36 @@ const GuestFilterStateManager = {
 ### Console Messages
 
 **Initialization:**
-```
+
+```text
 ✓ Guest filter initialized in disabled state (FR-004A)
 🔒 Guest filter disabled
 ```
 
 **Search Completion:**
-```
+
+```text
 🔓 Guest filter enabled
 ✅ Guest filter enabled after search completion (FR-004A)
 ```
 
 **Interaction Attempts:**
-```
+
+```text
 ⚠️ Guest filter is disabled. Complete a search first.
 ```
 
 ### Browser DevTools
 
 **Check Current State:**
+
 ```javascript
 // In browser console
 window.GuestFilterStateManager.isFilterEnabled()  // true or false
 ```
 
 **Manual Enable/Disable:**
+
 ```javascript
 // Enable
 window.GuestFilterStateManager.enable()

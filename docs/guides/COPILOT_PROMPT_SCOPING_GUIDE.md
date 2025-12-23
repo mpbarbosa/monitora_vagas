@@ -2,7 +2,7 @@
 
 > **📋 Document Distribution: Submodule Copy (Monitora Vagas)**  
 > This is an **identical copy** of the canonical guide for developer convenience.  
-> **Canonical Version**: See [/docs/COPILOT_PROMPT_SCOPING_GUIDE.md](../../../docs/COPILOT_PROMPT_SCOPING_GUIDE.md) in the main repository.  
+> **Canonical Version**: This is the reference copy for this repository.  
 > **Main Repository**: [mpbarbosa_site](https://github.com/mpbarbosa/mpbarbosa_site)  
 > **Last Synchronized**: 2025-11-09
 

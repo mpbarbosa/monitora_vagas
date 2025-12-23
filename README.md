@@ -2,8 +2,8 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 2.0.0  
-**Last Updated**: 2024-12-17  
+**Version**: 2.1.0  
+**Last Updated**: 2024-12-22  
 **Status**: ✅ Production Ready (Enhanced)  
 **Framework**: Bootstrap 5.3.3 + Custom CSS
 
@@ -50,6 +50,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 - **Hotel Selection** - 25 hotels across multiple locations
 - **Date Range Picker** - Native HTML5 date inputs (ISO 8601 format)
 - **Guest Counter** - Dynamic guest number management
+- **Booking Rules Toggle** - Enable/disable booking validation rules (FR-014)
 - **Vacancy Search** - Real-time availability checking
 - **Results Display** - Clear, organized hotel cards
 - **Responsive UI** - Seamless mobile experience
@@ -112,15 +113,8 @@ monitora_vagas/
 │   │   ├── main.css          # Main stylesheet ✅
 │   │   └── index-page.css    # Index page styles ✅
 │   │
-│   ├── archive/              # 🗄️ Archived code (NOT in use)
-│   │   ├── components/       # Archived UI components
-│   │   ├── pages/           # Archived pages
-│   │   ├── config/          # Archived config
-│   │   ├── utils/           # Archived utils
-│   │   └── README.md        # Archive documentation
-│   │
-│   ├── components/           # Empty (see archive/)
-│   └── utils/                # Empty (see archive/)
+│   ├── components/           # Empty (future React components)
+│   └── utils/                # Empty (future utility functions)
 │
 ├── tests/                     # Test suite
 │   ├── e2e/                   # End-to-end tests
@@ -149,17 +143,30 @@ monitora_vagas/
 │   └── TEST_SUITE_README.md
 │
 ├── docs/                       # Comprehensive documentation
-│   ├── PROJECT_STRUCTURE.md  # Detailed structure docs
-│   ├── api/                   # API documentation
-│   ├── architecture/          # Architecture decisions
-│   └── guides/                # Development guides
+│   ├── README.md             # Documentation index
+│   ├── api/                  # API documentation
+│   ├── architecture/         # Architecture decisions
+│   ├── features/             # Feature specifications
+│   ├── guides/               # Development guides
+│   ├── implementation/       # Technical implementation
+│   ├── specifications/       # Technical specifications
+│   ├── styling/              # CSS and visual design
+│   ├── testing/              # Test documentation
+│   ├── troubleshooting/      # Problem solving guides
+│   └── workflows/            # Development workflows
 │
 ├── .github/                   # GitHub-specific files
+│   ├── dependabot.yml        # Automated dependency updates
 │   ├── FOLDER_STRUCTURE_GUIDE.md
-│   └── HTML_CSS_JS_SEPARATION.md
+│   ├── HTML_CSS_JS_SEPARATION.md
+│   ├── HIGH_COHESION_GUIDE.md
+│   ├── LOW_COUPLING_GUIDE.md
+│   └── REFERENTIAL_TRANSPARENCY.md
 │
+├── .nvmrc                     # Node.js version specification
+├── .npmrc                     # NPM configuration
+├── .workflow-config.yaml      # AI workflow automation config
 ├── CHANGELOG.md               # Version history
-├── QUICKSTART.md              # Quick start guide
 ├── package.json               # Node.js dependencies
 ├── eslint.config.js           # ESLint configuration (no-this rule)
 ├── jest.config.js             # Jest test configuration
@@ -350,7 +357,7 @@ For detailed testing documentation, see:
 
 ### Guides
 
-- **[Quick Start Guide](QUICKSTART.md)** - Get started quickly
+- **[Quick Start Guide](docs/guides/QUICKSTART.md)** - Get started quickly
 - **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)** - Complete testing documentation
 - **[Local Testing Guide](docs/guides/LOCAL_TESTING_GUIDE.md)** - Local development setup
 - **[Development Tools Guide](docs/guides/DEVELOPMENT_TOOLS_GUIDE.md)** - Development tools
@@ -371,11 +378,11 @@ For detailed testing documentation, see:
 
 ### Architecture
 
+- **[Documentation Index](docs/README.md)** - Complete documentation navigation
 - **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - Architecture overview
 - **[No-Scroll Principle](docs/guides/NO_SCROLL_PRINCIPLE_GUIDE.md)** - Design philosophy
 - **[Test Results Analysis](docs/architecture/TEST_RESULTS_ANALYSIS.md)** - Test insights
-- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Detailed folder structure
-- **[Restructure Summary](docs/RESTRUCTURE_SUMMARY.md)** - Recent restructuring notes
+- **[State-Driven UI Pattern](docs/architecture/STATE_DRIVEN_UI_PATTERN.md)** - UI state management
 
 ### Code Quality & Best Practices
 
@@ -386,8 +393,10 @@ For detailed testing documentation, see:
 
 ### Technical Specifications
 
-- **[Main.js Technical Spec](docs/specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)** - Main entry point spec
+- **[Functional Requirements](docs/features/FUNCTIONAL_REQUIREMENTS.md)** - Complete requirements (FR-001 to FR-014)
 - **[FR-008A Implementation](docs/features/FR-008A_IMPLEMENTATION_SUMMARY.md)** - Search lifecycle state management
+- **[FR-014 Implementation](docs/features/FR-014-IMPLEMENTATION-SUMMARY.md)** - Booking rules toggle feature
+- **[GUI Layout Technical Docs](docs/specifications/GUI_LAYOUT_TECHNICAL_DOCUMENTATION.md)** - UI layout specifications
 
 ### CSS & Styling
 
@@ -552,14 +561,31 @@ chore: maintenance tasks
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.
 
-### Latest Changes (v1.4.6)
+### Latest Changes (v2.1.0 - December 22, 2024)
 
-- 🎯 **Implemented FR-004B: Client-Side Guest Number Filtering**
-  - Real-time filtering of vacancy results by guest capacity
-  - Parses "até N pessoas" pattern from vacancy text
-  - Shows/hides cards based on capacity >= guest count
-  - Visual counter: "Showing X of Y hotels for N guests"
-  - 100% test pass rate (8/8 tests)
+- 🎯 **Implemented FR-014: Booking Rules Toggle**
+  - Bootstrap toggle switch for enabling/disabling booking validation rules
+  - API parameter `applyBookingRules` (boolean)
+  - Checked by default (rules enabled)
+  - ARIA labels and tooltip for accessibility
+  - Complete test suite with 281 lines of coverage
+
+- 📁 **Documentation Restructure**
+  - Organized into logical subdirectories (api/, features/, guides/, etc.)
+  - Consolidated 5 guest button documents into complete guide
+  - Moved QUICKSTART.md to docs/guides/
+  - Enhanced navigation and discoverability
+
+- 🔧 **Infrastructure Updates**
+  - Added .nvmrc for Node.js version management (>=20.0.0)
+  - Added .npmrc with optimized NPM settings
+  - Added .workflow-config.yaml for AI workflow automation
+  - Added .github/dependabot.yml for dependency updates
+  - Added scripts/update-dependencies.sh automation script
+
+- 🗄️ **Code Cleanup**
+  - Removed src/archive/ directory (archived code no longer needed)
+  - Cleaner project structure
 
 ### Previous Changes (v1.4.5)
 
@@ -603,5 +629,5 @@ This project is part of the Monitora Vagas ecosystem.
 ---
 
 **✅ Built with ❤️ by the Monitora Vagas Team**  
-**📅 Last Updated**: 2025-12-11  
-**🚀 Version**: 1.4.6
+**📅 Last Updated**: 2024-12-22  
+**🚀 Version**: 2.1.0

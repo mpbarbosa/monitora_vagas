@@ -383,8 +383,8 @@ Possible improvements:
 
 - [Fixed Header Implementation](./FIXED_HEADER.md)
 - [Bootstrap Integration](./BOOTSTRAP_INTEGRATION.md)
-- [AC-008A.39 Compliance](./AC008A39_COMPLIANCE_COMPLETE.md)
-- [Functional Requirements](./features/FUNCTIONAL_REQUIREMENTS.md)
+- [AC-008A.39 Compliance](../features/AC008A39_COMPLIANCE_COMPLETE.md)
+- [Functional Requirements](../features/FUNCTIONAL_REQUIREMENTS.md)
 
 ---
 

@@ -151,7 +151,7 @@ The application integrates with the [busca_vagas API](https://github.com/mpbarbo
 
 The QuickSearch component uses direct fetch API calls for transparency and better timeout control. The apiClient service is used for hotel scraping in index.html.
 
-See [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md) for implementation details.
+See [API_INTEGRATION_CHANGES.md](../api/API_INTEGRATION_CHANGES.md) for implementation details.
 
 ### Planned Features
 
@@ -237,7 +237,7 @@ bash run_ui_tests.sh
 - **Functional Tests**: 21 tests covering page loading, forms, responsive design, and accessibility (48% pass rate)
 - **Total**: 40 tests with 73% overall success rate
 
-See [`docs/TEST_RESULTS_ANALYSIS.md`](./docs/TEST_RESULTS_ANALYSIS.md) for detailed test results.
+See [`docs/TEST_RESULTS_ANALYSIS.md`](../architecture/TEST_RESULTS_ANALYSIS.md) for detailed test results.
 
 ## Project Structure
 
@@ -339,13 +339,13 @@ AFPESP_API_KEY=your_api_key_here
 
 - [`CHANGELOG.md`](./CHANGELOG.md) - Version history and recent changes
 - [`TRANSFORMATION_SUMMARY.md`](./TRANSFORMATION_SUMMARY.md) - Project transformation journey
-- [`docs/ROADMAP.md`](./docs/ROADMAP.md) - Development roadmap and future plans
-- [`docs/TEST_RESULTS_ANALYSIS.md`](./docs/TEST_RESULTS_ANALYSIS.md) - Comprehensive test analysis
-- [`docs/DEVELOPMENT_TOOLS_GUIDE.md`](./docs/DEVELOPMENT_TOOLS_GUIDE.md) - Development tools and commands
-- [`docs/NO_SCROLL_PRINCIPLE_GUIDE.md`](./docs/NO_SCROLL_PRINCIPLE_GUIDE.md) - UI/UX design principles
-- [`docs/GIT_BEST_PRACTICES_GUIDE.md`](./docs/GIT_BEST_PRACTICES_GUIDE.md) - Git workflow guide
-- [`docs/QUICK_REFERENCE.md`](./docs/QUICK_REFERENCE.md) - Quick command reference
-- [`docs/`](./docs/) - Complete technical documentation
+- [`docs/ROADMAP.md`](./ROADMAP.md) - Development roadmap and future plans
+- [`docs/TEST_RESULTS_ANALYSIS.md`](../architecture/TEST_RESULTS_ANALYSIS.md) - Comprehensive test analysis
+- [`docs/DEVELOPMENT_TOOLS_GUIDE.md`](./DEVELOPMENT_TOOLS_GUIDE.md) - Development tools and commands
+- [`docs/NO_SCROLL_PRINCIPLE_GUIDE.md`](./NO_SCROLL_PRINCIPLE_GUIDE.md) - UI/UX design principles
+- [`docs/GIT_BEST_PRACTICES_GUIDE.md`](./GIT_BEST_PRACTICES_GUIDE.md) - Git workflow guide
+- [`docs/QUICK_REFERENCE.md`](./QUICK_REFERENCE.md) - Quick command reference
+- [`docs/`](../) - Complete technical documentation
 
 ## Contributing
 

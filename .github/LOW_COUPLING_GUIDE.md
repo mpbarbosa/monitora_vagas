@@ -213,14 +213,9 @@ node-version: '18'
 
 ### Project Guidelines
 - [REFERENTIAL_TRANSPARENCY.md](./REFERENTIAL_TRANSPARENCY.md) - Pure functions reduce coupling
-- [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md) - Review checklist including coupling concerns
-- [TDD_GUIDE.md](./TDD_GUIDE.md) - Testing approach for loosely coupled code
-- [JAVASCRIPT_BEST_PRACTICES.md](./JAVASCRIPT_BEST_PRACTICES.md) - JavaScript best practices
-
-### Architecture Examples
-- ibira.js uses the observer pattern to minimize coupling between components
-- The IbiraAPIFetcher class is designed to work independently with minimal dependencies
-- The cache system is isolated from the fetch operations
+- [HIGH_COHESION_GUIDE.md](./HIGH_COHESION_GUIDE.md) - Single responsibility and cohesion
+- [HTML_CSS_JS_SEPARATION.md](./HTML_CSS_JS_SEPARATION.md) - Separation of concerns
+- [FOLDER_STRUCTURE_GUIDE.md](./FOLDER_STRUCTURE_GUIDE.md) - Project organization
 
 ### External References
 - [GitHub Actions: Reusing workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)

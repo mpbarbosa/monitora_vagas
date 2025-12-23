@@ -650,11 +650,8 @@ function generateColor(rand1, rand2, rand3) {
 
 ### Related Documentation
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) - Immutability principles and guidelines
-- [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md) - Review checklist for referential transparency
 - [LOW_COUPLING_GUIDE.md](./LOW_COUPLING_GUIDE.md) - Architectural principles
-- [TDD_GUIDE.md](./TDD_GUIDE.md) - Test-driven development with pure functions
-- [UNIT_TEST_GUIDE.md](./UNIT_TEST_GUIDE.md) - Testing referentially transparent code
+- [HIGH_COHESION_GUIDE.md](./HIGH_COHESION_GUIDE.md) - Single responsibility and cohesion
 
 ### In This Project
 

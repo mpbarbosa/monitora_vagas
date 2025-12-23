@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    "remark-preset-lint-recommended",
+    ["remark-lint-list-item-indent", "space"],
+    ["remark-lint-maximum-line-length", false],
+    ["remark-lint-no-duplicate-headings", false],
+    "remark-validate-links"
+  ]
+}

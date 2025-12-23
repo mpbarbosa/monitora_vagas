@@ -36,11 +36,13 @@ This guide documents a Unicode emoji corruption issue encountered in the `src/sy
 
 **Location**: `/home/mpb/Documents/GitHub/scripts/src/system_update.sh`, line 693
 **Corrupted Code**:
+
 ```bash
 print_operation_header "� Checking for available updates and refreshing all packages..."
 ```
 
 **Expected Code**:
+
 ```bash
 print_operation_header "🔄 Checking for available updates and refreshing all packages..."
 ```
@@ -77,41 +79,52 @@ The corruption likely occurred due to one or more of the following factors:
 ## Identification Methods
 
 ### 1. Visual Inspection
+
 **Command**: Direct file viewing
+
 ```bash
 cat src/system_update.sh | grep -n "�"
 ```
 
 **Expected Output**: Lines containing replacement characters
-```
+
+```text
 693:    print_operation_header "� Checking for available updates..."
 ```
 
 ### 2. Hexadecimal Analysis
+
 **Command**: Examine raw bytes
+
 ```bash
 sed -n '693p' system_update.sh | hexdump -C
 ```
 
 **Expected Output**: Shows `EF BF BD` sequence
-```
+
+```text
 00000060  22 ef bf bd 20 43 68 65  63 6b 69 6e 67 20 66 6f  |"... Checking fo|
 ```
 
 ### 3. Character Detection Script
+
 **Command**: Advanced detection
+
 ```bash
 grep -P '\xEF\xBF\xBD' src/system_update.sh
 ```
 
 ### 4. File Encoding Verification
+
 **Command**: Check file encoding
+
 ```bash
 file -i system_update.sh
 ```
 
 **Expected Output**:
-```
+
+```text
 system_update.sh: text/x-shellscript; charset=utf-8
 ```
 
@@ -122,16 +135,19 @@ system_update.sh: text/x-shellscript; charset=utf-8
 ### Method 1: Direct Character Replacement (Recommended)
 
 **Step 1**: Identify corrupted lines
+
 ```bash
 grep -n "�" system_update.sh
 ```
 
 **Step 2**: Replace using sed
+
 ```bash
 sed -i '693s/�/🔄/' system_update.sh
 ```
 
 **Step 3**: Verify the fix
+
 ```bash
 sed -n '693p' system_update.sh
 ```
@@ -139,6 +155,7 @@ sed -n '693p' system_update.sh
 ### Method 2: Manual Text Editor Fix
 
 **Step 1**: Open file in Unicode-aware editor
+
 ```bash
 nano system_update.sh  # or vim, code, etc.
 ```
@@ -152,6 +169,7 @@ nano system_update.sh  # or vim, code, etc.
 ### Method 3: Hexadecimal Replacement
 
 **Step 1**: Create hex replacement
+
 ```bash
 # Replace EF BF BD with F0 9F 94 84
 xxd system_update.sh > temp.hex
@@ -163,17 +181,20 @@ rm temp.hex
 ### Verification Commands
 
 **Syntax Check**:
+
 ```bash
 bash -n system_update.sh
 ```
 
 **Character Verification**:
+
 ```bash
 sed -n '693p' system_update.sh | hexdump -C
 ```
 
 **Expected Output** (correct):
-```
+
+```text
 00000060  22 f0 9f 94 84 20 43 68  65 63 6b 69 6e 67 20 66  |".... Checking f|
 ```
 
@@ -184,6 +205,7 @@ sed -n '693p' system_update.sh | hexdump -C
 ### 1. Environment Configuration
 
 **Terminal Setup**:
+
 ```bash
 # Ensure UTF-8 locale
 export LANG=en_US.UTF-8
@@ -194,6 +216,7 @@ locale
 ```
 
 **Git Configuration**:
+
 ```bash
 # Configure Git to handle Unicode properly
 git config --global core.quotepath false
@@ -203,6 +226,7 @@ git config --global core.precomposeunicode true
 ### 2. Editor Configuration
 
 **VS Code Settings** (`settings.json`):
+
 ```json
 {
     "files.encoding": "utf8",
@@ -212,6 +236,7 @@ git config --global core.precomposeunicode true
 ```
 
 **Vim Configuration** (`.vimrc`):
+
 ```vim
 set encoding=utf-8
 set fileencoding=utf-8
@@ -219,6 +244,7 @@ set fileencodings=utf-8,ucs-bom,latin1
 ```
 
 **Nano Configuration**:
+
 ```bash
 # Use nano with UTF-8 support
 nano -T 4 --unix filename.sh
@@ -227,6 +253,7 @@ nano -T 4 --unix filename.sh
 ### 3. File Handling Best Practices
 
 **Always specify encoding**:
+
 ```bash
 # When using Python scripts for file manipulation
 with open('file.sh', 'r', encoding='utf-8') as f:
@@ -234,6 +261,7 @@ with open('file.sh', 'r', encoding='utf-8') as f:
 ```
 
 **Use Unicode-aware tools**:
+
 ```bash
 # Prefer these tools for Unicode content
 grep -P    # Perl-compatible regex with Unicode support
@@ -244,6 +272,7 @@ awk        # Generally handles Unicode well
 ### 4. Validation Pipeline
 
 **Pre-commit Hook** (`.git/hooks/pre-commit`):
+
 ```bash
 #!/bin/bash
 # Check for Unicode replacement characters
@@ -269,6 +298,7 @@ fi
 ### 2. Code Standards
 
 **Emoji Declaration**:
+
 ```bash
 # Good: Document emoji meanings
 readonly EMOJI_UPDATE="🔄"  # Update/Refresh operations
@@ -280,6 +310,7 @@ print_operation_header "${EMOJI_UPDATE} Updating packages..."
 ```
 
 **Character Set Validation**:
+
 ```bash
 # Function to validate Unicode characters
 validate_unicode() {
@@ -295,6 +326,7 @@ validate_unicode() {
 ### 3. Testing Strategy
 
 **Cross-platform Testing**:
+
 ```bash
 # Test emoji display across different terminals
 echo "🔄 Testing emoji display"
@@ -305,6 +337,7 @@ LANG=en_US.UTF-8 echo "🔄 Testing in UTF-8 locale"
 ```
 
 **Automated Validation**:
+
 ```bash
 # Add to CI/CD pipeline
 validate_emoji_integrity() {
@@ -335,8 +368,10 @@ validate_emoji_integrity() {
 ### Common Issues and Solutions
 
 #### Issue 1: Replacement Characters Still Visible After Fix
+
 **Symptoms**: � still appears despite replacement attempts
 **Solution**:
+
 ```bash
 # Force UTF-8 conversion
 iconv -f UTF-8 -t UTF-8//IGNORE system_update.sh > temp.sh
@@ -344,8 +379,10 @@ mv temp.sh system_update.sh
 ```
 
 #### Issue 2: Emojis Not Displaying in Terminal
+
 **Symptoms**: Emojis show as boxes or question marks
 **Solution**:
+
 ```bash
 # Install Unicode fonts
 sudo apt-get install fonts-noto-color-emoji
@@ -358,8 +395,10 @@ echo -e "Unicode test: \u1F504 \u2705 \u26A0"
 ```
 
 #### Issue 3: Git Showing Binary File Changes
+
 **Symptoms**: Git treats script as binary due to Unicode
 **Solution**:
+
 ```bash
 # Add to .gitattributes
 *.sh text eol=lf encoding=UTF-8
@@ -370,8 +409,10 @@ git add system_update.sh
 ```
 
 #### Issue 4: Editor Corrupting Emojis on Save
+
 **Symptoms**: Emojis become corrupted when saving
 **Solution**:
+
 ```bash
 # Configure editor encoding
 # For VS Code: Set "files.encoding": "utf8"
@@ -382,6 +423,7 @@ git add system_update.sh
 ### Diagnostic Commands
 
 **Complete Unicode Analysis**:
+
 ```bash
 # Comprehensive file analysis
 analyze_unicode() {
@@ -427,8 +469,8 @@ analyze_unicode system_update.sh
 ### Related Documentation
 
 - [UNICODE_EMOJI_GLOSSARY.md](./UNICODE_EMOJI_GLOSSARY.md) - Complete emoji usage guide
-- [Shell Script Best Practices](./SHELL_SCRIPT_BEST_PRACTICES.md) - General scripting guidelines
-- [Character Encoding Guidelines](./CHARACTER_ENCODING_GUIDELINES.md) - Encoding standards
+- Shell Script Best Practices - General scripting guidelines
+- Character Encoding Guidelines - Encoding standards
 
 ---
 
@@ -437,6 +479,7 @@ analyze_unicode system_update.sh
 Unicode emoji corruption can significantly impact script readability and user experience. By following the identification methods, resolution steps, and prevention strategies outlined in this guide, developers can maintain consistent Unicode character display and avoid similar issues in the future.
 
 **Key Takeaways**:
+
 1. Always configure development environments for UTF-8 support
 2. Use proper detection methods to identify encoding issues
 3. Implement validation pipelines to catch corruption early

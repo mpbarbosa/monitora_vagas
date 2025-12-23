@@ -43,7 +43,100 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2025-12-17
+## [2.2.0] - 2024-12-22
+
+### Added
+
+- **FR-014: Booking Rules Toggle Feature**
+  - Bootstrap toggle switch for enabling/disabling booking validation rules
+  - API parameter `applyBookingRules` (boolean, default: true)
+  - ARIA labels and tooltip for accessibility
+  - Responsive layout (col-md-1) that fits seamlessly with existing form
+  - Complete test suite (`tests/test_booking_rules_toggle.py` - 281 lines)
+  
+- **Infrastructure and Tooling**
+  - Added `.nvmrc` for Node.js version specification (>=20.0.0)
+  - Added `.npmrc` with optimized NPM settings (legacy-peer-deps, save-exact)
+  - Added `.workflow-config.yaml` for AI workflow automation configuration
+  - Added `.github/dependabot.yml` for automated dependency updates
+  - Added `scripts/update-dependencies.sh` automation script (157 lines)
+  
+- **Documentation Structure**
+  - Reorganized docs/ into logical subdirectories:
+    - `api/` - API integration documentation
+    - `architecture/` - System design and patterns
+    - `features/` - Feature specifications
+    - `guides/` - User and developer guides
+    - `implementation/` - Technical implementation details
+    - `specifications/` - Technical specifications
+    - `styling/` - CSS and visual design
+    - `testing/` - Test documentation
+    - `troubleshooting/` - Problem solving guides
+    - `workflows/` - Development workflows
+  
+- **Comprehensive Documentation**
+  - `docs/features/FR-014-IMPLEMENTATION-SUMMARY.md` - Complete FR-014 implementation guide
+  - `docs/api/FR-014-API-COMPATIBILITY-REPORT.md` - API compatibility analysis
+  - `docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md` - Consolidated guest buttons guide
+  - `DEPENDENCY_ANALYSIS_REPORT.md` - Comprehensive dependency analysis (1,143 lines)
+  - `DEPENDENCY_UPDATE_QUICKREF.md` - Quick reference for dependency updates
+
+### Changed
+
+- **Code Updates**
+  - Enhanced `src/js/hotelSearch.js` with booking rules parameter integration
+  - Updated `src/styles/index-page.css` with improved guest button styling
+  - Updated `package.json` with new dependencies and optimized configuration
+  
+- **Documentation Consolidation**
+  - Consolidated 5 separate guest button documents into single comprehensive guide
+  - Moved `QUICKSTART.md` to `docs/guides/QUICKSTART.md` for better organization
+  - Updated `docs/README.md` with complete documentation index
+  - Updated all cross-references to reflect new documentation structure
+
+### Removed
+
+- **Code Cleanup**
+  - Removed `src/archive/` directory (archived code no longer needed)
+    - Removed `src/archive/components/` - AdvancedSearchModal, ProgressBar, QuickSearch, SearchForm
+    - Removed `src/archive/pages/` - Home page components
+    - Removed `src/archive/config/` - Archived configuration files
+    - Removed `src/archive/utils/` - Archived utility functions
+    - Removed `src/archive/js/` - Archived JavaScript modules
+    - Removed `src/archive/styles/` - Archived stylesheets
+  
+- **Obsolete Documentation**
+  - Removed `DELIVERABLES.md` (superseded by implementation summaries)
+  - Removed `IMPLEMENTATION_SUMMARY.md` (consolidated into feature docs)
+  - Removed `UPDATE_COMPLETE.md` (information moved to CHANGELOG)
+
+### Technical Details
+
+**FR-014 Implementation:**
+- Toggle element ID: `apply-booking-rules`
+- Default state: Checked (rules enabled)
+- Label: "Regras" (compact for space efficiency)
+- Tooltip: "Desmarque para ver todas as datas disponíveis"
+- API parameter added to search URL: `&applyBookingRules=true|false`
+- Fallback behavior: Defaults to `true` if toggle not found
+
+**Node.js Version Management:**
+- Specified Node.js >=20.0.0 via .nvmrc
+- NPM >=10.0.0 required in package.json
+
+**Automated Dependency Management:**
+- Dependabot configured for npm ecosystem
+- Weekly update schedule (Mondays)
+- Automatic security updates
+- Semantic versioning strategy
+
+### Migration Notes
+
+- **Archive Removal**: If you have local references to `src/archive/`, they will no longer work. All active code is now in `src/` root directories.
+- **Documentation Paths**: Update any bookmarks or references to documentation files that have been moved to subdirectories.
+- **QUICKSTART.md**: Now located at `docs/guides/QUICKSTART.md` instead of project root.
+
+## [2.1.0] - 2024-12-17
 
 ### Added
 

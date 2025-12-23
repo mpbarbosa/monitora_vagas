@@ -375,7 +375,7 @@ updateCacheStatus(); // Tooltip: "📦 Cached 25 hotels (0 min ago)..."
 - [Bootstrap 5 Tooltips](https://getbootstrap.com/docs/5.3/components/tooltips/)
 - [Bootstrap Integration](./BOOTSTRAP_INTEGRATION.md)
 - [Form in Header](./FORM_IN_HEADER_IMPLEMENTATION.md)
-- [Hotel Search Module](../public/src/js/hotelSearch.js)
+- [Hotel Search Module](../../public/src/js/hotelSearch.js)
 
 ---
 

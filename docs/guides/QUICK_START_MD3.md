@@ -93,12 +93,12 @@ Expected output: **34/34 tests passing** ✅
 ## 📚 Documentation
 
 ### Essential Reading
-1. **[MD3_IMPLEMENTATION_SUMMARY.md](./MD3_IMPLEMENTATION_SUMMARY.md)** - Start here!
-2. **[MD3_MIGRATION_GUIDE.md](./MD3_MIGRATION_GUIDE.md)** - How to test & customize
-3. **[MD3_MIGRATION_PLAN.md](./MD3_MIGRATION_PLAN.md)** - Technical details
+1. **[MD3_IMPLEMENTATION_SUMMARY.md](../architecture/MD3_IMPLEMENTATION_SUMMARY.md)** - Start here!
+2. **[MD3_MIGRATION_GUIDE.md](../architecture/MD3_MIGRATION_GUIDE.md)** - How to test & customize
+3. **[MD3_MIGRATION_PLAN.md](../architecture/MD3_MIGRATION_PLAN.md)** - Technical details
 
 ### Reference
-- **[MATERIAL_DESIGN_3_ANALYSIS.md](./MATERIAL_DESIGN_3_ANALYSIS.md)** - Original analysis
+- **[MATERIAL_DESIGN_3_ANALYSIS.md](../architecture/MATERIAL_DESIGN_3_ANALYSIS.md)** - Original analysis
 - **[QUICK_START.md](./QUICK_START.md)** - Original quick start
 
 ---
@@ -140,8 +140,8 @@ cp index-original-backup.html index.html
 
 ## 💡 Need Help?
 
-- Read the [Implementation Summary](./MD3_IMPLEMENTATION_SUMMARY.md)
-- Check the [Migration Guide](./MD3_MIGRATION_GUIDE.md)
+- Read the [Implementation Summary](../architecture/MD3_IMPLEMENTATION_SUMMARY.md)
+- Check the [Migration Guide](../architecture/MD3_MIGRATION_GUIDE.md)
 - Review [Material Design 3 Docs](https://m3.material.io/)
 
 ---

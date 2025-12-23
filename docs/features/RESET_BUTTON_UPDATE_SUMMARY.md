@@ -43,10 +43,37 @@ Complete update of all project files following the rename of "Start New Search" 
 </button>
 ```
 
+## 📝 Files Updated
+
+### 1. HTML Files
+
+#### `public/index.html`
+```html
+<!-- BEFORE -->
+<button id="start-new-search-btn" class="btn-submit start-new-search-btn">
+    🔄 Nova Busca
+</button>
+
+<!-- AFTER -->
+<button id="reset-btn" class="btn-submit reset-btn">
+    🔄 Reset
+</button>
+```
+
 **Changes:**
 - Button ID: `start-new-search-btn` → `reset-btn`
 - Button class: `start-new-search-btn` → `reset-btn`
 - Button text: "Nova Busca" → "Reset"
+
+---
+
+## 🔗 Related Documentation
+
+- [Functional Requirements](./FUNCTIONAL_REQUIREMENTS.md)
+- [State-Driven UI Pattern](../architecture/STATE_DRIVEN_UI_PATTERN.md)
+- [FR-008A README](./FR-008A-README.md)
+- [FR-008A Implementation Summary](./FR-008A-IMPLEMENTATION-SUMMARY.md)
+- [Main.js Technical Specification](../specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md)
 
 ---
 

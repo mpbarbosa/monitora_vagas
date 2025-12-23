@@ -619,16 +619,9 @@ describe('IbiraAPIFetchManager', () => {
 ### Within This Repository
 
 - [LOW_COUPLING_GUIDE.md](./LOW_COUPLING_GUIDE.md) - Complementary principles for loose coupling
-- [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md) - Reviewing for cohesion
 - [REFERENTIAL_TRANSPARENCY.md](./REFERENTIAL_TRANSPARENCY.md) - Pure functions and single responsibility
-- [TDD_GUIDE.md](./TDD_GUIDE.md) - Testing cohesive components
-- [UNIT_TEST_GUIDE.md](./UNIT_TEST_GUIDE.md) - Testing focused units
-- [JAVASCRIPT_BEST_PRACTICES.md](./JAVASCRIPT_BEST_PRACTICES.md) - JavaScript coding standards
-
-### Architecture Examples
-- [src/ibira.js](../src/ibira.js) - Main library showing cohesive class design
-  - `IbiraAPIFetcher` - Focused on individual API fetching operations
-  - `IbiraAPIFetchManager` - Focused on coordinating multiple fetchers
+- [HTML_CSS_JS_SEPARATION.md](./HTML_CSS_JS_SEPARATION.md) - Separation of concerns in web development
+- [FOLDER_STRUCTURE_GUIDE.md](./FOLDER_STRUCTURE_GUIDE.md) - Project organization principles
 
 ### External Resources
 
@@ -657,7 +650,7 @@ describe('IbiraAPIFetchManager', () => {
 
 ## Questions?
 
-If you have questions about applying high cohesion principles or need help refactoring for better cohesion, please open an issue using the [GitHub Configuration template](./ISSUE_TEMPLATE/github_config.md).
+If you have questions about applying high cohesion principles or need help refactoring for better cohesion, please open an issue.
 
 ## Summary Checklist
 

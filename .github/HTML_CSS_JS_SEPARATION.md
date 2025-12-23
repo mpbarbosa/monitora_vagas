@@ -1221,7 +1221,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 expect(calculateDistance(-23.5505, -46.6333, -22.9068, -43.1729)).toBeCloseTo(357.6);
 ```
 
-See: [REFERENTIAL_TRANSPARENCY.md](./REFERENTIAL_TRANSPARENCY.md)
+See: [REFERENTIAL_TRANSPARENCY.md](./REFERENTIAL_TRANSPARENCY.md) for more on pure functions.
 
 ### High Cohesion
 
@@ -1282,8 +1282,6 @@ describe('Email Validation', () => {
 });
 ```
 
-See: [UNIT_TEST_GUIDE.md](./UNIT_TEST_GUIDE.md), [TDD_GUIDE.md](./TDD_GUIDE.md)
-
 ### Code Review
 
 Code reviews become easier when concerns are separated:
@@ -1292,8 +1290,6 @@ Code reviews become easier when concerns are separated:
 - **CSS changes** can be reviewed for design consistency
 - **JavaScript changes** can be reviewed for logic and testability
 
-See: [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md)
-
 ## References
 
 ### Internal Documentation
@@ -1301,10 +1297,7 @@ See: [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md)
 - [REFERENTIAL_TRANSPARENCY.md](./REFERENTIAL_TRANSPARENCY.md) - Pure functions and testability
 - [HIGH_COHESION_GUIDE.md](./HIGH_COHESION_GUIDE.md) - Single responsibility principle
 - [LOW_COUPLING_GUIDE.md](./LOW_COUPLING_GUIDE.md) - Reducing dependencies
-- [CODE_REVIEW_GUIDE.md](./CODE_REVIEW_GUIDE.md) - Code review standards
-- [UNIT_TEST_GUIDE.md](./UNIT_TEST_GUIDE.md) - Unit testing best practices
-- [TDD_GUIDE.md](./TDD_GUIDE.md) - Test-driven development workflow
-- [JAVASCRIPT_BEST_PRACTICES.md](./JAVASCRIPT_BEST_PRACTICES.md) - JavaScript coding standards
+- [FOLDER_STRUCTURE_GUIDE.md](./FOLDER_STRUCTURE_GUIDE.md) - Project organization best practices
 
 ### External Resources
 

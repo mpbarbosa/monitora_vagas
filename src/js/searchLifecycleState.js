@@ -4,10 +4,10 @@
  * @version 2.0.0
  */
 
-(function() {
-    'use strict';
+import { GuestFilterStateManager } from './guestCounter.js';
+import { logger } from '../services/logger.js';
 
-    const SearchLifecycleState = {
+const SearchLifecycleState = {
         // DOM element references
         elements: {
             hotelSelect: null,
@@ -31,7 +31,7 @@
          * Initialize the state manager
          */
         init: function() {
-            console.log('🔧 Initializing Search Lifecycle State Manager (FR-008A)');
+            logger.emoji('🔧', 'Initializing Search Lifecycle State Manager', 'FR-008A');
             
             // Get all DOM element references
             this.elements.hotelSelect = document.getElementById('hotel-select');
@@ -57,7 +57,7 @@
                 });
             }
 
-            console.log('✅ Search Lifecycle State Manager initialized');
+            logger.emoji('✅', 'Search Lifecycle State Manager initialized', 'FR-008A');
         },
 
         /**
@@ -68,7 +68,7 @@
          * It's called both on page load and when "Reset" is clicked.
          */
         setInitialState: function() {
-            console.log('🔄 Setting Initial State');
+            logger.debug('Setting Initial State', 'SearchLifecycle');
             this.currentState = 'initial';
 
             // AC-008A.1: Enable all input elements
@@ -88,9 +88,7 @@
             }
             
             // Disable guest counter (FR-004A)
-            if (window.GuestFilterStateManager) {
-                window.GuestFilterStateManager.disable();
-            }
+            GuestFilterStateManager.disable();
             this.setGuestButtonsState('initial');
 
             // AC-008A.3: Hide Reset button
@@ -100,7 +98,7 @@
             this.hideElement(this.elements.copyResultsBtn);
             this.hideElement(this.elements.clearResultsBtn);
 
-            console.log('✅ Initial State set - UI repainted');
+            logger.debug('Initial State set - UI repainted', 'SearchLifecycle');
         },
 
         /**
@@ -108,7 +106,7 @@
          * AC-008A.5 to AC-008A.12
          */
         setSearchingState: function() {
-            console.log('🔄 Setting Searching State');
+            logger.debug('Setting Searching State', 'SearchLifecycle');
             this.currentState = 'searching';
 
             // AC-008A.5 to AC-008A.8: Disable all inputs and guest controls
@@ -129,7 +127,7 @@
 
             // AC-008A.12: Visual indication applied via disableElement()
             
-            console.log('✅ Searching State set');
+            logger.debug('Searching State set', 'SearchLifecycle');
         },
 
         /**
@@ -137,7 +135,7 @@
          * AC-008A.13 to AC-008A.21
          */
         setResultsState: function() {
-            console.log('🔄 Setting Results State');
+            logger.debug('Setting Results State', 'SearchLifecycle');
             this.currentState = 'results';
 
             // AC-008A.13 to AC-008A.15: Keep hotel and date inputs disabled
@@ -162,7 +160,7 @@
             this.enableElement(this.elements.copyResultsBtn);
             this.enableElement(this.elements.clearResultsBtn);
 
-            console.log('✅ Results State set');
+            logger.debug('Results State set', 'SearchLifecycle');
         },
 
         /**
@@ -174,7 +172,7 @@
          * The state change triggers stylistic updates through setInitialState().
          */
         handleReset: function() {
-            console.log('🔄 Starting New Search - State Change Only');
+            logger.debug('Starting New Search - State Change Only', 'SearchLifecycle');
 
             // Change state to initial - this triggers all UI updates
             this.setInitialState();
@@ -189,7 +187,7 @@
                 this.elements.hotelsCardsContainer.innerHTML = '';
             }
 
-            console.log('✅ State changed to initial - UI will repaint');
+            logger.debug('State changed to initial - UI will repaint', 'SearchLifecycle');
         },
 
         /**
@@ -264,7 +262,7 @@
                 }
             });
             
-            console.log('🎨 Guest buttons state: ' + state);
+            logger.debug(`Guest buttons state: ${state}`, 'SearchLifecycle');
         },
 
         /**
@@ -275,16 +273,13 @@
         }
     };
 
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            SearchLifecycleState.init();
-        });
-    } else {
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
         SearchLifecycleState.init();
-    }
+    });
+} else {
+    SearchLifecycleState.init();
+}
 
-    // Expose to global scope for integration with search flow
-    window.SearchLifecycleState = SearchLifecycleState;
-
-})();
+export { SearchLifecycleState };

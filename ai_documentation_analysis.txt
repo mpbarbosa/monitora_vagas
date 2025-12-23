@@ -1,0 +1,68 @@
+I'll analyze the project structure and recent changes to provide documentation update recommendations.
+
+✓ List directory .
+   └ 40 files found
+
+✓ Read README.md
+   └ 634 lines read
+
+✓ Read CHANGELOG.md
+   └ 912 lines read
+
+✓ Check recent git commits
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && git log --oneline -20 --no-pager
+    └ 2 lines...
+
+✓ Read package.json
+   └ 56 lines read
+
+✓ Read docs/README.md
+   └ 343 lines read
+
+✓ Check if copilot-instructions.md exists
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && ls -la .github/ 2>/dev/null | head -20
+    └ 12 lines...
+
+✓ Get recent git commits without no-pager flag
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && git log --oneline -20
+    └ 22 lines...
+
+stop_bash
+    └ 1 line...
+
+✓ Read DOCUMENTATION_UPDATE_RECOMMENDATIONS.md:1-100
+   └ 100 lines read
+
+✓ Check recent file changes in the last 5 commits
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && git diff --name-status HEAD~5 HEAD | head -50
+    └ 51 lines...
+
+Let me analyze the recent changes and provide documentation update recommendations.
+
+✓ update_todo
+   └ TODO list updated
+
+✓ Read docs/features/FR-014-IMPLEMENTATION-SUMMARY.md:1-80
+   └ 80 lines read
+
+✓ Read src/services/logger.js
+   └ 196 lines read
+
+✓ Read src/config/constants.js
+   └ 235 lines read
+
+Now let me check what recent documentation already exists and create a comprehensive update plan.
+
+✓ List directory docs/standards
+   └ 5 files found
+
+✓ Find documentation files modified in last 7 days
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && find docs/ -name "*.md" -type f -mtime -7
+ 2>/dev/null | head -20
+    └ 21 lines...
+
+✓ Check if src/archive exists
+ $ cd /home/mpb/Documents/GitHub/monitora_vagas && ls -la src/archive/ 2>&1 | head -5
+    └ 2 lines...
+
+Perfect! Now I have a complete picture. Let me create a comprehensive documentation update report.

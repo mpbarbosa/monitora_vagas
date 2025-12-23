@@ -46,6 +46,8 @@ The Monitora Vagas application integrates with the `busca_vagas` API to search f
 
 Located at: `src/services/apiClient.js`
 
+For detailed quickstart, see [QUICKSTART.md](../guides/QUICKSTART.md).
+
 #### Initialization
 
 ```javascript

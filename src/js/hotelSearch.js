@@ -6,6 +6,11 @@
  */
 
 import { apiClient } from '../services/apiClient.js';
+import { SearchLifecycleState } from './searchLifecycleState.js';
+import { GuestFilterStateManager } from './guestCounter.js';
+import { GuestNumberFilter } from './guestNumberFilter.js';
+import { logger } from '../services/logger.js';
+import { TIME } from '../config/constants.js';
 
 // Function to update cache status display (as tooltip)
 function updateCacheStatus() {
@@ -76,7 +81,7 @@ async function loadHotels(forceRefresh = false) {
         updateCacheStatus();
 
     } catch (error) {
-        console.error('Error loading hotels:', error);
+        logger.error('Error loading hotels:', error);
         select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
 
         // Show error in tooltip
@@ -252,14 +257,14 @@ function displayResults(apiResponse, checkin, checkout, hotel) {
     // Scroll to results
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    console.log('✅ Results displayed successfully');
+    logger.info('Results displayed successfully', 'HotelSearch');
 }
 
 // Handle form submission
 async function handleFormSubmit(event) {
     event.preventDefault();
 
-    console.log('🚀 Starting vacancy search flow...');
+    logger.group('Vacancy Search Flow');
 
     // Get input parameters from web page UI
     const hotelSelect = document.getElementById('hotel-select');
@@ -272,7 +277,7 @@ async function handleFormSubmit(event) {
     const checkout = checkoutInput.value; // yyyy-mm-dd (ISO format from date input)
     const applyBookingRules = applyBookingRulesCheckbox ? applyBookingRulesCheckbox.checked : true; // FR-014
 
-    console.log('📝 Input parameters:', { hotel, checkin, checkout, applyBookingRules });
+    logger.debug('Input parameters', 'HotelSearch'); logger.debug(`Hotel: ${hotel}, Check-in: ${checkin}, Check-out: ${checkout}, Booking Rules: ${applyBookingRules}`);
 
     // Validate inputs
     if (!checkin || !checkout) {
@@ -280,12 +285,10 @@ async function handleFormSubmit(event) {
         return;
     }
 
-    console.log('✅ Dates in ISO format:', { checkin, checkout });
+    logger.debug(`Dates in ISO format: ${checkin} to ${checkout}`, 'HotelSearch');
 
     // Set searching state (FR-008A)
-    if (window.SearchLifecycleState) {
-        window.SearchLifecycleState.setSearchingState();
-    }
+    SearchLifecycleState.setSearchingState();
 
     // Hide previous results
     const resultsContainer = document.getElementById('results-container');
@@ -297,8 +300,8 @@ async function handleFormSubmit(event) {
         // POST the data to API (using GET as per API spec)
         // FR-014: Include applyBookingRules parameter
         const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}&applyBookingRules=${applyBookingRules}`;
-        console.log('🌐 API Request URL:', apiUrl);
-        console.log('📤 Posting data to API...');
+        logger.debug(`API Request URL: ${apiUrl}`, 'HotelSearch');
+        logger.time('API Request');
 
         const response = await fetch(apiUrl, {
             method: 'GET',
@@ -309,9 +312,9 @@ async function handleFormSubmit(event) {
         });
 
         // Fetch the API data
-        console.log('📥 Fetching API response...');
+        
         const result = await response.json();
-        console.log('✅ API Response received:', result);
+        logger.debug('API Response received', 'HotelSearch');
 
         // Handle HTTP errors (including booking rule violations)
         if (!response.ok) {
@@ -327,11 +330,11 @@ async function handleFormSubmit(event) {
         }
 
         // Show the formatted data in the results area
-        console.log('📊 Formatting and displaying results...');
+        logger.debug('Formatting and displaying results...', 'HotelSearch');
         displayResults(result, checkin, checkout, hotel);
 
     } catch (error) {
-        console.error('❌ Search failed:', error);
+        logger.error('❌ Search failed:', error);
 
         // Display error in results container with special handling for booking rules
         if (error.isBookingRuleError) {
@@ -349,15 +352,12 @@ async function handleFormSubmit(event) {
         }
     } finally {
         // Set results state (FR-008A)
-        if (window.SearchLifecycleState) {
-            window.SearchLifecycleState.setResultsState();
-        }
+        SearchLifecycleState.setResultsState();
         
         // Enable guest filter after search completion (FR-004A)
-        if (window.GuestFilterStateManager) {
-            window.GuestFilterStateManager.enable();
-            console.log('✅ Guest filter enabled after search completion (FR-004A)');
-        }
+        GuestFilterStateManager.enable();
+        logger.info('Guest filter enabled after search completion', 'FR-004A');
+        logger.groupEnd();
     }
 }
 
@@ -375,7 +375,7 @@ function handleCopyResults() {
         copyBtn.textContent = '✅ Copiado!';
         setTimeout(() => {
             copyBtn.textContent = originalText;
-        }, 2000);
+        }, TIME.UI.NOTIFICATION_DURATION);
     }).catch(err => {
         // Fallback for older browsers
         const textarea = document.createElement('textarea');
@@ -389,7 +389,7 @@ function handleCopyResults() {
         copyBtn.textContent = '✅ Copiado!';
         setTimeout(() => {
             copyBtn.textContent = originalText;
-        }, 2000);
+        }, TIME.UI.NOTIFICATION_DURATION);
     });
 }
 
@@ -490,7 +490,7 @@ function setupEventListeners() {
 
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
-            console.log('🔄 Manual refresh requested');
+            logger.info('Manual refresh requested', 'HotelCache');
             loadHotels(true); // Force refresh
         });
     }

@@ -107,7 +107,7 @@ python3 tests/simple_ui_test.py
 
 - **Current API Version:** v1.4.1 (busca_vagas, released 2025-12-14)
 - **Compatible With:** v1.2.1+ (no breaking changes)
-- **Client Version:** 2.0.0
+- **Client Version:** 2.1.0
 - **Last Updated:** 2025-12-14
 
 ### Recent API Updates
@@ -125,7 +125,7 @@ python3 tests/simple_ui_test.py
 ## Need Help?
 
 1. Check [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for complete reference
-2. Review [Support & Troubleshooting](./API_DOCUMENTATION.md#support--troubleshooting) section
+2. Review Support & Troubleshooting section in API_DOCUMENTATION.md
 3. Check API health: `https://www.mpbarbosa.com/api/health`
 4. Review console logs for detailed error messages
 

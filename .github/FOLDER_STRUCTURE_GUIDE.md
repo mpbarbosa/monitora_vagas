@@ -1510,9 +1510,10 @@ Modern build tools provide:
 
 ### Related Documentation in This Project
 
-* [HTML Best Practices Guide](./.github/HTML_BEST_PRACTICES.md) - HTML coding standards
-* [README.md](./README.md) - Project overview
-* [Copilot Instructions](./.github/copilot-instructions.md) - AI coding guidelines
+* [HTML_CSS_JS_SEPARATION.md](./HTML_CSS_JS_SEPARATION.md) - Separation of concerns guide
+* [HIGH_COHESION_GUIDE.md](./HIGH_COHESION_GUIDE.md) - High cohesion principles
+* [LOW_COUPLING_GUIDE.md](./LOW_COUPLING_GUIDE.md) - Low coupling principles
+* [README.md](../README.md) - Project overview
 
 ---
 

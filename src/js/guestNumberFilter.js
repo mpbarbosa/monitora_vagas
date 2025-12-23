@@ -1,10 +1,10 @@
 // Guest Number Filter Module (FR-004B)
 // Client-side filtering of hotel vacancy results based on guest count
-(function() {
-    'use strict';
 
-    // Guest Filter Manager
-    const GuestNumberFilter = {
+import { logger } from '../services/logger.js';
+
+// Guest Filter Manager
+const GuestNumberFilter = {
         currentGuestCount: 2,
         totalHotels: 0,
         visibleHotels: 0,
@@ -35,14 +35,14 @@
          * @param {number} selectedGuestCount - Number of guests selected
          */
         applyFilter: function(selectedGuestCount) {
-            console.log(`🔍 Applying guest filter: ${selectedGuestCount} guest(s)`);
+            logger.debug(`Applying guest filter: ${selectedGuestCount} guest(s)`, 'GuestFilter');
             
             this.currentGuestCount = selectedGuestCount;
             
             const hotelCards = document.querySelectorAll('.hotel-card');
             
             if (hotelCards.length === 0) {
-                console.log('⚠️ No hotel cards found to filter');
+                logger.warn('No hotel cards found to filter', 'GuestFilter');
                 return;
             }
             
@@ -112,7 +112,7 @@
                 this.hideNoResultsMessage();
             }
             
-            console.log(`✅ Filter applied: ${this.visibleHotels}/${this.totalHotels} hotels visible, ${totalVisibleVacancies} vacancies shown, ${totalHiddenVacancies} hidden`);
+            logger.debug(`Filter applied: ${this.visibleHotels}/${this.totalHotels} hotels visible, ${totalVisibleVacancies} vacancies shown, ${totalHiddenVacancies} hidden`, 'GuestFilter');
         },
         
         /**
@@ -189,7 +189,7 @@
          * Reset filter (show all cards)
          */
         reset: function() {
-            console.log('🔄 Resetting guest filter');
+            logger.debug('Resetting guest filter', 'GuestFilter');
             
             const hotelCards = document.querySelectorAll('.hotel-card');
             const vacancyItems = document.querySelectorAll('.vacancy-item');
@@ -216,12 +216,10 @@
                 totalHotels: this.totalHotels,
                 visibleHotels: this.visibleHotels,
                 hiddenHotels: this.totalHotels - this.visibleHotels
-            };
-        }
-    };
-    
-    // Expose to global scope
-    window.GuestNumberFilter = GuestNumberFilter;
-    
-    console.log('✅ Guest Number Filter module loaded (FR-004B)');
-})();
+        };
+    }
+};
+
+export { GuestNumberFilter };
+
+logger.info('Guest Number Filter module loaded', 'FR-004B');

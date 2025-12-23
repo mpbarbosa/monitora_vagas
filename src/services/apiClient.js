@@ -134,18 +134,18 @@ export class BuscaVagasAPIClient {
             : 'http://localhost:3001/api');
         
         this.timeout = {
-            default: 30000,      // 30 seconds
-            search: 60000,       // 60 seconds for vacancy search
-            weekendSearch: 600000 // 10 minutes for weekend search
+            default: TIME.TIMEOUT.DEFAULT,
+            search: TIME.TIMEOUT.SEARCH,
+            weekendSearch: TIME.TIMEOUT.WEEKEND_SEARCH
         };
         
         // Initialize ibira.js API fetch manager
         this.fetchManager = new IbiraAPIFetchManager({
-            maxCacheSize: 100,
-            cacheExpiration: 5 * 60 * 1000, // 5 minutes
-            maxRetries: 3,
-            retryDelay: 1000,
-            retryMultiplier: 2
+            maxCacheSize: API.MAX_CACHE_SIZE,
+            cacheExpiration: TIME.CACHE.API_RESPONSE,
+            maxRetries: API.MAX_RETRIES,
+            retryDelay: TIME.RETRY.BASE_DELAY,
+            retryMultiplier: TIME.RETRY.MULTIPLIER
         });
         
         this.logger.log(`✅ BuscaVagasAPIClient initialized with base URL: ${this.apiBaseUrl}`);

@@ -429,8 +429,8 @@ cd public && python3 -m http.server 8080
 ## Related Documentation
 
 - [CSS Loading Issue](./CSS_LOADING_ISSUE.md)
-- [Background Color Tests](../tests/BACKGROUND_COLOR_TEST_README.md)
-- [Quick Start Guide](../QUICKSTART.md)
+- [Background Color Tests](../../tests/BACKGROUND_COLOR_TEST_README.md)
+- [Quick Start Guide](../guides/QUICKSTART.md)
 
 ---
 

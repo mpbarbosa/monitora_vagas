@@ -1,7 +1,7 @@
 # Monitora Vagas Documentation
 
 **Last Updated:** 2025-12-16  
-**Version:** 2.0.0
+**Version:** 2.1.0
 
 Welcome to the Monitora Vagas documentation. This directory contains comprehensive documentation organized by category for easy navigation.
 

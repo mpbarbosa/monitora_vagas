@@ -44,7 +44,8 @@ export default [
       "dist/**",
       "build/**",
       "coverage/**",
-      "**/*.min.js"
+      "**/*.min.js",
+      "src/archive/**"
     ]
   }
 ];

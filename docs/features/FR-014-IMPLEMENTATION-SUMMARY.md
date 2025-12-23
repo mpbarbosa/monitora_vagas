@@ -40,13 +40,7 @@ Added Bootstrap toggle switch in search form:
 </div>
 ```
 
-**Key Features:**
-- ✅ Bootstrap 5.3 form-switch component
-- ✅ Checked by default (rules enabled)
-- ✅ ARIA labels for accessibility
-- ✅ Tooltip with help text
-- ✅ Compact label "Regras" to save space
-- ✅ Responsive column layout (col-md-1)
+For complete details, see [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md#fr-014-booking-rules-toggle).
 
 **Placement:**
 - After guest counter (col-md-2)

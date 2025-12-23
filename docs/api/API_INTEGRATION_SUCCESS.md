@@ -246,7 +246,7 @@ console.log(results.result.hotelGroups); // Object with hotels as keys
 - **Primary Reference:** [DATA_FLOW_DOCUMENTATION.md](https://github.com/mpbarbosa/busca_vagas/blob/main/docs/DATA_FLOW_DOCUMENTATION.md)
 - **Integration Guide:** [API_INTEGRATION_UPDATE.md](./API_INTEGRATION_UPDATE.md)
 - **Previous Changes:** [API_INTEGRATION_CHANGES.md](./API_INTEGRATION_CHANGES.md)
-- **Implementation Guide:** [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md)
+- **Implementation Guide:** [IMPLEMENTATION_GUIDE.md](../architecture/IMPLEMENTATION_GUIDE.md)
 
 ---
 
