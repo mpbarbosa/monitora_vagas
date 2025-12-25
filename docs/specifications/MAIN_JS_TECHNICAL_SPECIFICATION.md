@@ -1,7 +1,7 @@
 # Technical Specification: Application Architecture
 
-**Document Version:** 2.1  
-**Date:** 2025-12-17  
+**Document Version:** 2.2  
+**Date:** 2024-12-25  
 **Author:** Monitora Vagas Development Team  
 **Module:** `public/index.html` and `src/js/*` (Modular JavaScript Architecture)  
 **Type:** Single Page Application with State Management
@@ -48,14 +48,18 @@ The application encompasses:
 - `src/js/global.js` - Global utilities
 - `src/js/guestNumberFilter.js` - Guest filtering logic (FR-004B)
 - `src/js/guestCounter.js` - Guest counter component (FR-004, FR-004A)
-- `src/js/searchLifecycleState.js` - **UI state management (FR-008A)** ⭐ NEW
+- `src/js/searchLifecycleState.js` - UI state management (FR-008A)
 - `src/js/hotelSearch.js` - Search workflow and results display (ES6 module)
-- `src/services/apiClient.js` - API communication module (ES6 module)
-- `src/services/hotelCache.js` - Hotel caching service
-
-**Configuration:**
-
+- `src/services/apiClient.js` - API communication with pure functions and dependency injection (v1.1.0)
+- `src/services/hotelCache.js` - LocalStorage-based hotel caching with TTL management
+- `src/services/ibira-loader.js` - ibira.js CDN + local fallback loader
+- `src/services/logger.js` - Centralized logging service with environment awareness
+- `src/config/constants.js` - Application constants (TIME, API, CACHE, UI, VALIDATION)
 - `src/config/environment.js` - Environment configuration
+
+**Third-Party Libraries:**
+
+- `ibira.js` - Advanced API fetching with automatic retries, caching, and CDN + local fallback (v0.2.1-alpha)
 
 ---
 

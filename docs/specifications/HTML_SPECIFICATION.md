@@ -2,9 +2,9 @@
 ## Trade Union Hotel Search Platform
 
 **Document Type**: Technical Specification  
-**Version**: 2.0.0  
-**Status**: Draft  
-**Last Updated**: December 10, 2024  
+**Version**: 2.2.0  
+**Status**: Current  
+**Last Updated**: December 25, 2024  
 **Author**: Development Team  
 **Classification**: Internal Documentation
 

@@ -25,9 +25,12 @@ class Logger {
      */
     detectEnvironment() {
         // Check if running in production
+        // Note: process.env is not available in browser, check only window.location
         return window.location.hostname === 'sesi.pessoal.online' ||
                window.location.hostname === 'www.sesi.pessoal.online' ||
-               process.env.NODE_ENV === 'production';
+               window.location.hostname === 'www.mpbarbosa.com' ||
+               window.location.hostname === 'mpbarbosa.com' ||
+               (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production');
     }
 
     /**

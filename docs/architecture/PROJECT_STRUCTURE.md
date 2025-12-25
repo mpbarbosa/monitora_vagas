@@ -30,7 +30,9 @@ monitora_vagas/
 │   │
 │   ├── services/               # API and external service integrations
 │   │   ├── apiClient.js       # API client for backend ✅ ACTIVE
-│   │   └── hotelCache.js      # Hotel data caching service ✅ ACTIVE
+│   │   ├── hotelCache.js      # Hotel data caching service ✅ ACTIVE
+│   │   ├── ibira-loader.js    # ibira.js CDN + local fallback ✅ ACTIVE
+│   │   └── logger.js          # Centralized logging service ✅ ACTIVE
 │   │
 │   ├── js/                     # JavaScript modules
 │   │   ├── global.js          # Global initialization ✅ ACTIVE
@@ -76,17 +78,18 @@ monitora_vagas/
 │   └── README.md               # Test documentation
 │
 ├── docs/                       # Project documentation
-│   ├── api/                    # API documentation
-│   ├── architecture/           # Architecture decisions
-│   ├── features/               # Feature documentation
-│   ├── guides/                 # User and developer guides
-│   ├── implementation/         # Implementation details
-│   ├── specifications/         # Technical specifications
-│   ├── styling/                # Styling documentation
-│   ├── testing/                # Testing documentation
-│   ├── troubleshooting/        # Troubleshooting guides
-│   ├── workflows/              # Workflow documentation
-│   ├── PROJECT_STRUCTURE.md   # This file
+│   ├── api/                    # API documentation (8 files)
+│   ├── archive/                # Archived documentation (2 files) 🆕
+│   ├── architecture/           # Architecture decisions (12 files)
+│   ├── features/               # Feature documentation (3 files)
+│   ├── guides/                 # User and developer guides (24 files)
+│   ├── implementation/         # Implementation details (4 files)
+│   ├── scripts/                # Script documentation (2 files) 🆕
+│   ├── specifications/         # Technical specifications (5 files)
+│   ├── styling/                # Styling documentation (11 files)
+│   ├── testing/                # Testing documentation (2 files) 🆕
+│   ├── troubleshooting/        # Troubleshooting guides (3 files)
+│   ├── workflows/              # Workflow documentation (1 file)
 │   └── README.md               # Documentation index
 │
 ├── legacy/                     # Legacy code (deprecated)
@@ -174,8 +177,15 @@ monitora_vagas/
 **Purpose:** Business logic and API integrations.
 
 **Current Services:**
-- `apiClient.js` - API client for backend communication
-- `hotelCache.js` - Hotel data caching with TTL
+- `apiClient.js` - API client with pure functions and dependency injection (v1.1.0)
+- `hotelCache.js` - LocalStorage-based hotel caching with TTL management
+- `logger.js` - Logging service with dependency injection
+
+**Features:**
+- Referential transparency improvements
+- Pure helper functions (formatDateISO, isValidWeekendCount)
+- URL builders as pure functions
+- Environment detection (dev/prod)
 
 **Best Practice:** Services return promises and handle errors consistently.
 
@@ -265,12 +275,17 @@ See `legacy/` folder for:
 **Test Files:**
 - `*.py` - Python test scripts (Selenium tests)
 - `*.html` - HTML test pages
-- `*.js` - JavaScript test scripts
-- `*.sh` - Shell test runner scripts
+- `*.js` - JavaScript test scripts (Jest)
+- `*.sh` - Shell test runner scripts (13 scripts)
+
+**Test Scripts:**
+- Utility scripts: `fix-css-symlink.sh`, `update-dependencies.sh`, `run-tests.sh`
+- Test scripts: Various automated test runners for E2E, integration, and unit tests
 
 **Documentation:**
 - Various `*_README.md` files document test suites
 - `README.md` - Main test documentation
+- See `docs/scripts/SCRIPTS_INDEX.md` for comprehensive script documentation
 
 ---
 
@@ -279,16 +294,20 @@ See `legacy/` folder for:
 **Purpose:** Comprehensive project documentation organized by topic.
 
 **Structure:**
-- `api/` - API documentation and integration guides
-- `architecture/` - Architecture decisions and design docs
-- `features/` - Feature specifications
-- `guides/` - User and developer guides
-- `implementation/` - Implementation details
-- `specifications/` - Technical specifications
-- `styling/` - CSS and design documentation
-- `testing/` - Test documentation
-- `troubleshooting/` - Problem-solving guides
-- `workflows/` - Workflow and process documentation
+- `api/` - API documentation and integration guides (8 files)
+- `archive/` - Archived documentation (2 files) 🆕
+- `architecture/` - Architecture decisions and design docs (12 files)
+- `features/` - Feature specifications (3 files)
+- `guides/` - User and developer guides (24 files)
+- `implementation/` - Implementation details (4 files)
+- `scripts/` - Script documentation and troubleshooting (2 files) 🆕
+- `specifications/` - Technical specifications (5 files)
+- `styling/` - CSS and design documentation (11 files)
+- `testing/` - Test documentation (2 files) 🆕
+- `troubleshooting/` - Problem-solving guides (3 files)
+- `workflows/` - Workflow and process documentation (1 file)
+
+**Total:** 77 documentation files
 
 ---
 

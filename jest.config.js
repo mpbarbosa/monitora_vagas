@@ -37,9 +37,10 @@ export default {
     // Empty array means transform all modules including node_modules
     transformIgnorePatterns: [],
     
-    // Module name mapper for aliases (if needed)
+    // Module name mapper for aliases and mocks
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1'
+        '^@/(.*)$': '<rootDir>/src/$1',
+        '^.*ibira-loader\\.js$': '<rootDir>/tests/__mocks__/ibira-loader.js'
     },
     
     // Verbose output

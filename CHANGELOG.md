@@ -53,6 +53,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ARIA labels and tooltip for accessibility
   - Responsive layout (col-md-1) that fits seamlessly with existing form
   - Complete test suite (`tests/test_booking_rules_toggle.py` - 281 lines)
+
+- **Centralized Logger Service** (`src/services/logger.js`)
+  - Environment-aware logging (production: ERROR only, development: full DEBUG)
+  - Configurable log levels (DEBUG, INFO, WARN, ERROR, NONE)
+  - Structured logging with ISO 8601 timestamps and context labels
+  - Performance measurement tools (`time()`, `timeEnd()`)
+  - Log grouping for related messages (`group()`, `groupEnd()`)
+  - LocalStorage override for development debugging
+  - Future-ready for error tracking service integration (Sentry/Rollbar placeholder)
+
+- **Constants Extraction** (`src/config/constants.js`)
+  - Centralized configuration management (235+ lines)
+  - TIME constants (timeouts, cache TTLs, retry delays, UI delays)
+  - API constants (retry limits, status codes, content types)
+  - CACHE constants (storage keys, size limits)
+  - UI constants (animations, breakpoints, z-index layers)
+  - VALIDATION constants (guest limits, date ranges, text fields)
+  - FEATURE flags (caching, retry, analytics, debug mode)
+  - ERROR_CODES (booking rules, API errors, client errors)
+  - DATE_FORMATS (ISO 8601, display formats)
+  - Helper functions (`formatDuration()`, `inRange()`, `getTimeout()`)
   
 - **Infrastructure and Tooling**
   - Added `.nvmrc` for Node.js version specification (>=20.0.0)
@@ -78,26 +99,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `docs/features/FR-014-IMPLEMENTATION-SUMMARY.md` - Complete FR-014 implementation guide
   - `docs/api/FR-014-API-COMPATIBILITY-REPORT.md` - API compatibility analysis
   - `docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md` - Consolidated guest buttons guide
-  - `DEPENDENCY_ANALYSIS_REPORT.md` - Comprehensive dependency analysis (1,143 lines)
-  - `DEPENDENCY_UPDATE_QUICKREF.md` - Quick reference for dependency updates
+  - `DEPENDENCY_SECURITY_ANALYSIS.md` - Comprehensive dependency security analysis
+  - `docs/guides/DEPENDENCY_UPDATE_QUICKREF.md` - Quick reference for dependency updates
 
 ### Changed
 
+- **ES6 Module Integration** - Enhanced module architecture
+  - Logger service integrated with `apiClient.js`, `hotelCache.js`, `hotelSearch.js`, `searchLifecycleState.js`
+  - Constants used across all services (eliminates 50+ magic numbers)
+  - Clean import/export patterns throughout codebase
+  - No global namespace pollution (removed window object dependencies)
+  
 - **Code Updates**
   - Enhanced `src/js/hotelSearch.js` with booking rules parameter integration
   - Updated `src/styles/index-page.css` with improved guest button styling
   - Updated `package.json` with new dependencies and optimized configuration
+  - Integrated logger calls throughout services and modules
+  - Replaced magic numbers with constants from `constants.js`
   
 - **Documentation Consolidation**
   - Consolidated 5 separate guest button documents into single comprehensive guide
   - Moved `QUICKSTART.md` to `docs/guides/QUICKSTART.md` for better organization
   - Updated `docs/README.md` with complete documentation index
   - Updated all cross-references to reflect new documentation structure
+  - Fixed broken documentation links across repository
 
 ### Removed
 
 - **Code Cleanup**
   - Removed `src/archive/` directory (archived code no longer needed)
+  - Cleaned up orphaned symlinks in `public/` directory
+  - Removed duplicate documentation files
+
+### Technical Details
+
+**Logger Integration:**
+- Used by: `apiClient.js`, `hotelCache.js`, `hotelSearch.js`, `searchLifecycleState.js`
+- Production: ERROR level only (optimized performance)
+- Development: Full DEBUG logging with localStorage override capability
+- Structured format: `[ISO-8601-timestamp][context] LEVEL: message`
+
+**Constants Usage:**
+- Used by: `apiClient.js` (timeouts, retry, status codes), `hotelCache.js` (cache keys, TTL)
+- Used by: `logger.js` (cache key), `hotelSearch.js` (validation, timeouts)
+- Eliminates 50+ magic numbers across codebase
+- Single source of truth for all configuration values
+
+**Module Benefits:**
+- Zero global namespace pollution (clean `window` object)
+- Tree-shaking enabled for smaller production bundles
+- Better IDE support (go-to-definition, auto-complete, refactoring)
+- Improved testability (direct module imports, no mocks needed)
+- Modern ES6+ standards compliance
     - Removed `src/archive/components/` - AdvancedSearchModal, ProgressBar, QuickSearch, SearchForm
     - Removed `src/archive/pages/` - Home page components
     - Removed `src/archive/config/` - Archived configuration files

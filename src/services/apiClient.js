@@ -12,7 +12,7 @@
  * - URL builders as pure functions
  */
 
-import { IbiraAPIFetchManager } from 'ibira.js';
+import { IbiraAPIFetchManager } from './ibira-loader.js';
 import { getEnvironment } from '../config/environment.js';
 import { TIME, API } from '../config/constants.js';
 import { hotelCache } from './hotelCache.js';

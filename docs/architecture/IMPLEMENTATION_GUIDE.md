@@ -2,13 +2,16 @@
 
 ## 🚀 Quick Start
 
-The application uses real busca_vagas backend API for vacancy searches.
+The application uses modern ES6 modules with the busca_vagas backend API for vacancy searches.
 
 ### What's Implemented:
 ✅ Real vacancy data from AFPESP via backend API  
-✅ Direct fetch API integration (no wrapper layer)  
+✅ ES6 module-based API client with pure functions  
+✅ LocalStorage-based hotel caching with TTL  
+✅ Referential transparency and dependency injection  
 ✅ Proper timeout and error handling  
 ✅ ISO 8601 date formatting  
+✅ Environment detection (dev/prod)
 
 ---
 
@@ -73,8 +76,15 @@ npm start
 
 ## 📁 Implementation Files
 
-### `src/components/QuickSearch/QuickSearch.js`
-Main search component with direct API integration:
+### `src/services/apiClient.js`
+Main API client service with pure functions and dependency injection (v1.1.0):
+
+**Key Features:**
+- Pure helper functions (formatDateISO, isValidWeekendCount, URL builders)
+- Dependency injection for logger
+- Integration with hotelCache service
+- Environment-based API URL configuration
+- Referential transparency improvements
 
 **Key Methods:**
 ```javascript

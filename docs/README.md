@@ -1,7 +1,7 @@
 # Monitora Vagas Documentation
 
-**Last Updated:** 2025-12-16  
-**Version:** 2.1.0
+**Last Updated:** 2024-12-25  
+**Version:** 2.2.0
 
 Welcome to the Monitora Vagas documentation. This directory contains comprehensive documentation organized by category for easy navigation.
 
@@ -159,13 +159,84 @@ CSS, templates, and visual design documentation.
 
 ---
 
+### 📜 [Scripts](./scripts/)
+Script documentation and troubleshooting guides.
+
+**Files:** 2 documents
+- [SCRIPTS_INDEX.md](./scripts/SCRIPTS_INDEX.md) - Comprehensive index of all project scripts 🆕
+- [TROUBLESHOOTING_GUIDE.md](./scripts/TROUBLESHOOTING_GUIDE.md) - Script troubleshooting guide 🆕
+
+**Topics:**
+- Utility scripts (fix-css-symlink.sh, update-dependencies.sh, run-tests.sh)
+- Test scripts (10 automated test scripts)
+- Script standards and conventions
+- Error handling and debugging
+- Performance optimization
+
+---
+
+### 📏 [Standards](./standards/)
+Coding standards, best practices, and development conventions.
+
+**Files:** 5 documents
+- [CENTRALIZED_LOGGER.md](./standards/CENTRALIZED_LOGGER.md) - Logger service standards and usage 🆕
+- [CONSTANTS_EXTRACTION.md](./standards/CONSTANTS_EXTRACTION.md) - Constants management patterns 🆕
+- [ES6_MODULE_CONVERSION.md](./standards/ES6_MODULE_CONVERSION.md) - ES6 module conversion guide 🆕
+- [DOCUMENTATION_AUTOMATION.md](./standards/DOCUMENTATION_AUTOMATION.md) - Automated documentation standards 🆕
+- [ESLINT_CONFIGURATION.md](./standards/ESLINT_CONFIGURATION.md) - ESLint setup and rules
+
+**Topics:**
+- Centralized logging best practices
+- Constants and magic number elimination
+- ES6 module patterns and migration
+- Documentation automation and linting
+- Code quality standards and enforcement
+
+---
+
 ### 🧪 [Testing](./testing/)
 Test data, test results, and testing documentation.
 
-**Files:** 1 document
+**Files:** 2 documents
+- [FR-014-TEST-DOCUMENTATION.md](./testing/FR-014-TEST-DOCUMENTATION.md) - Comprehensive FR-014 test documentation 🆕
 - [api_test_response.json](./testing/api_test_response.json) - Sample API response for testing
 
-**Note:** Main test documentation is in the `/tests` folder at project root.
+**Test Coverage:**
+- FR-014 booking rules toggle functionality
+- Unit tests, E2E tests, and integration tests
+- Test execution scripts and automation
+
+**Note:** Main test scripts are in the `/tests` folder at project root.
+
+---
+
+### 📜 [Scripts](./scripts/)
+Script documentation and troubleshooting guides.
+
+**Files:** 2 documents
+- [SCRIPTS_INDEX.md](./scripts/SCRIPTS_INDEX.md) - Comprehensive index of all project scripts 🆕
+- [TROUBLESHOOTING_GUIDE.md](./scripts/TROUBLESHOOTING_GUIDE.md) - Script troubleshooting guide 🆕
+
+**Topics:**
+- Utility scripts (fix-css-symlink.sh, update-dependencies.sh, run-tests.sh)
+- Test scripts (10 automated test scripts)
+- Script standards and conventions
+- Error handling and debugging
+- Performance optimization
+
+---
+
+### 📁 [Archive](./archive/)
+Archived documentation and historical records.
+
+**Files:** 2 documents
+- [DOCUMENTATION_UPDATE_PLAN.md](./archive/DOCUMENTATION_UPDATE_PLAN.md) - Historical documentation update plan 🆕
+- [documentation_updates.md](./archive/documentation_updates.md) - Legacy documentation updates 🆕
+
+**Purpose:**
+- Preserve historical documentation for reference
+- Track evolution of documentation practices
+- Maintain audit trail of major changes
 
 ---
 
@@ -225,12 +296,14 @@ Development workflows and execution contexts.
 | Features | 3 | Requirements and specifications |
 | Guides | 24 | User and developer guides |
 | Implementation | 4 | Technical implementation details |
+| Scripts | 2 | Script documentation and troubleshooting 🆕 |
 | Specifications | 5 | Standards and schemas |
 | Styling | 11 | CSS and visual design |
-| Testing | 1 | Test data and results |
+| Testing | 2 | Test data and documentation 🆕 |
+| Archive | 2 | Historical documentation 🆕 |
 | Troubleshooting | 3 | Problem solving guides |
 | Workflows | 1 | Development processes |
-| **Total** | **72** | **Complete documentation** |
+| **Total** | **77** | **Complete documentation** |
 
 ---
 

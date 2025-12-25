@@ -1,8 +1,9 @@
 # Hotel List Cache Implementation
 
-**Date**: December 10, 2024  
+**Date**: December 10, 2024 (Updated: December 25, 2024)  
 **Feature**: Local Client-Side Cache for Hotel List  
-**Purpose**: Reduce API calls and costs by caching hotel list locally
+**Purpose**: Reduce API calls and costs by caching hotel list locally  
+**Version**: 2.2.0 (with ibira.js integration)
 
 ---
 
@@ -17,7 +18,8 @@ The hotel list cache implementation adds **LocalStorage-based persistence** to c
 ✅ **Cost Savings**: Fewer API requests = lower server costs  
 ✅ **Better UX**: No loading delay when cache is fresh  
 ✅ **Offline Capable**: Hotel list available even without internet (if cached)  
-✅ **Manual Refresh**: Users can force refresh with 🔄 button
+✅ **Manual Refresh**: Users can force refresh with 🔄 button  
+✅ **ibira.js Integration**: API responses cached with automatic retries and exponential backoff (v2.2.0)
 
 ---
 
@@ -25,7 +27,7 @@ The hotel list cache implementation adds **LocalStorage-based persistence** to c
 
 ### 1. Cache Service (`services/hotelCache.js`)
 
-New service that manages persistent cache using LocalStorage:
+New service that manages persistent cache using LocalStorage with TTL (Time To Live) support:
 
 ```javascript
 import { hotelCache } from './services/hotelCache.js';
@@ -53,6 +55,14 @@ const cache = new HotelCache({
 });
 ```
 
+#### Key Features (v1.1.0)
+
+- **LocalStorage Persistence** - Survives page reloads and browser sessions
+- **Automatic Expiration** - TTL-based cache invalidation
+- **Graceful Fallback** - Uses memory cache if LocalStorage unavailable
+- **Detailed Logging** - Debug logs for cache operations
+- **Cache Statistics** - Size, age, and expiration tracking
+
 #### Default Settings
 
 | Setting | Value | Description |
@@ -65,7 +75,25 @@ const cache = new HotelCache({
 
 ### 2. Updated API Client (`services/apiClient.js`)
 
-Enhanced with persistent cache integration:
+Enhanced with persistent cache integration, referential transparency improvements (v1.1.0), and **ibira.js integration** for advanced API fetching:
+
+**Key Features:**
+- **ibira.js Integration** - Uses `IbiraAPIFetchManager` for API requests with automatic retries, caching, and CDN + local fallback
+- Pure helper functions (formatDateISO, isValidWeekendCount)
+- Dependency injection for logger
+- URL builders as pure functions
+- Validators separated for better testability
+
+**ibira.js Configuration:**
+```javascript
+this.fetchManager = new IbiraAPIFetchManager({
+    maxCacheSize: API.MAX_CACHE_SIZE,           // Maximum cache entries
+    cacheExpiration: TIME.CACHE.API_RESPONSE,   // 5-minute TTL
+    maxRetries: API.MAX_RETRIES,                // 3 retry attempts
+    retryDelay: TIME.RETRY.BASE_DELAY,          // 1000ms initial delay
+    retryMultiplier: TIME.RETRY.MULTIPLIER      // 2x exponential backoff
+});
+```
 
 ```javascript
 import { apiClient } from './services/apiClient.js';

@@ -1,7 +1,7 @@
 # Quick Start Guide
 
-**Version:** 2.0.0  
-**Last Updated:** December 16, 2025
+**Version:** 2.2.0  
+**Last Updated:** December 25, 2024
 
 ## 🚀 Start the Application (30 seconds)
 
@@ -95,8 +95,62 @@ src/
 ### Services
 ```
 📁 src/services/
-   ├── apiClient.js          # API client
-   └── hotelCache.js         # Hotel caching
+   ├── apiClient.js          # API client (pure functional)
+   ├── hotelCache.js         # Hotel caching with TTL
+   └── logger.js             # Centralized logging 🆕
+```
+
+### Configuration
+```
+📁 src/config/
+   ├── constants.js          # Application constants 🆕
+   └── environment.js        # Environment detection
+```
+
+---
+
+## 🔧 New Developer Onboarding
+
+### Understanding the Architecture
+
+1. **Services Layer** (`src/services/`)
+   - `logger.js` - Centralized logging with environment awareness
+   - `apiClient.js` - API integration with retry logic
+   - `hotelCache.js` - LocalStorage caching with TTL
+
+2. **Configuration** (`src/config/`)
+   - `constants.js` - All application constants (TIME, API, CACHE, UI, VALIDATION)
+   - `environment.js` - Environment detection and configuration
+
+3. **ES6 Modules** (`src/js/`)
+   - Import/export syntax (no IIFE patterns)
+   - No global variables
+   - Clean dependencies
+
+### Using the Logger
+
+```javascript
+import { logger } from '../services/logger.js';
+
+logger.debug('Debug message', 'COMPONENT_NAME');
+logger.info('Info message', 'COMPONENT_NAME');
+logger.warn('Warning message', 'COMPONENT_NAME');
+logger.error('Error message', error, 'COMPONENT_NAME');
+
+// Performance measurement
+logger.time('API Request');
+await apiClient.getHotels();
+logger.timeEnd('API Request');
+```
+
+### Using Constants
+
+```javascript
+import { TIME, VALIDATION, API } from '../config/constants.js';
+
+setTimeout(fn, TIME.TIMEOUT.DEFAULT);
+if (guests > VALIDATION.GUESTS.MAX) { ... }
+if (response.status === API.STATUS.OK) { ... }
 ```
 
 ---

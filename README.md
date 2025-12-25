@@ -2,8 +2,8 @@
 
 > Modern hotel vacancy monitoring web application with real-time API integration
 
-**Version**: 2.1.0  
-**Last Updated**: 2024-12-22  
+**Version**: 2.2.0  
+**Last Updated**: 2024-12-25  
 **Status**: ✅ Production Ready (Enhanced)  
 **Framework**: Bootstrap 5.3.3 + Custom CSS
 
@@ -37,6 +37,9 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ✅ **Client-side Caching** - Local storage cache for hotel data  
 ✅ **Search Lifecycle Management** - FR-008A implemented with state-driven UI  
 ✅ **Referential Transparency** - Pure functional API client with dependency injection  
+✅ **Centralized Logger** - Environment-aware logging with configurable levels  
+✅ **Constants Management** - Centralized configuration (TIME, API, CACHE, UI)  
+✅ **ES6 Modules** - Modern module architecture (no global namespace pollution)  
 ✅ **Comprehensive Testing** - Unit, E2E, and integration test suites  
 ✅ **Code Quality** - ESLint with no-this rule for functional programming  
 ✅ **Production Ready** - Deployed and fully functional
@@ -58,13 +61,16 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ### Technical Features
 
 - **Bootstrap 5.3.3** - Modern UI framework with responsive utilities
-- **ES6 Modules** - Modern JavaScript architecture
-- **API Client** - Robust error handling and retry logic
+- **ES6 Modules** - Modern JavaScript architecture with clean imports/exports
+- **ibira.js Integration** - Advanced API fetching with CDN + local fallback, automatic retries, and intelligent caching
+- **Centralized Logger** - Environment-aware logging (production: ERROR only, dev: full DEBUG)
+- **Constants Management** - All magic numbers extracted to `src/config/constants.js`
+- **API Client** - Robust error handling, retry logic, and pure functional design
 - **Hotel Cache** - LocalStorage-based caching system with TTL
 - **Environment Detection** - Automatic dev/prod configuration
 - **CORS Support** - Cross-origin resource sharing enabled
-- **Caching** - 5-minute cache for hotel data
-- **Error Handling** - Comprehensive error messages
+- **Caching** - 5-minute cache for API responses (via ibira.js), 24-hour for hotel data
+- **Error Handling** - Comprehensive error messages and recovery
 - **No jQuery Required** - Bootstrap 5 uses vanilla JavaScript
 
 ---
@@ -212,7 +218,8 @@ monitora_vagas/
 │   │
 │   ├── services/              # API & external services
 │   │   ├── apiClient.js      # Busca Vagas API client (pure functional) ✅
-│   │   └── hotelCache.js     # Hotel data caching ✅
+│   │   ├── hotelCache.js     # Hotel data caching ✅
+│   │   └── logger.js         # Centralized logging service ✅
 │   │
 │   ├── js/                    # JavaScript modules
 │   │   ├── global.js         # Global initialization ✅
@@ -222,6 +229,7 @@ monitora_vagas/
 │   │   └── searchLifecycleState.js # FR-008A search state management ✅
 │   │
 │   ├── config/                # Configuration
+│   │   ├── constants.js      # Application constants (TIME, API, CACHE, UI) ✅
 │   │   └── environment.js    # Environment vars ✅
 │   │
 │   ├── styles/                # Stylesheets
@@ -490,66 +498,83 @@ For detailed testing documentation, see:
 
 ## 📚 Documentation
 
-### Guides
+### Main Documentation Hub
 
+📖 **[Complete Documentation Index](./docs/README.md)** - Start here for all documentation
+
+### Quick Access by Category
+
+#### 🏗️ Architecture & Design
+- **[Project Structure](docs/architecture/PROJECT_STRUCTURE.md)** - Complete folder structure (v2.1.0)
+- **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - API client architecture with pure functions
+- **[State-Driven UI Pattern](docs/architecture/STATE_DRIVEN_UI_PATTERN.md)** - UI state management patterns
+
+#### 📡 API Integration (v1.4.1)
+- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 Complete API reference (START HERE)
+- **[API Client Usage](docs/api/API_CLIENT_USAGE_REVIEW.md)** - Client implementation patterns
+- **[API Client Referential Transparency](docs/api/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
+- **[API Client Improvements v1.1](docs/api/APICLIENT_IMPROVEMENTS_v1.1.md)** - Latest enhancements
+- **[Integration Checklist](docs/api/INTEGRATION_CHECKLIST.md)** - Integration steps
+
+#### 🔧 Implementation Details
+- **[Hotel Cache Implementation](docs/implementation/HOTEL_CACHE_IMPLEMENTATION.md)** - LocalStorage caching with TTL
+- **[Hotel Cache Quick Reference](docs/implementation/HOTEL_CACHE_QUICK_REFERENCE.md)** - Usage guide
+- **[Date Format Change](docs/implementation/DATE_FORMAT_CHANGE.md)** - ISO 8601 standardization
+
+#### 📜 Scripts & Testing 🆕
+- **[Scripts Index](docs/scripts/SCRIPTS_INDEX.md)** - All project scripts (13 total)
+- **[Troubleshooting Guide](docs/scripts/TROUBLESHOOTING_GUIDE.md)** - Script debugging guide
+- **[FR-014 Test Documentation](docs/testing/FR-014-TEST-DOCUMENTATION.md)** - Test suite documentation
+
+#### ⭐ Features & Requirements
+- **[Functional Requirements](docs/features/FUNCTIONAL_REQUIREMENTS.md)** - 📋 Complete FR-001 to FR-014
+- **[FR-008A Implementation](docs/features/FR-008A_IMPLEMENTATION_SUMMARY.md)** - Search lifecycle
+- **[FR-014 Implementation](docs/features/FR-014-IMPLEMENTATION-SUMMARY.md)** - Booking rules toggle
+- **[API Client Functional Requirements](docs/features/API_CLIENT_FUNCTIONAL_REQUIREMENTS.md)** - API FR specs
+
+#### 📖 Development Guides
 - **[Quick Start Guide](docs/guides/QUICKSTART.md)** - Get started quickly
-- **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)** - Complete testing documentation
+- **[E2E Testing Guide](docs/guides/E2E_TESTING_GUIDE.md)** - Complete testing docs
 - **[Local Testing Guide](docs/guides/LOCAL_TESTING_GUIDE.md)** - Local development setup
 - **[Development Tools Guide](docs/guides/DEVELOPMENT_TOOLS_GUIDE.md)** - Development tools
 - **[Git Best Practices](docs/guides/GIT_BEST_PRACTICES_GUIDE.md)** - Git workflow
-
-### API Documentation
-
-- **[API Documentation](docs/api/API_DOCUMENTATION.md)** - 📖 Complete API reference (START HERE)
-- **[API Client Functional Requirements](docs/features/API_CLIENT_FUNCTIONAL_REQUIREMENTS.md)** - Complete FR specs
-- **[API Client Quick Reference](docs/features/API_CLIENT_QUICK_REFERENCE.md)** - Quick lookup guide
-- **[API Client Referential Transparency Analysis](docs/api/APICLIENT_REFERENTIAL_TRANSPARENCY_ANALYSIS.md)** - Pure function analysis
-- **[API Client Improvements v1.1](docs/api/APICLIENT_IMPROVEMENTS_v1.1.md)** - Enhancement summary
-- **[API Documentation Index](docs/api/README.md)** - API docs overview
-- **[API Integration Update](docs/api/API_INTEGRATION_UPDATE.md)** - Latest integration guide
-- **[API Integration Success](docs/api/API_INTEGRATION_SUCCESS.md)** - Integration success stories
-- **[API Client Usage](docs/api/API_CLIENT_USAGE_REVIEW.md)** - Client usage patterns
-- **[Integration Checklist](docs/api/INTEGRATION_CHECKLIST.md)** - Integration steps
-
-### Architecture
-
-- **[Documentation Index](docs/README.md)** - Complete documentation navigation
-- **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - Architecture overview
 - **[No-Scroll Principle](docs/guides/NO_SCROLL_PRINCIPLE_GUIDE.md)** - Design philosophy
-- **[Test Results Analysis](docs/architecture/TEST_RESULTS_ANALYSIS.md)** - Test insights
-- **[State-Driven UI Pattern](docs/architecture/STATE_DRIVEN_UI_PATTERN.md)** - UI state management
 
-### Code Quality & Best Practices
+#### 🎨 CSS & Styling
+- **[Bootstrap Integration](docs/styling/BOOTSTRAP_INTEGRATION.md)** - Bootstrap 5.3.3 setup
+- **[Guest Button States](docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md)** - Complete UI guide
+- **[Colorlib Template Application](docs/styling/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
+- **[CSS Loading Issue](docs/styling/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
 
+#### 📋 Technical Specifications
+- **[HTML Specification](docs/specifications/HTML_SPECIFICATION.md)** - HTML standards (v2.1.0)
+- **[GUI Layout Technical Docs](docs/specifications/GUI_LAYOUT_TECHNICAL_DOCUMENTATION.md)** - UI layout specs
+- **[Specification Formats](docs/specifications/SPECIFICATION_FORMATS_README.md)** - Format documentation
+
+#### 🔍 Code Quality
 - **[High Cohesion Guide](.github/HIGH_COHESION_GUIDE.md)** - High cohesion principles
 - **[Low Coupling Guide](.github/LOW_COUPLING_GUIDE.md)** - Low coupling patterns
 - **[HTML/CSS/JS Separation](.github/HTML_CSS_JS_SEPARATION.md)** - Separation of concerns
 - **[Referential Transparency](.github/REFERENTIAL_TRANSPARENCY.md)** - Pure function guidelines
 
-### Technical Specifications
+### Documentation Statistics
 
-- **[Functional Requirements](docs/features/FUNCTIONAL_REQUIREMENTS.md)** - 📋 Complete requirements FR-001 to FR-014
-- **[FR-008A Implementation](docs/features/FR-008A_IMPLEMENTATION_SUMMARY.md)** - Search lifecycle state management
-- **[FR-014 Implementation](docs/features/FR-014-IMPLEMENTATION-SUMMARY.md)** - Booking rules toggle feature
-- **[GUI Layout Technical Docs](docs/specifications/GUI_LAYOUT_TECHNICAL_DOCUMENTATION.md)** - UI layout specifications
+📊 **77 Documentation Files** organized across 12 categories:
 
-### CSS & Styling
-
-- **[Bootstrap Integration](docs/styling/BOOTSTRAP_INTEGRATION.md)** - 🆕 Bootstrap 5.3.3 setup and usage
-- **[Colorlib Template Application](docs/styling/COLORLIB_TEMPLATE_APPLICATION.md)** - Template integration
-- **[CSS Folders Comparison](docs/styling/CSS_FOLDERS_COMPARISON.md)** - CSS structure analysis
-- **[Guest Button States](docs/styling/GUEST_BUTTONS_COMPLETE_GUIDE.md)** - UI state management
-- **[CSS Loading Issue](docs/styling/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
-
-### Caching & Performance
-
-- **[Hotel Cache Implementation](docs/implementation/HOTEL_CACHE_IMPLEMENTATION.md)** - Caching system details
-- **[Hotel Cache Quick Reference](docs/implementation/HOTEL_CACHE_QUICK_REFERENCE.md)** - Cache usage guide
-
-### Specifications
-
-- **[HTML Specification](docs/specifications/HTML_SPECIFICATION.md)** - HTML standards
-- **[Specification Formats](docs/specifications/SPECIFICATION_FORMATS_README.md)** - Format documentation
+| Category | Files | Recent Updates |
+|----------|-------|----------------|
+| API | 8 | v1.4.1 with pure functions |
+| Architecture | 12 | State-driven patterns |
+| Features | 3 | Complete FR specs |
+| Guides | 24 | Development workflows |
+| Implementation | 4 | Cache & date handling |
+| Scripts | 2 | Index & troubleshooting 🆕 |
+| Specifications | 5 | HTML v2.1.0 |
+| Styling | 11 | Bootstrap 5.3.3 |
+| Testing | 2 | FR-014 docs 🆕 |
+| Archive | 2 | Historical docs 🆕 |
+| Troubleshooting | 3 | Unicode & encoding |
+| Workflows | 1 | Execution context |
 
 ---
 
@@ -565,13 +590,13 @@ colorama==0.4.6       # Terminal colors
 ### JavaScript (Runtime)
 
 - **Bootstrap 5.3.3** - Modern UI framework (no jQuery needed)
+- **ibira.js** - Advanced API fetching library with CDN + local fallback, automatic retries, and intelligent caching
 - **jQuery** - DOM manipulation (legacy components)
 - **Daterangepicker** - Date selection
 - **Moment.js** - Date formatting
 - **Select2** - Enhanced dropdowns
 - **Font Awesome 4.7** - Icons
 - **Material Design Icons** - Additional icons
-- **ibira.js** - Functional API client library
 
 ### Development
 
