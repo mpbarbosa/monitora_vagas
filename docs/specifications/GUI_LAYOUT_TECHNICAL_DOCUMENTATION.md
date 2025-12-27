@@ -2,27 +2,30 @@
 
 ## Document Information
 
-- **Version**: 2.0.1
-- **Last Updated**: 2024-12-18
+- **Version**: 2.2.0
+- **Last Updated**: 2024-12-27
 - **Document Type**: Technical Layout Specification
 - **Related Files**: 
   - `public/index.html`
   - `src/styles/main.css`
   - `src/styles/index-page.css`
+  - `src/styles/global/accessibility.css`
+  - `src/styles/components/*.css`
 
 ---
 
 ## 1. Overview
 
-This document provides comprehensive technical documentation for the GUI layout architecture of the Monitora Vagas AFPESP application. The layout implements a modern, responsive design using Bootstrap 5.3.3 with a fixed header pattern and state-driven UI elements.
+This document provides comprehensive technical documentation for the GUI layout architecture of the Monitora Vagas AFPESP application. The layout implements a modern, responsive design using Bootstrap 5.3.8 with a fixed header pattern and state-driven UI elements.
 
 ### 1.1 Design Principles
 
 - **Responsive First**: Mobile-friendly design that adapts to all screen sizes
 - **Fixed Header Navigation**: Always-accessible search controls
-- **State-Driven UI**: Visual elements respond to application state (initial, searching, result)
+- **State-Driven UI**: Visual elements respond to application state (initial, searching, results)
 - **Semantic HTML**: Proper use of HTML5 semantic elements
-- **Accessibility**: ARIA attributes and keyboard navigation support
+- **Accessibility**: ARIA attributes, keyboard navigation, skip links
+- **ES6 Modules**: Modern JavaScript architecture with clean separation
 
 ---
 
@@ -31,23 +34,24 @@ This document provides comprehensive technical documentation for the GUI layout 
 ### 2.1 HTML Document Head
 
 ```html
-Lines 4-32
+Lines 4-40
 ```
 
 **Key Components:**
 
-- **Meta Tags** (Lines 5-10): SEO, viewport configuration, description
-- **Title** (Line 13): "Busca de Vagas em Hotéis Sindicais - AFPESP"
-- **Bootstrap 5.3.3** (Line 16): Primary CSS framework
-- **Custom Fonts** (Lines 18-22): Material Design Icons, Font Awesome, Roboto
-- **Vendor CSS** (Lines 24-26): Select2, DateRangePicker
-- **Custom CSS** (Lines 28-30): Application-specific styles
+- **Meta Tags** (Lines 5-11): SEO, viewport configuration, description, version (2.2.0)
+- **Title** (Line 14): "Busca de Vagas em Hotéis Sindicais - AFPESP"
+- **Bootstrap 5.3.8** (Line 17): Primary CSS framework (updated from 5.3.3)
+- **Bootstrap Icons** (Line 20): Icon library
+- **Custom Fonts** (Lines 23-26): Material Design Icons, Font Awesome, Roboto
+- **Vendor CSS** (Lines 29-30): Select2, DateRangePicker
+- **Custom CSS** (Lines 33-39): Modular application styles
 
 ### 2.2 Semantic Versioning
 
-The application displays version **v2.0.0** in two locations:
+The application displays version **v2.2.0** in two locations:
 
-- **Navbar** (Line 59): `<small class="text-light">v2.0.0</small>`
+- **Navbar** (Line 72): `<small class="text-light">v2.2.0 | API: v1.4.1</small>`
 - **Footer** (Line 160): `<small>v2.0.0</small>`
 
 ---

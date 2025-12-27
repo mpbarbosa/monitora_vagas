@@ -1,8 +1,8 @@
 {
-  "workflow_run_id": "workflow_20251226_230721",
-  "start_time": "2025-12-26T23:07:22-03:00",
-  "start_epoch": 1766801242,
+  "workflow_run_id": "workflow_20251226_230755",
+  "start_time": "2025-12-26T23:07:56-03:00",
+  "start_epoch": 1766801276,
   "version": "2.3.0",
-  "mode": "auto",
+  "mode": "dry-run",
   "steps": {}
 }

@@ -2,13 +2,16 @@
 
 ## 🚀 Quick Start
 
-The application uses modern ES6 modules with the busca_vagas backend API for vacancy searches.
+The application uses modern ES6 modules with the busca_vagas backend API v1.4.1 for vacancy searches.
 
-### What's Implemented:
+### What's Implemented (v2.2.0):
 ✅ Real vacancy data from AFPESP via backend API  
 ✅ ES6 module-based API client with pure functions  
-✅ LocalStorage-based hotel caching with TTL  
+✅ **ibira.js integration** for advanced API fetching with retries  
+✅ LocalStorage-based hotel caching with 24h TTL  
 ✅ Referential transparency and dependency injection  
+✅ **Centralized logger service** with environment-aware levels  
+✅ **Constants management** (TIME, API, CACHE, UI, VALIDATION)  
 ✅ Proper timeout and error handling  
 ✅ ISO 8601 date formatting  
 ✅ Environment detection (dev/prod)
@@ -17,48 +20,55 @@ The application uses modern ES6 modules with the busca_vagas backend API for vac
 
 ## 📋 Testing the Implementation
 
-### 1. Test QuickSearch Component
+### 1. Test Search Functionality
 
 Open the application and test the search functionality:
 
 ```bash
-# Start a local server
-cd src
+# Start a local server (from project root)
+npm start
+# or
 python3 -m http.server 8080
-# Open http://localhost:8080 in browser
+
+# Open http://localhost:8080/public/index.html in browser
 ```
 
 **Test scenarios:**
-1. ✅ Specific date search (30-60 seconds)
-2. ✅ Weekend search (up to 10 minutes)
-3. ✅ Error handling (invalid dates, timeouts)
+1. ✅ Hotel selection and vacancy search
+2. ✅ Date range validation (ISO 8601 format)
+3. ✅ Guest number filtering (FR-004A/B)
+4. ✅ Booking rules toggle (FR-014)
+5. ✅ Search lifecycle state management (FR-008A)
+6. ✅ Error handling (invalid dates, timeouts)
 
 ### 2. Verify API Integration
 
-Check browser console for:
-- `🔍 Querying API for...` - API call initiated
-- `✅ Real API search completed successfully` - Success
-- Error messages for failures
+Check browser console for logger output:
+- `[DEBUG] API call initiated` - API request started
+- `[INFO] Search completed successfully` - Success response
+- `[ERROR]` messages for failures
+- Cache hit/miss statistics
 
 ---
 
-## 🔧 Configuration
+### Configuration
 
-### API Base URL
+The application uses environment detection to configure API endpoints:
 
-The application uses a hardcoded production URL:
 ```javascript
-this.apiBaseUrl = 'https://www.mpbarbosa.com/api';
+// In src/config/environment.js
+const env = {
+    apiBaseUrl: detectEnvironment() === 'production' 
+        ? 'https://www.mpbarbosa.com/api'
+        : 'http://localhost:3001/api',
+    isDevelopment: detectEnvironment() === 'development',
+    isProduction: detectEnvironment() === 'production'
+};
 ```
 
-**For development:** Update in `QuickSearch.js` constructor:
-```javascript
-this.apiBaseUrl = 'http://localhost:3000/api';
-```
+### Backend API Requirements
 
-### Backend API Must Be Running
-
-⚠️ **Important:** The backend API must be accessible.
+⚠️ **Important:** The busca_vagas backend API must be accessible.
 
 **Production:**
 - API: `https://www.mpbarbosa.com/api`
@@ -77,7 +87,40 @@ npm start
 ## 📁 Implementation Files
 
 ### `src/services/apiClient.js`
-Main API client service with pure functions and dependency injection (v1.1.0):
+Main API client service with pure functions and dependency injection (v2.2.0):
+
+**Key Features:**
+- Pure functional design with no side effects
+- Dependency injection for logger and time functions
+- **ibira.js** for API fetching (CDN + local fallback)
+- Automatic retry logic with exponential backoff (via ibira.js)
+- 5-minute response caching (via ibira.js)
+- 24-hour hotel list caching (via hotelCache)
+
+### `src/services/logger.js`
+Centralized logging service with environment-aware levels:
+
+**Key Features:**
+- Production: ERROR level only (optimized performance)
+- Development: Full DEBUG logging
+- LocalStorage override for debugging
+- Structured format: `[ISO-8601][context] LEVEL: message`
+- Performance measurement: `time()`, `timeEnd()`
+- Log grouping: `group()`, `groupEnd()`
+
+### `src/config/constants.js`
+Centralized configuration management (273 lines):
+
+**Key Features:**
+- TIME constants (timeouts, cache TTL, retry delays)
+- API constants (retry limits, status codes)
+- CACHE constants (storage keys, size limits)
+- UI constants (animations, breakpoints, z-index)
+- VALIDATION constants (guest limits, date ranges)
+- FEATURE flags (caching, retry, analytics, debug)
+
+### `src/js/hotelSearch.js`
+Main search workflow module (815 lines):
 
 **Key Features:**
 - Pure helper functions (formatDateISO, isValidWeekendCount, URL builders)
