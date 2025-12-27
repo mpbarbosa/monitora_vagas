@@ -23,15 +23,21 @@ export default [
       "no-restricted-syntax": [
         "error",
         {
-          selector: "ThisExpression",
-          message: "Usage of 'this' keyword is prohibited. Use functional programming patterns instead (dependency injection, closures, pure functions)."
+          selector: "ThisExpression:not(MethodDefinition > FunctionExpression ThisExpression, MethodDefinition > ArrowFunctionExpression ThisExpression)",
+          message: "Usage of 'this' keyword is prohibited outside of class methods. Use functional programming patterns instead (dependency injection, closures, pure functions)."
         }
       ]
     }
   },
   {
-    // Allow 'this' in test files
-    files: ["**/*.test.js", "**/*.spec.js", "jest.config.js", "tests/**/*.js"],
+    // Allow 'this' in test files and service classes
+    files: [
+      "**/*.test.js",
+      "**/*.spec.js",
+      "jest.config.js",
+      "tests/**/*.js",
+      "src/services/**/*.js"  // Service files can use classes
+    ],
     rules: {
       "no-restricted-syntax": "off"
     }

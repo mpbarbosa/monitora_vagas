@@ -2,7 +2,7 @@
  * Hotel Search Module
  * Handles hotel search form submission and results display
  * Separated from index.html per HTML/CSS/JS separation principles
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 import { apiClient } from '../services/apiClient.js';
@@ -10,49 +10,19 @@ import { SearchLifecycleState } from './searchLifecycleState.js';
 import { GuestFilterStateManager } from './guestCounter.js';
 import { GuestNumberFilter } from './guestNumberFilter.js';
 import { logger } from '../services/logger.js';
-import { TIME } from '../config/constants.js';
+import { TIME, CSS_CLASSES } from '../config/constants.js';
+import { validateHolidayPackage } from './holidayPackageService.js';
+import { updateCacheStatus } from './ui/cacheStatusDisplay.js';
+import { toast } from '../services/toastNotification.js';
+import { formValidator, validators } from '../services/formValidator.js';
+import { progressIndicator } from '../services/progressIndicator.js';
+import { showResultsSkeleton, hideResultsSkeleton } from './skeletonLoader.js';
+import { inlineEditor } from './inlineParameterEditor.js';
+import { filterChips } from './filterChips.js';
 
-// Function to update cache status display (as tooltip)
-function updateCacheStatus() {
-    const stats = apiClient.getCacheStats();
-    const selectEl = document.getElementById('hotel-select');
-    
-    if (!selectEl) return;
-
-    // Get or create tooltip instance
-    let tooltip = bootstrap.Tooltip.getInstance(selectEl);
-    
-    if (stats.exists && !stats.expired) {
-        const tooltipText = `📦 Cached ${stats.count} hotels (${stats.age} min ago, expires in ${stats.remaining} min)`;
-        selectEl.setAttribute('data-bs-title', tooltipText);
-        
-        // Reinitialize tooltip if exists, otherwise create new one
-        if (tooltip) {
-            tooltip.dispose();
-        }
-        tooltip = new bootstrap.Tooltip(selectEl, {
-            trigger: 'hover focus',
-            placement: 'bottom'
-        });
-    } else if (stats.exists && stats.expired) {
-        const tooltipText = `⏰ Cache expired, fetching fresh data...`;
-        selectEl.setAttribute('data-bs-title', tooltipText);
-        
-        if (tooltip) {
-            tooltip.dispose();
-        }
-        tooltip = new bootstrap.Tooltip(selectEl, {
-            trigger: 'hover focus',
-            placement: 'bottom'
-        });
-    } else {
-        // No cache, remove tooltip
-        if (tooltip) {
-            tooltip.dispose();
-        }
-        selectEl.removeAttribute('data-bs-title');
-    }
-}
+import { progressiveDisclosure } from '../services/progressiveDisclosure.js';
+import { pagination } from '../services/pagination.js';
+import { searchResultsSummary } from './searchResultsSummary.js';
 
 // Function to load hotels (with optional force refresh)
 async function loadHotels(forceRefresh = false) {
@@ -66,10 +36,12 @@ async function loadHotels(forceRefresh = false) {
             refreshBtn.textContent = '⏳';
         }
 
+        select.setAttribute('aria-busy', 'true');
         select.innerHTML = '<option value="">Loading...</option>';
 
         const hotels = await apiClient.getHotels(forceRefresh);
 
+        select.setAttribute('aria-busy', 'false');
         select.innerHTML = '<option value="">Select a hotel</option>';
         hotels.forEach(hotel => {
             const option = document.createElement('option');
@@ -78,10 +50,13 @@ async function loadHotels(forceRefresh = false) {
             select.appendChild(option);
         });
 
-        updateCacheStatus();
+        // Update cache status display
+        const cacheStats = apiClient.getCacheStats();
+        updateCacheStatus(cacheStats);
 
     } catch (error) {
         logger.error('Error loading hotels:', error);
+        select.setAttribute('aria-busy', 'false');
         select.innerHTML = '<option value="">Error loading hotels - Click 🔄 to retry</option>';
 
         // Show error in tooltip
@@ -110,7 +85,7 @@ function createHolidayPackageBanner(holidayPackage) {
     const icon = holidayPackage.type === 'CHRISTMAS' ? '🎄' : '🎆';
     
     const banner = document.createElement('div');
-    banner.className = 'holiday-package-banner';
+    banner.className = CSS_CLASSES.HOLIDAY_PACKAGE_BANNER;
     
     banner.innerHTML = `
         <div class="package-banner-content">
@@ -128,11 +103,11 @@ function createHolidayPackageBanner(holidayPackage) {
 // Function to create hotel card HTML
 function createHotelCard(hotelName, vacancies) {
     const hotelCard = document.createElement('div');
-    hotelCard.className = 'hotel-card';
+    hotelCard.className = CSS_CLASSES.HOTEL_CARD;
 
     // Hotel header
     const hotelHeader = document.createElement('div');
-    hotelHeader.className = 'hotel-header';
+    hotelHeader.className = CSS_CLASSES.HOTEL_HEADER;
     hotelHeader.innerHTML = `
         <span class="hotel-icon">🏨</span>
         <h4 class="hotel-name">${hotelName}</h4>
@@ -144,11 +119,11 @@ function createHotelCard(hotelName, vacancies) {
 
     // Vacancies list
     const vacanciesList = document.createElement('div');
-    vacanciesList.className = 'vacancies-list';
+    vacanciesList.className = CSS_CLASSES.VACANCIES_LIST;
 
     vacancies.forEach((vacancy, vIndex) => {
         const vacancyItem = document.createElement('div');
-        vacancyItem.className = 'vacancy-item';
+        vacancyItem.className = CSS_CLASSES.VACANCY_ITEM;
         vacancyItem.setAttribute('data-vacancy-text', vacancy);
         vacancyItem.innerHTML = `
             <span class="vacancy-number">${vIndex + 1}.</span>${vacancy}
@@ -164,7 +139,7 @@ function createHotelCard(hotelName, vacancies) {
     flexReservaLink.target = '_blank';
     flexReservaLink.rel = 'noopener noreferrer';
     flexReservaLink.textContent = 'Ir para o FlexReserva';
-    flexReservaLink.className = 'flex-reserva-link';
+    flexReservaLink.className = CSS_CLASSES.FLEX_RESERVA_LINK;
     hotelCard.appendChild(flexReservaLink);
 
     return hotelCard;
@@ -173,19 +148,97 @@ function createHotelCard(hotelName, vacancies) {
 // Function to create empty state HTML
 function createEmptyState() {
     const emptyState = document.createElement('div');
-    emptyState.className = 'empty-state';
+    emptyState.className = CSS_CLASSES.EMPTY_STATE;
     emptyState.innerHTML = `
-        <div class="empty-state-icon">😔</div>
+        <div class="empty-state-illustration">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="60" cy="60" r="50" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+                <path d="M40 50 Q40 40, 50 40 L70 40 Q80 40, 80 50 L80 70 Q80 80, 70 80 L50 80 Q40 80, 40 70 Z" fill="#e9ecef" stroke="#adb5bd" stroke-width="2"/>
+                <rect x="48" y="52" width="10" height="15" fill="#fff" stroke="#adb5bd" stroke-width="1.5"/>
+                <rect x="62" y="52" width="10" height="15" fill="#fff" stroke="#adb5bd" stroke-width="1.5"/>
+                <line x1="50" y1="75" x2="70" y2="75" stroke="#adb5bd" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
         <h4 class="empty-state-title">Sem vagas disponíveis</h4>
         <p class="empty-state-message">Não há quartos disponíveis para o período selecionado.</p>
+        
+        <div class="empty-state-actions">
+            <button type="button" class="btn btn-primary" id="empty-state-modify-search" aria-label="Modificar busca">
+                <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                Modificar Busca
+            </button>
+            <button type="button" class="btn btn-outline-secondary" id="empty-state-new-search" aria-label="Nova busca">
+                <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                Nova Busca
+            </button>
+        </div>
+        
+        <div class="empty-state-suggestions">
+            <p class="empty-state-suggestions-title"><strong>Sugestões para melhorar sua busca:</strong></p>
+            <div class="empty-state-suggestions-grid">
+                <div class="suggestion-item">
+                    <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                    <span>Experimente períodos próximos (±2 dias)</span>
+                </div>
+                <div class="suggestion-item">
+                    <i class="bi bi-building" aria-hidden="true"></i>
+                    <span>Consulte outros hotéis disponíveis</span>
+                </div>
+                <div class="suggestion-item">
+                    <i class="bi bi-people" aria-hidden="true"></i>
+                    <span>Ajuste o número de hóspedes</span>
+                </div>
+                <div class="suggestion-item">
+                    <i class="bi bi-telephone" aria-hidden="true"></i>
+                    <span>Entre em contato direto com o hotel</span>
+                </div>
+            </div>
+        </div>
     `;
+    
+    // Add event listeners for action buttons
+    setTimeout(() => {
+        const modifyBtn = document.getElementById('empty-state-modify-search');
+        const newSearchBtn = document.getElementById('empty-state-new-search');
+        
+        if (modifyBtn) {
+            modifyBtn.addEventListener('click', () => {
+                logger.info('Empty state: Modify search clicked', 'EMPTY_STATE');
+                // Scroll to form
+                const searchForm = document.getElementById('search-form');
+                if (searchForm) {
+                    searchForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Focus on first input
+                    const firstInput = searchForm.querySelector('input, select');
+                    if (firstInput) {
+                        firstInput.focus();
+                    }
+                }
+            });
+        }
+        
+        if (newSearchBtn) {
+            newSearchBtn.addEventListener('click', () => {
+                logger.info('Empty state: New search clicked', 'EMPTY_STATE');
+                // Trigger "Nova Busca" button if available
+                const newSearchButton = document.getElementById('new-search-button');
+                if (newSearchButton) {
+                    newSearchButton.click();
+                } else {
+                    // Fallback: reload page
+                    window.location.reload();
+                }
+            });
+        }
+    }, 0);
+    
     return emptyState;
 }
 
 // Function to create error state HTML
 function createErrorState(errorMessage) {
     const errorState = document.createElement('div');
-    errorState.className = 'error-state';
+    errorState.className = CSS_CLASSES.ERROR_STATE;
     errorState.innerHTML = `
         <div class="error-state-icon">❌</div>
         <h4 class="error-state-title">Erro na Busca</h4>
@@ -198,7 +251,7 @@ function createErrorState(errorMessage) {
 // Function to create booking rule error HTML
 function createBookingRuleErrorHTML(error) {
     const errorState = document.createElement('div');
-    errorState.className = 'error-state';
+    errorState.className = CSS_CLASSES.ERROR_STATE;
     errorState.innerHTML = `
         <div class="error-state-icon">⚠️</div>
         <h4 class="error-state-title">${error.title || 'Regra de Reserva Violada'}</h4>
@@ -217,6 +270,32 @@ function createBookingRuleError(result) {
     return error;
 }
 
+// Store all hotel cards for pagination
+let allHotelCards = [];
+
+// Function to render a page of hotel cards
+function renderHotelCardsPage(hotelCards, pageNumber, totalPages) {
+    const hotelsCardsContainer = document.getElementById('hotels-cards-container');
+    
+    // Find and preserve holiday package banner if it exists
+    const existingBanner = hotelsCardsContainer.querySelector(`.${CSS_CLASSES.HOLIDAY_PACKAGE_BANNER}`);
+    
+    // Clear container
+    hotelsCardsContainer.innerHTML = '';
+    
+    // Re-add banner if it existed
+    if (existingBanner) {
+        hotelsCardsContainer.appendChild(existingBanner);
+    }
+    
+    // Add current page's hotel cards
+    hotelCards.forEach(card => {
+        hotelsCardsContainer.appendChild(card);
+    });
+    
+    logger.debug(`Rendered page ${pageNumber} of ${totalPages} (${hotelCards.length} hotels)`, 'Pagination');
+}
+
 // Function to display formatted results in hotel cards
 function displayResults(apiResponse, checkin, checkout, hotel) {
     const resultsContainer = document.getElementById('results-container');
@@ -225,8 +304,93 @@ function displayResults(apiResponse, checkin, checkout, hotel) {
     const { data, holidayPackage } = apiResponse;
     const { result } = data;
 
+    // Hide skeleton loading state
+    hideResultsSkeleton(resultsContainer);
+
     // Clear previous results
     hotelsCardsContainer.innerHTML = '';
+    allHotelCards = [];
+
+    // Get hotel name
+    const hotelSelect = document.getElementById('hotel-select');
+    const hotelName = hotelSelect.options[hotelSelect.selectedIndex]?.text || hotel;
+    
+    // Calculate nights
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+    const nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+    
+    // Get guests count
+    const guestsInput = document.querySelector('.js-number-input .quantity');
+    const guests = parseInt(guestsInput?.value || '2', 10);
+    
+    // Get booking rules state
+    const applyBookingRules = document.getElementById('booking-rules-toggle')?.checked ?? true;
+
+    // Render search results summary bar
+    searchResultsSummary.render({
+        hotelName,
+        checkin,
+        checkout,
+        guests,
+        nights,
+        applyBookingRules
+    });
+
+    // Initialize and populate filter chips
+    filterChips.initialize();
+    
+    // Add hotel filter chip (if specific hotel selected)
+    if (hotel !== '-1' && hotelName && hotelName !== hotel) {
+        filterChips.addChip(
+            'hotel',
+            'Hotel',
+            hotelName,
+            () => {
+                // When removed, reset to all hotels
+                const hotelSelect = document.getElementById('hotel-select');
+                if (hotelSelect) {
+                    hotelSelect.value = '';
+                }
+            }
+        );
+    }
+    
+    // Add date range filter chip
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    };
+    
+    filterChips.addChip(
+        'dates',
+        'Período',
+        `${formatDate(checkin)} - ${formatDate(checkout)} (${nights} ${nights === 1 ? 'noite' : 'noites'})`,
+        () => {
+            // When removed, scroll to date inputs
+            const checkinInput = document.getElementById('input-checkin');
+            if (checkinInput) {
+                checkinInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                checkinInput.focus();
+            }
+        }
+    );
+    
+    // Add booking rules filter chip (if disabled)
+    if (!applyBookingRules) {
+        filterChips.addChip(
+            'booking-rules',
+            'Regras de Reserva',
+            'Desativadas',
+            () => {
+                // When removed, re-enable booking rules
+                const bookingRulesToggle = document.getElementById('booking-rules-toggle');
+                if (bookingRulesToggle) {
+                    bookingRulesToggle.checked = true;
+                }
+            }
+        );
+    }
 
     // Show holiday package banner if present
     if (holidayPackage) {
@@ -239,32 +403,184 @@ function displayResults(apiResponse, checkin, checkout, hotel) {
         // Group by hotel
         const hotelGroups = result.hotelGroups || {};
 
+        // Create all hotel cards first
         Object.keys(hotelGroups).forEach((hotelName) => {
             const vacancies = hotelGroups[hotelName];
             const hotelCard = createHotelCard(hotelName, vacancies);
-            hotelsCardsContainer.appendChild(hotelCard);
+            allHotelCards.push(hotelCard);
         });
+
+        // Initialize pagination
+        pagination.init(allHotelCards, {
+            itemsPerPage: 10,
+            containerId: 'pagination-container',
+            onPageChange: renderHotelCardsPage
+        });
+
+        // Render first page
+        if (pagination.isPaginationNeeded()) {
+            renderHotelCardsPage(pagination.getCurrentPageItems(), 1, pagination.getTotalPages());
+            pagination.renderControls();
+        } else {
+            // No pagination needed, show all cards
+            allHotelCards.forEach(card => hotelsCardsContainer.appendChild(card));
+        }
 
     } else {
         // Show empty state
         const emptyState = createEmptyState();
         hotelsCardsContainer.appendChild(emptyState);
+        
+        // Reset pagination
+        pagination.reset();
     }
 
     // Display results
-    resultsContainer.classList.add('visible');
+    resultsContainer.classList.add(CSS_CLASSES.VISIBLE);
 
+    // Initialize inline parameter editor
+    const currentParams = {
+        hotel: hotel,
+        checkin: checkin,
+        checkout: checkout,
+        applyBookingRules: document.getElementById('apply-booking-rules')?.checked ?? true
+    };
+    
+    inlineEditor.init(currentParams, handleInlineParamChange);
+    inlineEditor.render(resultsContainer);
+
+    breadcrumb.showResults();
     // Scroll to results
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     logger.info('Results displayed successfully', 'HotelSearch');
 }
 
+// Handle inline parameter changes
+async function handleInlineParamChange(newParams) {
+    logger.info('Inline parameters changed, triggering new search', 'HotelSearch');
+    
+    // Update main form fields to match
+    const hotelSelect = document.getElementById('hotel-select');
+    const checkinInput = document.getElementById('input-checkin');
+    const checkoutInput = document.getElementById('input-checkout');
+    const applyBookingRulesCheckbox = document.getElementById('apply-booking-rules');
+
+    if (hotelSelect) hotelSelect.value = newParams.hotel || '';
+    if (checkinInput) checkinInput.value = newParams.checkin;
+    if (checkoutInput) checkoutInput.value = newParams.checkout;
+    if (applyBookingRulesCheckbox) applyBookingRulesCheckbox.checked = newParams.applyBookingRules;
+
+    // Perform new search with updated parameters
+    return performSearch(
+        newParams.hotel || '-1',
+        newParams.checkin,
+        newParams.checkout,
+        newParams.applyBookingRules
+    );
+}
+
+// Perform search with given parameters (reusable for inline editing)
+async function performSearch(hotel, checkin, checkout, applyBookingRules) {
+    logger.group('Vacancy Search Flow');
+
+    // Set searching state (FR-008A)
+    SearchLifecycleState.setSearchingState();
+
+    // Hide previous results and show skeleton
+    const resultsContainer = document.getElementById('results-container');
+    const hotelsCardsContainer = document.getElementById('hotels-cards-container');
+    resultsContainer.classList.add(CSS_CLASSES.VISIBLE); // Make visible to show skeleton
+    
+    // Show skeleton loading state (better perceived performance)
+    showResultsSkeleton(resultsContainer, 3);
+
+    // Create progress indicator (appears below skeleton)
+    const progress = progressIndicator.create({
+        id: 'vacancy-search',
+        title: 'Searching for vacancies...',
+        message: 'Contacting API server',
+        container: hotelsCardsContainer,
+        showProgress: true
+    });
+
+    try {
+        // Use apiClient service instead of direct fetch (better abstraction)
+        // FR-014: Include applyBookingRules parameter
+        logger.debug(`Searching vacancies: Hotel=${hotel}, Check-in=${checkin}, Check-out=${checkout}, Booking Rules=${applyBookingRules}`, 'HotelSearch');
+        logger.time('API Request');
+
+        // Update progress
+        progress.setProgress(30);
+        progress.setMessage('Fetching availability data...');
+
+        const result = await apiClient.searchVacancies(checkin, checkout, hotel, applyBookingRules);
+        
+        logger.timeEnd('API Request');
+        logger.debug('API Response received', 'HotelSearch');
+
+        // Update progress
+        progress.setProgress(80);
+        progress.setMessage('Processing results...');
+
+        // Show the formatted data in the results area
+        logger.debug('Formatting and displaying results...', 'HotelSearch');
+        displayResults(result, checkin, checkout, hotel);
+
+        // Complete progress
+        progress.complete('Search completed successfully');
+        progress.remove(1500);
+
+    } catch (error) {
+        logger.timeEnd('API Request');
+        logger.error('❌ Search failed:', error);
+
+        // Hide skeleton on error
+        hideResultsSkeleton(resultsContainer);
+
+        // Show error in progress indicator
+        progress.error('Search failed');
+        progress.remove(2000);
+
+        // Display error in results container with special handling for booking rules
+        if (error.isBookingRuleError) {
+            const errorHTML = createBookingRuleErrorHTML(error);
+            hotelsCardsContainer.appendChild(errorHTML);
+        } else {
+            const errorHTML = createErrorState(error.message);
+            hotelsCardsContainer.appendChild(errorHTML);
+        }
+        resultsContainer.classList.add(CSS_CLASSES.VISIBLE);
+
+        // Show toast notification for non-booking-rule errors
+        if (!error.isBookingRuleError) {
+            toast.error(`Erro na busca: ${error.message}`);
+        }
+        
+        throw error; // Re-throw for inline editor to handle
+    } finally {
+        // Set results state (FR-008A)
+        SearchLifecycleState.setResultsState();
+        
+        // Enable guest filter after search completion (FR-004A)
+        GuestFilterStateManager.enable();
+        logger.info('Guest filter enabled after search completion', 'FR-004A');
+        logger.groupEnd();
+    }
+}
+
 // Handle form submission
 async function handleFormSubmit(event) {
     event.preventDefault();
 
-    logger.group('Vacancy Search Flow');
+    // Clear previous validation errors
+    formValidator.clearAllErrors();
+
+    // Validate all form fields
+    if (!formValidator.validateAll()) {
+        logger.warn('Form validation failed', 'HotelSearch');
+        return;
+    }
 
     // Get input parameters from web page UI
     const hotelSelect = document.getElementById('hotel-select');
@@ -278,86 +594,13 @@ async function handleFormSubmit(event) {
     const applyBookingRules = applyBookingRulesCheckbox ? applyBookingRulesCheckbox.checked : true; // FR-014
 
     logger.debug('Input parameters', 'HotelSearch'); logger.debug(`Hotel: ${hotel}, Check-in: ${checkin}, Check-out: ${checkout}, Booking Rules: ${applyBookingRules}`);
-
-    // Validate inputs
-    if (!checkin || !checkout) {
-        alert('Por favor, selecione as datas de check-in e check-out');
-        return;
-    }
-
     logger.debug(`Dates in ISO format: ${checkin} to ${checkout}`, 'HotelSearch');
 
-    // Set searching state (FR-008A)
-    SearchLifecycleState.setSearchingState();
-
-    // Hide previous results
-    const resultsContainer = document.getElementById('results-container');
-    const hotelsCardsContainer = document.getElementById('hotels-cards-container');
-    resultsContainer.classList.remove('visible');
-    hotelsCardsContainer.innerHTML = '';
-
+    // Use refactored search function
     try {
-        // POST the data to API (using GET as per API spec)
-        // FR-014: Include applyBookingRules parameter
-        const apiUrl = `https://www.mpbarbosa.com/api/vagas/search?hotel=${encodeURIComponent(hotel)}&checkin=${checkin}&checkout=${checkout}&applyBookingRules=${applyBookingRules}`;
-        logger.debug(`API Request URL: ${apiUrl}`, 'HotelSearch');
-        logger.time('API Request');
-
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
-
-        // Fetch the API data
-        
-        const result = await response.json();
-        logger.debug('API Response received', 'HotelSearch');
-
-        // Handle HTTP errors (including booking rule violations)
-        if (!response.ok) {
-            // Check if it's a booking rule validation error
-            if (response.status === 400 && result.code) {
-                throw createBookingRuleError(result);
-            }
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        if (!result.success) {
-            throw new Error(result.error || 'API returned error');
-        }
-
-        // Show the formatted data in the results area
-        logger.debug('Formatting and displaying results...', 'HotelSearch');
-        displayResults(result, checkin, checkout, hotel);
-
+        await performSearch(hotel, checkin, checkout, applyBookingRules);
     } catch (error) {
-        logger.error('❌ Search failed:', error);
-
-        // Display error in results container with special handling for booking rules
-        if (error.isBookingRuleError) {
-            const errorHTML = createBookingRuleErrorHTML(error);
-            hotelsCardsContainer.appendChild(errorHTML);
-        } else {
-            const errorHTML = createErrorState(error.message);
-            hotelsCardsContainer.appendChild(errorHTML);
-        }
-        resultsContainer.classList.add('visible');
-
-        // Don't show alert for booking rule errors (already shown in results)
-        if (!error.isBookingRuleError) {
-            alert(`Erro na busca: ${error.message}`);
-        }
-    } finally {
-        // Set results state (FR-008A)
-        SearchLifecycleState.setResultsState();
-        
-        // Enable guest filter after search completion (FR-004A)
-        GuestFilterStateManager.enable();
-        logger.info('Guest filter enabled after search completion', 'FR-004A');
-        logger.groupEnd();
+        // Error already handled in performSearch
     }
 }
 
@@ -393,16 +636,59 @@ function handleCopyResults() {
     });
 }
 
-// Clear results
+// Clear results with confirmation
 function handleClearResults() {
+    // Show confirmation modal
+    const modal = new bootstrap.Modal(document.getElementById('clearResultsModal'));
+    modal.show();
+    
+    logger.debug('Clear results confirmation requested', 'HotelSearch');
+}
+
+// Actual clear results function (called after confirmation)
+function executeClearResults() {
     const hotelsCardsContainer = document.getElementById('hotels-cards-container');
     const resultsContainer = document.getElementById('results-container');
     
-    hotelsCardsContainer.innerHTML = '';
-    resultsContainer.classList.remove('visible');
+    // Clear results with animation
+    resultsContainer.classList.add('optimistic-fade-out');
+    
+    setTimeout(() => {
+        // Remove search results summary
+        searchResultsSummary.remove();
+        
+        // Clear hotel cards
+        hotelsCardsContainer.innerHTML = '';
+        allHotelCards = [];
+        
+        // Reset pagination
+        pagination.reset();
+        
+        // Remove inline editor
+        inlineEditor.remove();
+        
+        // Hide results container
+        resultsContainer.classList.remove(CSS_CLASSES.VISIBLE, 'optimistic-fade-out');
+        
+        // Reset search lifecycle state
+        SearchLifecycleState.setReadyState();
+        
+        // Reset breadcrumb to home
+        breadcrumb.updateBreadcrumb('home');
+        
+        // Show success toast
+        toast.success('Resultados limpos com sucesso');
+        
+        logger.info('Results cleared', 'HotelSearch');
+    }, 300);
 }
 
 // Check if dates match a holiday package and update notice visibility
+/**
+ * Update holiday package notice based on selected dates
+ * Refactored to use holidayPackageService for validation
+ * Complexity reduced from ~12 to ~3
+ */
 function updateHolidayNotice() {
     const checkinInput = document.getElementById('input-checkin');
     const checkoutInput = document.getElementById('input-checkout');
@@ -416,63 +702,16 @@ function updateHolidayNotice() {
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
     
-    if (!checkin || !checkout) {
-        notice.classList.remove('visible');
-        return;
+    // Use holiday package service for validation
+    const validation = validateHolidayPackage(checkin, checkout);
+    
+    if (validation.message) {
+        notice.classList.add(CSS_CLASSES.VISIBLE);
+        noticeText.textContent = validation.message;
+        logger.debug(`Holiday package validation: ${validation.type}`, 'HolidayPackage');
+    } else {
+        notice.classList.remove(CSS_CLASSES.VISIBLE);
     }
-    
-    // Extract month-day from dates (format: YYYY-MM-DD)
-    const checkinMD = checkin.substring(5); // MM-DD
-    const checkoutMD = checkout.substring(5); // MM-DD
-    
-    // Check for Christmas Package (Dec 22 → Dec 27)
-    if (checkinMD === '12-22' && checkoutMD === '12-27') {
-        notice.classList.add('visible');
-        noticeText.textContent = '✅ 5 dias / 4 noites - Pacote de Natal completo';
-        return;
-    }
-    
-    // Check for New Year Package (Dec 27 → Jan 2)
-    if (checkinMD === '12-27' && checkoutMD === '01-02') {
-        notice.classList.add('visible');
-        noticeText.textContent = '✅ 6 dias / 5 noites - Pacote de Ano Novo completo';
-        return;
-    }
-    
-    // Helper function to check if a date is in restricted period
-    function isInRestrictedPeriod(monthDay) {
-        // Christmas restricted period: Dec 22-26
-        const christmasPeriod = ['12-22', '12-23', '12-24', '12-25', '12-26'];
-        // New Year restricted period: Dec 27 - Jan 2
-        const newYearPeriod = ['12-27', '12-28', '12-29', '12-30', '12-31', '01-01', '01-02'];
-        
-        return christmasPeriod.includes(monthDay) || newYearPeriod.includes(monthDay);
-    }
-    
-    // Check if dates fall within restricted periods but don't match packages
-    if (isInRestrictedPeriod(checkinMD) || isInRestrictedPeriod(checkoutMD)) {
-        notice.classList.add('visible');
-        
-        // Determine which package dates to suggest
-        const isChristmasPeriod = ['12-22', '12-23', '12-24', '12-25', '12-26'].includes(checkinMD) || 
-                                   ['12-22', '12-23', '12-24', '12-25', '12-26'].includes(checkoutMD);
-        const isNewYearPeriod = ['12-27', '12-28', '12-29', '12-30', '12-31', '01-01', '01-02'].includes(checkinMD) || 
-                                ['12-27', '12-28', '12-29', '12-30', '12-31', '01-01', '01-02'].includes(checkoutMD);
-        
-        if (isChristmasPeriod && isNewYearPeriod) {
-            noticeText.textContent = '⚠ Datas em período de pacote obrigatório - Natal (22 a 27/dez) ou Ano Novo (27/dez a 02/jan)';
-        } else if (isChristmasPeriod) {
-            noticeText.textContent = '⚠ Datas em período de pacote obrigatório - Pacote de Natal: 22 a 27/dez';
-        } else if (isNewYearPeriod) {
-            noticeText.textContent = '⚠ Datas em período de pacote obrigatório - Pacote de Ano Novo: 27/dez a 02/jan';
-        } else {
-            noticeText.textContent = '⚠ Datas em período de pacote obrigatório - Verifique pacotes disponíveis';
-        }
-        return;
-    }
-    
-    // No holiday package match
-    notice.classList.remove('visible');
 }
 
 // Setup all event listeners
@@ -503,6 +742,17 @@ function setupEventListeners() {
         clearBtn.addEventListener('click', handleClearResults);
     }
     
+    // Confirm clear button in modal
+    const confirmClearBtn = document.getElementById('confirmClearBtn');
+    if (confirmClearBtn) {
+        confirmClearBtn.addEventListener('click', () => {
+            executeClearResults();
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('clearResultsModal'));
+            if (modal) modal.hide();
+        });
+    }
+    
     // Listen for date changes to update holiday notice
     if (checkinInput) {
         checkinInput.addEventListener('change', updateHolidayNotice);
@@ -517,6 +767,9 @@ function setupEventListeners() {
 
 // Initialize the module
 function init() {
+    // Setup form validation
+    setupFormValidation();
+    
     // Load hotels on page load
     loadHotels();
     
@@ -524,9 +777,39 @@ function init() {
     setupEventListeners();
 }
 
+// Setup form validation rules
+function setupFormValidation() {
+    progressiveDisclosure.init();
+    // Hotel selection validator
+    formValidator.registerField('hotel-select', validators.selectRequired('Por favor, selecione um hotel'));
+    
+    // Check-in date validator
+    formValidator.registerField('input-checkin', validators.dateRequired('Por favor, selecione a data de check-in'));
+    
+    // Check-out date validator with date range check
+    formValidator.registerField('input-checkout', (value) => {
+        // First check if date is provided
+        const dateCheck = validators.dateRequired('Por favor, selecione a data de check-out')(value);
+        if (!dateCheck.isValid) {
+            return dateCheck;
+        }
+        
+        // Then check if checkout is after checkin
+        const rangeCheck = validators.dateRange('input-checkin', 'Check-out deve ser posterior ao check-in')(value);
+        return rangeCheck;
+    });
+    
+    logger.debug('Form validation rules registered', 'HotelSearch');
+}
+
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
     init();
+}
+
+// Export function to get all hotel cards (used by guest filter with pagination)
+export function getAllHotelCards() {
+    return allHotelCards;
 }

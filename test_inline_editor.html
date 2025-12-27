@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline Editor Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./src/styles/components/inline-editor.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+        .test-container { max-width: 1200px; margin: 0 auto; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Inline Parameter Editor - Visual Test</h1>
+        <p class="text-muted">Testing component rendering and interactions</p>
+        
+        <div class="card">
+            <div class="card-body">
+                <div id="results-container">
+                    <div class="results-header">
+                        <h3>📊 Resultados da Busca</h3>
+                    </div>
+                    <!-- Inline editor will be inserted here -->
+                    <div id="test-editor-mount"></div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <strong>Test Content:</strong> This is where search results would appear.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <strong>Test Controls</strong>
+            </div>
+            <div class="card-body">
+                <button id="test-render" class="btn btn-primary">Render Editor</button>
+                <button id="test-toggle" class="btn btn-secondary">Toggle Collapse</button>
+                <button id="test-remove" class="btn btn-danger">Remove Editor</button>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <strong>Console Log</strong>
+            </div>
+            <div class="card-body">
+                <pre id="console-log" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px;"></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { inlineEditor } from './src/js/inlineParameterEditor.js';
+        
+        const log = (msg) => {
+            const logEl = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.textContent += `[${timestamp}] ${msg}\n`;
+            logEl.scrollTop = logEl.scrollHeight;
+        };
+        
+        // Mock parameters
+        const mockParams = {
+            hotel: '123',
+            checkin: '2024-12-27',
+            checkout: '2024-12-30',
+            applyBookingRules: true
+        };
+        
+        // Mock callback
+        const mockCallback = async (newParams) => {
+            log('✅ Callback triggered with params:');
+            log(JSON.stringify(newParams, null, 2));
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            log('✅ Mock search completed');
+        };
+        
+        // Test controls
+        document.getElementById('test-render').addEventListener('click', () => {
+            log('🎨 Rendering inline editor...');
+            inlineEditor.init(mockParams, mockCallback);
+            const container = document.getElementById('results-container');
+            inlineEditor.render(container);
+            log('✅ Editor rendered');
+        });
+        
+        document.getElementById('test-toggle').addEventListener('click', () => {
+            log('🔄 Toggling editor (click toggle button manually)');
+            const toggleBtn = document.querySelector('.toggle-editor');
+            if (toggleBtn) {
+                toggleBtn.click();
+                log('✅ Toggle clicked');
+            } else {
+                log('❌ Editor not rendered yet');
+            }
+        });
+        
+        document.getElementById('test-remove').addEventListener('click', () => {
+            log('🗑️ Removing editor...');
+            inlineEditor.remove();
+            log('✅ Editor removed');
+        });
+        
+        log('🚀 Test page loaded. Click "Render Editor" to start.');
+    </script>
+</body>
+</html>

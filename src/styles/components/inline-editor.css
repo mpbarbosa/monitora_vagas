@@ -1,0 +1,134 @@
+/**
+ * Inline Parameter Editor Styles
+ * Styles for inline editing component in results view
+ * @version 2.2.0
+ */
+
+.inline-editor-container {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.inline-editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.inline-editor-header h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #495057;
+}
+
+.inline-editor-header .toggle-editor {
+    color: #6c757d;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+}
+
+.inline-editor-header .toggle-editor:hover {
+    color: #495057;
+}
+
+.inline-editor-content {
+    max-height: 200px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.inline-editor-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+}
+
+.inline-editor-container .form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.inline-editor-container .form-select,
+.inline-editor-container .form-control {
+    border: 1px solid #ced4da;
+}
+
+.inline-editor-container .form-select:focus,
+.inline-editor-container .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.inline-editor-container .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    font-weight: 500;
+}
+
+.inline-editor-container .btn-primary:hover:not(:disabled) {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.inline-editor-container .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 767.98px) {
+    .inline-editor-container {
+        padding: 0.75rem;
+    }
+
+    .inline-editor-header h4 {
+        font-size: 0.9rem;
+    }
+
+    .inline-editor-content .col-md-4,
+    .inline-editor-content .col-md-3,
+    .inline-editor-content .col-md-2 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .inline-editor-content .col-md-2.d-flex {
+        margin-bottom: 0;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .inline-editor-container {
+        background: #2b3035;
+        border-color: #495057;
+    }
+
+    .inline-editor-header h4,
+    .inline-editor-container .form-label {
+        color: #e9ecef;
+    }
+
+    .inline-editor-container .form-select,
+    .inline-editor-container .form-control {
+        background-color: #1a1d20;
+        border-color: #495057;
+        color: #e9ecef;
+    }
+
+    .inline-editor-container .form-select:focus,
+    .inline-editor-container .form-control:focus {
+        background-color: #1a1d20;
+        border-color: #0d6efd;
+        color: #e9ecef;
+    }
+}

@@ -1,9 +1,11 @@
 # Monitora Vagas Documentation
 
-**Last Updated:** 2024-12-25  
+**Last Updated:** 2024-12-22  
 **Version:** 2.2.0
 
 Welcome to the Monitora Vagas documentation. This directory contains comprehensive documentation organized by category for easy navigation.
+
+📖 **New to the project?** Start with the [Terminology Glossary](./TERMINOLOGY_GLOSSARY.md) to understand key concepts and naming conventions.
 
 ---
 
@@ -26,8 +28,9 @@ Welcome to the Monitora Vagas documentation. This directory contains comprehensi
 ### 📡 [API Documentation](./api/)
 Integration with busca_vagas API and client implementation.
 
-**Files:** 8 documents
+**Files:** 9 documents
 - [API_DOCUMENTATION.md](./api/API_DOCUMENTATION.md) - Complete API reference
+- [IBIRA_INTEGRATION.md](./api/IBIRA_INTEGRATION.md) - ibira.js integration guide
 - [README.md](./api/README.md) - API documentation index
 - [API_CLIENT_USAGE_REVIEW.md](./api/API_CLIENT_USAGE_REVIEW.md) - Client usage patterns
 - [API_INTEGRATION_UPDATE.md](./api/API_INTEGRATION_UPDATE.md) - Latest integration guide
@@ -197,11 +200,15 @@ Coding standards, best practices, and development conventions.
 ### 🧪 [Testing](./testing/)
 Test data, test results, and testing documentation.
 
-**Files:** 2 documents
-- [FR-014-TEST-DOCUMENTATION.md](./testing/FR-014-TEST-DOCUMENTATION.md) - Comprehensive FR-014 test documentation 🆕
+**Files:** 4 documents
+- [COVERAGE_DASHBOARD.md](./testing/COVERAGE_DASHBOARD.md) - Test coverage dashboard guide 🆕 ⭐
+- [COVERAGE_DASHBOARD_QUICK_REF.md](./testing/COVERAGE_DASHBOARD_QUICK_REF.md) - Quick reference guide 🆕
+- [FR-014-TEST-DOCUMENTATION.md](./testing/FR-014-TEST-DOCUMENTATION.md) - Comprehensive FR-014 test documentation
 - [api_test_response.json](./testing/api_test_response.json) - Sample API response for testing
 
 **Test Coverage:**
+- Interactive coverage dashboard with historical trends 🆕
+- Jest unit tests and use case E2E tests tracking
 - FR-014 booking rules toggle functionality
 - Unit tests, E2E tests, and integration tests
 - Test execution scripts and automation
@@ -240,6 +247,18 @@ Archived documentation and historical records.
 
 ---
 
+### 📊 [Reports](./reports/)
+Analysis reports, verification documents, and audit results.
+
+**Files:** 7 documents
+- [CODE_DOCUMENTATION_ALIGNMENT.md](./reports/CODE_DOCUMENTATION_ALIGNMENT.md) - Code-docs alignment verification
+- [FEATURE_STATUS_VERIFICATION.md](./reports/FEATURE_STATUS_VERIFICATION.md) - Feature implementation status
+- [DELIVERABLES.md](./reports/DELIVERABLES.md) - Project deliverables
+- [DOCUMENTATION_UPDATE_RECOMMENDATIONS.md](./reports/DOCUMENTATION_UPDATE_RECOMMENDATIONS.md) - Doc improvement suggestions
+- Subdirectories: analysis/, bugfixes/, implementation/
+
+---
+
 ### 🔍 [Troubleshooting](./troubleshooting/)
 Known issues, debugging guides, and problem solutions.
 
@@ -252,6 +271,15 @@ Known issues, debugging guides, and problem solutions.
 - Unicode and emoji handling
 - Encoding problems
 - Display issues
+
+---
+
+### 🤖 [Workflow Automation](./workflow-automation/)
+CI/CD workflows and automation documentation.
+
+**Files:** 2 documents
+- [PRODUCTION_TEST_EXECUTION_COMPLETE.md](./workflow-automation/PRODUCTION_TEST_EXECUTION_COMPLETE.md) - Production test results
+- [PRODUCTION_TEST_EXECUTION_SUMMARY.md](./workflow-automation/PRODUCTION_TEST_EXECUTION_SUMMARY.md) - Test execution summary
 
 ---
 
@@ -271,7 +299,7 @@ Development workflows and execution contexts.
 ## 🚀 Quick Start
 
 ### New to the Project?
-1. Start with [QUICKSTART.md](./guides/QUICKSTART.md) in the project root
+1. Start with [QUICKSTART.md](./guides/QUICKSTART.md) in the guides folder
 2. Read [API Documentation](./api/README.md) for API integration
 3. Review [Features Documentation](./features/FUNCTIONAL_REQUIREMENTS.md) for requirements
 

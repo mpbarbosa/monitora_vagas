@@ -110,7 +110,6 @@ monitora_vagas/
 ├── requirements.txt            # Python dependencies
 ├── vite.config.js              # Vite build configuration (future)
 ├── CHANGELOG.md                # Version history
-├── QUICKSTART.md               # Quick start guide
 ├── README.md                   # Project overview
 ├── run-tests.sh                # Test runner script
 └── fix-css-symlink.sh          # CSS symlink fix script
@@ -337,7 +336,6 @@ See `legacy/` folder for:
 
 - **`README.md`** - Project overview and getting started
 - **`CHANGELOG.md`** - Version history and changes
-- **`QUICKSTART.md`** - Quick start guide
 
 ### Utility Scripts
 

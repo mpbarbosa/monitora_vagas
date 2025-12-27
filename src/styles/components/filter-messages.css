@@ -1,0 +1,29 @@
+/**
+ * Filter Messages Component Styles
+ * Styling for filter result messages (no results, errors, etc.)
+ */
+
+.no-results-filter-message {
+    background: white;
+    border: 2px solid #ff9800;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.no-results-filter-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.no-results-filter-title {
+    margin: 0 0 10px 0;
+    color: #ff9800;
+    font-size: 20px;
+}
+
+.no-results-filter-description {
+    margin: 0;
+    color: #666;
+}

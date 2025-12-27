@@ -43,7 +43,21 @@
     "test:production:full": "TEST_BASE_URL=https://www.mpbarbosa.com/submodules/monitora_vagas/public/ ./run-production-tests.sh",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "eslint 'src/**/*.js' --fix",
-    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore legacy"
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore legacy",
+    "test:ci:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern='tests/.*\\.test\\.js$' --maxWorkers=50% --coverage",
+    "test:ci:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern='tests/e2e/.*\\.test\\.js$' --maxWorkers=25%",
+    "test:ci:all": "npm run test:ci:unit && npm run test:ci:e2e",
+    "test:ci:python": "pytest tests/ -v -n auto --timeout=60",
+    "test:ci:selenium": "pytest tests/simple_ui_test.py -v --tb=short",
+    "security:audit": "npm audit --production",
+    "security:audit:fix": "npm audit fix",
+    "security:check": "npm audit --audit-level=high --production",
+    "coverage:collect": "python3 scripts/collect-use-case-results.py",
+    "coverage:dashboard": "node scripts/generate-coverage-report.js",
+    "coverage:full": "npm run coverage:collect && npm run coverage:dashboard",
+    "validate:links": "node scripts/validate-docs-links.js",
+    "validate:links:docs": "node scripts/validate-docs-links.js docs",
+    "validate:links:all": "node scripts/validate-docs-links.js docs README.md .github"
   },
   "keywords": [
     "trade-union",
@@ -55,16 +69,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "ibira.js": "github:mpbarbosa/ibira.js",
-    "selenium-webdriver": "^4.15.0"
+    "bootstrap": "^5.3.8",
+    "ibira.js": "github:mpbarbosa/ibira.js"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "eslint": "^9.39.2",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^30.2.0",
-    "markdownlint-cli": "^0.46.0",
-    "node-fetch": "^3.3.2"
+    "jest-environment-jsdom": "^29.7.0",
+    "markdownlint-cli": "^0.47.0",
+    "node-fetch": "^3.3.2",
+    "selenium-webdriver": "^4.39.0"
   }
 }

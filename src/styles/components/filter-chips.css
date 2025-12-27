@@ -1,0 +1,213 @@
+/**
+ * Filter Chips Component Styles
+ * Displays active filters as removable chips above search results
+ * @version 2.2.0
+ */
+
+/* Container */
+.filter-chips-container {
+    display: none; /* Hidden by default, shown when filters are active */
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-secondary, #f8f9fa);
+    border: 1px solid var(--border-color, #dee2e6);
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .filter-chips-container {
+        background-color: #2d2d2d;
+        border-color: #4a4a4a;
+    }
+}
+
+/* Chips wrapper */
+.filter-chips-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+/* Label */
+.filter-chips-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary, #6c757d);
+    white-space: nowrap;
+}
+
+/* Individual chip */
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    animation: chipSlideIn 0.2s ease;
+}
+
+/* Chip slide-in animation */
+@keyframes chipSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Chip content */
+.filter-chip-content {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.filter-chip-content strong {
+    font-weight: 600;
+}
+
+/* Chip remove button */
+.filter-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-chip-remove:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.filter-chip-remove:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+.filter-chip-remove:active {
+    transform: scale(0.95);
+}
+
+/* Clear all button */
+.filter-chips-clear-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    color: var(--danger-color, #dc3545);
+    border: 1px solid var(--danger-color, #dc3545);
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.filter-chips-clear-all:hover {
+    background-color: var(--danger-color, #dc3545);
+    color: white;
+}
+
+.filter-chips-clear-all:focus {
+    outline: 2px solid var(--danger-color, #dc3545);
+    outline-offset: 2px;
+}
+
+.filter-chips-clear-all:active {
+    transform: scale(0.98);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .filter-chips-container {
+        padding: 0.5rem 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .filter-chips-wrapper {
+        gap: 0.375rem;
+    }
+
+    .filter-chip {
+        font-size: 0.8125rem;
+        padding: 0.25rem 0.625rem;
+    }
+
+    .filter-chips-label {
+        font-size: 0.8125rem;
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+
+    .filter-chips-clear-all {
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Accessibility improvements */
+.filter-chip:focus-within {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .filter-chip {
+        border: 2px solid white;
+    }
+
+    .filter-chips-clear-all {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .filter-chip {
+        animation: none;
+    }
+
+    .filter-chip-remove,
+    .filter-chips-clear-all {
+        transition: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .filter-chips-container {
+        border: 1px solid #000;
+        background-color: #fff;
+    }
+
+    .filter-chip-remove,
+    .filter-chips-clear-all {
+        display: none;
+    }
+}

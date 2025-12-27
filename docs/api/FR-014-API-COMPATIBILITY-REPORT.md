@@ -3,7 +3,7 @@
 **Date:** 2024-12-22  
 **Feature:** FR-014 - Booking Rules Toggle  
 **API Repository:** https://github.com/mpbarbosa/busca_vagas  
-**API Version:** v1.5.0
+**API Version:** v1.4.1
 
 ---
 
@@ -17,7 +17,7 @@ The `busca_vagas` API **already supports** the `applyBookingRules` parameter req
 
 ### Parameter Information
 
-**From busca_vagas API v1.5.0 (Released: 2025-12-21)**
+**From busca_vagas API v1.4.1 (Released: 2024-12-14)**
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -56,8 +56,8 @@ During these periods, reservations **must** use the exact package dates.
 
 **Version History:**
 ```
-v1.5.0 (2025-12-21) - Added applyBookingRules parameter ✅
-v1.4.0 (2025-12-14) - Implemented holiday booking rules (BR-18, BR-19)
+v1.4.1 (2024-12-14) - Added applyBookingRules parameter ✅
+v1.4.0 (2024-12-14) - Implemented holiday booking rules (BR-18, BR-19)
 v1.3.0 (2025-12-02) - Added hotel parameter
 v1.2.1 (2024)       - Puppeteer refinements
 v1.2.0 (2024)       - Puppeteer integration
@@ -124,7 +124,7 @@ const response = await fetch(apiUrl, {
 
 | Component | Version | Status | Notes |
 |-----------|---------|--------|-------|
-| **busca_vagas API** | v1.5.0 | ✅ Compatible | Supports `applyBookingRules` parameter |
+| **busca_vagas API** | v1.4.1 | ✅ Compatible | Supports `applyBookingRules` parameter |
 | **Monitora Vagas** | v2.1.0 | ✅ Implemented | FR-014 implemented with toggle UI |
 | **Parameter Support** | - | ✅ Full | Boolean parameter in URL query string |
 | **Default Behavior** | - | ✅ Backward Compatible | Defaults to `true` (rules applied) |
@@ -214,7 +214,7 @@ Verifies the UI toggle integration and parameter passing (8 tests, all passing).
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              busca_vagas API (v1.5.0)                       │
+│              busca_vagas API (v1.4.1)                       │
 │                                                              │
 │  if (applyBookingRules) {                                   │
 │    validateBookingRules(checkin, checkout);                 │
@@ -261,8 +261,8 @@ The `busca_vagas` API repository documentation already covers:
 
 ### API Compatibility
 
-- ✅ **Confirmed:** busca_vagas API v1.5.0 supports `applyBookingRules` parameter
-- ✅ **Released:** December 21, 2025 (1 day before our implementation)
+- ✅ **Confirmed:** busca_vagas API v1.4.1 supports `applyBookingRules` parameter
+- ✅ **Released:** December 14, 2024
 - ✅ **Type:** boolean (true/false)
 - ✅ **Default:** true (backward compatible)
 - ✅ **Usage:** URL query parameter
@@ -308,6 +308,6 @@ The `busca_vagas` API repository documentation already covers:
 ---
 
 **Report Date:** 2024-12-22  
-**API Version Checked:** busca_vagas v1.5.0  
+**API Version Checked:** busca_vagas v1.4.1  
 **Compatibility:** ✅ Confirmed  
 **Integration:** ✅ Complete

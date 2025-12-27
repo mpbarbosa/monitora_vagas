@@ -25,6 +25,7 @@ def check_dependencies():
     # Check Selenium
     try:
         import selenium
+        from selenium.webdriver.chrome.service import Service
         print(f"✅ Selenium: {selenium.__version__}")
     except ImportError:
         print("❌ Selenium not installed")
@@ -62,96 +63,89 @@ def install_selenium():
         return False
 
 def run_simple_test():
-    """Run a simple test to verify the setup works"""
-    print("\n🧪 Running simple browser test...")
+    """
+    Run a simple test to verify the setup works
+    Uses pytest to leverage fixtures and better error reporting
+    """
+    print("\n🧪 Running simple browser test via pytest...")
     
-    try:
-        from selenium import webdriver
-        from selenium.webdriver.chrome.options import Options
-        from selenium.webdriver.common.by import By
-        from selenium.webdriver.support.ui import WebDriverWait
-        from selenium.webdriver.support import expected_conditions as EC
-        import time
-        import http.server
-        import socketserver
-        import threading
-        import socket
-        
-        # Start local server
-        def find_free_port():
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind(('', 0))
-                s.listen(1)
-                port = s.getsockname()[1]
-            return port
-        
-        port = find_free_port()
-        public_dir = Path(__file__).parent.parent / "public"
-        
-        print(f"🌐 Starting local server on port {port}...")
-        print(f"📁 Serving from: {public_dir}")
-        
-        class Handler(http.server.SimpleHTTPRequestHandler):
-            def __init__(self, *args, **kwargs):
-                super().__init__(*args, directory=str(public_dir), **kwargs)
-        
-        httpd = socketserver.TCPServer(("", port), Handler)
-        server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
-        server_thread.start()
-        time.sleep(2)
-        
-        # Setup Chrome
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")  # Run in background
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--window-size=1920,1080")
-        
-        print("🚀 Starting Chrome browser...")
-        driver = webdriver.Chrome(options=chrome_options)
-        
-        try:
-            # Test the application
-            url = f"http://localhost:{port}/index.html"
-            print(f"🔗 Loading: {url}")
-            
-            driver.get(url)
-            
-            # Wait for title
-            WebDriverWait(driver, 10).until(EC.title_contains("Hotéis Sindicais"))
-            title = driver.title
-            print(f"✅ Page loaded: {title}")
-            
-            # Check for main elements
-            try:
-                app_element = driver.find_element(By.ID, "app")
-                print("✅ Main app container found")
-            except:
-                print("⚠️  Main app container not found")
-            
-            try:
-                nav_element = driver.find_element(By.CLASS_NAME, "nav-brand")
-                nav_text = nav_element.text
-                print(f"✅ Navigation found: {nav_text}")
-            except:
-                print("⚠️  Navigation not found")
-            
-            print("✅ Basic test completed successfully!")
-            return True
-            
-        except Exception as e:
-            print(f"❌ Test failed: {e}")
-            return False
-        finally:
-            driver.quit()
-            httpd.shutdown()
-            
-    except ImportError as e:
-        print(f"❌ Import error: {e}")
-        return False
-    except Exception as e:
-        print(f"❌ Unexpected error: {e}")
-        return False
+    import subprocess
+    import sys
+    
+    # Run pytest with this test file
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", __file__, "-v", "--tb=short"],
+        capture_output=False
+    )
+    
+    return result.returncode == 0
+
+
+# ============================================================================
+# Pytest Test Cases (using conftest.py fixtures)
+# ============================================================================
+
+def test_page_loads(driver_function, web_server):
+    """
+    Test that the main page loads successfully
+    Uses session-scoped web server and function-scoped driver
+    """
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    
+    url = f"{web_server}/index.html"
+    print(f"🔗 Loading: {url}")
+    
+    driver_function.get(url)
+    
+    # Wait for title
+    WebDriverWait(driver_function, 10).until(
+        EC.title_contains("Hotéis Sindicais")
+    )
+    
+    title = driver_function.title
+    print(f"✅ Page loaded: {title}")
+    assert "Hotéis Sindicais" in title
+
+
+def test_main_container_exists(driver_function, web_server):
+    """Test that the results container element exists"""
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    
+    url = f"{web_server}/index.html"
+    driver_function.get(url)
+    
+    # Wait for results container
+    WebDriverWait(driver_function, 10).until(
+        EC.presence_of_element_located((By.ID, "results-container"))
+    )
+    
+    results_element = driver_function.find_element(By.ID, "results-container")
+    assert results_element is not None
+    print("✅ Results container found")
+
+
+def test_navigation_exists(driver_function, web_server):
+    """Test that navigation element exists"""
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    
+    url = f"{web_server}/index.html"
+    driver_function.get(url)
+    
+    # Wait for navigation
+    WebDriverWait(driver_function, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "navbar-brand"))
+    )
+    
+    nav_element = driver_function.find_element(By.CLASS_NAME, "navbar-brand")
+    nav_text = nav_element.text
+    print(f"✅ Navigation found: {nav_text}")
+    assert len(nav_text) > 0
 
 def main():
     """Main test runner"""

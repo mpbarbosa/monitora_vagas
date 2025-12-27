@@ -1,0 +1,74 @@
+{
+  "timestamp": "2025-12-26T19:00:42.588386",
+  "summary": {
+    "total": 10,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 9,
+    "duration": 1.675068
+  },
+  "tests": {
+    "UC-001: API Hotel List": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-002: API Search Vacancies": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-003: API Booking Rules": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-004: Guest Filter Toggle": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-005: Hotel List Display": {
+      "passed": false,
+      "skipped": false,
+      "message": "Failed",
+      "duration": 1.675068,
+      "stdout": "0/public/index.html\nStart Time: 2025-12-26 19:00:43\n================================================================================\n\n\n================================================================================\nTEST SUMMARY\n================================================================================\n\nEnd Time: 2025-12-26 19:00:44\n\nTotal Tests: 0\nPassed: 0\nFailed: 0\n\n\u2705 ALL HOTEL LIST BROWSER TESTS PASSED!\n\n================================================================================\n\n",
+      "stderr": "unknown>\n#12 0x5803fc1f926f <unknown>\n#13 0x5803fc1a07f7 <unknown>\n#14 0x5803fc1a14a1 <unknown>\n#15 0x5803fc684fcf <unknown>\n#16 0x5803fc687f71 <unknown>\n#17 0x5803fc66e0ce <unknown>\n#18 0x5803fc688709 <unknown>\n#19 0x5803fc657257 <unknown>\n#20 0x5803fc6a8c18 <unknown>\n#21 0x5803fc6a8e2a <unknown>\n#22 0x5803fc6b97c8 <unknown>\n#23 0x7ff2b9d7faa4 <unknown>\n#24 0x7ff2b9e0cc6c <unknown>\n\n\n----------------------------------------------------------------------\nRan 9 tests in 1.565s\n\nFAILED (errors=9)\n"
+    },
+    "UC-006: Search Form Validation": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-007: Search Results Display": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-008: Booking Rules Handling": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-009: Holiday Package Detection": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    },
+    "UC-010: Guest Number Filtering": {
+      "passed": false,
+      "skipped": true,
+      "message": "Test file not found",
+      "duration": 0
+    }
+  }
+}

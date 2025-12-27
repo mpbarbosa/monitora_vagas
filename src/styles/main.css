@@ -3,6 +3,19 @@
 @import './global/reset.css';
 @import './global/base.css';
 
+/* Import component styles */
+@import './components/error-notification.css';
+@import './components/toast.css';
+@import './components/optimistic-ui.css';
+@import './components/dark-mode.css';
+@import './components/breadcrumb.css';
+@import './components/progressive-disclosure.css';
+@import './components/skeleton.css';
+@import './components/inline-editor.css';
+
+/* Import mobile styles */
+@import './mobile/touch-targets.css';
+
 /* ==========================================================================
    #GRID
    ========================================================================== */
@@ -492,7 +505,7 @@ a:active {
   font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
   text-align: center;
   font-size: 14px;
-  color: #999;
+  color: #6b6b6b;
 }
 
 @media (max-width: 767px) {
@@ -704,7 +717,7 @@ button {
 
 .label {
   font-size: 12px;
-  color: #999;
+  color: #6b6b6b;
   text-transform: uppercase;
   display: block;
   font-weight: 700;
@@ -862,12 +875,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #guest-filter-card.filter-disabled .label {
-  color: #999;
+  color: #6b6b6b;
 }
 
 #guest-filter-card.filter-disabled .input--style-1 {
   background-color: #f5f5f5;
-  color: #999;
+  color: #6b6b6b;
   cursor: not-allowed;
 }
 

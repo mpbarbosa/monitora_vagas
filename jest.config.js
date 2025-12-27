@@ -7,6 +7,9 @@ export default {
     // Use jsdom environment for testing (browser-like environment)
     testEnvironment: 'jsdom',
     
+    // Setup files to run before tests
+    setupFiles: ['<rootDir>/tests/jest.setup.js'],
+    
     // Test file patterns
     testMatch: [
         '**/tests/**/*.test.js',
@@ -16,6 +19,9 @@ export default {
     // Coverage configuration
     collectCoverageFrom: [
         'src/services/**/*.js',
+        'src/js/**/*.js',
+        'src/config/**/*.js',
+        '!src/js/global.js', // Initialization only - not unit testable
         '!src/services/**/*.test.js',
         '!**/node_modules/**'
     ],

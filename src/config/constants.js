@@ -232,3 +232,42 @@ export function inRange(value, min, max) {
 export function getTimeout(type = 'default') {
     return TIME.TIMEOUT[type.toUpperCase()] || TIME.TIMEOUT.DEFAULT;
 }
+
+// ============================================================================
+// UI CONSTANTS - CSS Classes
+// ============================================================================
+
+/**
+ * CSS class names used throughout the application
+ * Centralized to avoid magic strings and enable refactoring
+ */
+export const CSS_CLASSES = {
+    // Hotel search results
+    HOTEL_CARD: 'hotel-card',
+    HOTEL_HEADER: 'hotel-header',
+    VACANCIES_LIST: 'vacancies-list',
+    VACANCY_ITEM: 'vacancy-item',
+    
+    // Holiday packages
+    HOLIDAY_PACKAGE_BANNER: 'holiday-package-banner',
+    
+    // Links and actions
+    FLEX_RESERVA_LINK: 'flex-reserva-link',
+    
+    // States
+    EMPTY_STATE: 'empty-state',
+    ERROR_STATE: 'error-state',
+    
+    // Filter states
+    FILTER_ENABLED: 'filter-enabled',
+    FILTER_DISABLED: 'filter-disabled',
+    
+    // Visibility
+    VISIBLE: 'visible',
+    HIDDEN: 'hidden',
+    
+    // Search lifecycle states
+    STATE_INITIAL: 'state-initial',
+    STATE_SEARCHING: 'state-searching',
+    STATE_RESULTS: 'state-results'
+};

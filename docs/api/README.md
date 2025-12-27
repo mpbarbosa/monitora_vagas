@@ -16,6 +16,12 @@ Welcome to the Monitora Vagas API documentation. This folder contains comprehens
 
 ### 📋 Integration Guides
 
+**[IBIRA_INTEGRATION.md](./IBIRA_INTEGRATION.md)** - **ibira.js Library**
+- CDN + local fallback architecture
+- Caching and retry configuration
+- Performance optimization guide
+- Troubleshooting and testing
+
 **[API_INTEGRATION_UPDATE.md](./API_INTEGRATION_UPDATE.md)**
 - Latest integration changes (v1.2.1)
 - Migration from old to new API structure

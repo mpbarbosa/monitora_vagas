@@ -1,0 +1,126 @@
+# Integration Tests Directory
+
+This directory is reserved for integration tests.
+
+## Purpose
+
+Tests that verify multiple components/modules working together correctly.
+
+## Planned Structure
+
+```
+tests/integration/
+├── api/             # API integration tests
+│   ├── hotelSearch.integration.test.js
+│   └── caching.integration.test.js
+├── ui/              # UI integration tests
+│   ├── searchWorkflow.integration.test.js
+│   └── guestFilter.integration.test.js
+└── database/        # Database integration tests (if added)
+    └── persistence.integration.test.js
+```
+
+## Current Status
+
+**Status:** 🔧 **PARTIALLY USED**  
+**Current Tests:** E2E tests cover some integration scenarios  
+**Location:** `tests/e2e/` and `tests/use_cases/`
+
+## Why This Directory Exists
+
+1. ✅ **Test pyramid** - Middle layer between unit and E2E tests
+2. ✅ **Performance** - Faster than E2E, more comprehensive than unit
+3. ✅ **Organization** - Clear separation of test types
+4. ✅ **Git tracking** - Maintains directory in version control
+
+## Difference from Other Test Types
+
+### Unit Tests (`tests/unit/`)
+- ✅ Test single functions in isolation
+- ✅ Mock all dependencies
+- ✅ Very fast (<1ms)
+- ✅ Example: Test `formatDateISO()` function
+
+### Integration Tests (`tests/integration/`)
+- ✅ Test multiple modules together
+- ✅ Real dependencies (no mocks where possible)
+- ✅ Fast-medium speed (~100ms)
+- ✅ Example: Test API client + cache + logger working together
+
+### E2E Tests (`tests/e2e/`)
+- ✅ Test entire application workflow
+- ✅ Real browser, real API
+- ✅ Slow (seconds to minutes)
+- ✅ Example: Test complete hotel search user journey
+
+## Test Characteristics
+
+**Integration tests should:**
+- ✅ Test 2+ modules working together
+- ✅ Use real implementations (minimize mocks)
+- ✅ Focus on module boundaries
+- ✅ Verify data flow between components
+- ✅ Test error propagation
+
+**Example:**
+```javascript
+// tests/integration/api/hotelSearch.integration.test.js
+import { BuscaVagasAPIClient } from '../../../src/services/apiClient.js';
+import { HotelCache } from '../../../src/services/hotelCache.js';
+import { logger } from '../../../src/services/logger.js';
+
+describe('Hotel Search Integration', () => {
+    it('caches API results and uses cache on subsequent calls', async () => {
+        const client = new BuscaVagasAPIClient();
+        const cache = new HotelCache();
+        
+        // First call - hits API
+        const result1 = await client.getHotels();
+        
+        // Second call - uses cache
+        const result2 = await client.getHotels();
+        
+        expect(result1).toEqual(result2);
+        expect(cache.get('hotels')).toBeTruthy();
+    });
+});
+```
+
+## Current Integration Testing
+
+Integration tests are currently implemented in:
+- ✅ `tests/e2e/apiClient.e2e.test.js` - Real API integration
+- ✅ `tests/use_cases/` - End-to-end integration workflows
+- ✅ `tests/test_search_lifecycle_state.py` - UI state integration
+
+## Migration Considerations
+
+When moving tests here:
+- Separate true integration tests from E2E tests
+- Keep tests that require browser in `tests/e2e/`
+- Move API+cache integration tests here
+- Move module interaction tests here
+
+## Running Integration Tests
+
+```bash
+# Run all integration tests (when implemented)
+npm run test:integration
+
+# Run with coverage
+npm run test:integration:coverage
+
+# Watch mode
+npm run test:integration:watch
+```
+
+## Related Documentation
+
+- [Test Suite README](../TEST_SUITE_README.md)
+- [Unit Tests](../unit/.gitkeep)
+- [E2E Tests](../e2e/README.md)
+- [Use Case Tests](../use_cases/README.md)
+
+---
+
+**Do not delete this directory.** It serves as a placeholder for future test organization.

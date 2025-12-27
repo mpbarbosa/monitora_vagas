@@ -2,7 +2,8 @@
 
 ## Hotel Vacancy Search Application
 
-**Document Version:** 1.5  
+**Document Version:** 1.5 *(Tracks requirement changes independently of app version)*  
+**Application Version:** 2.2.0  
 **Date:** 2024-12-22  
 **Author:** Monitora Vagas Development Team  
 **Application:** index.html - Hotel Vacancy Search Interface

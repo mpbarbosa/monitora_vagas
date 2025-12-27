@@ -1,0 +1,56 @@
+# Future React Components
+
+This directory is reserved for future React component implementations.
+
+## Purpose
+
+When the project migrates from vanilla JavaScript to React, component files will be organized here.
+
+## Planned Structure
+
+```
+src/components/
+├── common/           # Reusable UI components
+│   ├── Button/
+│   ├── Input/
+│   └── Card/
+├── features/         # Feature-specific components
+│   ├── HotelSearch/
+│   ├── GuestCounter/
+│   └── ResultsDisplay/
+└── layout/          # Layout components
+    ├── Header/
+    ├── Footer/
+    └── Container/
+```
+
+## Current Status
+
+**Status:** 🔮 **FUTURE ENHANCEMENT**  
+**Dependencies:** React, React DOM  
+**Timeline:** TBD
+
+## Why This Directory Exists
+
+1. ✅ **Future-proofing** - Reserved for upcoming React migration
+2. ✅ **Documentation** - Signals planned architecture direction
+3. ✅ **Git tracking** - Maintains directory in version control
+
+## Current Implementation
+
+The application currently uses:
+- ✅ Vanilla JavaScript (ES6 modules)
+- ✅ Bootstrap 5.3.3 for UI
+- ✅ Functional programming patterns
+
+See `src/js/` for current component implementations.
+
+## Related Documentation
+
+- [Project Structure](../../docs/architecture/PROJECT_STRUCTURE.md)
+- [JavaScript Modules](../js/README.md)
+- [Development Roadmap](../../docs/guides/DEVELOPMENT_ROADMAP.md) (if exists)
+
+---
+
+**Do not delete this directory.** It serves as a placeholder for future development.

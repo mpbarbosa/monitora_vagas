@@ -8,13 +8,16 @@
     <meta name="description" content="Sistema de monitoramento de disponibilidade de vagas nos hotéis AFPESP">
     <meta name="author" content="AFPESP">
     <meta name="keywords" content="AFPESP, hotéis, vagas, reservas, disponibilidade">
-    <meta name="version" content="2.1.0">
+    <meta name="version" content="2.2.0">
 
     <!-- Title Page-->
     <title>Busca de Vagas em Hotéis Sindicais - AFPESP</title>
 
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -29,10 +32,19 @@
     <!-- Main CSS (loads after Bootstrap for proper overrides) -->
     <link href="../src/styles/main.css" rel="stylesheet" media="all">
     <link href="../src/styles/index-page.css" rel="stylesheet" media="all">
+    <link href="../src/styles/global/accessibility.css" rel="stylesheet" media="all">
+    <link href="../src/styles/components/pagination.css" rel="stylesheet" media="all">
+    <link href="../src/styles/components/help-tooltip.css" rel="stylesheet" media="all">
+    <link href="../src/styles/components/search-results-summary.css" rel="stylesheet" media="all">
+    <link href="../src/styles/components/filter-chips.css" rel="stylesheet" media="all">
     <meta name="robots" content="noindex, follow">
 </head>
 
 <body>
+    <!-- Skip Navigation Links -->
+    <a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+    <a href="#search-form" class="skip-link">Pular para busca</a>
+
     <!-- Fixed Header -->
     <header class="fixed-header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -57,7 +69,7 @@
                         </li>
                         <li class="nav-item">
                             <span class="nav-link">
-                                <small class="text-light">v2.1.0 | API: v1.4.1</small>
+                                <small class="text-light">v2.2.0 | API: v1.4.1</small>
                             </span>
                         </li>
                     </ul>
@@ -67,48 +79,103 @@
         
         <!-- Search Form in Header -->
         <div class="container-fluid header-form-container">
-            <form class="form header-form" method="POST" action="#">
+            <form class="form header-form" method="POST" action="#" id="search-form" role="search" aria-label="Formulário de busca de vagas">
                 <div class="row g-2 align-items-end">
                     <div class="col-md-3">
                         <label class="form-label text-white small">Hotéis</label>
                         <select class="form-select form-select-sm" name="going" id="hotel-select" 
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                                data-bs-title="" data-bs-custom-class="cache-status-tooltip">
+                                data-bs-title="" data-bs-custom-class="cache-status-tooltip"
+                                aria-invalid="false"
+                                aria-describedby="hotel-error">
                             <option value="">Loading hotels...</option>
                         </select>
+                        <small id="hotel-error" class="form-text text-danger" role="alert" style="display:none;"></small>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label text-white small">Check-In</label>
-                        <input class="form-control form-control-sm" type="date" name="checkin" id="input-checkin">
+                        <input class="form-control form-control-sm" type="date" name="checkin" id="input-checkin"
+                               aria-invalid="false"
+                               aria-describedby="checkin-help checkin-error">
                         <small id="checkin-help" class="form-text text-white-50"></small>
+                        <small id="checkin-error" class="form-text text-danger" role="alert" style="display:none;"></small>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label text-white small">Check-Out</label>
-                        <input class="form-control form-control-sm" type="date" name="checkout" id="input-checkout">
+                        <input class="form-control form-control-sm" type="date" name="checkout" id="input-checkout"
+                               aria-invalid="false"
+                               aria-describedby="checkout-help checkout-error">
                         <small id="checkout-help" class="form-text text-white-50"></small>
+                        <small id="checkout-error" class="form-text text-danger" role="alert" style="display:none;"></small>
                     </div>
                     <div class="col-md-2" id="guest-filter-card">
                         <label class="form-label text-white small">Hóspedes</label>
                         <div class="input-group input-group-sm js-number-input" style="justify-content: space-between;">
-                            <button class="btn btn-outline-secondary minus" type="button" disabled>-</button>
-                            <input class="form-control text-center quantity" type="text" name="guests" value="2" readonly style="max-width: 50px;">
-                            <button class="btn btn-outline-secondary plus" type="button" disabled>+</button>
+                            <button class="btn btn-outline-secondary minus" type="button" 
+                                    aria-label="Diminuir número de hóspedes" disabled>-</button>
+                            <input class="form-control text-center quantity" type="text" name="guests" value="2" readonly style="max-width: 50px;" 
+                                   aria-label="Número de hóspedes">
+                            <button class="btn btn-outline-secondary plus" type="button" 
+                                    aria-label="Aumentar número de hóspedes" disabled>+</button>
                         </div>
                     </div>
-                    <div class="col-md-1 d-flex align-items-end">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="apply-booking-rules" checked 
-                                   aria-label="Aplicar regras de reserva" 
-                                   aria-describedby="booking-rules-help"
-                                   data-bs-toggle="tooltip" 
-                                   data-bs-placement="bottom" 
-                                   data-bs-title="Desmarque para ver todas as datas disponíveis">
-                            <label class="form-check-label text-white small" for="apply-booking-rules" 
-                                   style="font-size: 0.75rem; white-space: nowrap;">
-                                Regras
-                            </label>
+                    
+                    <!-- Progressive Disclosure: Advanced Options -->
+                    <div class="col-12 mt-2">
+                        <div class="accordion accordion-flush" id="advancedOptionsAccordion">
+                            <div class="accordion-item bg-transparent border-0">
+                                <h2 class="accordion-header" id="headingAdvanced">
+                                    <button class="accordion-button collapsed bg-transparent text-white px-0 py-2" 
+                                            type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#collapseAdvanced" 
+                                            aria-expanded="false" 
+                                            aria-controls="collapseAdvanced"
+                                            id="advanced-options-toggle"
+                                            style="box-shadow: none;">
+                                        <i class="fa fa-cog me-2"></i>
+                                        <small>Opções Avançadas</small>
+                                    </button>
+                                </h2>
+                                <div id="collapseAdvanced" 
+                                     class="accordion-collapse collapse" 
+                                     aria-labelledby="headingAdvanced" 
+                                     data-bs-parent="#advancedOptionsAccordion">
+                                    <div class="accordion-body px-0 pt-2 pb-3">
+                                        <div class="row g-2">
+                                            <!-- Booking Rules Toggle (FR-014) -->
+                                            <div class="col-md-6">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" 
+                                                           type="checkbox" 
+                                                           role="switch" 
+                                                           id="booking-rules-toggle" 
+                                                           checked
+                                                           aria-describedby="booking-rules-help">
+                                                    <label class="form-check-label text-white" for="booking-rules-toggle">
+                                                        <i class="fa fa-check-circle text-success me-1"></i>
+                                                        Aplicar Regras de Reserva
+                                                    </label>
+                                                </div>
+                                                <small id="booking-rules-help" class="form-text text-white-50 d-block mt-1">
+                                                    Filtra resultados segundo regras de permanência mínima, antecedência e bloqueios
+                                                </small>
+                                            </div>
+                                            
+                                            <!-- Future: Additional advanced options -->
+                                            <div class="col-md-6">
+                                                <small class="text-white-50">
+                                                    <i class="fa fa-info-circle me-1"></i>
+                                                    Mais opções em breve
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="col-md-2">
                         <button class="btn btn-warning btn-sm w-100" type="submit" id="search-button">
                             <i class="fa fa-search"></i> Buscar
@@ -130,24 +197,43 @@
             <div class="row g-2 mt-1">
                 <div class="col-md-11"></div>
                 <div class="col-md-1">
-                    <button id="reset-btn" type="button" class="btn btn-info btn-sm w-100" style="display: none;">
-                        🔄
+                    <button id="reset-btn" type="button" class="btn btn-info btn-sm w-100 reset-search-btn" 
+                            style="display: none;"
+                            aria-label="Iniciar nova busca">
+                        🔄 <span class="visually-hidden">Iniciar nova busca</span>
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="page-wrapper bg-color-1 p-t-395 p-b-120">
+    <main id="main-content" class="page-wrapper bg-color-1 p-t-395 p-b-120">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="Navegação estrutural" class="breadcrumb-container">
+            <ol class="breadcrumb" id="breadcrumb-nav">
+                <li class="breadcrumb-item active" data-step="home">
+                    <span>🏠 Início</span>
+                </li>
+            </ol>
+        </nav>
+
         <div class="wrapper wrapper--w1070">
             <div class="card card-7">
                 <div class="card-body">
 
                     <!-- Results Display Area -->
-                    <div id="results-container" class="results-container">
+                    <div id="results-container" class="results-container" 
+                         role="region" aria-live="polite" aria-atomic="false">
+                        <!-- Filter Chips Container -->
+                        <div id="filter-chips-container" class="filter-chips-container" 
+                             role="region" aria-label="Filtros ativos">
+                            <!-- Filter chips will be inserted here dynamically -->
+                        </div>
+
                         <div class="results-header">
                             <h3>📊 Resultados da Busca</h3>
-                            <div id="results-counter" class="results-counter">
+                            <div id="results-counter" class="results-counter" 
+                                 role="status" aria-live="polite">
                                 <!-- Counter will be updated by filter -->
                             </div>
                         </div>
@@ -157,11 +243,18 @@
                             <!-- Hotel cards will be inserted here dynamically -->
                         </div>
 
+                        <!-- Pagination Controls -->
+                        <div id="pagination-container" class="pagination-container mt-3" style="display: none;">
+                            <!-- Pagination will be inserted here dynamically -->
+                        </div>
+
                         <div class="results-actions">
-                            <button id="copy-results-btn" class="results-action-btn">
+                            <button id="copy-results-btn" class="results-action-btn" 
+                                    aria-label="Copiar resultados da busca">
                                 📋 Copiar Resultados
                             </button>
-                            <button id="clear-results-btn" class="results-action-btn">
+                            <button id="clear-results-btn" class="results-action-btn" 
+                                    aria-label="Limpar resultados da busca">
                                 🗑️ Limpar Resultados
                             </button>
                         </div>
@@ -170,9 +263,104 @@
             </div>
         </div>
         <footer class="version-footer">
-            <small>v2.1.0</small>
+            <small>v2.2.0</small>
             <small style="margin-left: 10px; color: #6c757d;">| API: v1.4.1</small>
         </footer>
+        
+        <!-- Dark Mode Toggle Button -->
+        <button id="dark-mode-toggle" 
+                class="dark-mode-toggle" 
+                aria-label="Alternar tema (claro/escuro)"
+                title="Alternar Tema">
+            <span class="theme-icon">🌗</span>
+            <span class="sr-only">Alternar Tema</span>
+        </button>
+        
+        <!-- Keyboard Shortcuts Button (Floating) -->
+        <button id="keyboard-shortcuts-btn" 
+                class="keyboard-shortcuts-btn" 
+                aria-label="Mostrar atalhos de teclado (Ctrl+/)"
+                title="Atalhos de Teclado (Ctrl+/)">
+            <span class="keyboard-icon">⌨️</span>
+            <span class="sr-only">Atalhos de Teclado</span>
+        </button>
+    </main>
+
+    <!-- Clear Results Confirmation Modal -->
+    <div class="modal fade" id="clearResultsModal" tabindex="-1" aria-labelledby="clearResultsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="clearResultsModalLabel">
+                        <i class="fa fa-exclamation-triangle"></i> Confirmar Limpeza
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">
+                        <strong>Tem certeza que deseja limpar os resultados?</strong>
+                    </p>
+                    <p class="text-muted small mb-0">
+                        Esta ação irá remover todos os resultados da busca atual. 
+                        Você precisará realizar uma nova busca para ver os resultados novamente.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa fa-times"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmClearBtn">
+                        <i class="fa fa-trash"></i> Sim, Limpar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">
+                        <i class="fa fa-info-circle"></i> Sobre o Monitora Vagas
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="fw-bold">Sistema de Busca de Vagas AFPESP</h6>
+                    <p class="mb-3">
+                        Sistema de monitoramento de disponibilidade de vagas nos hotéis da AFPESP 
+                        (Associação dos Funcionários Públicos do Estado de São Paulo).
+                    </p>
+                    
+                    <h6 class="fw-bold mt-3">Funcionalidades</h6>
+                    <ul class="small">
+                        <li>Busca em tempo real de vagas disponíveis</li>
+                        <li>Filtro por número de hóspedes</li>
+                        <li>Visualização de pacotes para feriados especiais</li>
+                        <li>Cache inteligente para melhor desempenho</li>
+                        <li>Interface responsiva e acessível</li>
+                    </ul>
+                    
+                    <h6 class="fw-bold mt-3">Informações Técnicas</h6>
+                    <div class="small">
+                        <p class="mb-1"><strong>Versão do Sistema:</strong> 2.2.0</p>
+                        <p class="mb-1"><strong>Versão da API:</strong> 1.4.1</p>
+                        <p class="mb-1"><strong>Última Atualização:</strong> Dezembro 2024</p>
+                    </div>
+                    
+                    <h6 class="fw-bold mt-3">Suporte</h6>
+                    <p class="small mb-0">
+                        Para questões relacionadas ao sistema, entre em contato através dos canais 
+                        oficiais da AFPESP.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap 5.3.3 Bundle JS (includes Popper) -->
@@ -189,10 +377,14 @@
     <!-- Import Map for ES6 Modules -->
     <!-- Main JS-->
     <script src="../src/js/global.js"></script>
+    <script type="module" src="../src/js/aboutModal.js"></script>
+    <script type="module" src="../src/js/keyboardNavigation.js"></script>
+    <script type="module" src="../src/js/contextualHelp.js"></script>
     <script type="module" src="../src/js/guestNumberFilter.js"></script>
     <script type="module" src="../src/js/guestCounter.js"></script>
     <script type="module" src="../src/js/searchLifecycleState.js"></script>
     <script type="module" src="../src/js/hotelSearch.js"></script>
+    <script type="module" src="../src/js/searchFormFocusTrap.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
@@ -207,3 +399,19 @@
 
 </html>
 <!-- end document-->
+    
+    <!-- Dark Mode Initialization -->
+    <script type="module">
+        import { darkMode } from '../src/services/darkMode.js';
+        import { filterChips } from '../src/js/filterChips.js';
+        
+        darkMode.init();
+        darkMode.setupToggleButton();
+        
+        // Initialize filter chips when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => filterChips.initialize());
+        } else {
+            filterChips.initialize();
+        }
+    </script>

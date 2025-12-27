@@ -162,3 +162,53 @@
         --color-border-light: var(--color-gray-600);
     }
 }
+/* ========================================
+   Dark Theme (Manual Toggle)
+   ======================================== */
+
+.dark-theme {
+    --color-text: var(--color-gray-100);
+    --color-text-light: var(--color-gray-300);
+    --color-text-muted: var(--color-gray-400);
+    --color-background: #0f172a;
+    --color-background-alt: #1e293b;
+    --color-surface: #334155;
+    --color-border: #475569;
+    --color-border-light: #64748b;
+    
+    /* Adjust component colors for dark mode */
+    --color-card-bg: var(--color-gray-800);
+    --color-input-bg: var(--color-gray-700);
+    --color-input-border: var(--color-gray-600);
+    
+    /* Shadows for dark mode */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    
+    /* Adjust primary colors for better contrast */
+    --color-primary: #818cf8;
+    --color-primary-dark: #6366f1;
+    --color-primary-light: #a5b4fc;
+    
+    color-scheme: dark;
+}
+
+.light-theme {
+    --color-text: var(--color-gray-900);
+    --color-text-light: var(--color-gray-600);
+    --color-text-muted: var(--color-gray-500);
+    --color-background: #ffffff;
+    --color-background-alt: var(--color-gray-50);
+    --color-surface: var(--color-white);
+    --color-border: var(--color-gray-200);
+    --color-border-light: var(--color-gray-100);
+    
+    --color-card-bg: var(--color-white);
+    --color-input-bg: var(--color-white);
+    --color-input-border: var(--color-gray-300);
+    
+    color-scheme: light;
+}

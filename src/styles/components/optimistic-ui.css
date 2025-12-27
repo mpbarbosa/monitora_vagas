@@ -1,0 +1,479 @@
+/**
+ * Optimistic UI Styles
+ * Visual feedback for immediate UI updates
+ * WCAG 2.1 Level AA compliant with reduced motion support
+ */
+
+/* ========================================
+   Optimistic Update Indicators
+   ======================================== */
+
+.optimistic-updating {
+    position: relative;
+}
+
+.optimistic-updating::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid #0d6efd;
+    border-radius: 4px;
+    opacity: 0.5;
+    animation: optimisticPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes optimisticPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.01);
+    }
+}
+
+/* ========================================
+   Counter Animations
+   ======================================== */
+
+.count-up {
+    animation: countUp 0.3s ease-out;
+    color: #28a745;
+    font-weight: 600;
+}
+
+.count-down {
+    animation: countDown 0.3s ease-out;
+    color: #dc3545;
+    font-weight: 600;
+}
+
+@keyframes countUp {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    50% {
+        transform: translateY(-2px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes countDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    50% {
+        transform: translateY(2px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ========================================
+   Filter Animation
+   ======================================== */
+
+.optimistic-filtering {
+    position: relative;
+}
+
+.optimistic-filtering::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        #0d6efd 50%,
+        transparent
+    );
+    animation: filterProgress 0.8s ease-in-out;
+    z-index: 10;
+}
+
+@keyframes filterProgress {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ========================================
+   Skeleton Loading
+   ======================================== */
+
+.skeleton-loading {
+    pointer-events: none;
+    user-select: none;
+}
+
+.skeleton-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.skeleton-header {
+    height: 24px;
+    background: linear-gradient(
+        90deg,
+        #f0f0f0 25%,
+        #e0e0e0 50%,
+        #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-line {
+    height: 16px;
+    background: linear-gradient(
+        90deg,
+        #f0f0f0 25%,
+        #e0e0e0 50%,
+        #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    border-radius: 4px;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short {
+    width: 60%;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ========================================
+   Highlight Animations
+   ======================================== */
+
+.optimistic-highlight-success {
+    animation: highlightSuccess 1s ease-out;
+}
+
+.optimistic-highlight-warning {
+    animation: highlightWarning 1s ease-out;
+}
+
+.optimistic-highlight-error {
+    animation: highlightError 1s ease-out;
+}
+
+@keyframes highlightSuccess {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(40, 167, 69, 0.2);
+    }
+}
+
+@keyframes highlightWarning {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(255, 193, 7, 0.2);
+    }
+}
+
+@keyframes highlightError {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(220, 53, 69, 0.2);
+    }
+}
+
+/* ========================================
+   Pulse Animation
+   ======================================== */
+
+.optimistic-pulse {
+    animation: pulse 0.6s ease-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   Fade Animations
+   ======================================== */
+
+.optimistic-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.optimistic-fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   Slide Animations
+   ======================================== */
+
+.optimistic-slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+.optimistic-slide-down {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   Bounce Animation
+   ======================================== */
+
+.optimistic-bounce {
+    animation: bounce 0.5s ease-out;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ========================================
+   Shake Animation (for errors)
+   ======================================== */
+
+.optimistic-shake {
+    animation: shake 0.5s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+/* ========================================
+   Results Counter Optimistic Update
+   ======================================== */
+
+#results-counter.optimistic-updating {
+    background: linear-gradient(
+        90deg,
+        rgba(13, 110, 253, 0.1) 0%,
+        rgba(13, 110, 253, 0.2) 50%,
+        rgba(13, 110, 253, 0.1) 100%
+    );
+    background-size: 200% 100%;
+    animation: counterShine 1s ease-in-out;
+    border-radius: 4px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+
+@keyframes counterShine {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ========================================
+   Guest Counter Optimistic Feedback
+   ======================================== */
+
+.guest-counter .quantity.optimistic-updating {
+    background: rgba(13, 110, 253, 0.05);
+    transition: background 0.2s ease;
+}
+
+.guest-counter button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* ========================================
+   Hotel Card Filtering
+   ======================================== */
+
+.hotel-card.optimistic-hiding {
+    opacity: 0.5;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.hotel-card.optimistic-showing {
+    animation: cardReveal 0.3s ease-out;
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   Accessibility: Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .skeleton-line,
+    .skeleton-header {
+        background: #f0f0f0 !important;
+        animation: none !important;
+    }
+    
+    .optimistic-updating::after {
+        animation: none !important;
+        opacity: 0.5 !important;
+    }
+}
+
+/* ========================================
+   High Contrast Mode
+   ======================================== */
+
+@media (prefers-contrast: high) {
+    .optimistic-updating::after {
+        border-width: 3px;
+        opacity: 1;
+    }
+    
+    .skeleton-line,
+    .skeleton-header {
+        border: 1px solid currentColor;
+    }
+}
+
+/* ========================================
+   Mobile Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+    .skeleton-card {
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .skeleton-header {
+        height: 20px;
+        margin-bottom: 12px;
+    }
+    
+    .skeleton-line {
+        height: 14px;
+    }
+}

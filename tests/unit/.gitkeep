@@ -1,0 +1,106 @@
+# Unit Tests Directory
+
+This directory is reserved for Jest unit tests.
+
+## Purpose
+
+Isolated unit tests for individual functions, classes, and modules.
+
+## Planned Structure
+
+```
+tests/unit/
+├── services/        # Service layer unit tests
+│   ├── apiClient.test.js
+│   ├── logger.test.js
+│   └── hotelCache.test.js
+├── config/          # Configuration unit tests
+│   ├── constants.test.js
+│   └── environment.test.js
+├── utils/           # Utility function tests
+│   └── validators.test.js
+└── components/      # Component unit tests (future)
+    └── GuestCounter.test.js
+```
+
+## Current Status
+
+**Status:** 🔧 **PARTIALLY USED**  
+**Current Tests:** Located in `tests/` root directory  
+**Migration:** Planned for better organization
+
+## Current Test Files
+
+Unit tests currently exist in:
+- ✅ `tests/apiClient.test.js` - API client unit tests (100+ assertions)
+- ✅ `tests/test_apiClient_pure_functions.js` - Pure function tests
+- ✅ `tests/__mocks__/` - Jest mock implementations
+
+## Why This Directory Exists
+
+1. ✅ **Organization** - Separate unit tests from E2E tests
+2. ✅ **Jest standards** - Common pattern in Jest projects
+3. ✅ **Scalability** - Room for growth as test suite expands
+4. ✅ **Git tracking** - Maintains directory in version control
+
+## Test Characteristics
+
+**Unit tests should:**
+- ✅ Test a single function/method in isolation
+- ✅ Use mocks for external dependencies
+- ✅ Run quickly (<1ms per test)
+- ✅ Be deterministic (same input = same output)
+- ✅ Follow AAA pattern (Arrange, Act, Assert)
+
+**Example:**
+```javascript
+// tests/unit/config/constants.test.js
+import { formatDuration } from '../../../src/config/constants.js';
+
+describe('formatDuration', () => {
+    it('formats milliseconds to human-readable string', () => {
+        expect(formatDuration(1000)).toBe('1s');
+        expect(formatDuration(60000)).toBe('1m');
+        expect(formatDuration(3600000)).toBe('1h');
+    });
+});
+```
+
+## Migration Plan
+
+To migrate existing unit tests:
+```bash
+# Move API client tests
+mv tests/apiClient.test.js tests/unit/services/
+
+# Move pure function tests
+mv tests/test_apiClient_pure_functions.js tests/unit/services/
+
+# Update imports in moved files
+# Change: import { ... } from '../src/...'
+# To:     import { ... } from '../../../src/...'
+```
+
+## Running Unit Tests
+
+```bash
+# Run all unit tests
+npm run test:unit
+
+# Run with coverage
+npm run test:unit:coverage
+
+# Watch mode
+npm run test:unit:watch
+```
+
+## Related Documentation
+
+- [Test Suite README](../TEST_SUITE_README.md)
+- [Jest Setup Guide](../JEST_SETUP_COMPLETE.md)
+- [E2E Tests](../e2e/README.md)
+- [Integration Tests](../integration/.gitkeep)
+
+---
+
+**Do not delete this directory.** It serves as a placeholder for future test organization.

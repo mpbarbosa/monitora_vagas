@@ -1,0 +1,193 @@
+/**
+ * Breadcrumb Navigation Styles
+ * WCAG 2.1 compliant breadcrumb trail
+ */
+
+/* ========================================
+   Breadcrumb Container
+   ======================================== */
+
+.breadcrumb-container {
+    background: transparent;
+    padding: 16px 0 8px 0;
+    margin-bottom: 0;
+}
+
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px 20px;
+    margin-bottom: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Dark mode */
+.dark-theme .breadcrumb {
+    background: var(--color-card-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Breadcrumb Items
+   ======================================== */
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: '›';
+    padding: 0 8px;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.breadcrumb-item.active {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.breadcrumb-item span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ========================================
+   Breadcrumb Links
+   ======================================== */
+
+.breadcrumb-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.breadcrumb-link:hover {
+    background: rgba(13, 110, 253, 0.1);
+    color: var(--color-primary-dark);
+    text-decoration: none;
+}
+
+.breadcrumb-link:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.breadcrumb-link:active {
+    transform: scale(0.98);
+}
+
+/* Dark mode link styling */
+.dark-theme .breadcrumb-link {
+    color: var(--color-primary-light);
+}
+
+.dark-theme .breadcrumb-link:hover {
+    background: rgba(129, 140, 248, 0.2);
+    color: var(--color-primary);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 767.98px) {
+    .breadcrumb-container {
+        padding: 12px 0 8px 0;
+    }
+    
+    .breadcrumb {
+        padding: 10px 16px;
+        font-size: 13px;
+        gap: 6px;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding: 0 6px;
+        font-size: 16px;
+    }
+    
+    .breadcrumb-link {
+        padding: 2px 6px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .breadcrumb {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    /* Hide emojis on very small screens to save space */
+    .breadcrumb-item span::before {
+        content: none;
+    }
+}
+
+/* ========================================
+   Accessibility
+   ======================================== */
+
+/* Ensure sufficient touch targets */
+.breadcrumb-link {
+    min-height: 32px;
+    min-width: 32px;
+}
+
+@media (max-width: 767.98px) {
+    .breadcrumb-link {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Focus visible for keyboard users */
+.breadcrumb-link:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Screen reader text */
+.breadcrumb-item.active[aria-current="page"] {
+    /* Ensure screen readers know this is the current page */
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+    .breadcrumb-container {
+        display: none;
+    }
+}
+
+/* ========================================
+   Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .breadcrumb-link {
+        transition: none;
+    }
+    
+    .breadcrumb-link:active {
+        transform: none;
+    }
+}

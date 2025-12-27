@@ -1,0 +1,62 @@
+# Future Utility Functions
+
+This directory is reserved for future utility function implementations.
+
+## Purpose
+
+Shared utility functions that don't belong in specific modules will be organized here.
+
+## Planned Structure
+
+```
+src/utils/
+├── date/            # Date manipulation utilities
+│   ├── formatters.js
+│   └── validators.js
+├── string/          # String utilities
+│   ├── sanitizers.js
+│   └── formatters.js
+├── array/           # Array utilities
+│   ├── filters.js
+│   └── transformers.js
+└── validation/      # General validators
+    ├── forms.js
+    └── inputs.js
+```
+
+## Current Status
+
+**Status:** 🔮 **FUTURE ENHANCEMENT**  
+**Current Location:** Utilities are currently embedded in service modules  
+**Timeline:** TBD
+
+## Why This Directory Exists
+
+1. ✅ **Future-proofing** - Reserved for extracted utility functions
+2. ✅ **Code organization** - Planned separation of concerns
+3. ✅ **Git tracking** - Maintains directory in version control
+
+## Current Implementation
+
+Utility functions are currently located in:
+- ✅ `src/config/constants.js` - Utility functions (formatDuration, inRange, getTimeout)
+- ✅ `src/services/apiClient.js` - Pure helper functions
+- ✅ `src/config/environment.js` - Environment utilities
+
+## When to Add Files Here
+
+Extract functions to this directory when:
+- ✅ Used in 3+ different modules (DRY principle)
+- ✅ Pure functions without external dependencies
+- ✅ Generic enough for multiple use cases
+- ✅ Not tied to specific business logic
+
+## Related Documentation
+
+- [Project Structure](../../docs/architecture/PROJECT_STRUCTURE.md)
+- [Constants Documentation](../config/constants.js)
+- [Functional Programming Guide](../../docs/guides/FUNCTIONAL_PROGRAMMING.md) (if exists)
+
+---
+
+**Do not delete this directory.** It serves as a placeholder for future development.

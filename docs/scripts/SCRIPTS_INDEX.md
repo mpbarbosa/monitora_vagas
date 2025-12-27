@@ -21,9 +21,9 @@ This document provides a comprehensive index of all scripts in the Monitora Vaga
 
 ## 🎯 Overview
 
-The project includes 13 scripts organized into two categories:
+The project includes 15 scripts organized into two categories:
 
-1. **Utility Scripts** (3) - Development and maintenance tools
+1. **Utility Scripts** (5) - Development and maintenance tools
 2. **Test Scripts** (10) - Automated testing and validation
 
 All scripts follow consistent standards for headers, error handling, and color-coded output.
@@ -59,7 +59,61 @@ rsync -av --delete src/styles/ public/css/
 
 ---
 
-### 2. scripts/update-dependencies.sh
+### 2. scripts/cleanup-artifacts.sh
+
+**Location:** scripts/  
+**Purpose:** Remove untracked workflow artifacts and temporary documentation  
+**Runtime:** <1 minute
+
+Cleans up temporary files generated during development, testing, or documentation workflows.
+
+**Usage:**
+```bash
+# Preview what would be deleted (recommended first)
+./scripts/cleanup-artifacts.sh --dry-run
+
+# Interactive mode (asks for confirmation)
+./scripts/cleanup-artifacts.sh --interactive
+
+# Automatic cleanup (no prompts)
+./scripts/cleanup-artifacts.sh
+
+# Show help
+./scripts/cleanup-artifacts.sh --help
+```
+
+**What It Cleans:**
+- Workflow summary files (`*_SUMMARY.md`, `*_COMPLETE.md`)
+- Analysis files (`*_ANALYSIS.md`, `ai_*.txt`)
+- Test artifacts (`TEST_RESULTS.txt`, `test_screenshots/`)
+- Temporary scripts (`check-*.sh`, `fix-*.sh`)
+
+**Protected Files:**
+- `README.md`, `CHANGELOG.md`, `KNOWN_ISSUES.md`
+- All files in `docs/**/*.md`
+- All files in `.github/**/*.md`
+
+**Example Output:**
+```
+Found 42 workflow artifact(s):
+  ✗ ALL_ISSUES_FIXED_SUMMARY.md (16K)
+  ✗ TEST_GAP_RESOLUTION_SUMMARY.md (16K)
+  ...
+Total size: 440K
+
+[DRY RUN] No files were deleted
+```
+
+**Best Practices:**
+1. Run `--dry-run` first to preview
+2. Use before commits to keep diffs clean
+3. Run weekly during active development
+
+**See Also:** [Artifact Management Guide](../guides/ARTIFACT_MANAGEMENT.md)
+
+---
+
+### 3. scripts/update-dependencies.sh
 
 **Location:** scripts/  
 **Purpose:** Phased npm dependency updates  
@@ -92,7 +146,24 @@ Safely updates dependencies following documented phased approach.
 
 ---
 
-### 3. run-tests.sh
+### 4. scripts/validate-config.sh
+
+**Location:** scripts/  
+**Purpose:** Config file validation  
+**Runtime:** <30 seconds
+
+Validates project configuration files (package.json, .nvmrc, etc.) for consistency.
+
+**Usage:**
+```bash
+./scripts/validate-config.sh
+```
+
+---
+
+## 🧪 Test Scripts
+
+### 1. run-tests.sh
 
 **Location:** Root  
 **Purpose:** Master test runner for CSS tests  
@@ -114,12 +185,121 @@ Interactive menu for running background color tests.
 
 ---
 
+### 2. run-production-tests.sh
+
+**Location:** Root  
+**Purpose:** Production environment test suite runner  
+**Runtime:** 3-5 minutes
+
+Executes comprehensive tests against live production deployment.
+
+**Usage:**
+```bash
+./run-production-tests.sh
+```
+
+**Tests Executed:**
+1. **API Hotel List Verification** (`tests/use_cases/test_hotel_list_verification.py`)
+   - Validates production API hotel list
+- 📈 Pass rate calculation and reporting
+- ⏱️ Timeout protection (180s for Selenium tests)
+- 🎨 Color-coded output (green=pass, red=fail, yellow=skip)
+- 📋 Comprehensive test summary
+- ❌ Graceful failure handling
+
+**Output Example:**
+```
+================================================================================
+PRODUCTION TEST SUITE - MONITORA VAGAS
+================================================================================
+
+Target: https://www.mpbarbosa.com/submodules/monitora_vagas/public/
+
+────────────────────────────────────────────────────────────────────────────
+1. API Hotel List Verification
+────────────────────────────────────────────────────────────────────────────
+✅ PASSED (Hotel list API validation successful)
+
+────────────────────────────────────────────────────────────────────────────
+2. Selenium Browser Tests (UC-005)
+────────────────────────────────────────────────────────────────────────────
+✅ PASSED (Hotel dropdown populated correctly)
+
+────────────────────────────────────────────────────────────────────────────
+3. Production Validation Suite
+────────────────────────────────────────────────────────────────────────────
+✅ PASSED (All production validations passed)
+
+================================================================================
+TEST SUMMARY
+================================================================================
+Total Tests: 3
+✅ Passed: 3
+❌ Failed: 0
+⏭️  Skipped: 0
+📊 Pass Rate: 100.0%
+
+🎉 ALL TESTS PASSED!
+```
+
+**Exit Codes:**
+- `0`: All tests passed
+- `1`: Some tests failed or prerequisites not met
+
+**npm Integration:**
+```bash
+# Run from npm scripts
+npm run test:production
+
+# Or with custom URL (full path)
+npm run test:production:full
+```
+
+**When to Use:**
+- ✅ Before deploying new releases
+- ✅ After production updates
+- ✅ Weekly production health checks
+- ✅ Incident investigation
+- ✅ Regression testing
+
+**Troubleshooting:**
+
+**Issue:** `selenium not found`
+```bash
+pip install selenium
+```
+
+**Issue:** `ChromeDriver version mismatch`
+```bash
+# Update ChromeDriver to match Chrome version
+# Download from: https://chromedriver.chromium.org/
+```
+
+**Issue:** `Connection timeout`
+```bash
+# Check production site accessibility
+curl -I https://www.mpbarbosa.com/submodules/monitora_vagas/public/
+```
+
+**Issue:** `Tests skip with warnings`
+- Check that test files exist in `tests/use_cases/`
+- Verify Python test files are executable
+- Check for missing dependencies
+
+**Related:**
+- [Production Test Documentation](../testing/PRODUCTION_TESTS.md)
+- [Test Standards](./SCRIPT_STANDARDS.md)
+- [CI/CD Integration](../workflow-automation/GITHUB_ACTIONS_CI.md)
+
+---
+
 ## 🧪 Test Scripts
 
 ### Quick Reference Table
 
 | Script | Tests | Runtime | Port | Prerequisites |
 |--------|-------|---------|------|--------------|
+| **run-production-tests.sh** | **Production suite** | **3-5 min** | **N/A** | **Python, Selenium, Internet** |
 | run-index-tests.sh | 36 E2E tests | 3-5 min | 8080 | Python, Selenium, Chrome |
 | run-fr008a-tests.sh | Search lifecycle | 2-3 min | 3001 | Python, pytest, Selenium |
 | run-booking-rules-tests.sh | BR-18, BR-19 | 2-3 min | 8766 | Python, pytest, Selenium |
@@ -132,7 +312,7 @@ Interactive menu for running background color tests.
 
 ---
 
-### 4. tests/run-index-tests.sh
+### 5. tests/run-index-tests.sh
 
 **36 comprehensive E2E tests for index.html**
 
@@ -164,7 +344,7 @@ cd tests
 
 ---
 
-### 5. tests/run-fr008a-tests.sh
+### 6. tests/run-fr008a-tests.sh
 
 **FR-008A: Search Lifecycle State Management**
 
@@ -189,7 +369,7 @@ FR008A_TEST_URL="http://localhost:3001"
 
 ---
 
-### 6. tests/run-booking-rules-tests.sh
+### 7. tests/run-booking-rules-tests.sh
 
 **FR-014: Booking Rules Toggle (8 tests)**
 
@@ -215,7 +395,7 @@ cd tests
 
 ---
 
-### 7. tests/run-css-tests.sh
+### 8. tests/run-css-tests.sh
 
 **CSS Loading & Style Validation**
 
@@ -233,7 +413,7 @@ cd tests
 
 ---
 
-### 8. tests/run_ui_tests.sh
+### 9. tests/run_ui_tests.sh
 
 **Web UI Selenium Test Suite**
 
@@ -258,7 +438,7 @@ UI_TEST_HEADLESS=1  # 0 for visible browser
 
 ---
 
-### 9. tests/run-version-tests.sh
+### 10. tests/run-version-tests.sh
 
 **Semantic Version Validation**
 
@@ -277,7 +457,7 @@ Must run from project root.
 
 ---
 
-### 10. tests/start-local-testing.sh
+### 11. tests/start-local-testing.sh
 
 **Local Development Server Setup**
 
@@ -299,7 +479,7 @@ Press Ctrl+C to stop servers.
 
 ---
 
-### 11. tests/test_api_integration.sh
+### 12. tests/test_api_integration.sh
 
 **API Integration Validation**
 
@@ -325,7 +505,7 @@ API_TIMEOUT=30
 
 ---
 
-### 12. tests/test-md3-migration.sh
+### 13. tests/test-md3-migration.sh
 
 **Material Design 3 Migration Tests**
 

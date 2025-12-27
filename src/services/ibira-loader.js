@@ -7,8 +7,10 @@
  * Usage in other modules:
  *   import { IbiraAPIFetchManager } from './ibira-loader.js';
  * 
- * @version 1.0.0
+ * @version 1.1.0
  */
+
+import { logger } from './logger.js';
 
 // Detect if running in Jest/Node test environment
 const isTestEnvironment = typeof process !== 'undefined' && 
@@ -40,35 +42,35 @@ async function loadIbira() {
     
     // In test environment, use local path directly
     if (isTestEnvironment) {
-        console.log('📦 Test environment: Loading ibira.js from local path...');
+        logger.debug('📦 Test environment: Loading ibira.js from local path...', 'IbiraLoader');
         try {
             ibiraModule = await import(NODE_LOCAL_URL);
-            console.log('✅ ibira.js loaded in test environment');
+            logger.debug('✅ ibira.js loaded in test environment', 'IbiraLoader');
             return ibiraModule;
         } catch (error) {
-            console.error('❌ Failed to load ibira.js in test environment:', error.message);
+            logger.error('❌ Failed to load ibira.js in test environment', error, 'IbiraLoader');
             throw new Error(`Failed to load ibira.js in test: ${error.message}`);
         }
     }
     
     // Try CDN first (browser environment)
     try {
-        console.log('🌐 Loading ibira.js from CDN...');
+        logger.info('🌐 Loading ibira.js from CDN...', 'IbiraLoader');
         ibiraModule = await import(CDN_URL);
-        console.log('✅ ibira.js loaded from CDN');
+        logger.info('✅ ibira.js loaded from CDN', 'IbiraLoader');
         return ibiraModule;
     } catch (cdnError) {
-        console.warn('⚠️ CDN failed, trying local fallback...', cdnError.message);
+        logger.warn('⚠️ CDN failed, trying local fallback... ' + cdnError.message, 'IbiraLoader');
         
         // Fallback to local
         try {
             ibiraModule = await import(LOCAL_URL);
-            console.log('✅ ibira.js loaded from local fallback');
+            logger.info('✅ ibira.js loaded from local fallback', 'IbiraLoader');
             return ibiraModule;
         } catch (localError) {
-            console.error('❌ Both CDN and local loading failed');
-            console.error('  CDN error:', cdnError.message);
-            console.error('  Local error:', localError.message);
+            logger.error('❌ Both CDN and local loading failed', cdnError, 'IbiraLoader');
+            logger.error('  CDN error: ' + cdnError.message, null, 'IbiraLoader');
+            logger.error('  Local error: ' + localError.message, null, 'IbiraLoader');
             
             // Show user-friendly error
             if (typeof document !== 'undefined') {

@@ -1,0 +1,216 @@
+/**
+ * Toast Notification Styles
+ * Accessible, responsive, branded toast notifications
+ * WCAG 2.1 Level AA compliant
+ */
+
+:root {
+    --toast-success: #28a745;
+    --toast-error: #dc3545;
+    --toast-warning: #ffc107;
+    --toast-info: #17a2b8;
+    --toast-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --toast-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.toast-container {
+    position: fixed;
+    top: 80px; /* Below header */
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+    max-width: 420px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--toast-shadow);
+    border-left: 4px solid;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateX(450px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 320px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.toast:hover {
+    box-shadow: var(--toast-shadow-hover);
+}
+
+/* Progress bar for auto-dismiss */
+.toast::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    width: 100%;
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform linear;
+}
+
+.toast[data-duration]::after {
+    animation: toastProgress var(--duration) linear forwards;
+}
+
+@keyframes toastProgress {
+    from {
+        transform: scaleX(1);
+    }
+    to {
+        transform: scaleX(0);
+    }
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-hide {
+    opacity: 0;
+    transform: translateX(450px);
+}
+
+/* Pause progress on hover */
+.toast:hover::after {
+    animation-play-state: paused;
+}
+
+.toast-icon {
+    font-size: 22px;
+    font-weight: bold;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: currentColor;
+    color: white;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 500;
+}
+
+.toast-close {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-close:hover,
+.toast-close:focus {
+    background: rgba(0, 0, 0, 0.2);
+    color: #333;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    transform: scale(1.1);
+}
+
+/* Toast types */
+.toast-success {
+    border-left-color: var(--toast-success);
+    color: var(--toast-success);
+}
+
+.toast-success .toast-icon {
+    background: var(--toast-success);
+}
+
+.toast-error {
+    border-left-color: var(--toast-error);
+    color: var(--toast-error);
+}
+
+.toast-error .toast-icon {
+    background: var(--toast-error);
+}
+
+.toast-warning {
+    border-left-color: var(--toast-warning);
+    color: var(--toast-warning);
+}
+
+.toast-warning .toast-icon {
+    background: var(--toast-warning);
+}
+
+.toast-info {
+    border-left-color: var(--toast-info);
+    color: var(--toast-info);
+}
+
+.toast-info .toast-icon {
+    background: var(--toast-info);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .toast {
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .toast {
+        transition: opacity 0.3s ease;
+        transform: none;
+    }
+
+    .toast-show {
+        transform: none;
+    }
+
+    .toast-hide {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .toast {
+        border: 2px solid currentColor;
+    }
+}

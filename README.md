@@ -3,7 +3,7 @@
 > Modern hotel vacancy monitoring web application with real-time API integration
 
 **Version**: 2.2.0  
-**Last Updated**: 2024-12-25  
+**Last Updated**: 2024-12-22  
 **Status**: ✅ Production Ready (Enhanced)  
 **Framework**: Bootstrap 5.3.3 + Custom CSS
 
@@ -33,7 +33,7 @@ Monitora Vagas is a responsive web application that helps users search for hotel
 ✅ **Bootstrap 5.3.3** - Latest Bootstrap framework integrated  
 ✅ **Real-time Hotel Data** - Dynamic dropdown populated from live API  
 ✅ **Responsive Design** - Mobile, tablet, and desktop optimized  
-✅ **API Integration** - Full integration with Busca Vagas API v1.2.1  
+✅ **API Integration** - Full integration with Busca Vagas API v1.4.1  
 ✅ **Client-side Caching** - Local storage cache for hotel data  
 ✅ **Search Lifecycle Management** - FR-008A implemented with state-driven UI  
 ✅ **Referential Transparency** - Pure functional API client with dependency injection  
@@ -409,6 +409,7 @@ By default, the application uses the **production API** at `https://www.mpbarbos
 | Script | Purpose | Location | Runtime |
 |--------|---------|----------|---------|
 | `run-tests.sh` | Master test runner for background color tests | Root | 1-2 min |
+| **`run-production-tests.sh`** | **Production environment test suite** | **Root** | **3-5 min** |
 | `run-index-tests.sh` | Comprehensive index.html E2E tests (36 tests) | `tests/` | 3-5 min |
 | `run-fr008a-tests.sh` | Search lifecycle state management tests | `tests/` | 2-3 min |
 | `run-booking-rules-tests.sh` | Booking rules toggle tests (BR-18, BR-19) | `tests/` | 2-3 min |
@@ -418,6 +419,37 @@ By default, the application uses the **production API** at `https://www.mpbarbos
 | `start-local-testing.sh` | Starts mock API + web server for testing | `tests/` | N/A (server) |
 | `test_api_integration.sh` | API integration validation against spec | `tests/` | 1-2 min |
 | `test-md3-migration.sh` | Material Design 3 migration tests | `tests/` | 2-3 min |
+
+**🚀 Production Testing:**
+```bash
+# Test against live production environment
+./run-production-tests.sh
+
+# Or via npm
+npm run test:production
+```
+
+**Features:**
+- Tests production deployment at https://www.mpbarbosa.com
+- API hotel list verification
+- Selenium browser tests
+- Production validation suite
+- Comprehensive test reporting with pass/fail statistics
+
+**Quick Reference:**
+```bash
+# Run production tests
+./run-production-tests.sh
+
+# Or via npm
+npm run test:production
+
+# Check prerequisites only
+python3 -c "import selenium; import colorama"
+
+# Test API connectivity
+curl -I https://www.mpbarbosa.com/submodules/monitora_vagas/public/
+```
 
 ### Detailed Test Commands
 
@@ -448,6 +480,82 @@ cd tests
 cd tests
 ./run-css-tests.sh
 ```
+
+---
+
+### NPM Scripts Reference
+
+**Development:**
+```bash
+npm start                    # Start Python HTTP server (port 8080)
+npm run dev                  # Alias for npm start
+npm run build                # Build check (placeholder)
+```
+
+**Unit Testing (JavaScript):**
+```bash
+npm run test:api             # API client unit tests (Jest)
+npm run test:api:watch       # Watch mode for API tests
+npm run test:api:coverage    # API tests with coverage report
+```
+
+**E2E Testing (JavaScript):**
+```bash
+npm run test:e2e             # E2E tests against production API
+npm run test:e2e:local       # E2E tests against localhost:3001
+npm run test:e2e:watch       # Watch mode for E2E tests
+npm run test:e2e:coverage    # E2E tests with coverage report
+```
+
+**Combined Testing:**
+```bash
+npm run test                 # Simple Python UI test
+npm run test:all             # Python + JavaScript unit tests
+npm run test:all:js          # All JavaScript tests (Jest)
+npm run test:js:watch        # Watch mode for all JS tests
+npm run test:version         # Semantic version validation (JS + Python)
+```
+
+**Use Case Testing:**
+```bash
+npm run test:uc              # Run use case tests
+npm run test:uc:local        # Use case tests (local environment)
+npm run test:uc:production   # Use case tests (production)
+npm run test:uc:both         # Use case tests (both environments)
+npm run test:uc:all          # All use case tests (local)
+npm run test:uc:all:prod     # All use case tests (production)
+npm run test:uc:all:both     # All use case tests (both)
+npm run test:uc:hotels       # Hotel list verification
+npm run test:uc:prod-validation # Production validation suite
+```
+
+**Browser Testing:**
+```bash
+npm run test:browser:selenium    # Selenium browser tests
+npm run test:browser:playwright  # Playwright browser tests
+npm run test:browser:all         # All browser tests
+npm run test:browser:selenium:prod # Selenium against production
+```
+
+**Production Testing:**
+```bash
+npm run test:production          # Production test suite
+npm run test:production:full     # Full production validation
+```
+
+**Code Quality:**
+```bash
+npm run lint                 # ESLint JavaScript files
+npm run lint:fix             # ESLint with auto-fix
+npm run lint:md              # Markdown linting
+```
+
+**Coverage Reports:**
+- Generated in `./coverage/` directory
+- Open `./coverage/lcov-report/index.html` in browser for detailed HTML report
+- Coverage includes statement, branch, function, and line coverage metrics
+
+---
 
 ### Test Suite
 
@@ -505,7 +613,7 @@ For detailed testing documentation, see:
 ### Quick Access by Category
 
 #### 🏗️ Architecture & Design
-- **[Project Structure](docs/architecture/PROJECT_STRUCTURE.md)** - Complete folder structure (v2.1.0)
+- **[Project Structure](docs/architecture/PROJECT_STRUCTURE.md)** - Complete folder structure (v2.2.0)
 - **[Implementation Guide](docs/architecture/IMPLEMENTATION_GUIDE.md)** - API client architecture with pure functions
 - **[State-Driven UI Pattern](docs/architecture/STATE_DRIVEN_UI_PATTERN.md)** - UI state management patterns
 
@@ -547,7 +655,7 @@ For detailed testing documentation, see:
 - **[CSS Loading Issue](docs/styling/CSS_LOADING_ISSUE.md)** - CSS troubleshooting
 
 #### 📋 Technical Specifications
-- **[HTML Specification](docs/specifications/HTML_SPECIFICATION.md)** - HTML standards (v2.1.0)
+- **[HTML Specification](docs/specifications/HTML_SPECIFICATION.md)** - HTML standards (v2.2.0)
 - **[GUI Layout Technical Docs](docs/specifications/GUI_LAYOUT_TECHNICAL_DOCUMENTATION.md)** - UI layout specs
 - **[Specification Formats](docs/specifications/SPECIFICATION_FORMATS_README.md)** - Format documentation
 
@@ -559,22 +667,33 @@ For detailed testing documentation, see:
 
 ### Documentation Statistics
 
-📊 **77 Documentation Files** organized across 12 categories:
+📊 **123 Markdown Documentation Files** organized across 16 categories:
 
-| Category | Files | Recent Updates |
-|----------|-------|----------------|
-| API | 8 | v1.4.1 with pure functions |
-| Architecture | 12 | State-driven patterns |
-| Features | 3 | Complete FR specs |
-| Guides | 24 | Development workflows |
-| Implementation | 4 | Cache & date handling |
-| Scripts | 2 | Index & troubleshooting 🆕 |
-| Specifications | 5 | HTML v2.1.0 |
-| Styling | 11 | Bootstrap 5.3.3 |
-| Testing | 2 | FR-014 docs 🆕 |
-| Archive | 2 | Historical docs 🆕 |
-| Troubleshooting | 3 | Unicode & encoding |
-| Workflows | 1 | Execution context |
+| Category | Files | Description |
+|----------|-------|-------------|
+| **Guides** | 26 | Development workflows & tutorials |
+| **Architecture** | 14 | System design & patterns |
+| **Features** | 13 | Feature requirements & specs |
+| **Testing** | 12 | Test documentation & reports |
+| **Styling** | 11 | CSS & visual design |
+| **API** | 8 | API integration & client docs |
+| **Standards** | 5 | Coding standards & conventions |
+| **Implementation** | 4 | Technical implementations |
+| **Specifications** | 4 | HTML & system specifications |
+| **Root docs/** | 4 | Main documentation files |
+| **Troubleshooting** | 3 | Problem-solving guides |
+| **Archive** | 2 | Historical documentation |
+| **Reports** | 2 | Analysis & audit reports |
+| **Scripts** | 2 | Script documentation |
+| **Workflow Automation** | 2 | CI/CD documentation |
+| **Workflows** | 1 | Execution context |
+| **Misc** | 1 | Miscellaneous |
+
+**Recent Updates (v2.2.0):**
+- ✅ Added [Terminology Glossary](docs/TERMINOLOGY_GLOSSARY.md) - Key concepts & naming conventions
+- ✅ Added [ibira.js Integration Guide](docs/api/IBIRA_INTEGRATION.md) - CDN fallback & caching
+- ✅ Updated API version references to v1.4.1 across all docs
+- ✅ Fixed broken references and path inconsistencies
 
 ---
 
@@ -589,14 +708,22 @@ colorama==0.4.6       # Terminal colors
 
 ### JavaScript (Runtime)
 
+**Modern Architecture (ES6):**
 - **Bootstrap 5.3.3** - Modern UI framework (no jQuery needed)
 - **ibira.js** - Advanced API fetching library with CDN + local fallback, automatic retries, and intelligent caching
-- **jQuery** - DOM manipulation (legacy components)
-- **Daterangepicker** - Date selection
-- **Moment.js** - Date formatting
-- **Select2** - Enhanced dropdowns
-- **Font Awesome 4.7** - Icons
-- **Material Design Icons** - Additional icons
+
+**Legacy Vendor Plugins (jQuery-based):**
+- **jQuery 3.x** - Required only for legacy vendor plugins (not used in application code)
+- **Select2** - Enhanced dropdown plugin (jQuery dependency)
+- **jQuery Validate** - Form validation plugin (jQuery dependency)
+- **Daterangepicker** - Date selection widget (jQuery dependency)
+- **Moment.js** - Date formatting (used by daterangepicker)
+
+**Icons & Fonts:**
+- **Font Awesome 4.7** - Icon library
+- **Material Design Icons** - Additional icon set
+
+**Note:** Application code (`src/js/`) is 100% ES6 modules with no jQuery usage. jQuery is loaded only for vendor plugins that have not been migrated yet.
 
 ### Development
 
@@ -689,6 +816,146 @@ CACHE_TTL: 3600000  // 1 hour
 
 ---
 
+## 🤖 CI/CD & Automation
+
+### GitHub Actions Workflows
+
+**Documentation Validation** (`.github/workflows/docs-organize.yml`)
+- ✅ Automatic markdown linting with remark
+- ✅ Internal link validation
+- ✅ Directory structure verification
+- ✅ Documentation health reports
+- 🎯 **Triggers:** Push/PR to `docs/**` or `*.md` files
+- 📊 **Artifacts:** Documentation report uploaded on every run
+
+**Dependabot** (`.github/dependabot.yml`)
+- 🔄 Weekly dependency updates (Mondays, 9:00 AM)
+- 📦 Grouped updates for production, test, and dev dependencies
+- 🔒 Automatic security updates
+- 🏷️ Labeled PRs: `dependencies`, `automated`
+- ⚠️ Major version updates ignored (manual testing required)
+
+**Dependency Groups:**
+- **Production:** Bootstrap, ibira.js (minor/patch)
+- **Test:** Jest, Selenium (minor/patch)
+- **Dev:** ESLint, markdownlint, node-fetch (minor/patch)
+
+### Fixing CI Failures
+
+**Documentation Linting Errors:**
+```bash
+# Install remark locally
+npm install -g remark-cli remark-lint remark-preset-lint-recommended
+
+# Lint documentation
+remark docs/ --use remark-preset-lint-recommended
+
+# Fix common issues automatically
+remark docs/ --use remark-preset-lint-recommended --output
+```
+
+**Broken Link Errors:**
+```bash
+# Validate links
+npm install -g remark-validate-links
+remark docs/ --use remark-validate-links
+
+# Common fixes:
+# - Update relative paths in markdown links
+# - Fix anchor links (#section-name)
+# - Remove or update dead external links
+```
+
+**Directory Structure Errors:**
+```bash
+# Required directories (checked by CI):
+docs/api/
+docs/architecture/
+docs/features/
+docs/guides/
+docs/implementation/
+docs/specifications/
+docs/standards/
+docs/testing/
+docs/workflows/
+```
+
+**Viewing Documentation Reports:**
+1. Go to GitHub Actions tab
+2. Click on failed/completed workflow run
+3. Download "documentation-report" artifact
+4. Review `docs-report.md` for structure and statistics
+
+### Local Pre-Commit Checks
+
+**Run before pushing:**
+```bash
+# Markdown linting
+npm run lint:md
+
+# JavaScript linting  
+npm run lint
+
+# Fix issues automatically
+npm run lint:fix
+npm run lint:md -- --fix
+
+# Run all tests
+npm run test:all
+```
+
+---
+
+## 🔄 Legacy Compatibility
+
+### jQuery and Vendor Plugins
+
+**Current State (v2.2.0):**
+
+The application uses **pure ES6 modules** for all application code (`src/js/`), but still loads jQuery for legacy vendor plugins.
+
+#### Why jQuery is Still Loaded
+
+```html
+<!-- Legacy vendor plugins that require jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/select2/select2.min.js"></script>          <!-- jQuery plugin -->
+<script src="vendor/jquery-validate/jquery.validate.min.js"></script>  <!-- jQuery plugin -->
+<script src="vendor/datepicker/daterangepicker.js"></script>   <!-- jQuery plugin -->
+```
+
+**Clarification:**
+- ✅ **Application code:** 100% ES6 modules, no jQuery usage
+- ✅ **Bootstrap 5:** Uses vanilla JavaScript (no jQuery needed)
+- ❌ **Vendor plugins:** Still use jQuery (select2, jquery-validate, daterangepicker)
+
+#### Migration Plan
+
+Future releases will replace jQuery-dependent plugins with vanilla JS alternatives:
+
+| Plugin | Current | Replacement | Status |
+|--------|---------|-------------|--------|
+| **select2** | jQuery plugin | Native `<select>` with Bootstrap styling | 📋 Planned |
+| **jquery-validate** | jQuery plugin | Native HTML5 validation | 📋 Planned |
+| **daterangepicker** | jQuery + Moment.js | Native `<input type="date">` | ✅ Already using native |
+
+**Note:** The date inputs already use native HTML5 `<input type="date">`, but daterangepicker plugin is still loaded (unused). Can be removed in future cleanup.
+
+#### For New Code
+
+**DO:**
+- ✅ Use ES6 modules with `import`/`export`
+- ✅ Use vanilla JavaScript (DOM API)
+- ✅ Use Bootstrap 5 utilities
+- ✅ Follow patterns in `src/js/` modules
+
+**DON'T:**
+- ❌ Use jQuery in new code (`$()`, `$.ajax()`, etc.)
+- ❌ Add new jQuery plugins
+- ❌ Create IIFE patterns (use modules instead)
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these guidelines:
@@ -721,7 +988,7 @@ chore: maintenance tasks
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history and release notes.
 
-### Latest Changes (v2.1.0 - December 22, 2024)
+### Latest Changes (v2.2.0 - December 22, 2024)
 
 - 🎯 **Implemented FR-014: Booking Rules Toggle**
   - Bootstrap toggle switch for enabling/disabling booking validation rules
@@ -790,4 +1057,4 @@ This project is part of the Monitora Vagas ecosystem.
 
 **✅ Built with ❤️ by the Monitora Vagas Team**  
 **📅 Last Updated**: 2024-12-22  
-**🚀 Version**: 2.1.0
+**🚀 Version**: 2.2.0

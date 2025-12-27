@@ -1,2 +1,6 @@
 selenium==4.39.0
 colorama==0.4.6
+pytest==7.4.3
+pytest-xdist==3.5.0
+pytest-timeout==2.2.0
+pytest-cov==4.1.0

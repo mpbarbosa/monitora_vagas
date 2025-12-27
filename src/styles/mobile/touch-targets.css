@@ -1,0 +1,131 @@
+/**
+ * Mobile Touch Targets
+ * WCAG 2.1 Level AAA (Success Criterion 2.5.5)
+ * Ensures all interactive elements are at least 44x44px
+ * 
+ * @version 1.0.0
+ */
+
+/* ========================================
+   Mobile-Specific Touch Targets (<768px)
+   ======================================== */
+
+@media (max-width: 767.98px) {
+    /* Primary buttons - 48px for better usability */
+    button:not(.btn-xs):not(.toast-close),
+    .btn:not(.btn-xs) {
+        min-height: 48px;
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+    
+    /* Small buttons - meet 44px minimum */
+    .btn-sm,
+    .btn-group-sm > .btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+    
+    /* Form controls - 48px height */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    textarea,
+    select,
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        padding: 12px 14px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+    
+    /* Small form controls */
+    .form-control-sm,
+    .form-select-sm {
+        min-height: 44px;
+        padding: 10px 12px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+    
+    /* Navigation */
+    .nav-link,
+    .navbar-nav .nav-link {
+        min-height: 48px;
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+    
+    /* Icon buttons */
+    .btn-icon,
+    .btn-close,
+    button[aria-label]:not([aria-label=""]) {
+        min-width: 48px;
+        min-height: 48px;
+        padding: 14px;
+    }
+    
+    /* Guest counter */
+    .guest-counter button,
+    .js-number-input button {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 12px;
+        font-size: 20px;
+    }
+    
+    .guest-counter .quantity,
+    .js-number-input .quantity {
+        min-height: 48px;
+        min-width: 70px;
+        font-size: 18px;
+    }
+    
+    /* Toggles */
+    .form-check-input {
+        min-width: 48px;
+        min-height: 28px;
+    }
+    
+    .form-check-label {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 16px;
+    }
+    
+    /* Action buttons */
+    .results-action-btn {
+        min-height: 48px;
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+    
+    /* Search button */
+    #search-button {
+        min-height: 48px;
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+
+/* Touch devices */
+@media (hover: none) and (pointer: coarse) {
+    button:not(.btn-xs),
+    .btn:not(.btn-xs) {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    button + button,
+    .btn + .btn {
+        margin-left: 8px;
+    }
+}

@@ -340,6 +340,7 @@ export class BuscaVagasAPIClient {
      * @param {Date|string} checkinDate - Check-in date (Date object or ISO string YYYY-MM-DD)
      * @param {Date|string} checkoutDate - Check-out date (Date object or ISO string YYYY-MM-DD)
      * @param {string} [hotel='-1'] - Hotel filter: '-1' for all hotels, or specific hotel ID
+     * @param {boolean} [applyBookingRules=true] - Apply booking rules validation (FR-014)
      * @returns {Promise<Object>} Vacancy search results
      * @returns {boolean} returns.success - Whether search completed successfully
      * @returns {boolean} returns.hasAvailability - Whether vacancies were found
@@ -348,11 +349,12 @@ export class BuscaVagasAPIClient {
      * @returns {string} returns.result.status - Search status message
      * @throws {Error} If search fails, times out, or dates are invalid
      * @example
-     * // Search all hotels for specific dates
+     * // Search all hotels for specific dates with booking rules
      * const results = await apiClient.searchVacancies(
      *   new Date('2024-12-25'),
      *   new Date('2024-12-27'),
-     *   '-1'
+     *   '-1',
+     *   true
      * );
      * 
      * if (results.hasAvailability) {
@@ -361,22 +363,23 @@ export class BuscaVagasAPIClient {
      * }
      * 
      * @example
-     * // Search specific hotel using ISO string dates
+     * // Search specific hotel without booking rules
      * const results = await apiClient.searchVacancies(
      *   '2024-12-25',
      *   '2024-12-27',
-     *   'hotel123'
+     *   'hotel123',
+     *   false
      * );
      */
-    async searchVacancies(checkinDate, checkoutDate, hotel = '-1') {
+    async searchVacancies(checkinDate, checkoutDate, hotel = '-1', applyBookingRules = true) {
         // Convert dates to ISO format if needed (using pure helper)
         const checkin = ensureISOFormat(checkinDate);
         const checkout = ensureISOFormat(checkoutDate);
         
         // Build URL using pure helper
-        const url = buildSearchUrl(this.apiBaseUrl, hotel, checkin, checkout);
+        const url = buildSearchUrl(this.apiBaseUrl, hotel, checkin, checkout, applyBookingRules);
         this.logger.log(`🔍 Searching vacancies: ${url}`);
-        this.logger.log(`📅 Check-in: ${checkin}, Check-out: ${checkout}, Hotel: ${hotel}`);
+        this.logger.log(`📅 Check-in: ${checkin}, Check-out: ${checkout}, Hotel: ${hotel}, Booking Rules: ${applyBookingRules}`);
         
         const result = await this.fetchWithTimeout(url, this.timeout.search);
         

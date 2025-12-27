@@ -1,0 +1,172 @@
+/**
+ * Progressive Disclosure Pattern
+ * Advanced options accordion styling
+ */
+
+/* ========================================
+   Advanced Options Accordion
+   ======================================== */
+
+#advancedOptionsAccordion {
+    margin-top: 8px;
+}
+
+#advancedOptionsAccordion .accordion-item {
+    background: transparent;
+    border: none;
+}
+
+#advancedOptionsAccordion .accordion-button {
+    background: transparent;
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 0;
+    border: none;
+    box-shadow: none !important;
+    transition: all 0.2s ease;
+}
+
+#advancedOptionsAccordion .accordion-button:not(.collapsed) {
+    background: transparent;
+    color: var(--color-white);
+}
+
+#advancedOptionsAccordion .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    filter: brightness(0) invert(1);
+}
+
+#advancedOptionsAccordion .accordion-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+#advancedOptionsAccordion .accordion-button:focus {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+#advancedOptionsAccordion .accordion-body {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    padding: 12px 16px;
+}
+
+/* ========================================
+   Advanced Options Content
+   ======================================== */
+
+.accordion-body .form-check-label {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.accordion-body .form-text {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Badge for options count */
+#advanced-options-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* ========================================
+   Dark Mode Adjustments
+   ======================================== */
+
+.dark-theme #advancedOptionsAccordion .accordion-button {
+    color: var(--color-text);
+}
+
+.dark-theme #advancedOptionsAccordion .accordion-button::after {
+    filter: brightness(1);
+}
+
+.dark-theme #advancedOptionsAccordion .accordion-body {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 767.98px) {
+    #advancedOptionsAccordion .accordion-button {
+        font-size: 13px;
+        padding: 6px 0;
+    }
+    
+    #advancedOptionsAccordion .accordion-body {
+        padding: 10px 12px;
+    }
+    
+    .accordion-body .form-text {
+        font-size: 11px;
+    }
+}
+
+/* ========================================
+   Animation
+   ======================================== */
+
+#collapseAdvanced {
+    transition: height 0.3s ease;
+}
+
+.accordion-button .fa-cog {
+    transition: transform 0.3s ease;
+}
+
+.accordion-button:not(.collapsed) .fa-cog {
+    transform: rotate(90deg);
+}
+
+/* ========================================
+   Accessibility
+   ======================================== */
+
+/* Focus visible for keyboard users */
+#advancedOptionsAccordion .accordion-button:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+/* Ensure switches are accessible */
+.accordion-body .form-check-input {
+    cursor: pointer;
+}
+
+.accordion-body .form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+    #advancedOptionsAccordion {
+        display: none;
+    }
+}
+
+/* ========================================
+   Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    #collapseAdvanced {
+        transition: none;
+    }
+    
+    .accordion-button .fa-cog {
+        transition: none;
+    }
+}

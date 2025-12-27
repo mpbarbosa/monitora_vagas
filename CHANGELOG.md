@@ -250,7 +250,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `README.md`: Updated with new features and test information
 - `docs/specifications/MAIN_JS_TECHNICAL_SPECIFICATION.md`: Added FR-008A documentation
 
-## [1.4.7] - 2025-12-17
+## [1.4.7] - 2024-12-17
 
 ### Added
 
@@ -410,7 +410,7 @@ Tested and verified on:
 
 ---
 
-## [2.0.0] - 2025-12-16
+## [2.0.0] - 2024-12-16
 
 ### Major Restructure
 
@@ -522,7 +522,7 @@ This is a major version bump due to significant project structure changes follow
 
 ---
 
-## [1.5.0] - 2025-12-14
+## [1.5.0] - 2024-12-14
 
 ### Added
 
@@ -604,7 +604,7 @@ This is a major version bump due to significant project structure changes follow
 - **Main README**
   - Added new API documentation links
   - Updated version to 1.5.0
-  - Updated last modified date to 2025-12-14
+  - Updated last modified date to 2024-12-14
   - Added booking rules test suite reference
 
 ### Technical Implementation
@@ -629,14 +629,14 @@ This is a major version bump due to significant project structure changes follow
 
 ### Technical Notes
 
-- busca_vagas API v1.4.1 (released 2025-12-14):
+- busca_vagas API v1.4.1 (released 2024-12-14):
   - New: Holiday package booking rules (BR-18, BR-19)
   - New: Enhanced booking validation logic
   - Backward compatible with v1.2.1+
   - No breaking changes to endpoints or responses
   - Documentation: https://github.com/mpbarbosa/busca_vagas
 
-## [1.4.3] - 2025-12-14 (superseded by 1.5.0)
+## [1.4.3] - 2024-12-14 (superseded by 1.5.0)
 
 ### Documentation Structure
 
@@ -655,7 +655,7 @@ This is a major version bump due to significant project structure changes follow
 - Integration testing procedures
 - Common issues and troubleshooting
 
-## [1.4.6] - 2025-12-11
+## [1.4.6] - 2024-12-11
 
 ### Added
 
@@ -719,7 +719,7 @@ if (capacity >= guestCount) {
 - Screen-readable filter status
 - Maintains DOM structure (cards not removed)
 
-## [1.4.5] - 2025-12-11
+## [1.4.5] - 2024-12-11
 
 ### Added
 
@@ -772,7 +772,7 @@ if (capacity >= guestCount) {
 - CSS transitions supported
 - Graceful degradation for older browsers
 
-## [1.4.4] - 2025-12-11
+## [1.4.4] - 2024-12-11
 
 ### Changed
 
@@ -786,7 +786,7 @@ if (capacity >= guestCount) {
 - **CHANGELOG**: Updated with new empty state message change
 - **README**: No changes required (message is implementation detail)
 
-## [1.4.3] - 2025-12-11
+## [1.4.3] - 2024-12-11
 
 ### Changed
 
@@ -821,7 +821,7 @@ if (capacity >= guestCount) {
 - Mobile-optimized date picker UI
 - Reduced code complexity and maintenance burden
 
-## [1.4.2] - 2025-12-11
+## [1.4.2] - 2024-12-11
 
 ### Fixed
 
@@ -851,7 +851,7 @@ if (capacity >= guestCount) {
 - Modular structure: variables.css (design tokens), reset.css (normalization), base.css (base styles)
 - Maintains backward compatibility with existing inline styles
 
-## [1.4.1] - 2025-12-11
+## [1.4.1] - 2024-12-11
 
 ### Fixed
 
@@ -885,7 +885,7 @@ The fix ensures proper function closure and maintains the same functionality whi
 - `.page-wrapper` with `.bg-color-1` class provides the actual background (`#ffece0`)
 - This is the correct CSS architecture for the Colorlib template design pattern
 
-## [1.4.0] - 2025-12-10
+## [1.4.0] - 2024-12-10
 
 ### Added
 
@@ -905,7 +905,7 @@ The fix ensures proper function closure and maintains the same functionality whi
 - Updated API integration guides
 - Improved CSS loading troubleshooting guides
 
-## [1.3.0] - 2025-12-09
+## [1.3.0] - 2024-12-09
 
 ### Added
 
@@ -917,7 +917,7 @@ The fix ensures proper function closure and maintains the same functionality whi
 - E2E date input tests now use JavaScript instead of `send_keys` for better reliability
 - JSON result path corrections in API response handling
 
-## [1.2.1] - 2025-12-09
+## [1.2.1] - 2024-12-09
 
 ### Changed
 
@@ -929,7 +929,7 @@ The fix ensures proper function closure and maintains the same functionality whi
 - Fixed API response structure handling for v1.2.1
 - Updated JSON result path processing
 
-## [1.2.0] - 2025-12-08
+## [1.2.0] - 2024-12-08
 
 ### Added
 

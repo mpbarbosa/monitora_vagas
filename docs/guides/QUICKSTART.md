@@ -1,7 +1,7 @@
 # Quick Start Guide
 
 **Version:** 2.2.0  
-**Last Updated:** December 25, 2024
+**Last Updated:** 2024-12-22
 
 ## 🚀 Start the Application (30 seconds)
 
