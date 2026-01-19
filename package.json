@@ -79,6 +79,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "markdownlint-cli": "^0.47.0",
     "node-fetch": "^3.3.2",
-    "selenium-webdriver": "^4.39.0"
+    "selenium-webdriver": "^4.40.0"
   }
 }
